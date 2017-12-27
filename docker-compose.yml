@@ -8,20 +8,34 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     #volumes:
+  
   web:
     build: ./web
     ports: 
       - 8080:8080
-    volumes:
-      - './web:/usr/src/app'
     depends_on: 
       - db
     environment:
-      - CONFIG=main.config.DevelopmentConfig
+      - CONFIG=main.config.ProductionConfig
       - DATABASE_URL=postgres://postgres:postgres@db:5432/dev
       - DATABASE_TEST_URL=postgres://postgres:postgres@db:5432/test
-  frontend:
-    build: ./frontend
+  
+  nginx:
+    build: ./nginx
     ports:
       - 80:80
+    # volumes:
+    #   - static:/somewhere
+
+  client:
+    build: ./client
+    depends_on:
+      - web
+      - nginx
+    # volumes:
+    #   - static:usr/src/build
     
+  # frontend:
+  #   build: ./frontend
+  #   ports:
+  #     - 80:80
