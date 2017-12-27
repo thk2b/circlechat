@@ -11,7 +11,7 @@ services:
   web:
     build: ./web
     ports: 
-      - 80:5000
+      - 5000:5000
     volumes:
       - './web:/usr/src/app'
     depends_on: 
@@ -35,8 +35,16 @@ services:
     volumes:
       - './client/src:/usr/src/app/src'
     command: npm start
-  # nginx:
-  #   build: ./nginx
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile.dev
+    depends_on:
+      - web
+      - client
+    ports:
+      - 80:80
 
   # frontend:
   #   build:
