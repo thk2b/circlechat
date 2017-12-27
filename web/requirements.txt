@@ -1,0 +1,7 @@
+Flask
+Flask-Script
+psycopg2
+Flask-SQLAlchemy
+Flask-Testing
+uWSGI
+flask-cors

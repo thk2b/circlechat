@@ -1,0 +1,36 @@
+version: "3"
+services:
+  db:
+    build: ./db
+    ports: 
+      - 5435:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+  web:
+    build: ./web
+    ports: 
+      - 80:5000
+    volumes:
+      - './web:/usr/src/app'
+    depends_on: 
+      - db
+    environment:
+      - CORS=1
+      - CONFIG=main.config.DevelopmentConfig
+      - DATABASE_URL=postgres://postgres:postgres@db:5432/dev
+      - DATABASE_TEST_URL=postgres://postgres:postgres@db:5432/test
+    command: python manage.py runserver -h 0.0.0.0
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile-dev
+    ports:
+      - 3000:3000
+    volumes:
+      - './frontend/client:/usr/src/app'
+    depends_on:
+      - web
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
