@@ -24,18 +24,16 @@ services:
     build: ./nginx
     ports:
       - 80:80
-    # volumes:
-    #   - static:/somewhere
+    volumes:
+      - static:/usr/src/app
 
   client:
     build: ./client
     depends_on:
       - web
       - nginx
-    # volumes:
-    #   - static:usr/src/build
-    
-  # frontend:
-  #   build: ./frontend
-  #   ports:
-  #     - 80:80
+    volumes:
+      - static:/usr/src/app/build
+
+volumes:
+  static:
