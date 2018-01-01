@@ -1,16 +1,8 @@
-from flask import Blueprint, jsonify, request
+from flask import jsonify, request
 
 from main import db
-from main.api.models import Message
-
-api_blueprint = Blueprint('api', __name__)
-
-@api_blueprint.route('/ping')
-def ping_pong():
-    return jsonify({
-        'status': 'success',
-        'message': 'pong'
-    }), 200
+from main.models import Message
+from main.api import api_blueprint
 
 @api_blueprint.route('/message', methods=['POST'])
 def post_message():
@@ -34,24 +26,6 @@ def post_message():
                 'created_at': message.created_at
             }
         }), 201
-    except Exception as e:
-        return jsonify({
-            'status': 'fail',
-            'message': 'Database error.'
-        }), 500
-
-@api_blueprint.route('/messages', methods=['GET'])
-def get_messages():
-    try:
-        messages = Message.query.all()
-        return jsonify({
-            'status': 'success',
-            'messages': [{
-                'id': message.id,
-                'text': message.text,
-                'created_at': message.created_at
-            } for message in messages]
-        })
     except Exception as e:
         return jsonify({
             'status': 'fail',

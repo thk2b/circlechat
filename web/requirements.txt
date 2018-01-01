@@ -5,3 +5,4 @@ Flask-SQLAlchemy
 Flask-Testing
 uWSGI
 flask-cors
+flask-socketio
