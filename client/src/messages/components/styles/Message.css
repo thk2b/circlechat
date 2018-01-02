@@ -1,0 +1,18 @@
+.Message {
+    list-style: none;
+    padding: 5px;
+}
+
+
+.Message:not(:first-child) {
+    /* border-top: 1px solid black; */
+}
+
+.Message > p:first-child {
+    font-style: italic;
+    font-size: smaller;
+}
+
+/* .Message > p:last-child {
+    
+} */

@@ -1,0 +1,25 @@
+.MessageForm {
+    height: 19.1%;
+    display: flex;
+    flex-flow: row nowrap;
+    align-content: center;
+    justify-content: center;
+}
+
+.form-container {
+    align-self: center;
+    height: 55px;
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+.form-container input {
+    flex: 1;
+    font-size: inherit;
+}
+.form-container button {
+    flex: .25;
+    min-width: 50px;
+}

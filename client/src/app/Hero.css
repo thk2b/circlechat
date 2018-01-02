@@ -1,0 +1,10 @@
+.Hero {
+    height: 18.2%;
+    text-align: center;
+    padding-top: 20px;
+    background-color: lightsalmon;
+}
+
+.Hero h1 {
+    margin: 0;
+}
