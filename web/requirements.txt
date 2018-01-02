@@ -3,8 +3,7 @@ Flask-Script
 psycopg2
 Flask-SQLAlchemy
 Flask-Testing
-uWSGI
 flask-cors
 flask-socketio
-gevent
-gevent-websocket
+eventlet
+gunicorn
