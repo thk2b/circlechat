@@ -1,7 +1,7 @@
 import unittest
 
 from flask_script import Manager
-from main import create_app, db
+from main import create_app, db, io
 from main.models import Message
 
 app = create_app()

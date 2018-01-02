@@ -22,6 +22,7 @@ services:
       - DATABASE_URL=postgres://postgres:postgres@db:5432/dev
       - DATABASE_TEST_URL=postgres://postgres:postgres@db:5432/test
     command: python manage.py runserver -h 0.0.0.0
+    # command: python manage.py
   
   client:
     build: ./client

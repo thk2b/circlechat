@@ -6,3 +6,5 @@ Flask-Testing
 uWSGI
 flask-cors
 flask-socketio
+gevent
+gevent-websocket

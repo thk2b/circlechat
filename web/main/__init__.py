@@ -17,11 +17,11 @@ def create_app():
     config = os.environ.get('CONFIG')
     app.config.from_object(config)
     
-    io.init_app(app)
     db.init_app(app)
-    
-    import main.events
     from main.api import api_blueprint
     app.register_blueprint(api_blueprint, url_prefix='/api')
-
+    
+    import main.events
+    io.init_app(app)
+    
     return app

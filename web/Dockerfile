@@ -10,4 +10,5 @@ RUN pip install -r requirements.txt
 ADD . /usr/src/app
 
 EXPOSE 8080
-CMD ["uwsgi", "--module", "manage:app", "--socket", ":8080"]
+# uwsgi --http :5000 --gevent 1000 --http-websockets --master --wsgi-file app.py --callable app
+CMD ["uwsgi", "--module", "manage:app", "--http", ":8080", "--gevent", "1000", "--http-websockets"]
