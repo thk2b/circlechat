@@ -4,10 +4,12 @@ import Message from './Message'
 import './styles/MessageList.css'
 
 export default ({ messages }) => (
-    <ul className="MessageList">{ messages.map(
-        message => <Message 
-            key={ message.id } 
-            {...message}
-        />
-    )}</ul>
+    <ul className="MessageList">{ 
+        messages.reverse().map(
+            message => <Message 
+                key={ message.id } 
+                {...message}
+            />
+        )
+    }</ul>
 )

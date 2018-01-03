@@ -15,7 +15,7 @@ class Messages extends React.PureComponent {
         return (
             <div className="Messages">
                 <MessageList messages={ messages }/>
-                <MessageForm onSubmit={ text => submitMessage(text) }/>
+                <MessageForm onSubmit={ text => submitMessage( text ) }/>
             </div>
         )
     }

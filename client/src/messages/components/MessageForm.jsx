@@ -9,8 +9,9 @@ export default class MessageForm extends React.Component{
             text: ''
         }
     }
-    handleSubmit(){
+    handleSubmit(e){
         this.props.onSubmit(this.state.text)
+        this.setState({ text: ''})
     }
     render(){
         const { text } = this.state
@@ -28,7 +29,7 @@ export default class MessageForm extends React.Component{
                         }
                     />
                     <button
-                        onClick={ this.handleSubmit() }
+                        onClick={ e => this.handleSubmit(e) }
                         >post
                     </button>
                 </span>

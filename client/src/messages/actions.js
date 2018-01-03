@@ -12,8 +12,9 @@ export const addMessages = ( messages ) => ({
 })
 
 export const submitMessage = ( text ) => ({
-    type: 'io/SUBMIT_MESSAGE',
-    text
+    type: 'io',
+    meta: { event: 'SUBMIT_MESSAGE' },
+    data: { text }
 })
 
 export const fetchMessages = () => dispatch => {

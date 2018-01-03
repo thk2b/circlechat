@@ -1,14 +1,16 @@
+import { addMessage } from './messages/actions'
+
 export default socket => store => {
-    socket.on('action', action => {
-        console.log('socket.on: ', action)
-        if( typeof action.type !== 'undefined' ){ 
-            store.dispatch(action)
-        }
+    socket.on('CONNECT_SUCCESS', console.log)
+    
+    socket.on('ADD_MESSAGE', json => {
+        const { message } = JSON.parse(json)
+        store.dispatch(addMessage(message))
     })
+
     return next => action => {
         if( action.type === 'io' ){
-            console.log('socket.emit: ')
-            socket.emit(action.meta.event, action.meta.data)
+            socket.emit(action.meta.event, action.data)
         }
         return next(action)
     }
