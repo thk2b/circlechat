@@ -5,7 +5,7 @@ from main import io
 
 @io.on('connect')
 def connect():
-    emit('message', 'connected scessfully')
+    emit('action', 'connected scessfully')
 
 @io.on('test')
 def test(data):
