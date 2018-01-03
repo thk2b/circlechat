@@ -25,7 +25,9 @@ services:
     # command: python manage.py
   
   client:
-    build: ./client
+    build:
+      context: ./client
+      dockerfile: Dockerfile.dev
     depends_on:
       - web
     environment:
