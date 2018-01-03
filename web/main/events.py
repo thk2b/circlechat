@@ -1,13 +1,12 @@
-from flask_socketio import send
+from flask_socketio import send, emit
 
 from main import io
 
 
 @io.on('connect')
 def connect():
-    pass
+    emit('message', 'connected scessfully')
 
-@io.on('ping')
-def ping():
-    send('pong', json='true')
-
+@io.on('test')
+def test(data):
+    emit('message', 'tested')

@@ -11,6 +11,10 @@ import { App } from './app'
 import { messages } from './messages'
 
 let socket = io(`${document.location.hostname}`)
+
+socket.on('message', data => console.log(data))
+socket.emit('test', 1)
+
 let socketIoMiddleware = createSocketIoMiddleware(socket, 'io/')
 
 let reducer = combineReducers({ messages })
