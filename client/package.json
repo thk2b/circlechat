@@ -10,7 +10,7 @@
     "redux": "^3.7.2",
     "react-redux": "^5.0.6",
     "redux-thunk": "^2.2.0",
-    "redux-socket.io": "^1.4.0",
+    "autoscroll-react": "1.0.1",
     "socket.io-client": "^2.0.4"
   },
   "devDependencies":{
