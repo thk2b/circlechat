@@ -10,6 +10,8 @@ services:
   
   redis:
     image: redis
+    volumes:
+      - ./data:/data
     
   web:
     build: ./web
@@ -21,7 +23,7 @@ services:
       - db
       - redis
     environment:
-      - CORS=1
+      # - CORS=1
       - CONFIG=main.config.DevelopmentConfig
       - DATABASE_URL=postgres://postgres:postgres@db:5432/dev
       - DATABASE_TEST_URL=postgres://postgres:postgres@db:5432/test

@@ -1,9 +1,9 @@
 import os
 
 from flask import Flask
+from flask_cors import CORS
 from flask_socketio import SocketIO
 from flask_sqlalchemy import SQLAlchemy
-from flask_cors import CORS
 import redis
 
 db = SQLAlchemy()
@@ -13,8 +13,8 @@ io = SocketIO()
 def create_app():
     app = Flask(__name__)
 
-    if 'CORS' in os.environ:
-        CORS(app)
+    # if 'CORS' in os.environ:
+        # CORS(app)
     
     config = os.environ.get('CONFIG')
     app.config.from_object(config)

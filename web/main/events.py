@@ -6,9 +6,11 @@ from main.models import Message
 
 @io.on('connect')
 def connect():
-    count = redis.incr('online_users_count')
+    online_count = redis.incr('online_users_count')
+    connections_count = redis.incr('connections_count')
     emit('CONNECT_SUCCESS', 'connected scessfully')
-    emit('UPDATE_ONLINE_USERS_COUNT', count, broadcast=True)
+    emit('UPDATE_ONLINE_USERS_COUNT', online_count, broadcast=True)
+    emit('UPDATE_CONNECTIONS_COUNT', connections_count, broadcast=True)
 
 @io.on('disconnect')
 def disconnect():
