@@ -8,6 +8,9 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
   
+  redis:
+    image: redis
+    
   web:
     build: ./web
     ports: 
@@ -16,6 +19,7 @@ services:
       - './web:/usr/src/app'
     depends_on: 
       - db
+      - redis
     environment:
       - CORS=1
       - CONFIG=main.config.DevelopmentConfig

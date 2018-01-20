@@ -4,8 +4,10 @@ from flask import Flask
 from flask_socketio import SocketIO
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
+import redis
 
 db = SQLAlchemy()
+redis = redis.StrictRedis('redis')
 io = SocketIO()
 
 def create_app():

@@ -8,14 +8,12 @@ import io from 'socket.io-client'
 // import registerServiceWorker from './registerServiceWorker'
 import { App } from './app'
 import { messages } from './messages'
+import { usersStats } from './usersStats'
 import createSocketioMiddleware from './socketIoMiddleware'
 
 let socket = io(`${document.location.hostname}`)
 
-// socket.on('message', data => console.log(data))
-// socket.emit('test', 1)
-
-let reducer = combineReducers({ messages })
+let reducer = combineReducers({ messages, usersStats })
 let middleware = applyMiddleware(
     thunk, 
     createSocketioMiddleware(socket)

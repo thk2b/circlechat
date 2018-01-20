@@ -8,13 +8,17 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     #volumes:
-  
+    
+  redis:
+    image: redis
+    
   web:
     build: ./web
     ports: 
       - 8080:8080
     depends_on: 
       - db
+      - redis
     environment:
       - CONFIG=main.config.ProductionConfig
       - DATABASE_URL=postgres://postgres:postgres@db:5432/dev
