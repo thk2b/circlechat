@@ -1,7 +1,8 @@
 import * as c from './constants'
 
 const DEFAULT = {
-    onlineUsersCount: null
+    onlineUsersCount: null,
+    connectionsCount: null
 }
 
 export default function(state = DEFAULT, action){
@@ -10,6 +11,11 @@ export default function(state = DEFAULT, action){
             return { 
                 ...state,
                 onlineUsersCount: action.count
+            }
+        case c.UPDATE_CONNECTIONS_COUNT:
+            return { 
+                ...state,
+                connectionsCount: action.count
             }
         default: return state
     }
