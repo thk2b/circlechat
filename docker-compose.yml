@@ -7,7 +7,8 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-    #volumes:
+    volumes:
+      - db-data:/var/lib/postgresql/data
     
   redis:
     image: redis
@@ -41,3 +42,4 @@ services:
 
 volumes:
   static:
+  db-data:
