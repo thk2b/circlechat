@@ -23,8 +23,10 @@ def ping():
 
 @io.on('SUBMIT_MESSAGE')
 def submit_message(data):
+    if not 'text' in data:
+        return 0
     text = data['text']
-    if text is None:
+    if text is None or len(text) is 0:
         return 0
     message = Message(text)
     db.session.add(message)
