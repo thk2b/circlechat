@@ -10,24 +10,28 @@ import { App } from './app'
 import { messages } from './messages'
 import { usersStats } from './usersStats'
 import createSocketioMiddleware from './socketIoMiddleware'
-
-let socket = io(`${document.location.hostname}`)
-
-let reducer = combineReducers({ messages, usersStats })
-let middleware = applyMiddleware(
-    thunk, 
-    createSocketioMiddleware(socket)
-)
+import createHistory from 'history/createBrowserHistory'
+import { connectedRouter, routerReducer as router, routerMiddleware, ConnectedRouter } from 'react-router-redux'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-let store = createStore(
-    reducer,
-    composeEnhancers( middleware )
+
+const history = createHistory()
+const store = createStore(
+    combineReducers({ messages, usersStats }),
+    composeEnhancers( 
+        applyMiddleware(
+            thunk, 
+            createSocketioMiddleware(io(`${document.location.hostname}`)),
+            routerMiddleware(history)
+        )
+     )
 )
 
 ReactDOM.render(
     <Provider store={store}>
-        <App />
+        <ConnectedRouter history={history}>
+            <App />
+        </ConnectedRouter>
     </Provider>, 
     document.getElementById('root')
 )

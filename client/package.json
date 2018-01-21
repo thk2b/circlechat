@@ -6,7 +6,10 @@
     "axios": "^0.17.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "react-scripts": "1.0.17",
+    "prop-types": "^15.6.0",
+    "react-router": "^4.2.0",
+    "react-router-redux": "^5.0.0-alpha.9",
+    "history": "^4.7.2",
     "redux": "^3.7.2",
     "react-redux": "^5.0.6",
     "redux-thunk": "^2.2.0",
@@ -14,7 +17,8 @@
     "socket.io-client": "^2.0.4"
   },
   "devDependencies":{
-    "create-react-app":"^1.4.3"
+    "create-react-app":"^1.4.3",
+    "react-scripts": "1.0.17"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -1,4 +1,5 @@
 import React from 'react'
+import { Route } from 'react-router'
 
 import { Messages } from '../messages'
 
@@ -8,7 +9,7 @@ import './App.css'
 export default () => (
     <div className='App'>
         <Hero />
-        
-        <Messages />
+        <Route path='*/login' render={()=> <p>please login</p>} />
+        <Route path='/' component={Messages} />
     </div>
 )
