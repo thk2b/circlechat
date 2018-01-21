@@ -11,13 +11,13 @@ import { messages } from './messages'
 import { usersStats } from './usersStats'
 import createSocketioMiddleware from './socketIoMiddleware'
 import createHistory from 'history/createBrowserHistory'
-import { connectedRouter, routerReducer as router, routerMiddleware, ConnectedRouter } from 'react-router-redux'
+import { ConnectedRouter, routerReducer as router, routerMiddleware } from 'react-router-redux'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const history = createHistory()
 const store = createStore(
-    combineReducers({ messages, usersStats }),
+    combineReducers({ messages, usersStats, router }),
     composeEnhancers( 
         applyMiddleware(
             thunk, 

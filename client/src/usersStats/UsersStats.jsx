@@ -7,10 +7,7 @@ const mapState = ({ usersStats }) => {
 }
 
 const UsersStats = ({ onlineUsersCount, connectionsCount }) => (
-    <div>
-        <p>now online: { onlineUsersCount }</p>
-        <p>total connections: { connectionsCount }</p>
-    </div>
+    <p>online: { onlineUsersCount } | total connections: { connectionsCount }</p>
 )
 
 export default connect(mapState)(UsersStats)
