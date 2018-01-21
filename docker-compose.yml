@@ -9,9 +9,13 @@ services:
       - POSTGRES_PASSWORD=postgres
     volumes:
       - db-data:/var/lib/postgresql/data
+    networks:
+      - back
     
   redis:
     image: redis
+    networks:
+      - back
     
   web:
     build: ./web
@@ -24,6 +28,8 @@ services:
       - CONFIG=main.config.ProductionConfig
       - DATABASE_URL=postgres://postgres:postgres@db:5432/dev
       - DATABASE_TEST_URL=postgres://postgres:postgres@db:5432/test
+    networks:
+      - back
   
   client:
     build: ./client
@@ -39,7 +45,14 @@ services:
     depends_on:
       - web
       - client
+    networks:
+      - front
+      - back
 
 volumes:
   static:
   db-data:
+
+networks:
+  front:
+  back:
