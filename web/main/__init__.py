@@ -7,7 +7,9 @@ from flask_sqlalchemy import SQLAlchemy
 import redis
 
 db = SQLAlchemy()
-redis = redis.StrictRedis('redis')
+if os.getenv('TESTING', False) == '1':
+    redis = redis.StrictRedis('redis', 6379, 1)
+else: redis = redis.StrictRedis('redis')
 io = SocketIO()
 
 def create_app():

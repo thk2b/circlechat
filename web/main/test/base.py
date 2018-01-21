@@ -1,6 +1,6 @@
 from flask_testing import TestCase
 
-from main import create_app, db, io
+from main import create_app, db, redis, io
 
 class BaseUnitTest(TestCase):
     def create_app(self):
@@ -18,3 +18,4 @@ class BaseUnitTest(TestCase):
     def tearDown(self):
         db.session.remove()
         db.drop_all()
+        redis.flushdb()

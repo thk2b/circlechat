@@ -1,3 +1,4 @@
+import os
 import unittest
 
 from flask_script import Manager
@@ -19,6 +20,7 @@ def delete_redis():
 
 @manager.command
 def test():
+    os.environ['TESTING'] = '1'
     tests = unittest.TestLoader().discover('main/test','test*.py')
     result = unittest.TextTestRunner(verbosity=2).run(tests)
     if result.wasSuccessful():
