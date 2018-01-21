@@ -1,10 +1,10 @@
-Flask
-Flask-Script
-psycopg2
-Flask-SQLAlchemy
-Flask-Testing
-flask-cors
-flask-socketio
-eventlet
-gunicorn
-redis
+Flask==0.12.2
+Flask-Script==2.0.6
+psycopg2==2.7.3.2
+Flask-SQLAlchemy==2.3.2
+Flask-Testing==0.7.1
+# flask-cors
+flask-socketio==2.9.3
+eventlet==0.22.0
+gunicorn==19.7.1
+redis==2.10.6
