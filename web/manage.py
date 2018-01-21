@@ -1,7 +1,7 @@
 import unittest
 
 from flask_script import Manager
-from main import create_app, db, io
+from main import create_app, db, redis
 from main.models import Message
 
 app = create_app()
@@ -12,6 +12,10 @@ def recreate_db():
     db.drop_all()
     db.create_all()
     db.session.commit()
+
+@manager.command
+def delete_redis():        
+    redis.flushdb()
 
 @manager.command
 def test():

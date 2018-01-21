@@ -17,6 +17,10 @@ def disconnect():
     count = redis.incr('online_users_count', -1)
     emit('UPDATE_ONLINE_USERS_COUNT', count, broadcast=True)
 
+@io.on('PING')
+def ping():
+    emit('PONG')
+
 @io.on('SUBMIT_MESSAGE')
 def submit_message(data):
     text = data['text']
