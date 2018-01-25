@@ -14,11 +14,9 @@ services:
       - ./data:/data
     
   web:
-    build:
-      context: ./web
-      dockerfile: Dockerfile.dev
+    build: ./web
     ports: 
-      - 5000:5000
+      - 5000:8080
     volumes:
       - './web/app:/src/app'
     depends_on: 
@@ -28,7 +26,7 @@ services:
       - CONFIG=main.config.DevelopmentConfig
       - DATABASE_URL=postgres://postgres:postgres@db:5432/dev
       - DATABASE_TEST_URL=postgres://postgres:postgres@db:5432/test
-  
+    command: ["npm", "run", "dev"]
   client:
     build:
       context: ./client
