@@ -1,14 +1,12 @@
-FROM python:3.6.1
+FROM node:9.4.0-alpine
 
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
+RUN mkdir -p /app
+WORKDIR /app
 
-ADD ./requirements.txt /usr/src/app/requirements.txt
+COPY package.json /app
 
-RUN pip install -r requirements.txt
+RUN npm install
 
-ADD . /usr/src/app
+COPY . /app
 
-EXPOSE 8080
-
-CMD ["gunicorn", "--bind", "0.0.0.0:8080","--worker-class", "eventlet", "-w", "1", "manage:app"]
+CMD ["npm", "start"]

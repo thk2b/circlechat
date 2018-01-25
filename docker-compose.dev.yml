@@ -14,21 +14,20 @@ services:
       - ./data:/data
     
   web:
-    build: ./web
+    build:
+      context: ./web
+      dockerfile: Dockerfile.dev
     ports: 
       - 5000:5000
     volumes:
-      - './web:/usr/src/app'
+      - './web/app:/src/app'
     depends_on: 
       - db
       - redis
     environment:
-      # - CORS=1
       - CONFIG=main.config.DevelopmentConfig
       - DATABASE_URL=postgres://postgres:postgres@db:5432/dev
       - DATABASE_TEST_URL=postgres://postgres:postgres@db:5432/test
-    command:  ["gunicorn", "--bind", "0.0.0.0:5000", "--reload", "--worker-class", "eventlet", "-w", "1", "manage:app"]
-    # command: python manage.py
   
   client:
     build:
