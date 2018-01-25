@@ -3,11 +3,11 @@ import * as c from './constants'
 export default ( state = {}, action ) => {
     switch(action.type){
         case c.ADD_MESSAGE:
-            const { id, text, created_at } = action.message
+            const { id, text, createdAt } = action.message
             return ({
                 ...state,
                 [id]: {
-                    id, text, created_at
+                    id, text, createdAt
                 }
             })
         case c.ADD_MESSAGES:

@@ -16,7 +16,7 @@ services:
   web:
     build: ./web
     ports: 
-      - 8080:8080
+      - '8080'
     volumes:
       - './web/app:/src/app'
     depends_on: 
@@ -24,6 +24,7 @@ services:
       - redis
     environment:
       - CONFIG=main.config.DevelopmentConfig
+      - DATABASE_NAME=dev
       - DATABASE_URL=postgres://postgres:postgres@db:5432/dev
       - DATABASE_TEST_URL=postgres://postgres:postgres@db:5432/test
     command: ["npm", "run", "dev"]

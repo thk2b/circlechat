@@ -14,6 +14,7 @@ export default socket => store => {
 
     return next => action => {
         if( action.type === 'io' ){
+            console.log(action.meta.event)
             socket.emit(action.meta.event, action.data)
         }
         return next(action)

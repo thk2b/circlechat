@@ -1,17 +1,17 @@
 const bodyParser = require('body-parser')
-const express = require('express')
-const io = require('socket.io')
-const sequelize = require('sequelize')
+const app = require('express')()
+const server = require('http').Server(app)
+const io = require('socket.io')(server)
 
 const config = require('./config')
 const api = require('./api')
-
-const app = express()
+require('./io')(io)
 
 app.use('/api', api)
-app.route('/api')
-.get(() => {
-    console.log('req')
-})
+server.listen(config.port)
 
-app.listen(config.port)
+
+
+
+
+
