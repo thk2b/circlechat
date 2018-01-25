@@ -10,7 +10,7 @@ COPY app/package.json /src
 
 RUN npm install
 
-COPY ./app /app
+COPY ./app ./app
 
 RUN ls 
 

@@ -1,12 +1,15 @@
 FROM node:9.4.0-alpine
 
-RUN mkdir -p /app
-WORKDIR /app
+RUN mkdir /src
 
-COPY package.json /app
+WORKDIR /src
+
+COPY app/package.json /src
 
 RUN npm install
 
-COPY . /app
+COPY ./app ./app
 
-CMD ["npm", "start"]
+RUN ls 
+
+CMD ["npm", "run", "start"]
