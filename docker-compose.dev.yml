@@ -16,7 +16,7 @@ services:
   web:
     build: ./web
     ports: 
-      - 5000:8080
+      - 8080:8080
     volumes:
       - './web/app:/src/app'
     depends_on: 
