@@ -8,3 +8,7 @@ router.use('/messages', messages)
 router.use('/ping', ping)
 
 module.exports = router
+
+// module.exports = function(app){
+//     app.use(router)
+// }

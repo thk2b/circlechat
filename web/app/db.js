@@ -1,0 +1,1 @@
+module.exports = db() // export single instance

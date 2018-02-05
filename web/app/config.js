@@ -7,3 +7,26 @@ module.exports = {
         db: 1
     }
 }
+
+/*{
+    dev:{
+        redis: {...},
+        postgres: {
+            url: process.ENV.DATABASE_URL
+        }
+    },
+    test:{
+        redis:{...},
+        postgres: {
+            url: process.ENV.DATABASE_TEST_URL
+        }
+    },
+    prod:{
+        redis: {...},
+        postgres: {
+            url: process.ENV.DATABASE_URL
+        }
+    }
+}
+require('./config')[process.ENV]
+*/
