@@ -7,6 +7,8 @@ A web based chat platform
 - [OR] have `*.sql` files in `app/db`, such as `create.sql` and `drop.sql`. Read these files at runtime and pass them to the driver. 
 
 # TODO
+- [ ] [WEB] api tests - `tape`, `superset`
+
 - [ ] [DB] setup create tables file
 - [ ] [DB] setup drop tables file
 - [ ] [WEB] remove sequelize: use SQL-template-strings
