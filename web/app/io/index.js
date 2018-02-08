@@ -1,5 +1,5 @@
 const redis = require('../redis')
-const { Message } = require('../models')
+// const { Message } = require('../models')
 
 module.exports = io => {
     io.on('connection', socket => {
@@ -22,14 +22,14 @@ module.exports = io => {
        
         socket.on('SUBMIT_MESSAGE', ({ text }) => {
             if( !text ) return
-            Message
-                .create({ text })
-                .then(message => {
-                    io.emit('ADD_MESSAGE', JSON.stringify({
-                        message: message.get()
-                    }))
-                })
-                .catch(console.error)
+            // Message
+            //     .create({ text })
+            //     .then(message => {
+            //         io.emit('ADD_MESSAGE', JSON.stringify({
+            //             message: message.get()
+            //         }))
+            //     })
+            //    .catch(console.error)
         })
     })    
 }

@@ -25,6 +25,7 @@ services:
       - db
       - redis
     environment:
+      - NODE_ENV=prod
       - CONFIG=main.config.ProductionConfig
       - DATABASE_URL=postgres://postgres:postgres@db:5432/prod
       - DATABASE_TEST_URL=postgres://postgres:postgres@db:5432/test

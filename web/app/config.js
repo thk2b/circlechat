@@ -1,6 +1,8 @@
-module.exports = {
+const base = {
     port: 8080,
-    dbUrl: process.env.DATABASE_URL,
+    postgres: {
+        url: process.env.DATABASE_URL,
+    },
     redis:{
         port: 6379,
         host: 'redis',
@@ -8,25 +10,13 @@ module.exports = {
     }
 }
 
-/*{
-    dev:{
-        redis: {...},
+module.exports = {
+    dev: base,
+    test: {
+        ...base,
         postgres: {
-            url: process.ENV.DATABASE_URL
+            url: process.env.DATABASE_TEST_URL
         }
     },
-    test:{
-        redis:{...},
-        postgres: {
-            url: process.ENV.DATABASE_TEST_URL
-        }
-    },
-    prod:{
-        redis: {...},
-        postgres: {
-            url: process.ENV.DATABASE_URL
-        }
-    }
-}
-require('./config')[process.ENV]
-*/
+    prod: base
+}[process.env.NODE_ENV || 'prod']

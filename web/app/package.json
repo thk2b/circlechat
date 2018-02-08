@@ -6,13 +6,12 @@
   "scripts": {
     "start": "node ./app/index.js",
     "dev": "nodemon -L ./app/index.js",
-    "test": "tape app/**/test/*.test.js | faucet"
+    "test": "NODE_ENV=test tape app/**/test/*.test.js | faucet"
   },
   "dependencies":{ 
     "express": "~4.16.2",
     "body-parser": "~1.18.2",
-    "pg": "~7.4.1",
-    "sequelize": "~4.32.1",
+    "pg-promise": "~7.4.1",
     "redis": "~2.8.0",
     "socket.io": "~2.0.4"
   },

@@ -7,11 +7,17 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - back
   
   redis:
     image: redis
     volumes:
       - ./data:/data
+    networks:
+      - back
     
   web:
     build: ./web
@@ -23,11 +29,12 @@ services:
       - db
       - redis
     environment:
-      - CONFIG=main.config.DevelopmentConfig
-      - DATABASE_NAME=dev
+      - NODE_ENV=dev
       - DATABASE_URL=postgres://postgres:postgres@db:5432/dev
       - DATABASE_TEST_URL=postgres://postgres:postgres@db:5432/test
     command: ["npm", "run", "dev"]
+    networks:
+        - back
   client:
     build:
       context: ./client
@@ -52,3 +59,14 @@ services:
       - client
     ports:
       - 80:80
+    networks:
+      - front
+      - back
+
+volumes:
+  static:
+  db-data:
+
+networks:
+  front:
+  back:
