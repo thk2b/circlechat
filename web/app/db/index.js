@@ -1,4 +1,5 @@
-const pgp = require('pg-promise')()
+const Promise = require('bluebird')
+const pgp = require('pg-promise')({promiseLib: Promise})
 
 const config = require('../config')
 

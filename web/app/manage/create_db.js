@@ -1,3 +1,3 @@
 const create = require('../db/create')
 
-create()
+create(true)
