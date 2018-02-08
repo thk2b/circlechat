@@ -13,4 +13,4 @@ app.use('/api', api)
 require('./io')(io)
 server.listen(config.port)
 
-exports = module.exports = app
+exports = module.exports = server

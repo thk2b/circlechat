@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node ./app/index.js",
     "dev": "nodemon -L ./app/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "tape app/**/test/*.test.js | faucet"
   },
   "dependencies":{ 
     "express": "~4.16.2",
@@ -17,7 +17,10 @@
     "socket.io": "~2.0.4"
   },
   "devDependencies": {
-    "nodemon": "~1.14.11"
+    "nodemon": "~1.14.11",
+    "tape": "~4.8.0",
+    "faucet": "~0.0.1",
+    "supertest": "~3.0.0"
   },
   "author": "",
   "license": "ISC"
