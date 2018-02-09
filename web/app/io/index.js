@@ -1,8 +1,15 @@
 const redis = require('../redis')
-// const { Message } = require('../models')
+const db = require('../db')
+// const {
+//     disconnect
+// } = require('./events')
 
 module.exports = io => {
     io.on('connection', socket => {
+        // const ctx = { socket, io }
+        // socket.on('event', data => handler(ctx, data))
+        // socket.on('disconnect',  => disconnect(io))
+        
         socket.on('disconnect', () => {
             redis.incrby('online_users_count', -1, (err, count) => {
                 if(err) return 
@@ -20,6 +27,7 @@ module.exports = io => {
         })
         socket.emit('CONNECT_SUCCESS', 'conn')
        
+        // socket.on('SUBMIT_MESSAGE', data => submit_message(socket, io, data))
         socket.on('SUBMIT_MESSAGE', ({ text }) => {
             if( !text ) return
             // Message
