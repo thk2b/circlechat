@@ -8,7 +8,8 @@ module.exports = function(db){
         VALUES 
             ('test message 1', ${Date.now()}),
             ('test message 2', ${Date.now()}),
-            ('test message 3', ${Date.now()});
+            ('test message 3', ${Date.now()})
+        RETURNING *;
         `)
         .then(data => resolve(data))
         .catch(e => reject(e))

@@ -12,25 +12,21 @@ const ENDPOINT = '/api/messages/'
 test('setup', t => {
     drop(db)
     .then(() => create(db))
-    .then(() => seed(db))
     .then(() => t.end())
     .catch(e => t.fail(`failed to setup: ${e}`))
 })
 
 test(`${ENDPOINT} endpoint`, t => {
     t.plan(2)
-    request(server)
-        .get(ENDPOINT)
-        .expect(200)
-        .expect('Content-Type', /json/)
-        .end((err, res) => {
-            t.error(err)
-            t.deepEqual({}, res.body)
-            t.end()
-        })
+    seed(db).then(data => {
+        request(server)
+            .get(ENDPOINT)
+            .expect(200)
+            .expect('Content-Type', /json/)
+            .end((err, res) => {
+                t.deepEqual(res.body, data)
+                t.error(err)
+                t.end()
+            })
+    })
 })
-
-// test('teardown', t => {
-//     drop(db)
-//     t.end()
-// })

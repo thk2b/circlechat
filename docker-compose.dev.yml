@@ -49,6 +49,9 @@ services:
     volumes:
       - './client/src:/usr/src/app/src'
     command: npm start
+    networks:
+        - front
+        - back
 
   nginx:
     build:

@@ -10,16 +10,12 @@ router.route('/')
             res.json(data)
         })
         .catch( e => {
-
+            console.error('error in route `messages`: ', e)
+            res.status(501)
+            res.json({
+                message: 'Internal database error'
+            })
         })
-    // Message
-    //     .findAll()
-    //     .then(messages => {
-    //         res.json({ messages })
-    //     })
-    //     .catch(
-    //         e => console.error(e)
-    //     )
 })
 
 module.exports = router
