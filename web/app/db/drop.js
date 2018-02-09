@@ -1,8 +1,9 @@
-const db = require('./index')
+const Promise = require('bluebird')
 
-module.exports = function(closeDb){
-    db.any(`DROP TABLE message`)
-        .then(() => console.log('success: dropped tables'))
-        .catch(e => console.error('error: could not drop tables: ', e))
-        .finally(() => closeDb && db.$pool.end()) 
+module.exports = function(db){
+    return new Promise((resolve, reject) => {
+        db.any(`DROP TABLE message`)
+        .then(data => resolve(data))
+        .catch(e => reject(e))
+    })
 }

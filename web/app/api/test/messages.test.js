@@ -3,11 +3,18 @@ const request = require('supertest')
 
 const server = require('../../index')
 const db = require('../../db')
+const create = require('../../db/create')
+const seed = require('../../db/seed')
+const drop = require('../../db/drop')
 
 const ENDPOINT = '/api/messages/'
 
 test('setup', t => {
-    // recreate db
+    drop(db)
+    .then(() => create(db))
+    .then(() => seed(db))
+    .then(() => t.end())
+    .catch(e => t.fail(`failed to setup: ${e}`))
 })
 
 test(`${ENDPOINT} endpoint`, t => {
@@ -23,7 +30,7 @@ test(`${ENDPOINT} endpoint`, t => {
         })
 })
 
-test('teardown', t => {
-    // drop db
-    // close server, db connection
-})
+// test('teardown', t => {
+//     drop(db)
+//     t.end()
+// })

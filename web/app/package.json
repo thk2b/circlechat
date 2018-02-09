@@ -14,7 +14,8 @@
     "pg-promise": "~7.4.1",
     "redis": "~2.8.0",
     "socket.io": "~2.0.4",
-    "bluebird":"~3.5.1"
+    "bluebird":"~3.5.1",
+    "sql-template-strings": "~2.2.2"
   },
   "devDependencies": {
     "nodemon": "~1.14.11",

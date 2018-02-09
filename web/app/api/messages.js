@@ -1,10 +1,17 @@
 const { Router } = require('express')
-// const { Message } = require('../models')
+const db = require('../db')
 
 const router = new Router()
 
 router.route('/')
 .get((req, res) => {
+    db.any('SELECT * FROM message')
+        .then( data => {
+            res.json(data)
+        })
+        .catch( e => {
+
+        })
     // Message
     //     .findAll()
     //     .then(messages => {

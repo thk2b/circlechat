@@ -1,16 +1,15 @@
-const db = require('./index')
+const Promise = require('bluebird')
 
-// export function that creates tables
-module.exports = function(closeDb=false){
-    db.any(
-        `CREATE TABLE message (
-            id   SERIAL PRIMARY KEY,
-            text VARCHAR(256) NOT NULL,
-            created_at VARCHAR(256) NOT NULL
-        );`
-    ).then(() => console.log('success: created tables'))   
-    .catch(e => console.error('error: could not create tables: ', e))
-    .finally(() => {
-        closeDb && db.$pool.end()
-    }) 
+module.exports = function(db){
+    return new Promise((resolve, reject) => {
+        db.any(
+            `CREATE TABLE IF NOT EXISTS message (
+                id SERIAL,
+                text VARCHAR(256) NOT NULL,
+                created_at BIGINT NOT NULL,
+                PRIMARY KEY (id)
+            );`
+        ).then(data => resolve(data))   
+        .catch(e => reject(e))
+    })
 }

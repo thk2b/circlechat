@@ -19,8 +19,3 @@ test('api/ping endpoint', t => {
             t.end()    
         })
 })
-
-// test('teardown', t => {
-//     server.close()
-//     t.end()
-// })
