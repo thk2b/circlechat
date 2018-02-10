@@ -65,7 +65,10 @@ Users with `publish` permission:
   - => emit new_message to all members of the circle with the view permission
 
 Users with `view` permission:
-- get_content
+- get_content (get a number of messages)
+- get_more_content (get a number of messages after a specific message)
+
+
 
 ### `message/:id`
 Users with `mod` permission, or the message's author
