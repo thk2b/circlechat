@@ -29,7 +29,6 @@ test('connection event: online users count', t => {
     t.test('total connections count', t => {
         t.plan(1)
         const client1 = io.connect(SOCKET_URL, options)
-        t.fail()
         client1.on('connect', () => {
             
             const client2 = io.connect(SOCKET_URL, options)
