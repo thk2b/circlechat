@@ -9,12 +9,7 @@ const drop = require('../../db/drop')
 
 const ENDPOINT = '/api/messages/'
 
-test('setup', t => {
-    drop(db)
-    .then(() => create(db))
-    .then(() => t.end())
-    .catch(e => t.fail(`failed to setup: ${e}`))
-})
+require('../../test_utils/setup')()
 
 test(`${ENDPOINT} endpoint`, t => {
     t.plan(2)

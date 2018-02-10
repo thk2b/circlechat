@@ -9,7 +9,7 @@ module.exports = io => {
         // const ctx = { socket, io }
         // socket.on('event', data => handler(ctx, data))
         // socket.on('disconnect',  => disconnect(io))
-        
+
         socket.on('disconnect', () => {
             redis.incrby('online_users_count', -1, (err, count) => {
                 if(err) return 
