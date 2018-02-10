@@ -14,9 +14,19 @@ module.exports = {
     dev: base,
     test: {
         ...base,
+        redis: {
+            ...base.redis,
+            db: 2
+        },
         postgres: {
             url: process.env.DATABASE_TEST_URL
         }
     },
-    prod: base
+    prod: {
+        ...base,
+        redis: {
+            ...base.redis,
+            db: 3
+        }
+    }
 }[process.env.NODE_ENV || 'prod']
