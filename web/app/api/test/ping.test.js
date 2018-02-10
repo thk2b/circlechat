@@ -1,21 +1,29 @@
-const test = require('tape')
-const request = require('supertest')
+const chai = require('chai')
+const { expect } = chai
+chai.use(require('chai-http'))
 
-const server = require('../../index')
+const server = require('../../server')
 
 const ENDPOINT = '/api/ping/'
 
-test('api/ping endpoint', t => {
-    t.plan(2)
-    request(server)
-        .get(ENDPOINT)
-        .expect(200)
-        .expect('Content-Type', /json/)
-        .end( (err, res) => {
-            t.error(err)
-            t.deepEqual({
-                status: 'success', message: 'pong'
-            }, res.body)
-            t.end()    
-        })
+describe('api/ping endpoint', function(){
+    before(function(done){
+        server.listen(2,() => done())
+    })
+    after(function(){
+        server.close()
+    })
+    it('should send the success message', function(done){
+        chai.request(server)
+            .get(ENDPOINT)
+            .end((err, res) => {
+                expect(err).to.be.null
+                expect(res).to.have.header('content-type', /json/)
+                expect(res).to.have.status(200)
+                expect(res.body).to.deep.equal({
+                    status: 'success', message: 'pong'
+                })
+                done()
+            })
+    })
 })

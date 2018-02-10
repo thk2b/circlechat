@@ -1,7 +1,9 @@
-const test = require('tape')
-const request = require('supertest')
+const chai = require('chai')
+const { expect } = chai
 
-const server = require('../../index')
+chai.use(require('chai-http'))
+
+const server = require('../../server')
 const db = require('../../db')
 const create = require('../../db/create')
 const seed = require('../../db/seed')
@@ -9,19 +11,31 @@ const drop = require('../../db/drop')
 
 const ENDPOINT = '/api/messages/'
 
-require('../../test_utils/setup')()
 
-test(`${ENDPOINT} endpoint`, t => {
-    t.plan(2)
-    seed(db).then(data => {
-        request(server)
-            .get(ENDPOINT)
-            .expect(200)
-            .expect('Content-Type', /json/)
-            .end((err, res) => {
-                t.deepEqual(res.body, data)
-                t.error(err)
-                t.end()
-            })
+describe(`${ENDPOINT} endpoint`, function(){
+    before(function(done){
+        server.listen(1,() => done())
+    })
+    beforeEach(function(done){
+        drop(db)
+            .then(() => create(db))
+            .then(() => done())
+            .catch(e => done(e))
+    })
+    after(function(){
+        server.close()
+    })
+
+    it('should send the messages', function(done){
+        seed(db).then(data => {
+            chai.request(server)
+                .get(ENDPOINT)
+                .end((err, res) => {
+                    expect(err).to.be.null
+                    expect(res).to.have.status(200)
+                    expect(res.body).to.deep.equal(data)
+                    done()
+                })
+        })
     })
 })
