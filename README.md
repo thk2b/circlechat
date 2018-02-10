@@ -7,11 +7,11 @@ A web based chat platform
 - [OR] have `*.sql` files in `app/db`, such as `create.sql` and `drop.sql`. Read these files at runtime and pass them to the driver. 
 
 # TODO
-- [ ] [WEB] api tests - `tape`, `superset`
+- [x] [WEB] api tests - `mocha`, `chai-http`
 
-- [ ] [DB] setup create tables file
-- [ ] [DB] setup drop tables file
-- [ ] [WEB] remove sequelize: use SQL-template-strings
+- [x] [DB] setup create tables file
+- [x] [DB] setup drop tables file
+- [x] [WEB] remove sequelize: use SQL-template-strings
 - [ ] [WEB, CLIENT] refactor socket.io: emit actions directly
 - [ ] [CLIENT] use redux middleware for API calls
 - [ ] [CLIENT] write tests: create a store and verify that containers dispatch actions
