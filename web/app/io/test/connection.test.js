@@ -14,10 +14,12 @@ require('../../test_utils/setup')()
 test('connection event: online users count', t => {
     t.test('online users count', t => {
         t.plan(1)
-        client1 = io.connect(SOCKET_URL, options)
+        const client1 = io.connect(SOCKET_URL, options)
         client1.on('connect', () => {
-            client2 = io.connect(SOCKET_URL, options)
+            const client2 = io.connect(SOCKET_URL, options)
             client2.on('UPDATE_CONNECTIONS_COUNT', count => {
+                client1.disconnect()
+                client2.disconnect()
                 t.equal(count, 2)
                 t.end()
             })
@@ -26,12 +28,27 @@ test('connection event: online users count', t => {
 
     t.test('total connections count', t => {
         t.plan(1)
-        client2.on('UPDATE_ONLINE_USERS_COUNT', count => {
-            client2.disconnect()
-            t.equal(count, 1)
-            t.end()
+        const client1 = io.connect(SOCKET_URL, options)
+        t.fail()
+        client1.on('connect', () => {
+            
+            const client2 = io.connect(SOCKET_URL, options)
+            client2.on('connect', () => {
+                const counts = []
+                client2.on('UPDATE_ONLINE_USERS_COUNT', count => {
+                    counts.push(count)
+                })
+                client1.disconnect()
+                setTimeout(() => {
+                    t.equal(counts,0)
+                    t.end()
+                },0)
+            })
         })
+
         client1.disconnect()
     })
     t.end()
+
+    t.test('done', t => t.end())
 })
