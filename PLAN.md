@@ -5,16 +5,18 @@
 ### `auth`
 - register
 - login
-- (forgot)
+  - => emit update_status to all related users who are online
+  - send initial data to the user: `{me, circles, channels, users, messages}`
+- (forgot_passowrd)
 
 ### `user/:id`
 User herself:
 - edit_username 
-  - => emit update_username to al related users
+  - => emit update_username to all related users who are online
 - edit_password
 - edit_email
 - set_status
-  - => emit update_status to all related users
+  - => emit update_status to all related users who are online
 
 All users:
 - get_profile
@@ -40,7 +42,7 @@ Users with `mod` permission:
   - => emit update_users to all members of the circle
 - edit_user_permission
   - => emit update_permission to the user in question
-- edit (+)
+- edit (+) 
   - => emit update_circle to all members of the circle
 
 Users with `publish` permission:
