@@ -8,10 +8,13 @@
 - (forgot)
 
 ### `user/:id`
+User herself:
 - edit_username
 - edit_password
 - edit_email
 - set_status
+
+All users:
 - get_profile
 
 ### `circles`
