@@ -1,9 +1,12 @@
-module.exports = {
-    disconnect: require('./disconnect')
-}
+const path = require('path')
 
-// module.exports = function(ctx){
-//     return {
-//         event: require('event')(ctx)
-//     }
-// }
+try {
+    module.exports = [
+        'disconnect',
+        'SUBMIT_MESSAGE'
+    ].reduce(
+        (obj, event) => Object.assign(obj, {[event]: require(path.join(__dirname, event.toLowerCase())) })
+    ,{})
+} catch(e) {
+    console.error('error: could not gather events: ', e)
+}

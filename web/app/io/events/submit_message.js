@@ -1,8 +1,8 @@
 const SQL = require('sql-template-strings')
 const db = require('../../db')
 
-// module.exports = function(ctx, { text }){
 module.exports = function(socket, io, { text }){
+    console.log(text)
     const sent_at = Date.now()
     db.one(SQL`
         INSERT INTO messages 

@@ -1,21 +1,13 @@
 const redis = require('../redis')
 const db = require('../db')
-// const {
-//     disconnect
-// } = require('./events')
+const events = require('./events')
 
 module.exports = io => {
     io.on('connection', socket => {
-        // const ctx = { socket, io }
-        // socket.on('event', data => handler(ctx, data))
-        // socket.on('disconnect',  => disconnect(io))
+        Object.entries(events).forEach(
+            ([event, handler]) => socket.on(event, data => handler(socket, io, data))
+        )
 
-        socket.on('disconnect', () => {
-            redis.incrby('online_users_count', -1, (err, count) => {
-                if(err) return 
-                io.emit('UPDATE_ONLINE_USERS_COUNT', count)
-            })
-        })
         redis.multi()
         redis.incr('online_users_count', (err, count) => {
             if(err) return 
@@ -25,19 +17,6 @@ module.exports = io => {
             if(err) return
             io.emit('UPDATE_CONNECTIONS_COUNT', count)
         })
-        socket.emit('CONNECT_SUCCESS', 'conn')
-       
-        // socket.on('SUBMIT_MESSAGE', data => submit_message(socket, io, data))
-        socket.on('SUBMIT_MESSAGE', ({ text }) => {
-            if( !text ) return
-            // Message
-            //     .create({ text })
-            //     .then(message => {
-            //         io.emit('ADD_MESSAGE', JSON.stringify({
-            //             message: message.get()
-            //         }))
-            //     })
-            //    .catch(console.error)
-        })
-    })    
+        socket.emit('CONNECT_SUCCESS', 'conn')   
+    })
 }
