@@ -1,12 +1,7 @@
 # webchat
 A web based chat platform
 
-# ideas
-- [EITHER] treat the `web` container as a client of the database. It does not create nor drop tables or alter schemas. But this means that tests cannot be performed on a clean database. Or, in test lifecycle hooks, delete all rows.
-- [OR] use `pg-migrate` on the `web` container to manage tables. 
-- [OR] have `*.sql` files in `app/db`, such as `create.sql` and `drop.sql`. Read these files at runtime and pass them to the driver. 
-
-# TODO
+# todo
 - [x] [WEB] api tests - `mocha`, `chai-http`
 
 - [x] [DB] setup create tables file
@@ -23,3 +18,4 @@ A web based chat platform
 - `dc -f docker-compose.dev.yml (build|up)`
 - `dc -f docker-compose.dev.yml run web node app/manage/create_db` or `dc exec web node ...`
 - `dc exec psql -U ...`
+
