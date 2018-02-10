@@ -20,7 +20,7 @@ export const submitMessage = ( text ) => ({
 export const fetchMessages = () => dispatch => {
     axios.get(`http://${document.location.hostname}/api/messages`)
         .then(
-            ({ data }) => dispatch(addMessages(data.messages))
+            ({ data }) => dispatch(addMessages(data))
         )
         .catch(console.error)
 }

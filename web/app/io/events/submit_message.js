@@ -2,17 +2,16 @@ const SQL = require('sql-template-strings')
 const db = require('../../db')
 
 module.exports = function(socket, io, { text }){
-    console.log(text)
-    const sent_at = Date.now()
+    const created_at = Date.now()
     db.one(SQL`
-        INSERT INTO messages 
-        VALUES (${text}, ${sent_at})
+        INSERT INTO message (text, created_at)
+        VALUES (${text}, ${created_at})
         RETURNING id;
-    `).then(id => {
+    `).then(({ id }) => {
         io.emit('ADD_MESSAGE', JSON.stringify({
             id,
             text,
-            sent_at
+            created_at
         }))
     })
     .catch(e => {

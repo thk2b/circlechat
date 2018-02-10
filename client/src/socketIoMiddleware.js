@@ -8,7 +8,8 @@ export default socket => store => {
     socket.on('UPDATE_CONNECTIONS_COUNT', count => store.dispatch(updateConnectionsCount(count)))
 
     socket.on('ADD_MESSAGE', json => {
-        const { message } = JSON.parse(json)
+        const message = JSON.parse(json)
+        console.log(message)
         store.dispatch(addMessage(message))
     })
 

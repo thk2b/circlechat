@@ -2,9 +2,9 @@ import React from 'react'
 
 import './styles/Message.css'
 
-export default ({ id, text, createdAt }) => (
+export default ({ id, text, created_at }) => (
     <li className = "Message">
-        <p>{ createdAt }</p>
+        <p>{ created_at }</p>
         <p>{ text }</p>
     </li>
 )
