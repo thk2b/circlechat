@@ -39,6 +39,7 @@ Users with `mod` permission:
 - remove_user(s)
   - => emit update_users to all members of the circle
 - edit_user_permission
+  - => emit update_permission to the user in question
 - edit (+)
   - => emit update_circle to all members of the circle
 
