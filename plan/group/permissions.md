@@ -8,7 +8,8 @@ There are permissions concerning three entities.
   - 1] view
   - 2] post
   - 3] create
-  - 4] edit/remove
+  - 4] edit/remove_content
+  - 5] edit/remove_channels
 - 2] users
   - 1] add
   - 2] remove
