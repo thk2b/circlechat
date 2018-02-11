@@ -17,7 +17,7 @@ There are permissions concerning three entities.
   - 1] edit
   - 2] delete
  
-If a user has permission 1.3, then she also has permissions 1.2 and 1.3 but not 2.1.
+If a user has permission 1.3, then she also has permissions 1.2 and 1.1 but not 2.1.
  
 Upon creating a group, the creator specifies the default permission new users will have.
  ___
