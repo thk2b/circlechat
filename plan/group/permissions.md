@@ -2,7 +2,7 @@
 
 Permissions correspond to the actions users are allowed to take in a group. 
 
-There are permissions concerning three entities:
+There are permissions concerning three entities.
 
 - 1] channels
   - 1] view
@@ -17,8 +17,10 @@ There are permissions concerning three entities:
   - 1] edit
   - 2] delete
  
- Upon creating a group, the creator specifies the default permission new users will have.
+If a user has permission 1.3, then she also has permissions 1.2 and 1.3 but not 2.1.
+ 
+Upon creating a group, the creator specifies the default permission new users will have.
  ___
  
- (1) a user cannot grant others with permissions he does not already have
+(1) a user cannot grant others with permissions he does not already have
  
