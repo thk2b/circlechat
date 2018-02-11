@@ -12,7 +12,7 @@ There are permissions concerning three entities.
 - 2] users
   - 1] add
   - 2] remove
-  - 3] manage_permissions (1)
+  - 3] manage_roles (1)
 - 3] the group in itself
   - 1] edit
   - 2] delete
