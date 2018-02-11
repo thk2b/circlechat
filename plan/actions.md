@@ -38,42 +38,45 @@ Users with `mod` permission:
   - => emit update_users to all members of the circle
 - remove_user(s)
   - => emit update_users to all members of the circle
-- edit_user_permission
-  - => emit update_permission to the user in question
+- create_role
+  - => emit update_roles to all members of the circle who have the manage_user_roles permission
+- edit_user_role
+  - => emit update_role to the user in question
 - edit (+) 
   - => emit update_circle to all members of the circle
 
-Users with `publish` permission:
+Users with `channels/publish` permission:
 - create_channel
   - => emit new_channel to all members of the circle who have the view permission
 
-Users with `view` permission:
+Users with `channels/view` permission:
 - get_channels
 - get_users
 
 ## `channel/:id`
-Users with `mod` permission, or the channel's creator:
+Users with `channels/edit` permission, or the channel's creator:
 - edit (+)
   - => emit update_channel to all members of the circle with the view permission
+Users with `channels/delete` permission, or the channel's creator:
 - delete
   - => emit delete_channel to all members of the circle with the view permission
   
-Users with `publish` permission:
+Users with `channels/publish` permission:
 - send_message
   - => emit new_message to all members of the circle with the view permission
 
-Users with `view` permission:
+Users with `channels/view` permission:
 - get_content (get a number of messages)
 - get_more_content (get a number of messages after a specific message)
 
 
 
 ## `message/:id`
-Users with `mod` permission, or the message's author
+Users with `channel/manage_content` permission, or the message's author
 - edit
   - => emit update_message to all members of the circle with the view permission
 - delete
   - => emit delete_message to all members of the circle with the view permission
 
-Users with `view` permisison:
+Users with `channel/view` permisison:
 - get_message
