@@ -16,7 +16,8 @@ There are permissions concerning three entities:
 - 3] the group in itself
   - 1] edit
   - 2] delete
-  
+ 
+ Upon creating a group, the creator specifies the default permission new users will have.
  ___
  
  (1) a user cannot grant others with permissions he does not already have
