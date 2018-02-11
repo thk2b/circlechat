@@ -1,15 +1,13 @@
-# PLAN
+# ACTIONS
 
-## ACTIONS
-
-### `auth`
+## `auth`
 - register
 - login
   - => emit update_status to all related users who are online
   - send initial data to the user: `{me, circles, channels, users, messages}`
 - (forgot_passowrd)
 
-### `user/:id`
+## `user/:id`
 User herself:
 - edit_username 
   - => emit update_username to all related users who are online
@@ -21,13 +19,13 @@ User herself:
 All users:
 - get_profile
 
-### `circles`
+## `circles`
 - create
 - search
 - find_popular
 - get_new
 
-### `circle/:id`
+## `circle/:id`
 All users:
 - join
   - => emit update_users to all members of the circle
@@ -53,7 +51,7 @@ Users with `view` permission:
 - get_channels
 - get_users
 
-### `channel/:id`
+## `channel/:id`
 Users with `mod` permission, or the channel's creator:
 - edit (+)
   - => emit update_channel to all members of the circle with the view permission
@@ -70,7 +68,7 @@ Users with `view` permission:
 
 
 
-### `message/:id`
+## `message/:id`
 Users with `mod` permission, or the message's author
 - edit
   - => emit update_message to all members of the circle with the view permission
