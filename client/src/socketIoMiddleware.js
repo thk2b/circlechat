@@ -1,21 +1,23 @@
 import { addMessage } from './messages/actions'
 import { updateOnlineUsersCount, updateConnectionsCount } from './usersStats/actions'
 
+const events = {
+    'UPDATE_ONLINE_USERS_COUNT': updateOnlineUsersCount,
+    'UPDATE_CONNECTIONS_COUNT': updateConnectionsCount,
+    'ADD_MESSAGE': addMessage
+}
+
 export default socket => store => {
-    socket.on('CONNECT_SUCCESS', console.log)
+    Object.entries(events).forEach(
+        ([event, action]) => socket.on(event, data => {
+            process.env.NODE_ENV === 'development' && console.log({ event, data })
+            store.dispatch(action(data))
+        })
+    )
     
-    socket.on('UPDATE_ONLINE_USERS_COUNT', count => store.dispatch(updateOnlineUsersCount(count)))
-    socket.on('UPDATE_CONNECTIONS_COUNT', count => store.dispatch(updateConnectionsCount(count)))
-
-    socket.on('ADD_MESSAGE', json => {
-        const message = JSON.parse(json)
-        console.log(message)
-        store.dispatch(addMessage(message))
-    })
-
     return next => action => {
         if( action.type === 'io' ){
-            console.log(action.meta.event)
+            process.env.NODE_ENV === 'development' && console.log({ event: action.meta.event, data: action.data })
             socket.emit(action.meta.event, action.data)
         }
         return next(action)
