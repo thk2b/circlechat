@@ -1,7 +1,7 @@
 const { Router } = require('express')
 const router = new Router()
 
-const { messages } = require('../core')
+const { messages } = require('../service')
 router.route('/')
     .get((req, res) => {
         messages.get()

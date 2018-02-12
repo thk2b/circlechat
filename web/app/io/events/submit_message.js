@@ -1,4 +1,4 @@
-const { message } = require('../../core')
+const { message } = require('../../service')
 
 module.exports = function(socket, io, { text }){
     message.create(text)

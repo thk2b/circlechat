@@ -2,7 +2,7 @@ const Promise = require('bluebird')
 const socketIo = require('socket.io')
 
 const events = require('./events')
-const { user } = require('../core')
+const { user } = require('../service')
 
 
 module.exports = function(server){

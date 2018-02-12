@@ -1,4 +1,4 @@
-const { user } = require('../../core')
+const { user } = require('../../service')
 
 module.exports = function(io, socket, data){
     user.leave()
