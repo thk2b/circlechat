@@ -1,10 +1,5 @@
-const bodyParser = require('body-parser')
+const api = require('./api')
+const server = require('http').Server(api)
+const io = require('./io')(server)
 
-const app = require('express')()
-const server = require('http').Server(app)
-const io = require('socket.io')(server)
-
-require('./api')(app)
-require('./io')(io)
-
-exports = module.exports = server
+module.exports = server

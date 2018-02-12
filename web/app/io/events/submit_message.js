@@ -1,20 +1,19 @@
-const SQL = require('sql-template-strings')
-const db = require('../../db')
+const { messages } = require('../../core')
 
 module.exports = function(socket, io, { text }){
+    //TODO: validate text -> duck check?
+
     const created_at = Date.now()
-    db.one(SQL`
-        INSERT INTO message (text, created_at)
-        VALUES (${text}, ${created_at})
-        RETURNING id;
-    `).then(({ id }) => {
-        io.emit('ADD_MESSAGE', JSON.stringify({
-            id,
-            text,
-            created_at
-        }))
-    })
-    .catch(e => {
-        socket.emit('ADD_MESSAGE_FAILURE')
-    })
+    
+    messages.create()
+        .then(({ id }) => {
+            io.emit('ADD_MESSAGE', JSON.stringify({
+                id,
+                text,
+                created_at
+            }))
+        })
+        .catch(e => {
+            socket.emit('ADD_MESSAGE_FAILURE')
+        })
 }

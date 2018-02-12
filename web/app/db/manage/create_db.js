@@ -1,5 +1,5 @@
 const db = require('../db')
-const create = require('../db/create')
+const { create } = require('../schema')
 
 create(db)
     .then(console.log('success: created database tables'))

@@ -1,5 +1,5 @@
 const db = require('../db')
-const drop = require('../db/drop')
+const { drop } = require('../schema')
 
 if(process.env.NODE_ENV === 'prod'){
     console.error('refusing to drop production DB. Do it manually.')

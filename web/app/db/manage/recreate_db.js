@@ -1,6 +1,5 @@
 const db = require('../db')
-const drop = require('../db/drop')
-const create = require('../db/create')
+const { create, drop } = require('../schema')
 
 drop(db)
     .then(() => create(db))

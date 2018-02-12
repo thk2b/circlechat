@@ -5,12 +5,9 @@ chai.use(require('chai-http'))
 
 const server = require('../../server')
 const db = require('../../db')
-const create = require('../../db/create')
-const seed = require('../../db/seed')
-const drop = require('../../db/drop')
+const { create, seed, drop } = require('../../db/schema')
 
 const ENDPOINT = '/api/messages/'
-
 
 describe(`${ENDPOINT} endpoint`, function(){
     before(function(done){

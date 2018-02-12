@@ -1,4 +1,4 @@
-const SQL = require('sql-template-strings')
+// const SQL = require('sql-template-strings')
 const Promise = require('bluebird')
 
 module.exports = function(db){

@@ -3,8 +3,7 @@ const io = require('socket.io-client')
 
 const server = require('../../server')
 const db = require('../../db')
-const create = require('../../db/create')
-const drop = require('../../db/drop')
+const { create, drop } = require('../../db/schema')
 
 const TEST_PORT = 4
 const SOCKET_URL = `http://localhost:${TEST_PORT}`

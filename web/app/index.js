@@ -1,7 +1,9 @@
-const server = require('./server')
+const bodyParser = require('body-parser')
 
 const config = require('./config')
-console.log('aa')
+
+const server = require('./server')
+
 server.listen(config.port, () => {
     console.log(`app listening on port ${config.port}. NODE_ENV is ${process.env.NODE_ENV}`)
 })
