@@ -1,5 +1,6 @@
 const path = require('path')
 
+/* register event names here */
 const events = [
     'connection',
     'disconnect',
