@@ -1,8 +1,7 @@
-const { messages } = require('../../core')
+const { message } = require('../../core')
 
 module.exports = function(socket, io, { text }){
-    //TODO: validate text -> duck check?
-    messages.create(text)
+    message.create(text)
         .then(message => {
             io.emit('ADD_MESSAGE', JSON.stringify(message))
         })
