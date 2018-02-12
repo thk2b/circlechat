@@ -2,18 +2,11 @@ const { messages } = require('../../core')
 
 module.exports = function(socket, io, { text }){
     //TODO: validate text -> duck check?
-
-    const created_at = Date.now()
-    
-    messages.create()
-        .then(({ id }) => {
-            io.emit('ADD_MESSAGE', JSON.stringify({
-                id,
-                text,
-                created_at
-            }))
+    messages.create(text)
+        .then(message => {
+            io.emit('ADD_MESSAGE', JSON.stringify(message))
         })
         .catch(e => {
-            socket.emit('ADD_MESSAGE_FAILURE')
+            socket.emit('SUBMIT_MESSAGE_ERROR', e)
         })
 }

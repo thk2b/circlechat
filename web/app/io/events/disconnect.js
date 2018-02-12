@@ -1,8 +1,11 @@
-const redis = require('../../redis')
+const { user } = require('../../core')
 
 module.exports = function(io, socket, data){
-    redis.incrby('online_users_count', -1, (err, count) => {
-        if(err) return 
-        io.emit('UPDATE_ONLINE_USERS_COUNT', count)
-    })
+    user.leave()
+        .then(newOnlineCount => {
+            io.emit('UPDATE_ONLINE_USERS_COUNT', newOnlineCount)
+        })
+        .catch(e => {
+            console.error(e)
+        })
 }

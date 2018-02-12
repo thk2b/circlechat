@@ -25,7 +25,12 @@ describe('submit message event', function(){
     })
 
     it('should not emit when the message is empty', function(done){
-        done(new Error('not implemented'))
+        const payload = { text: '' }
+        const client1 = io.connect(SOCKET_URL, options)
+        client1.once('SUBMIT_MESSAGE_ERROR', () => done())
+        client1.once('connect', () => {
+            client1.emit('SUBMIT_MESSAGE', payload)
+        })
     })
     it('should emit when the message is valid, and save the message to the database', function(done){
         const payload = { text: 'hello I am a teapot' }

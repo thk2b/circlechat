@@ -1,4 +1,4 @@
-const db = require('../db')
+const db = require('../')
 const { drop } = require('../schema')
 
 if(process.env.NODE_ENV === 'prod'){

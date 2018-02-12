@@ -36,26 +36,28 @@ describe('connection event', function(){
             })
         })
     })
-    it('should emit `UPDATE_ONLINE_USERS_COUNT`', function(done){
+    it('should emit `UPDATE_ONLINE_USERS_COUNT` when users connect', function(done){
         const client1 = io.connect(SOCKET_URL, options)
-        
-        client1.once('UPDATE_ONLINE_USERS_COUNT', count => {
-            expect(count).to.equal(1)
-        })
         client1.on('connect', () => {
-
             const client2 = io.connect(SOCKET_URL, options)
             client2.once('UPDATE_ONLINE_USERS_COUNT', count => {
+                expect(count).to.equal(2, 'there should be 2 online users after client2 connects')
                 client1.disconnect()
                 client2.disconnect()
-                expect(count).to.equal(2)
-
-                const client3 = io.connect(SOCKET_URL, options)
-                client3.once('UPDATE_ONLINE_USERS_COUNT', count => {
-                    expect(count).to.equal(1)
-                    done()
-                })
+                done()
             })
         })
+    })
+    it('should emit `UPDATE_ONLINE_USERS_COUNT` when users disconnect', function(done){
+        const client1 = io.connect(SOCKET_URL, options)
+        client1.on('disconnect', () => {
+            const client2 = io.connect(SOCKET_URL, options)
+            client2.once('UPDATE_ONLINE_USERS_COUNT', count => {
+                expect(count).to.equal(1)
+                client1.disconnect()
+                done()
+            })
+        })
+        client1.on('connect', () => client1.disconnect())
     })
 })

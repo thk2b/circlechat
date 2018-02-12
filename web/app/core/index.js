@@ -1,6 +1,6 @@
 const messages = require('./messages')
-const users = require('./users')
+const user = require('./user')
 
 module.exports = {
-    messages, users
+    messages, user
 }

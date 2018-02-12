@@ -5,10 +5,10 @@ const { messages } = require('../core')
 router.route('/')
     .get((req, res) => {
         messages.get()
-            .then(res.json)
-            .catch(({ e }) => {
-                res.status(e.status || 500)
-                res.json(e.message)
+            .then(messages => res.json(messages))
+            .catch(({ status, message }) => {
+                res.status(status || 500)
+                res.json(message)
             })
     })
 

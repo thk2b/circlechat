@@ -1,5 +1,5 @@
-const db = require('../db')
-const { seed } = require('../db/schema')
+const db = require('../')
+const { seed } = require('../schema')
 
 seed(db)
     .then((data) => {
