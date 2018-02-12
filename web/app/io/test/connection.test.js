@@ -38,14 +38,16 @@ describe('connection event', function(){
     })
     it('should emit `UPDATE_ONLINE_USERS_COUNT` when users connect', function(done){
         const client1 = io.connect(SOCKET_URL, options)
+        const counts = []
+        client1.on('UPDATE_ONLINE_USERS_COUNT', count => {
+            counts.push(count)
+            if(counts.length === 2){
+                expect(counts).to.deep.equal([1,2])
+                done()
+            }
+        })
         client1.on('connect', () => {
             const client2 = io.connect(SOCKET_URL, options)
-            client2.once('UPDATE_ONLINE_USERS_COUNT', count => {
-                expect(count).to.equal(2, 'there should be 2 online users after client2 connects')
-                client1.disconnect()
-                client2.disconnect()
-                done()
-            })
         })
     })
     it('should emit `UPDATE_ONLINE_USERS_COUNT` when users disconnect', function(done){

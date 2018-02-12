@@ -36,7 +36,6 @@ describe('submit message event', function(){
         const payload = { text: 'hello I am a teapot' }
         const client1 = io.connect(SOCKET_URL, options)
         client1.once('ADD_MESSAGE', message => {
-            message = JSON.parse(message)
             expect(message.text).to.equal(payload.text)
             expect(message.created_at).to.exist
             expect(message.id).to.exist
