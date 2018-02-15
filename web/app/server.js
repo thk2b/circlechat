@@ -1,4 +1,4 @@
-const express, { Router } = require('express')
+const express = require('express')
 const app = express()
 const server = require('http').Server(app)
 const io = require('socket.io')(server)
@@ -10,13 +10,12 @@ const {
 
 /* API */
 
-const api = new Router()
+const api = new express.Router()
 
-api.use('/auth', auth.router)
 api.use('/user', user.router)
 api.use('/message', message.router)
 
-app.use('/api/v1/', api)
+app.use('/api/v1', api)
 
 /* SOCKET.IO */
 
