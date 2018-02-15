@@ -13,7 +13,7 @@ module.exports = {
         .catch(e => reject(e))
     }),
     drop: () => new Promise((resolve, reject) => {
-        db.none(`DROP TABLE message`)
+        db.none(`DROP TABLE IF EXISTS message`)
         .then(() => resolve())
         .catch(e => reject(e))
     })

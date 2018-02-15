@@ -9,11 +9,11 @@ module.exports = {
      */
     init: () => new Promise((resolve, reject) => {
         db.any(`
-            CREATE TABLE user (
+            CREATE TABLE "user" (
                 id SERIAL NOT NULL,
-                name VARCHAR(256),
-                email VARCHAR(256),
-                pw VARCHAR(256),
+                name VARCHAR(256) NOT NULL,
+                email VARCHAR(256) NOT NULL,
+                pw VARCHAR(256) NOT NULL,
                 PRIMARY KEY (id)
             )
         ;`).then(() => resolve())
@@ -25,7 +25,7 @@ module.exports = {
     create: ({ id, name, email, pw }) => new Promise((resolve, reject) => {
         //TODO: hash pw
         db.any(SQL`
-            INSERT INTO user (id, name, email, pw)
+            INSERT INTO "user" (id, name, email, pw)
             VALUES (${id}, ${name}, ${email}, ${pw})
             RETURNING *
         ;`)
@@ -36,7 +36,7 @@ module.exports = {
      * Get all users
      */
     all: () => new Promise((resolve, reject) => {
-        db.any(`SELECT * FROM user;`)
+        db.any(`SELECT * FROM "user";`)
         .then(users => resolve(users))
         .catch(e => reject(e))
     }),
@@ -45,7 +45,7 @@ module.exports = {
      */
     get: id => new Promise((resolve, reject) => {
         db.any(SQL`
-            SELECT * FROM user 
+            SELECT * FROM "user" 
             WHERE id=${id}
         ;`)
         .then(user => resolve(user))
@@ -64,7 +64,7 @@ module.exports = {
 
     }),
     drop: () => new Promise((resolve, reject) => {
-        db.none(`DROP TABLE user`)
+        db.none(`DROP TABLE IF EXISTS "user"`)
         .then(() => resolve())
         .catch(e => reject(e))
     })

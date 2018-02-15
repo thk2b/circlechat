@@ -7,9 +7,9 @@ const modules = require('../modules')
 
 function drop(){
     const promises = Object.entries(modules).map(
-        m => {
-            if(typeof m.service.drop === 'function'){
-                return m.service.drop()
+        ([name, _module]) => {
+            if(_module.service.drop !== undefined){
+                return _module.service.drop()
             }
         }
     )
@@ -22,8 +22,9 @@ if(require.main === module){
         process.exit(0)
     }
     drop()
-    .then(() => console.log('droped database'))
-    .catch(e => console.error('failed to drop database: ', e))
+        .then(() => console.log('droped database'))
+        .catch(e => console.error('failed to drop database: ', e))
+        .finally(() => process.exit())
 }
 
-module.exports = create
+module.exports = drop
