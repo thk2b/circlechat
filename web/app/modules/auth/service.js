@@ -1,7 +1,9 @@
 const Promise = require('bluebird')
 const SQL = require('sql-template-strings')
-const { hash } = require('bcrypt-as-promised')
+const bcrypt = require('bcrypt-as-promised')
+const jwt = require('jsonwebtoken')
 
+const config = require('../../config')
 const db = require('../../db')
 
 module.exports = {
@@ -32,7 +34,7 @@ module.exports = {
      * Register a user
      */
     register: ({ userId, email, pw }) => new Promise((resolve, reject) => {
-        hash(pw, 10)
+        bcrypt.hash(pw, 10)
             .then(hashedPw => db.one(SQL`
                 INSERT INTO auth ("userId", email, pw)
                 VALUES (${userId}, ${email}, ${hashedPw})
@@ -41,7 +43,7 @@ module.exports = {
             .then(id => resolve(id))
             .catch(e => {
                 if(e.code === '23505'){
-                    return reject({ code: 409, message: `userId or email already in use`})
+                    return reject({ code: 409, message: `user id or email already in use`})
                 }
                 reject(e)
             })
@@ -50,7 +52,21 @@ module.exports = {
      * Login a user
      */
     login: ({ userId, email, pw }) => new Promise((resolve, reject) => {
-
+        db.one(SQL`
+            SELECT "userId" as id, pw as "hashedPw" FROM auth 
+            WHERE "userId"=${userId} or email=${email}
+        ;`)        
+        .then(({ id, hashedPw}) => {
+            userId = id
+            return bcrypt.compare(pw, hashedPw)
+        })
+        .then(() => {
+            jwt.sign(userId, config.secret, (e, token) => {
+                if(e) reject(e)
+                resolve(token)
+            })
+        })
+        .catch(e => reject({ code: 401, message: 'invalid credentials' }))
     }),
     /**
      * update credentials with keys

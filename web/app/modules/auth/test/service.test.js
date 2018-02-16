@@ -48,34 +48,102 @@ describe('auth service', function(){
                 .then(() => done(new Error()))
                 .catch(e => {
                     expect(e).to.deep.equal({
-                        code: 409, message: 'userId or email already in use'
+                        code: 409, message: 'user id or email already in use'
                     })
-                    done()
                 })
+                .then(() => done())
+                .catch(e => done(e))
         })
         it('should refuse duplicate userId', function(done){
             service.register({...credentials, email: 'test2@test.cc'})
                 .then(() => done(new Error()))
                 .catch(e => {
                     expect(e).to.deep.equal({
-                        code: 409, message: 'userId or email already in use'
+                        code: 409, message: 'user id or email already in use'
                     })
-                    done()
                 })
+                .then(() => done())
+                .catch(e => done(e))
         })
     })
 
     describe('login', function(){
-        before(function(done){
-            recreate()
+        const { userId, email, pw } = credentials
+        it('should refuse invalid userId', function(done){
+            service.login({ userId: 'idonotexist', pw})
+                .then(() => done(new Error()))
+                .catch(e => {
+                    expect(e).to.deep.equal({
+                        code: 401, message: 'invalid credentials'
+                    })
+                })
                 .then(() => done())
                 .catch(e => done(e))
         })
-        it('', function(done){
-            done(false)
+        
+        it('should refuse invalid email', function(done){
+            service.login({ email: 'idonotexist@test.cc', pw})
+                .then(() => done(new Error()))    
+                .catch(e => {
+                    expect(e).to.deep.equal({
+                        code: 401, message: 'invalid credentials'
+                    })
+                })
+                .catch(e => done(e))
+                .then(() => done())
         })
+
+        it('should refuse valid email and invalid password', function(done){
+            service.login({ email, pw: 'hunter0' })
+                .then(() => done(new Error()))
+                .catch(e => {
+                    expect(e).to.deep.equal({
+                        code: 401, message: 'invalid credentials'
+                    })
+                })
+                .then(() => done())
+                .catch(e => done(e))
+        })
+
+        it('should refuse valid userId and invalid password', function(done){
+            service.login({ email, pw: 'hunter0' })
+                .then(() => done(new Error()))
+                .catch(e => {
+                    expect(e).to.deep.equal({
+                        code: 401, message: 'invalid credentials'
+                    })
+                })
+                .then(() => done())
+                .catch(e => done(e))
+        })
+
+        it('should accept valid userId and valid password', function(done){
+            service.login({ userId, pw})
+                .then(token => {
+                    expect(token).to.be.a.string
+                })
+                .then(() => done())
+                .catch(e => done(e))
+        })        
+        it('should accept valid email and valid password', function(done){
+            service.login({ email, pw})
+                .then(token => {
+                    expect(token).to.be.a.string
+                })
+                .then(() => done())
+                .catch(e => done(e))
+        })
+
     })
 
+    // describe('verifyToken', function(){
+    //     it('should reject an invalid token', function(done){
+            
+    //     })
+    //     it('should resolve with userId when given a valid token', function(done){
+            
+    //     })
+    // })
     describe('update', function(){
         before(function(done){
             recreate()
