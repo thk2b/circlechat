@@ -42,10 +42,15 @@ module.exports = {
             ;`))
             .then(id => resolve(id))
             .catch(e => {
-                if(e.code === '23505'){
-                    return reject({ code: 409, message: `user id or email already in use`})
+                switch(e.code){
+                    case '23505': // violates unique constraint
+                        return reject({ code: 409, message: `user id or email already in use`})
+                    case '23502': // violates null constraint
+                        return reject({ code: 422, message: `incomplete credentials`})
+                    default:
+                        console.error(e)
+                        return reject({ code: 500, message: 'internal server error', data: e})
                 }
-                reject(e)
             })
     }),
     /**

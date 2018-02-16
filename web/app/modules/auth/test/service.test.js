@@ -32,13 +32,24 @@ describe('auth service', function(){
                 .catch(e => done(e))
         })
 
-        it('should save credentials to the database', function(done){
+        it('should save valid credentials to the database', function(done){
             service.register(credentials)
                 .then(id => db.any('SELECT * FROM auth'))
                 .then(([creds]) => {
                     expect(creds.email).to.equal(credentials.email)
                     expect(creds.userId).to.equal(credentials.userId)
                     expect(creds.pw).not.to.equal(credentials.pw, 'password should be hashed')
+                })
+                .then(() => done())
+                .catch(e => done(e))
+        })
+        it('should refuse incomplete data', function(done){
+            service.register({...credentials, userId: undefined})
+                .then(() => done(new Error()))
+                .catch(e => {
+                    expect(e).to.deep.equal({
+                        code: 422, message: 'incomplete credentials'
+                    })
                 })
                 .then(() => done())
                 .catch(e => done(e))
