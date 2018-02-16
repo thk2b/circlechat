@@ -1,5 +1,6 @@
 const chai = require('chai')
 const { expect, assert } = chai
+const SQL = require('sql-template-strings')
 
 const { recreate } = require('../../../manage')
 const db = require('../../../db')
@@ -21,12 +22,10 @@ describe('auth service', function(){
         email: 'test@test.cc', 
         pw: 'hunter2'
     }
-
-    describe('register', function(){    
-        before(function(){
-            return recreate()
-        })
-
+    before(function(){
+        return recreate()
+    })
+    describe('register', function(){
         it('should save valid credentials to the database', function(){
             return service.register(credentials)
             .then(id => db.any('SELECT * FROM auth'))
@@ -142,24 +141,45 @@ describe('auth service', function(){
         })
     })
     describe('update', function(){
-        before(function(done){
-            recreate()
-                .then(() => done())
-                .catch(e => done(e))
+        const { userId, email, pw } = credentials
+
+        it('should not update userId', function(){
+            return service.update(userId, { userId: 'newId' })
         })
-        it('', function(done){
-            done(false)
+        it('should update email', function(){
+            return service.update(userId, { email: 'new@email.cc' })
+            .then(data => {
+                expect(data.email).to.equal(email)
+            })
+        })
+
+        it('should update and hash password', function(){
+            return db.one(SQL`SELECT pw as "oldPw" FROM auth WHERE "userId"=${userId}`)
+            .then(({ oldPw }) => {
+                service.update(userId, { pw: 'muuuch better passphrase' })
+                .then(data => {
+                    expect(data.email).to.equal(email)
+                    expect(data.userId).to.equal(userId)
+                    expect(data.pw).not.to.equal(oldPw)
+                    expect(data.pw).not.to.equal('newpw', 'password should be hashed')
+                })
+            })
+        })
+        it('should update both email an password at once', function(){
+            const payload = { pw: 'newpw', email: 'new@email2.cc' }
+            return service.update(userId, payload)
+            .then(data => {
+                console.log(data)
+                expect(data.email).to.equal(payload.email)
+            })
         })
     })
 
     describe('delete', function(){
-        before(function(done){
-            recreate()
-                .then(() => done())
-                .catch(e => done(e))
-        })
-        it('', function(done){
-            done(false)
+        it('should remove the credentials', function(){
+            return service.remove(credentials.userId)
+            .then(() => db.one(SQL`SELECT EXISTS (SELECT * FROM auth WHERE "userId"=${credentials.userId});`))
+            .then(({ exists }) => expect(exists).to.be.false) 
         })
     })
 })

@@ -3,6 +3,8 @@ const SQL = require('sql-template-strings')
 const bcrypt = require('bcrypt-as-promised')
 const jwt = require('jsonwebtoken')
 
+const bulkSet = require('../../lib/bulkSet')
+
 const config = require('../../config')
 const db = require('../../db')
 
@@ -93,10 +95,47 @@ function verifyToken(token){
     })
 }
 
+function updatePw(id, newPw){
+    return new Promise((resolve, reject) => {
+        bcrypt.hash(newPw, 10)
+        .then(hashedPw => db.one(SQL`
+            UPDATE auth 
+            SET pw=${hashedPw}
+            WHERE "userId"=${id};`))
+        .then(() => resolve(id))
+        .catch(e => reject(e))
+    })
+}
 /**
  * update credentials with keys
  */
-function update({ id, keys }){
+function update(id, obj){
+    // // check object: do not update userId; hash new pw.
+    // if(obj['userId'] !== undefined){
+    //     delete obj['userId']
+    // }
+    // let updatingPwPromise = undefined
+    // if(obj['pw'] !== undefined){
+    //     updatingPwPromise = updatePw(id, obj['pw'])
+    //     delete obj['pw']
+    // }
+
+    // const { setStatement, values } = bulkSet(obj)
+    // values.push(id)
+    // const query = `
+    //     UPDATE auth 
+    //     SET ${setStatement} 
+    //     WHERE "userId"=($${values.length}) 
+    //     RETURNING *
+    // ;`
+    // console.log(query)
+    // if(updatingPwPromise){
+    //     return Promise.all(
+    //         updatingPwPromise,
+    //         db.any(query, values)
+    //     )
+    // } else return db.any(query, values)
+    // // .then(data => console.log(data))
     return new Promise((resolve, reject) => {
         reject(new Error('not implemented'))
     })
@@ -107,7 +146,12 @@ function update({ id, keys }){
  */
 function remove(id){
     return new Promise((resolve, reject) => {
-        reject(new Error('not implemented'))
+        db.any(SQL`DELETE FROM auth WHERE "userId"=${id}`)
+        .then(resolve(true))
+        .catch(e => {
+            console.error(e)
+            reject({ code: 500, message: 'could not delete', data: e})
+        })
     })
 }
 
