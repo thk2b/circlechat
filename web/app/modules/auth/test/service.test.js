@@ -68,7 +68,7 @@ describe('auth service', function(){
     describe('login', function(){
         const { userId, email, pw } = credentials
         it('should refuse invalid userId', function(){
-            return service.login({ userId: 'idonotexist', pw})
+            return service.login({ userId: 'idonotexist', pw })
             .then(() => { throw new Error('should not resolve')})
             .catch(e => {
                 expect(e).to.deep.equal({
@@ -78,7 +78,7 @@ describe('auth service', function(){
         })
         
         it('should refuse invalid email', function(){
-            return service.login({ email: 'idonotexist@test.cc', pw})
+            return service.login({ email: 'idonotexist@test.cc', pw })
             .then(() => { throw new Error('should not resolve')})
             .catch(e => {
                 expect(e).to.deep.equal({
@@ -108,13 +108,13 @@ describe('auth service', function(){
         })
 
         it('should accept valid userId and valid password', function(){
-            return service.login({ userId, pw})
+            return service.login({ userId, pw })
             .then(token => {
                 expect(token).to.be.a.string
             })
         })        
         it('should accept valid email and valid password', function(){
-            return service.login({ email, pw})
+            return service.login({ email, pw })
             .then(token => {
                 expect(token).to.be.a.string
             })
@@ -123,14 +123,14 @@ describe('auth service', function(){
     })
 
     describe('verifyToken', function(){
-        it('should reject an invalid token', function(){
+        it('should resolve with userId when given a valid token', function(){
             return service.login(credentials)
             .then(service.verifyToken)
             .then(decodedToken => {
                 expect(decodedToken).to.equal(credentials.userId)
             })
         })
-        it('should resolve with userId when given a valid token', function(){
+        it('should reject an invalid token', function(){
             return service.verifyToken('obviously fake token. try harder.')
             .then(() => { throw new Error('should not resolve')})
             .catch(e => {
