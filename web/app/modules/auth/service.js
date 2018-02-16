@@ -84,6 +84,15 @@ function login({ userId, email, pw }){
     })
 }
 
+function verifyToken(token){
+    return new Promise((resolve, reject) => {
+        jwt.verify(token, config.secret, (e, decodedToken) => {
+            if(e) reject({ code: 401, message: 'invalid token'})
+            resolve(decodedToken)
+        })
+    })
+}
+
 /**
  * update credentials with keys
  */
@@ -107,6 +116,7 @@ module.exports = {
     drop,
     register,
     login,
+    verifyToken,
     update,
     remove
 }
