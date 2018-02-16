@@ -1,5 +1,6 @@
 const Promise = require('bluebird')
 const SQL = require('sql-template-strings')
+const { hash } = require('bcrypt-as-promised')
 
 const db = require('../../db')
 
@@ -31,12 +32,12 @@ module.exports = {
      * Register a user
      */
     register: ({ userId, email, pw }) => new Promise((resolve, reject) => {
-        //TODO: hash pw
-        db.one(SQL`
-            INSERT INTO auth ("userId", email, pw)
-            VALUES (${userId}, ${email}, ${pw})
-            RETURNING "userId"
-        ;`)
+        hash(pw, 10)
+            .then(hashedPw => db.one(SQL`
+                INSERT INTO auth ("userId", email, pw)
+                VALUES (${userId}, ${email}, ${hashedPw})
+                RETURNING "userId"
+            ;`))
             .then(id => resolve(id))
             .catch(e => {
                 if(e.code === '23505'){
