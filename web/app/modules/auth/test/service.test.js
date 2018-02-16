@@ -13,18 +13,26 @@ describe('auth service', function(){
     })
 
     describe('register / create', function(){
-        it('', function(done){})
+        it('', function(done){
+            done(false)
+        })
     })
 
     describe('login', function(){
-        it('', function(done){})
+        it('', function(done){
+            done(false)
+        })
     })
 
     describe('update', function(){
-        it('', function(done){})
+        it('', function(done){
+            done(false)
+        })
     })
 
     describe('delete', function(){
-        it('', function(done){})
+        it('', function(done){
+            done(false)
+        })
     })
 })

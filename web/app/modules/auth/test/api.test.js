@@ -10,7 +10,7 @@ const { recreate } = require('../../../manage')
 
 const API_URL = ''
 
-describe(endpoint, function(){
+describe(API_URL, function(){
     before(function(done){
         server.listen(1, () => done())
     })
@@ -32,7 +32,7 @@ describe(endpoint, function(){
             done(false)
         })
     })
-    
+
     describe(`PUT ${API_URL}/:id`, function(){
         it('', function(done){
             done(false)

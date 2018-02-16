@@ -12,8 +12,9 @@ const {
 
 const api = new express.Router()
 
-api.use('/user', user.router)
-api.use('/message', message.router)
+// api.use('/auth', auth.router)
+// api.use('/user', user.router)
+// api.use('/message', message.router)
 
 app.use('/api/v1', api)
 
