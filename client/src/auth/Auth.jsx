@@ -1,34 +1,33 @@
 import React from 'react'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 import { Input, Button } from '../lib/components'
+
+import { login, register } from './actions'
+import LoginForm from './LoginForm'
+import RegisterForm from './RegisterForm'
 
 import css from './Auth.css'
 
 class Auth extends React.Component {
     constructor(props) {
       super(props)
-    
-      this.state = {
-         
-      }
+      this.state = { isRegistering: false }
     }
+    
+    toggleRegister = () => this.setState({ isRegistering: !this.state.isRegistering})
 
-    handleSubmit(e){
-        e.preventDefault()
-    }
-    
     render() {
+        const { login, register } = this.props
+        const { isRegistering } = this.state
+
         return (
-        <div className={css.Auth}>
-            <form onSubmit={e => this.handleSubmit(e)}>
-                <h1>Log in</h1>
-                <Input placeholder="id or email"/>
-                <Input placeholder="password"/>
-                <Button>Log in</ Button>
-                <Button underlined>Register</ Button>
-            </form>
-        </div>
+        <div className={css.Auth}>{
+            isRegistering
+                ?<RegisterForm onSubmit={data => register(data)} onSecondary={e => this.toggleRegister()}/>
+                :<LoginForm onSubmit={login} onSecondary={e => this.toggleRegister()}/>
+        }</div>
     )
   }
 }
@@ -38,7 +37,7 @@ const mapState = state => {
 }
 
 const mapDispatch = dispatch => {
-    return {}
+    return bindActionCreators({ login, register }, dispatch)
 }
 
 export default connect(mapState, mapDispatch)(Auth)

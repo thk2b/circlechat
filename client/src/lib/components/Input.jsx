@@ -7,7 +7,7 @@ export default ({ value, placeholder=null, onChange, ...rest }) => {
     <input className={css.Input}
         value={value}
         placeholder={placeholder}
-        onChange={onChange}
+        onChange={e => onChange(e.target.value, e)}
         {...rest}
     />
   )

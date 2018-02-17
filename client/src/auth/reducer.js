@@ -9,8 +9,8 @@ function localReducer(state, action){
 function loginReducer(state, action){
     switch(action.type){
         case 'POST':
-            if(action.status === 200){
-
+            if(action.status === 201){
+                return { token: action.token }
             } else {
         
             }
@@ -30,8 +30,8 @@ function authReducer(state, action){
             }
             return state
         case 'POST':
-            if(action.status === 200){
-
+            if(action.status === 201){
+                console.log(action.data)
             } else {
                 
             }
@@ -43,20 +43,25 @@ function authReducer(state, action){
 }
 
 function networkReducer(state, action){
-    switch(action.url){
-        case 'auth/login':
-            loginReducer(state, action)
-        case 'auth/':
-            authReducer(state, action)
+    switch(action.resource){
+        case '/auth/login':
+            return loginReducer(state, action)
+        case '/auth/':
+            return authReducer(state, action)
+        default: return state
     }
 }
 
-export default function(state, action){
-    if(action.network !== undefined){
-        if(validateIncomingNetworkAction(action)){
-            return networkReducer(state, action)
+export default function(state = { token: null }, action){
+    if(action.network){
+        if(action.status){ /* incoming request */
+            if(validateIncomingNetworkAction(action)){
+                return networkReducer(state, action)
+            }
+            console.error('invalid incoming network action: ', action)
+        } else { /* outgoing action */
+            // set a flag: outgoing request
         }
-        console.error('invalid incoming network action: ', action)
         return state
     } else {
         return localReducer(state, action)

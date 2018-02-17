@@ -1,17 +1,17 @@
-export const login = payload => {
+export const login = data => {
     return {
         network: 'http',
         resource: '/auth/login',
         type: 'POST',
-        payload
+        data
     }
 }
 
-export const register = payload => {
+export const register = data => {
     return {
         network: 'http',
         resource: '/auth',
         type: 'POST',
-        payload
+        data
     }
 }
