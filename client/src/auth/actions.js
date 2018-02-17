@@ -1,7 +1,7 @@
 export const login = payload => {
     return {
         network: 'http',
-        url: '/auth/login',
+        resource: '/auth/login',
         type: 'POST',
         payload
     }
@@ -10,7 +10,7 @@ export const login = payload => {
 export const register = payload => {
     return {
         network: 'http',
-        url: '/auth',
+        resource: '/auth',
         type: 'POST',
         payload
     }

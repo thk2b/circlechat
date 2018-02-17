@@ -1,5 +1,14 @@
 import validateOutgoingNetworkAction from '../lib/validateOutgoingNetworkAction'
 
+// on the server: 
+// socket.emit('/message', {
+//     meta: {
+//         status: 201,
+//         type: 'POST'
+//     },
+//     data: {id: 1, text: 'hi'}
+// })
+
 const handle = dispatch => ({ meta, data }) => {
     const action = {
         // ...meta
