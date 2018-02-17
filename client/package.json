@@ -16,8 +16,8 @@
     "autoscroll-react": "2.0.4",
     "socket.io-client": "^2.0.4"
   },
-  "devDependencies":{
-    "create-react-app":"^1.4.3",
+  "devDependencies": {
+    "create-react-app": "^1.4.3",
     "react-scripts": "1.0.17"
   },
   "scripts": {
