@@ -1,17 +1,17 @@
 import Promise from 'promise'
 import axios from 'axios'
-import validateOutgoingNetworkAction from './lib/validateOutgoingNetworkAction'
+import validateOutgoingNetworkAction from '../lib/validateOutgoingNetworkAction'
 
 const makeRequest = (url, verb, data) => {
     switch(verb){
         case 'GET':
-            return axios.get(action.url)
+            return axios.get(url)
         case 'POST':
-            return axios.post(action.url, action.payload)
+            return axios.post(url, data)
         case 'PUT':
-            return axios.post(action.url, action.payload)
+            return axios.post(url, data)
         case 'DELETE':
-            return axios.post(action.url)
+            return axios.post(url)
         default:
             return new Promise((_, reject) => reject(new Error('invalid http verb: ', verb)))
     }
@@ -21,7 +21,7 @@ export default apiUrl => store => next => action => {
     if(action.network === 'http'){
         if(validateOutgoingNetworkAction(action)){
             console.log('outgoing http request: ', action)
-            makeRequest(apiUrl + action.url)
+            makeRequest(apiUrl + action.resource, action.type, action.payload)
             .then(res => {
                 return {
                     ...action,

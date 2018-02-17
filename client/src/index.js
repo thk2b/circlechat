@@ -9,20 +9,21 @@ import { ConnectedRouter, routerReducer as router, routerMiddleware } from 'reac
 
 // import registerServiceWorker from './registerServiceWorker'
 import { App } from './app'
-import { messages } from './messages'
 
 import themes from './themes'
-import createSocketioMiddleware from './socketIoMiddleware'
+
+import { createApiMiddleware, createSocketIoMiddleware } from './middleware'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const history = createHistory()
 const store = createStore(
-    combineReducers({ router, themes, messages }),
+    combineReducers({ router, themes }),
     composeEnhancers( 
         applyMiddleware(
             thunk,
-            createSocketioMiddleware(io(`${document.location.hostname}`)),
+            createApiMiddleware(`${document.location.hostname}/api/v1/`),
+            createSocketIoMiddleware(io(`${document.location.hostname}`)),
             routerMiddleware(history)
         )
      )

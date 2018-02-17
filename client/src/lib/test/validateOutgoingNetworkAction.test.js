@@ -8,16 +8,16 @@ describe('validateOutgoingNetworkAction', () => {
         expect(validateOutgoingNetworkAction({
             network: 'wrong',
             type: 'POST',
-            url: 'some/url',
-            payload: { data: 'data' }
+            resource: 'some/url',
+            data: { data: 'data' }
         })).toBe(false)
     })
     test('it should validate valid actions', () => {
         expect(validateOutgoingNetworkAction({
             network: 'http',
             type: 'POST',
-            url: 'some/url',
-            payload: { data: 'data' }
+            resource: 'some/url',
+            data: { data: 'data' }
         })).toBe(true)
     })
 })

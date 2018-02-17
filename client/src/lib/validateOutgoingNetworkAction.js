@@ -2,7 +2,7 @@ import { assert, oneOf } from 'duck-check'
 
 export default assert({
     network: s => s === 'http' || s === 'ws',
-    url: String,
+    resource: String,
     type: String,
-    payload: {}
+    data: {}
 })
