@@ -2,11 +2,10 @@ const chai = require('chai')
 const { expect } = chai
 const request = require('supertest')
 
-
 const server = require('../../../server')
 const db = require('../../../db')
-
 const { recreate } = require('../../../manage')
+const service = require('../service')
 
 const API_URL = '/api/v1/auth'
 
@@ -78,15 +77,72 @@ describe(API_URL, function(){
         })
     })
 
-    describe(`POST ${API_URL}/:id/`, function(){
-        it('', function(done){
-            done(false)
+    describe(`GET ${API_URL}/:id/`, function(){
+        let token
+        before(function(done){
+            service.login(credentials).then(t => {
+                token = t
+                done()
+            }).catch(e => done(e))
+        })
+        it('should not get a user\'s data with an invalid token', function(done){
+            request(server)
+                .get(`${API_URL}/${credentials.userId}`)
+                .set('Authorization', 'bearer ' + 'qwertyuiopasdfghjklzxcvbnm')
+                .expect(401)
+                .end(done)
+        })
+        it('should not get a user\'s data for an invalid id', function(done){
+            request(server)
+                .get(`${API_URL}/wrongid`)
+                .set('Authorization', 'bearer ' + token)
+                // .expect(404)
+                .expect(401) // 404 can never be reached: we check if the ids are identical before checking if they exist
+                .end(done)
+        })
+        it('should get a user\'s data, but not the password', function(done){
+            request(server)
+                .get(`${API_URL}/${credentials.userId}`)
+                .set('Authorization', 'bearer ' + token)
+                .expect(200)
+                .end(done)
         })
     })
 
     describe(`PUT ${API_URL}/:id`, function(){
         it('', function(done){
+            // .set('Authorization', 'bearer ' + token)
             done(false)
+        })
+    })
+    describe(`DELETE ${API_URL}/:id`, function(){
+        let token
+        before(function(done){
+            service.login(credentials).then(t => {
+                token = t
+                done()
+            }).catch(e => done(e))
+        })
+        it('should not delete a user\'s data with an invalid token', function(done){
+            request(server)
+                .delete(`${API_URL}/${credentials.userId}`)
+                .set('Authorization', 'bearer ' + 'qwertyuiopasdfghjklzxcvbnm')
+                .expect(401)
+                .end(done)
+        })
+        it('should not delete a user\'s data when unauthorized', function(done){
+            request(server)
+                .delete(`${API_URL}/someoneelse`)
+                .set('Authorization', 'bearer ' + token)
+                .expect(401)
+                .end(done)
+        })
+        it('should delete a user\'s data when authorized', function(done){
+            request(server)
+                .delete(`${API_URL}/${credentials.userId}`)
+                .set('Authorization', 'bearer ' + token)
+                .expect(202)
+                .end(done)
         })
     })
 })

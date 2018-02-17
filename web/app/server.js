@@ -12,6 +12,19 @@ const {
 
 /* API */
 
+app.use((req, res, next) => {
+    const rawToken = req.headers.authorization
+    if(rawToken){
+        const token = rawToken.split(' ')[1]
+        auth.service.verifyToken(token)
+        .then(userId => req.userId = userId)
+        .catch(e => req.userId = null)
+        .finally(() => next())
+    } else {
+        req.userId = null
+        next()
+    }
+})
 app.use(bodyParser.json())
 
 const api = new express.Router()

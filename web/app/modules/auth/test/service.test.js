@@ -65,8 +65,17 @@ describe('auth service', function(){
     })
 
     describe('get', function(){
+        it('should refuse when the requester is not permitted', function(){
+            service.get('someone', credentials.userId)
+            .then(e => { throw new Error() })
+            .catch(e => {
+                expect(e).to.deep.equal({
+                    code: 401, message: 'unauthorized'
+                })
+            })
+        })
         it('should refuse invalid userId', function(){
-            service.get('nobody')
+            service.get('nobody', 'nobody')
             .then(e => { throw new Error() })
             .catch(e => {
                 expect(e).to.deep.equal({
@@ -74,8 +83,8 @@ describe('auth service', function(){
                 })
             })
         })
-        it('should resolve with a user when the id is valid', function(){
-            service.get(credentials.userId)
+        it('should resolve with a user when the id is valid and the requester is permitted', function(){
+            service.get(credentials.userId, credentials.userId)
             .then(user => {
                 expect(user.userId).to.equal(credentials.userId)
                 expect(user.email).to.equal(credentials.email)
@@ -195,8 +204,26 @@ describe('auth service', function(){
     })
 
     describe('delete', function(){
+        it('should not remove credentials when requester is unauthenticated', function(){
+            return service.remove(null, credentials.userId)
+            .then(() => { throw new Error('should not resolve') })
+            .catch(e => {
+                expect(e).to.deep.equal({
+                    code: 401, message: 'unauthorized'
+                })
+            })
+        })
+        it('should not remove credentials when requester is unauthorized', function(){
+            return service.remove('whatamidoing', credentials.userId)
+            .then(() => { throw new Error('should not resolve') })
+            .catch(e => {
+                expect(e).to.deep.equal({
+                    code: 401, message: 'unauthorized'
+                })
+            })
+        })
         it('should remove the credentials', function(){
-            return service.remove(credentials.userId)
+            return service.remove(credentials.userId, credentials.userId)
             .then(() => db.one(SQL`SELECT EXISTS (SELECT * FROM auth WHERE "userId"=${credentials.userId});`))
             .then(({ exists }) => expect(exists).to.be.false) 
         })

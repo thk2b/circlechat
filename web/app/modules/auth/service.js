@@ -62,16 +62,6 @@ function register({ userId, email, pw }){
         })
     })
 }
-/**
- * Get user with id
- */
-function get(id){
-    return new Promise((resolve, reject) => {
-        db.one(SQL`SELECT "userId", email FROM auth WHERE "userId"=${id};`)
-        .then(data => resolve(data))
-        .catch(e => reject({ code: 404, message: 'user not found'}))
-    })
-}
 
 /**
  * Login a user
@@ -102,6 +92,20 @@ function verifyToken(token){
             if(e) reject({ code: 401, message: 'invalid token'})
             resolve(decodedToken)
         })
+    })
+}
+
+/**
+ * Get user with id
+ */
+function get(requesterId, id){
+    return new Promise((resolve, reject) => {
+        if(requesterId === null || requesterId !== id){
+            reject({ code: 401, message: 'unauthorized' })
+        }
+        db.one(SQL`SELECT "userId", email FROM auth WHERE "userId"=${id};`)
+        .then(data => resolve(data))
+        .catch(e => reject({ code: 404, message: 'user not found'}))
     })
 }
 
@@ -154,8 +158,13 @@ function update(id, obj){
 /**
  * delete credentials
  */
-function remove(id){
+function remove(requesterId, id){
     return new Promise((resolve, reject) => {
+        if(requesterId === null || requesterId !== id){
+            reject({
+                code: 401, message: 'unauthorized'
+            })
+        }
         db.any(SQL`DELETE FROM auth WHERE "userId"=${id}`)
         .then(resolve(true))
         .catch(e => {
@@ -169,9 +178,9 @@ module.exports = {
     init,
     drop,
     register,
-    get,
     login,
     verifyToken,
+    get,
     update,
     remove
 }
