@@ -1,3 +1,4 @@
+import validateOutgoingNetworkAction from './lib/validateOutgoingNetworkAction'
 // import { addMessage } from './messages/actions'
 
 // const events = {
@@ -15,10 +16,16 @@ export default socket => store => {
     // )
     
     return next => action => {
-    //     if( action.type === 'io' ){
-    //         process.env.NODE_ENV === 'development' && console.log({ event: action.meta.event, data: action.data })
-    //         socket.emit(action.meta.event, action.data)
-    //     }
+        if(action.network === 'ws'){
+            if(validateOutgoingNetworkAction(action)){
+                process.env.NODE_ENV === 'development' && console.log({ws: action})
+
+                const payload = {...action.payload, type: action.type}
+                socket.emit(action.url, payload)
+            } else {
+                console.error('invalid outgoing network action: ', action)
+            }
+        }
         return next(action)
     }
 }
