@@ -7,4 +7,5 @@
     overflow: hidden;
     font-family: sans-serif;
     background-color: var(--primary);
+    color: var(--text-color);
 }

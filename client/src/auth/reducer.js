@@ -1,4 +1,4 @@
-import validateNetworkAction from '../lib/validateNetworkAction'
+import validateIncomingNetworkAction from '../lib/validateIncomingNetworkAction'
 
 function localReducer(state, action){
     switch(action.type){
@@ -53,7 +53,7 @@ function networkReducer(state, action){
 
 export default function(state, action){
     if(action.network !== undefined){
-        if(validateNetworkAction(action)){
+        if(validateIncomingNetworkAction(action)){
             return networkReducer(state, action)
         }
         console.error('invalid incoming network action: ', action)
