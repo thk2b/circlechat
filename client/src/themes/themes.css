@@ -1,0 +1,15 @@
+:root, .dark {
+    --text-color: rgb(230, 230, 230);
+    --primary: rgb(34, 34, 34);
+    --secondary: rgb(117, 117, 117);
+    --success: rgb(63, 168, 60);
+    --danger: rgb(165, 54, 54);
+  }
+  
+  .light {
+    --text-color: rgb(51, 47, 47);
+    --primary: rgb(235, 226, 226);
+    --secondary: rgb(255, 255, 255);
+    --success: rgba(24, 192, 18, .8);
+    --danger: rgba(240, 8, 8, .8);
+  }
