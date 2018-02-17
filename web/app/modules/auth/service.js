@@ -62,6 +62,16 @@ function register({ userId, email, pw }){
         })
     })
 }
+/**
+ * Get user with id
+ */
+function get(id){
+    return new Promise((resolve, reject) => {
+        db.one(SQL`SELECT "userId", email FROM auth WHERE "userId"=${id};`)
+        .then(data => resolve(data))
+        .catch(e => reject({ code: 404, message: 'user not found'}))
+    })
+}
 
 /**
  * Login a user
@@ -95,17 +105,17 @@ function verifyToken(token){
     })
 }
 
-function updatePw(id, newPw){
-    return new Promise((resolve, reject) => {
-        bcrypt.hash(newPw, 10)
-        .then(hashedPw => db.one(SQL`
-            UPDATE auth 
-            SET pw=${hashedPw}
-            WHERE "userId"=${id};`))
-        .then(() => resolve(id))
-        .catch(e => reject(e))
-    })
-}
+// function updatePw(id, newPw){
+//     return new Promise((resolve, reject) => {
+//         bcrypt.hash(newPw, 10)
+//         .then(hashedPw => db.one(SQL`
+//             UPDATE auth 
+//             SET pw=${hashedPw}
+//             WHERE "userId"=${id};`))
+//         .then(() => resolve(id))
+//         .catch(e => reject(e))
+//     })
+// }
 /**
  * update credentials with keys
  */
@@ -159,6 +169,7 @@ module.exports = {
     init,
     drop,
     register,
+    get,
     login,
     verifyToken,
     update,

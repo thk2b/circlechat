@@ -64,6 +64,25 @@ describe('auth service', function(){
         })
     })
 
+    describe('get', function(){
+        it('should refuse invalid userId', function(){
+            service.get('nobody')
+            .then(e => { throw new Error() })
+            .catch(e => {
+                expect(e).to.deep.equal({
+                    code: 404, message: 'user not found'
+                })
+            })
+        })
+        it('should resolve with a user when the id is valid', function(){
+            service.get(credentials.userId)
+            .then(user => {
+                expect(user.userId).to.equal(credentials.userId)
+                expect(user.email).to.equal(credentials.email)
+                expect(user.pw).to.be.undefined
+            })
+        })
+    })
     describe('login', function(){
         const { userId, email, pw } = credentials
         it('should refuse invalid userId', function(){
