@@ -1,10 +1,8 @@
 .Auth {
     background-color: var(--primary);
     flex: 1 0;
-}
-
-.form {
-    margin: auto 10%;
     max-width: 350px;
     max-height: 400px;
+    margin: 0 auto;
+    padding: 25px;
 }

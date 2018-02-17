@@ -11,7 +11,7 @@ export default () => (
     <ActiveTheme>
         <div className={css.App}>
             <Route exact path='/' component={Lobby}/>
-            <Route exact path='*/login' component={Auth}/>
+            <Route path='*/login' component={Auth}/>
         </div>
     </ActiveTheme>
 )

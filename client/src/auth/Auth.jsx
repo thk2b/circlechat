@@ -13,11 +13,15 @@ class Auth extends React.Component {
          
       }
     }
+
+    handleSubmit(e){
+        e.preventDefault()
+    }
     
     render() {
         return (
         <div className={css.Auth}>
-            <form className={css.form}>
+            <form onSubmit={e => this.handleSubmit(e)}>
                 <h1>Log in</h1>
                 <Input placeholder="id or email"/>
                 <Input placeholder="password"/>

@@ -1,4 +1,5 @@
 .Button {
+    background-color: var(--secondary);
     margin-bottom: 1rem;
     font-size: inherit;
     padding: .25rem;
