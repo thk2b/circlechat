@@ -21,6 +21,7 @@ describe(API_URL, function(){
         email: 'test@test.cc', 
         pw: 'hunter2'
     }
+    let token = undefined
 
     describe(`POST ${API_URL}/`, function(e){
         it('should not register incomplete credentials', function(done){
@@ -53,10 +54,28 @@ describe(API_URL, function(){
     })
 
     describe(`POST ${API_URL}/login`, function(){
-        // it('', function(done){
-        //     // request(app)
-        //         // .post('/') 
-        // })
+        const { userId, pw } = credentials
+        it('should not send a token when credentials are invalid', function(done){
+            request(server)
+                .post(API_URL + '/login')
+                .send({ userId, pw: 'mom i forgot' })
+                .set('Content-Type', 'application/json')
+                .expect(401)
+                .end(done)
+        })
+        it('should send back a token', function(done){
+            request(server)
+                .post(API_URL + '/login')
+                .send({ userId, pw })
+                .set('Content-Type', 'application/json')
+                .expect(201)
+                .end((e, res) => {
+                    if(e) done(e)
+                    expect(res.body.token).to.be.a.string
+                    token = res.token
+                    done()
+                })
+        })
     })
 
     describe(`POST ${API_URL}/:id/`, function(){

@@ -6,7 +6,15 @@ const r = new Router()
 
 r.route('/login')
 .post((req, res) => {
-
+    service.login(req.body)
+    .then(token => {
+        res.status(201)
+        res.json({ token })
+    })
+    .catch(e => {
+        res.status(e.code || 500)
+        res.json(e)
+    })
 })
 
 r.route('/')
