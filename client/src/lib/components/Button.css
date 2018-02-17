@@ -1,0 +1,12 @@
+.Button {
+    margin-bottom: 1rem;
+    font-size: inherit;
+    padding: .25rem;
+    width: 50%;
+}
+
+.ButtonUnderlined {
+    background-color: inherit;
+    border: none;
+    border-bottom: 1px solid var(--text-color);
+}
