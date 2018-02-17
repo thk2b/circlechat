@@ -1,3 +1,4 @@
+const bodyParser = require('body-parser')
 const express = require('express')
 const app = express()
 const server = require('http').Server(app)
@@ -11,9 +12,11 @@ const {
 
 /* API */
 
+app.use(bodyParser.json())
+
 const api = new express.Router()
 
-// api.use('/auth', auth.router)
+api.use('/auth', auth.router)
 // api.use('/user', user.router)
 // api.use('/message', message.router)
 
