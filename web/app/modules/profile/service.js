@@ -1,3 +1,4 @@
+const Promise = require('bluebird')
 const SQL = require('sql-template-strings')
 
 const db = require('../../db')
@@ -38,11 +39,12 @@ function create(requesterId, { userId, name=userId, description='', status='ONLI
         if(requesterId !== userId){
             return reject({ status: 403, message: 'not permitted' })
         }
-        return resolve(db.one(SQL`
+        return db.one(SQL`
             INSERT INTO profile ("userId", name, description, status)
             VALUES (${userId}, ${name}, ${description}, ${status})
             RETURNING *
-        ;`))
+        ;`).then(data => resolve(data))
+        .catch(e => reject(e))
     })
 }
 /** 
@@ -64,19 +66,18 @@ function get(requesterId, profileId){
 }
 /** 
  * get all profiles
- * excludes 'description' field
 */
 function getAll(requesterId){
     return new Promise((resolve, reject) => {
         if(requesterId === null){
             return reject({ status: 401, message: 'unauthorized' })
         }
-        return resolve(
-            db.any(`SELECT * FROM profile;`)
-            .then(profiles => profiles.reduce(
-                (obj, profile) => ({...obj, [profile.id]: profile})
-            , {}))
-        )
+        db.any(`SELECT * FROM profile;`)
+        .then(profiles => profiles.reduce(
+            (obj, profile) => ({...obj, [profile.id]: profile})
+        , {}))
+        .then(data => resolve(data))
+        .catch(e => reject(e))
     })
 }
 /** 
@@ -84,7 +85,7 @@ function getAll(requesterId){
 */
 function update(){
     return new Promise((resolve, reject) => {
-
+        reject(new Error('not implemented'))
     })
 }
 /** 
@@ -92,7 +93,7 @@ function update(){
 */
 function remove(){
     return new Promise((resolve, reject) => {
-
+        reject(new Error('not implemented'))
     })    
 }
 

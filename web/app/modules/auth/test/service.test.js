@@ -182,6 +182,10 @@ describe('auth service', function(){
 
         it('should not update userId', function(){
             return service.update(userId, { userId: 'newId' })
+            .then(() => { throw new Error('should not resolve')})
+            .catch(e => {
+                expect(e).to.deep.equal({ code: 422, message: 'invalid data'})
+            })
         })
         it('should update email', function(){
             return service.update(userId, { email: 'new@email.cc' })
