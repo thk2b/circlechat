@@ -8,21 +8,21 @@ r.route('/login')
     .post((req, res) => {
         service.login(req.body)
         .then(token => res.status(201).json({ token }))
-        .catch(e => res.status(e.code || 500).json(e))
+        .catch(e => res.status(e.status || 500).json(e))
     })
 
 r.route('/')
     .post((req, res) => {
         service.register(req.body)
         .then(data => res.status(201).json(data))
-        .catch(e => res.status(e.code || 500).json(e))
+        .catch(e => res.status(e.status || 500).json(e))
     })
 
 r.route('/:id')
     .get((req, res) => {
         service.get(req.userId, req.params.id)
         .then(user => res.status(200).json(user))
-        .catch(e => res.status(e.code || 500).json(e))
+        .catch(e => res.status(e.status || 500).json(e))
     })
     .put((req, res) => {
 
@@ -30,7 +30,7 @@ r.route('/:id')
     .delete((req, res) =>{
         service.remove(req.userId, req.params.id)
         .then(() => res.status(202).end())
-        .catch(e => res.status(e.code || 500).json(e))
+        .catch(e => res.status(e.status || 500).json(e))
     })
 
 module.exports = r

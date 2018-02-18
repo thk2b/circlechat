@@ -19,7 +19,7 @@ export default class LoginForm extends React.Component {
     render() {
         return (
             <form onSubmit={e => this.handleSubmit(e)}>
-                <h1>Log in</h1>
+                <h1>Register</h1>
                 <Input 
                     placeholder="user id"
                     value={this.state.userId}

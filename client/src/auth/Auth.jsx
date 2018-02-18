@@ -2,9 +2,7 @@ import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-import { Input, Button } from '../lib/components'
-
-import { login, register } from './actions'
+import { login, register, clearRequestStatus } from './actions'
 import LoginForm from './LoginForm'
 import RegisterForm from './RegisterForm'
 
@@ -15,29 +13,50 @@ class Auth extends React.Component {
       super(props)
       this.state = { isRegistering: false }
     }
+    componentDidMount = () => {
+        if(this.props.token){
+            //redirect
+        }
+    }
+    componentDidUpdate = (prevProps, prevState) => {
+        if(this.state.isRegistering && this.props.success){
+            this.setState({ isRegistering: !this.state.isRegistering})    
+        }
+    }
     
-    toggleRegister = () => this.setState({ isRegistering: !this.state.isRegistering})
+    
+    toggleRegister = () => {
+        this.setState({ isRegistering: !this.state.isRegistering})
+        this.props.clearRequestStatus()
+    }
 
     render() {
-        const { login, register } = this.props
+        const { error, success, loading, login, register } = this.props
         const { isRegistering } = this.state
-
         return (
-        <div className={css.Auth}>{
-            isRegistering
-                ?<RegisterForm onSubmit={data => register(data)} onSecondary={e => this.toggleRegister()}/>
-                :<LoginForm onSubmit={login} onSecondary={e => this.toggleRegister()}/>
-        }</div>
+        <div className={css.Auth}>
+            {
+                isRegistering
+                    ?<RegisterForm onSubmit={data => register(data)} onSecondary={e => this.toggleRegister()}/>
+                    :<LoginForm onSubmit={login} onSecondary={e => this.toggleRegister()}/>
+            }
+            {loading && <p>loading</p>}
+            {error && <p>{error.message}</p>}
+            {success && <p>{success.message}</p>}
+        </div>
     )
   }
 }
 
-const mapState = state => {
-    return {}
+const mapState = ({ auth }) => {
+    const { token, error, success, loading } = auth
+    return {
+        error, success, token, loading
+    }
 }
 
 const mapDispatch = dispatch => {
-    return bindActionCreators({ login, register }, dispatch)
+    return bindActionCreators({ login, register, clearRequestStatus }, dispatch)
 }
 
 export default connect(mapState, mapDispatch)(Auth)

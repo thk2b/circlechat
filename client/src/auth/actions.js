@@ -15,3 +15,10 @@ export const register = data => {
         data
     }
 }
+
+export const CLEAR_REQUEST_STATUS = 'auth/clearRequestStatus'
+export const clearRequestStatus = () => {
+    return {
+        type: CLEAR_REQUEST_STATUS
+    }
+}

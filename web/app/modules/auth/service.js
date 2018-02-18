@@ -52,12 +52,12 @@ function register({ userId, email, pw }){
         .catch(e => {
             switch(e.code){
                 case '23505': // violates unique constraint
-                    return reject({ code: 409, message: `user id or email already in use`})
+                    return reject({ status: 409, message: `user id or email already in use`})
                 case '23502': // violates null constraint
-                    return reject({ code: 422, message: `incomplete credentials`})
+                    return reject({ status: 422, message: `incomplete credentials`})
                 default:
                     console.error(e)
-                    return reject({ code: 500, message: 'internal server error', data: e})
+                    return reject({ status: 500, message: 'internal server error', data: e})
             }
         })
     })
@@ -82,14 +82,14 @@ function login({ userId, email, pw }){
                 resolve(token)
             })
         })
-        .catch(e => reject({ code: 401, message: 'invalid credentials' }))
+        .catch(e => reject({ status: 401, message: 'invalid credentials' }))
     })
 }
 
 function verifyToken(token){
     return new Promise((resolve, reject) => {
         jwt.verify(token, config.secret, (e, decodedToken) => {
-            if(e) reject({ code: 401, message: 'invalid token'})
+            if(e) reject({ status: 401, message: 'invalid token'})
             resolve(decodedToken)
         })
     })
@@ -101,11 +101,11 @@ function verifyToken(token){
 function get(requesterId, id){
     return new Promise((resolve, reject) => {
         if(requesterId === null || requesterId !== id){
-            reject({ code: 401, message: 'unauthorized' })
+            reject({ status: 401, message: 'unauthorized' })
         }
         db.one(SQL`SELECT "userId", email FROM auth WHERE "userId"=${id};`)
         .then(data => resolve(data))
-        .catch(e => reject({ code: 404, message: 'user not found'}))
+        .catch(e => reject({ status: 404, message: 'user not found'}))
     })
 }
 
@@ -162,14 +162,14 @@ function remove(requesterId, id){
     return new Promise((resolve, reject) => {
         if(requesterId === null || requesterId !== id){
             reject({
-                code: 401, message: 'unauthorized'
+                status: 401, message: 'unauthorized'
             })
         }
         db.any(SQL`DELETE FROM auth WHERE "userId"=${id}`)
         .then(resolve(true))
         .catch(e => {
             console.error(e)
-            reject({ code: 500, message: 'could not delete', data: e})
+            reject({ status: 500, message: 'could not delete', data: e})
         })
     })
 }

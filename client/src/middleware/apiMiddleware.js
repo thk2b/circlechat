@@ -16,7 +16,7 @@ const makeRequest = (url, verb, data) => {
             return new Promise((_, reject) => reject(new Error('invalid http verb: ', verb)))
     }
 }
-console.log(process.env)
+
 export default apiUrl => store => next => action => {
     if(action.network !== 'http') return next(action)
 
@@ -35,9 +35,13 @@ export default apiUrl => store => next => action => {
                 process.env.NODE_ENV === 'development' && console.log('incoming http request: ', newAction)
                 store.dispatch(newAction)
             })
-            .catch(e => {
-                // if not a network error, dispatch and reducers handle the application error
-                console.error('error in http request: ', action, e)
+            .catch( ({ response }) => {
+                const newAction = {
+                    ...action,
+                    status: response.data.status,
+                    data: response.data
+                }
+                store.dispatch(newAction)
             })
         } else {
             process.env.NODE_ENV === 'development' && console.error('invalid outgoing network action: ', action)

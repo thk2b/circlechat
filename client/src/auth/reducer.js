@@ -1,7 +1,15 @@
 import validateIncomingNetworkAction from '../lib/validateIncomingNetworkAction'
 
+import { CLEAR_REQUEST_STATUS } from './actions'
+
 function localReducer(state, action){
     switch(action.type){
+        case CLEAR_REQUEST_STATUS:
+            return {
+                ...state,
+                error: null,
+                success: null
+            }
         default: return state
     }
 }
@@ -10,11 +18,23 @@ function loginReducer(state, action){
     switch(action.type){
         case 'POST':
             if(action.status === 201){
-                return { token: action.token }
+                // set userId - see #29
+                return {
+                    token: action.token,
+                    loading: false,
+                    error: null,
+                    success: {
+                        message: 'logged in successfully'
+                    }
+                }
             } else {
-        
+                return {
+                    ...state,
+                    loading: false,
+                    error: action.data,
+                    success: null
+                }
             }
-            return state
         default:
             return state
     }
@@ -22,21 +42,24 @@ function loginReducer(state, action){
 
 function authReducer(state, action){
     switch(action.type){
-        case 'GET':
-            if(action.status === 200){
-
-            } else {
-
-            }
-            return state
         case 'POST':
             if(action.status === 201){
-                console.log(action.data)
+                return {
+                    ...state,
+                    loading: false,
+                    success: { message: 'registered successfully'},
+                    error: null
+                }
             } else {
-                
+                return {
+                    ...state,
+                    loading: false,
+                    success: null,
+                    error: action.data
+                }
             }
-            return state
         case 'PUT':
+        case 'GET':
         case 'DELETE':
         default: return state
     }
@@ -46,23 +69,37 @@ function networkReducer(state, action){
     switch(action.resource){
         case '/auth/login':
             return loginReducer(state, action)
-        case '/auth/':
+        case '/auth':
             return authReducer(state, action)
         default: return state
     }
 }
 
-export default function(state = { token: null }, action){
+const INITIAL_STATE = {
+    token: null,
+    userId: null,
+    error: null,
+    success: null,
+    loading: false
+}
+
+export default function(state = INITIAL_STATE, action){
     if(action.network){
-        if(action.status){ /* incoming request */
+        if(action.status){ /* incoming http request */
             if(validateIncomingNetworkAction(action)){
                 return networkReducer(state, action)
+            } else {
+                console.error('invalid incoming network action: ', action)
+                return state
             }
-            console.error('invalid incoming network action: ', action)
-        } else { /* outgoing action */
-            // set a flag: outgoing request
+        } else { /* outgoing http request */
+            return {
+                ...state,
+                loading: true,
+                error: null,
+                success: null
+            }
         }
-        return state
     } else {
         return localReducer(state, action)
     }

@@ -40,7 +40,7 @@ describe('auth service', function(){
             .then(() => { throw new Error('should not resolve') })
             .catch(e => {
                 expect(e).to.deep.equal({
-                    code: 422, message: 'incomplete credentials'
+                    status: 422, message: 'incomplete credentials'
                 })
             })
         })
@@ -49,7 +49,7 @@ describe('auth service', function(){
             .then(() => { throw new Error('should not resolve')})
             .catch(e => {
                 expect(e).to.deep.equal({
-                    code: 409, message: 'user id or email already in use'
+                    status: 409, message: 'user id or email already in use'
                 })
             })
         })
@@ -58,7 +58,7 @@ describe('auth service', function(){
             .then(() => { throw new Error('should not resolve')})
             .catch(e => {
                 expect(e).to.deep.equal({
-                    code: 409, message: 'user id or email already in use'
+                    status: 409, message: 'user id or email already in use'
                 })
             })
         })
@@ -70,7 +70,7 @@ describe('auth service', function(){
             .then(e => { throw new Error() })
             .catch(e => {
                 expect(e).to.deep.equal({
-                    code: 401, message: 'unauthorized'
+                    status: 401, message: 'unauthorized'
                 })
             })
         })
@@ -79,7 +79,7 @@ describe('auth service', function(){
             .then(e => { throw new Error() })
             .catch(e => {
                 expect(e).to.deep.equal({
-                    code: 404, message: 'user not found'
+                    status: 404, message: 'user not found'
                 })
             })
         })
@@ -99,7 +99,7 @@ describe('auth service', function(){
             .then(() => { throw new Error('should not resolve')})
             .catch(e => {
                 expect(e).to.deep.equal({
-                    code: 401, message: 'invalid credentials'
+                    status: 401, message: 'invalid credentials'
                 })
             })
         })
@@ -109,7 +109,7 @@ describe('auth service', function(){
             .then(() => { throw new Error('should not resolve')})
             .catch(e => {
                 expect(e).to.deep.equal({
-                    code: 401, message: 'invalid credentials'
+                    status: 401, message: 'invalid credentials'
                 })
             })
         })
@@ -119,7 +119,7 @@ describe('auth service', function(){
             .then(() => { throw new Error('should not resolve')})
             .catch(e => {
                 expect(e).to.deep.equal({
-                    code: 401, message: 'invalid credentials'
+                    status: 401, message: 'invalid credentials'
                 })
             })
         })
@@ -129,7 +129,7 @@ describe('auth service', function(){
             .then(() => { throw new Error('should not resolve')})
             .catch(e => {
                 expect(e).to.deep.equal({
-                    code: 401, message: 'invalid credentials'
+                    status: 401, message: 'invalid credentials'
                 })
             })
         })
@@ -162,7 +162,7 @@ describe('auth service', function(){
             .then(() => { throw new Error('should not resolve')})
             .catch(e => {
                 expect(e).to.deep.equal({
-                    code: 401,
+                    status: 401,
                     message: 'invalid token'
                 })
             })
@@ -209,7 +209,7 @@ describe('auth service', function(){
             .then(() => { throw new Error('should not resolve') })
             .catch(e => {
                 expect(e).to.deep.equal({
-                    code: 401, message: 'unauthorized'
+                    status: 401, message: 'unauthorized'
                 })
             })
         })
@@ -218,7 +218,7 @@ describe('auth service', function(){
             .then(() => { throw new Error('should not resolve') })
             .catch(e => {
                 expect(e).to.deep.equal({
-                    code: 401, message: 'unauthorized'
+                    status: 401, message: 'unauthorized'
                 })
             })
         })
