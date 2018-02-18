@@ -12,29 +12,21 @@ const db = require('../../db')
  * Create database tables
  */
 function init(){
-    return new Promise((resolve, reject) => {
-        db.any(`
-            CREATE TABLE auth (
-                "userId" VARCHAR(256) UNIQUE NOT NULL,
-                email VARCHAR(256) UNIQUE NOT NULL,
-                pw VARCHAR(256) NOT NULL,
-                PRIMARY KEY ("userId")
-            )
-        ;`)
-        .then(() => resolve())
-        .catch(e => reject(e))
-    })
+    return db.any(`
+        CREATE TABLE auth (
+            "userId" VARCHAR(30) UNIQUE NOT NULL,
+            email VARCHAR(256) UNIQUE NOT NULL,
+            pw VARCHAR(256) NOT NULL,
+            PRIMARY KEY ("userId")
+        )
+    ;`)
 }
 
 /**
  * Drop database tables
  */
 function drop(){
-    return new Promise((resolve, reject) => {
-        db.none(`DROP TABLE IF EXISTS auth`)
-        .then(() => resolve())
-        .catch(e => reject(e))
-    })
+    return db.none(`DROP TABLE IF EXISTS auth`)
 }
 
 /**

@@ -1,5 +1,5 @@
 const chai = require('chai')
-const { expect, assert } = chai
+const { expect } = chai
 const SQL = require('sql-template-strings')
 
 const { recreate } = require('../../../manage')
