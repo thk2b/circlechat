@@ -1,0 +1,16 @@
+.Info {
+    padding: .5rem;
+    border-radius: .25rem;
+}
+
+.InfoDanger {
+    background-color: var(--danger)
+}
+
+.InfoSuccess {
+    background-color: var(--success)
+}
+
+.InfoWarning {
+    background-color: var(--warning)
+}

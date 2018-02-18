@@ -2,6 +2,8 @@ import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
+import { Info, Spinner } from '../lib/components'
+
 import { login, register, clearRequestStatus } from './actions'
 import LoginForm from './LoginForm'
 import RegisterForm from './RegisterForm'
@@ -40,9 +42,9 @@ class Auth extends React.Component {
                     ?<RegisterForm onSubmit={data => register(data)} onSecondary={e => this.toggleRegister()}/>
                     :<LoginForm onSubmit={login} onSecondary={e => this.toggleRegister()}/>
             }
-            {loading && <p>loading</p>}
-            {error && <p>{error.message}</p>}
-            {success && <p>{success.message}</p>}
+            {loading && <Spinner>loading</Spinner>}
+            {error && <Info danger>{error.message}</Info>}
+            {success && <Info success>{success.message}</Info>}
         </div>
     )
   }
