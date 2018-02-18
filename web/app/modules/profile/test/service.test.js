@@ -95,7 +95,7 @@ describe('profile service', function(){
     describe('get profile', function(){
         it('should refuse to get a profile that does not exist', function(){
             return service.get(null, 1234)
-            .then(() =>{ throw new Error('should not resolve') })
+            .then(() => { throw new Error('should not resolve') })
             .catch(e => {
                 expect(e).to.deep.equal({ status: 404, message: 'not found'})
             })
