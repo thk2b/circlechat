@@ -26,7 +26,7 @@ function init(){
  * Drop database tables
  */
 function drop(){
-    return db.none(`DROP TABLE IF EXISTS auth`)
+    return db.none(`DROP TABLE IF EXISTS auth CASCADE;`)
 }
 
 /**
@@ -95,8 +95,11 @@ function verifyToken(token){
  */
 function get(requesterId, id){
     return new Promise((resolve, reject) => {
-        if(requesterId === null || requesterId !== id){
-            reject({ status: 401, message: 'unauthorized' })
+        if(requesterId === null){
+            return reject({ status: 401, message: 'unauthorized' })
+        }
+        if(requesterId !== id){
+            return reject({ status: 403, message: 'not permitted' })
         }
         db.one(SQL`SELECT "userId", email FROM auth WHERE "userId"=${id};`)
         .then(data => resolve(data))
@@ -155,17 +158,13 @@ function update(id, obj){
  */
 function remove(requesterId, id){
     return new Promise((resolve, reject) => {
-        if(requesterId === null || requesterId !== id){
-            reject({
-                status: 401, message: 'unauthorized'
-            })
+        if(requesterId === null){
+            return reject({ status: 401, message: 'unauthorized' })
         }
-        db.any(SQL`DELETE FROM auth WHERE "userId"=${id}`)
-        .then(resolve(true))
-        .catch(e => {
-            console.error(e)
-            reject({ status: 500, message: 'could not delete', data: e})
-        })
+        if(requesterId !== id){
+            return reject({ status: 403, message: 'not permitted' })
+        }
+        return resolve(db.any(SQL`DELETE FROM auth WHERE "userId"=${id}`))
     })
 }
 

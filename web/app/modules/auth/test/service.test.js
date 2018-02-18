@@ -79,7 +79,7 @@ describe('auth service', function(){
             .then(e => { throw new Error() })
             .catch(e => {
                 expect(e).to.deep.equal({
-                    status: 401, message: 'unauthorized'
+                    status: 403, message: 'not permitted'
                 })
             })
         })
@@ -227,7 +227,7 @@ describe('auth service', function(){
             .then(() => { throw new Error('should not resolve') })
             .catch(e => {
                 expect(e).to.deep.equal({
-                    status: 401, message: 'unauthorized'
+                    status: 403, message: 'not permitted'
                 })
             })
         })

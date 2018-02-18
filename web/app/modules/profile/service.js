@@ -25,9 +25,11 @@ function drop(){
 /** 
  * create profile
 */
-function create(){
+function create(requesterId, { userId, name=userId, description='', status='ONLINE' }){
     return new Promise((resolve, reject) => {
-
+        if(!requesterId || requesterId !== userId){
+            
+        }
     })
 }
 /** 

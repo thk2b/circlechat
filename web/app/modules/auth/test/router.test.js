@@ -97,7 +97,7 @@ describe(API_URL, function(){
                 .get(`${API_URL}/wrongid`)
                 .set('Authorization', 'bearer ' + token)
                 // .expect(404)
-                .expect(401) // 404 can never be reached: we check if the ids are identical before checking if they exist
+                .expect(403) // 404 can never be reached: we check if the ids are identical before checking if they exist
                 .end(done)
         })
         it('should get a user\'s data, but not the password', function(done){
@@ -134,7 +134,7 @@ describe(API_URL, function(){
             request(server)
                 .delete(`${API_URL}/someoneelse`)
                 .set('Authorization', 'bearer ' + token)
-                .expect(401)
+                .expect(403)
                 .end(done)
         })
         it('should delete a user\'s data when authorized', function(done){
