@@ -9,9 +9,9 @@ const makeRequest = (url, verb, data) => {
         case 'POST':
             return axios.post(url, data)
         case 'PUT':
-            return axios.post(url, data)
+            return axios.put(url, data)
         case 'DELETE':
-            return axios.post(url)
+            return axios.delete(url)
         default:
             return new Promise((_, reject) => reject(new Error('invalid http verb: ', verb)))
     }
