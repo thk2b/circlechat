@@ -1,3 +1,4 @@
+const Promise = require('bluebird')
 const SQL = require('sql-template-strings')
 const chai = require('chai')
 const { expect } = chai
@@ -20,18 +21,23 @@ describe('profile table', function(){
 
 describe('profile service', function(){
     const credentials = {userId: 'tester', email: 'tester@test.cc', pw: 'hunter2'}
-    const profile = {
-        userId: credentials.userId,
-        name: 'test name',
-        description: 'my test profile. not much else to say'
+
+    const credentials1 = {userId: 'tester1', email: 'tester1@test.cc', pw: 'hunter3'}
+    const profile1 = {
+        userId: credentials1.userId,
+        name: 'test name 1',
+        description: 'my second test profile. not much else to say'
     }
     before(function(){
         return recreate()
-        .then(() => authService.register(credentials))
+        .then(() => Promise.all([
+            authService.register(credentials),
+            authService.register(credentials1)
+        ]))
     })
     describe('create', function(){
         it('should refuse to create a profile if the userId is not the requester\'s', function(){
-            return service.create(credentials.userId, { userId: 'someone else' })
+            return service.create(credentials.userId, { userId: credentials1.userId })
             .then(() => { throw new Error('should not resolve')})
             .catch(e => {
                 expect(e).to.deep.equal({
@@ -59,13 +65,12 @@ describe('profile service', function(){
                 })
                 expect(profile.userId).to.be.a.string
             })
-            .then(db.one(SQL`DELETE FROM profile WHERE "userId"=${credentials.userId}`))
         })
         it('should create a profile when the data is valid', function(){
-            return service.create(credentials.userId, profile)
+            return service.create(credentials1.userId, profile1)
             .then((profile) => {
                 expect(profile).to.containSubset({
-                    ...profile,
+                    ...profile1,
                     status: 'ONLINE'
                 })
                 expect(profile.userId).to.be.a.string
@@ -73,6 +78,16 @@ describe('profile service', function(){
         })
     })
     
+    describe('get profile', function(){
+        it('', function(){
+    
+        })
+    })
+    describe('get all profiles', function(){
+        it('', function(){
+    
+        })
+    })
     // describe('', function(){
     //     it('', function(){
     
