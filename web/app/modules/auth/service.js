@@ -42,6 +42,9 @@ function drop(){
  */
 function register({ userId, email, pw }){
     return new Promise((resolve, reject) => {
+        if(! userId || !email || !pw){
+            return reject({ status: 422, message: `incomplete credentials`})
+        }
         bcrypt.hash(pw, 10)
         .then(hashedPw => db.one(SQL`
             INSERT INTO auth ("userId", email, pw)

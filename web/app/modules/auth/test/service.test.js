@@ -62,6 +62,15 @@ describe('auth service', function(){
                 })
             })
         })
+        it('should refuse empty userId', function(){
+            return service.register({...credentials, userId: ''})
+            .then(() => { throw new Error('should not resolve')})
+            .catch(e => {
+                expect(e).to.deep.equal({
+                    status: 422, message: 'incomplete credentials'
+                })
+            })
+        })
     })
 
     describe('get', function(){
