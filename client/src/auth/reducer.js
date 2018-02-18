@@ -20,7 +20,8 @@ function loginReducer(state, action){
             if(action.status === 201){
                 // set userId - see #29
                 return {
-                    token: action.token,
+                    token: action.data.token,
+                    userId: action.data.userId,
                     loading: false,
                     error: null,
                     success: {

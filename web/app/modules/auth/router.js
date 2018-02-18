@@ -6,6 +6,7 @@ const r = new Router()
 
 r.route('/login')
     .post((req, res) => {
+        // todo: send user Id
         service.login(req.body)
         .then(token => res.status(201).json({ token }))
         .catch(e => res.status(e.status || 500).json(e))
