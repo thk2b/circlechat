@@ -1,3 +1,5 @@
+const SQL = require('sql-template-strings')
+
 const db = require('../../db')
 
 /** 
@@ -27,9 +29,20 @@ function drop(){
 */
 function create(requesterId, { userId, name=userId, description='', status='ONLINE' }){
     return new Promise((resolve, reject) => {
-        if(!requesterId || requesterId !== userId){
-            
+        if(!userId){
+            return reject({ status: 422, message: 'invalid data' })
         }
+        if(requesterId === null){
+            return reject({ status: 401, message: 'unauthorized' })
+        }
+        if(requesterId !== userId){
+            return reject({ status: 403, message: 'not permitted' })
+        }
+        return resolve(db.one(SQL`
+            INSERT INTO profile ("userId", name, description, status)
+            VALUES (${userId}, ${name}, ${description}, ${status})
+            RETURNING *
+        ;`))
     })
 }
 /** 
