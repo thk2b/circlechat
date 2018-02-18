@@ -48,18 +48,35 @@ function create(requesterId, { userId, name=userId, description='', status='ONLI
 /** 
  * get profile
 */
-function get(){
+function get(requesterId, profileId){
     return new Promise((resolve, reject) => {
-
+        db.one(SQL`
+            SELECT * FROM profile
+            WHERE id=${profileId}
+        ;`).then( data => resolve(data))
+        .catch(e => {
+            if(e.code === 0){
+                reject({ status: 404, message: 'not found'})
+            }
+            reject({ status: 500, message: 'internal server error'})
+        })
     })
 }
 /** 
  * get all profiles
  * excludes 'description' field
 */
-function getAll(){
+function getAll(requesterId){
     return new Promise((resolve, reject) => {
-
+        if(requesterId === null){
+            return reject({ status: 401, message: 'unauthorized' })
+        }
+        return resolve(
+            db.any(`SELECT * FROM profile;`)
+            .then(profiles => profiles.reduce(
+                (obj, profile) => ({...obj, [profile.id]: profile})
+            , {}))
+        )
     })
 }
 /** 

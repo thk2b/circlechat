@@ -28,6 +28,9 @@ describe('profile service', function(){
         name: 'test name 1',
         description: 'my second test profile. not much else to say'
     }
+    let savedProfile
+    let savedProfile1
+
     before(function(){
         return recreate()
         .then(() => Promise.all([
@@ -36,6 +39,15 @@ describe('profile service', function(){
         ]))
     })
     describe('create', function(){
+        it('should refuse to create a profile if the userId is not authenticated', function(){
+            return service.create(null, { userId: credentials1.userId })
+            .then(() => { throw new Error('should not resolve')})
+            .catch(e => {
+                expect(e).to.deep.equal({
+                    status: 401, message: 'unauthorized'
+                })
+            })
+        })
         it('should refuse to create a profile if the userId is not the requester\'s', function(){
             return service.create(credentials.userId, { userId: credentials1.userId })
             .then(() => { throw new Error('should not resolve')})
@@ -64,6 +76,7 @@ describe('profile service', function(){
                     status: 'ONLINE'
                 })
                 expect(profile.userId).to.be.a.string
+                savedProfile = profile
             })
         })
         it('should create a profile when the data is valid', function(){
@@ -74,18 +87,49 @@ describe('profile service', function(){
                     status: 'ONLINE'
                 })
                 expect(profile.userId).to.be.a.string
+                savedProfile1 = profile
             })
         })
     })
     
     describe('get profile', function(){
-        it('', function(){
-    
+        it('should refuse to get a profile that does not exist', function(){
+            return service.get(null, 1234)
+            .then(() =>{ throw new Error('should not resolve') })
+            .catch(e => {
+                expect(e).to.deep.equal({ status: 404, message: 'not found'})
+            })
+        })
+        it('should allow getting a profile if unauthenticated', function(){
+            return service.get(null, savedProfile.id)
+            .then(profile => {
+                expect(profile).to.deep.equal(savedProfile)
+            })
+        })
+        it('should get a single profile when authenticated', function(){
+            return service.get(credentials1.userId, savedProfile1.id)
+            .then(profile1 => {
+                expect(profile1).to.deep.equal(savedProfile1)
+            })
         })
     })
     describe('get all profiles', function(){
-        it('', function(){
-    
+        it('should refuse to get all profiles if not authenticated', function(){
+            return service.getAll(null)
+            .then(() =>{ throw new Error('should not resolve') })
+            .catch(e => {
+                expect(e).to.deep.equal({ status: 401, message: 'unauthorized'})
+            })
+
+        })
+        it('should get all profiles', function(){
+            return service.getAll(credentials.userId)
+            .then(profiles => {
+                expect(profiles).to.deep.equal({
+                    [savedProfile.id]: savedProfile, 
+                    [savedProfile1.id]: savedProfile1
+                })
+            })
         })
     })
     // describe('', function(){
