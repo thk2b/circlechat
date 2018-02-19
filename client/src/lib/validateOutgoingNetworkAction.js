@@ -1,8 +1,8 @@
-import { assert } from 'duck-check'
+import { assert, oneOf } from 'duck-check'
 
 export default assert({
     network: s => s === 'http' || s === 'ws',
     resource: String,
     type: String,
-    data: {}
+    data: oneOf({}, undefined)
 })

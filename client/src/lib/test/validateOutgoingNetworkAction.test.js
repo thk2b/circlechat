@@ -12,7 +12,14 @@ describe('validateOutgoingNetworkAction', () => {
             data: { data: 'data' }
         })).toBe(false)
     })
-    test('it should validate valid actions', () => {
+    test('it should validate valid actions without a data key', () => {
+        expect(validateOutgoingNetworkAction({
+            network: 'http',
+            type: 'POST',
+            resource: 'some/url'
+        })).toBe(true)
+    })
+    test('it should validate valid actions with a data key', () => {
         expect(validateOutgoingNetworkAction({
             network: 'http',
             type: 'POST',
