@@ -5,7 +5,8 @@ const server = require('http').Server(app)
 const io = require('socket.io')(server)
 
 const {
-    auth
+    auth,
+    profile
     // user,
     // message
 } = require('./modules')
@@ -30,7 +31,7 @@ app.use(bodyParser.json())
 const api = new express.Router()
 
 api.use('/auth', auth.router)
-// api.use('/user', user.router)
+api.use('/profile', profile.router)
 // api.use('/message', message.router)
 
 app.use('/api/v1', api)

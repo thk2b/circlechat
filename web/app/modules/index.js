@@ -1,5 +1,5 @@
 module.exports = {
     auth: require('./auth'),
-    // user: require('./user'),
+    profile: require('./profile'),
     // message: require('./message')
 }

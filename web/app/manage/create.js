@@ -1,20 +1,12 @@
 const Promise = require('bluebird')
 
-/**
- * Create all database tables
- */
-
-const modules = require('../modules')
-
+const { auth, profile } = require('../modules')
+/** 
+ * init all database tables one after the other.
+*/
 function create(){
-    const promises = Object.entries(modules).map(
-        ([name, _module]) => {
-            if(_module.service.init !== undefined){
-                return _module.service.init()
-            }
-        }
-    )
-    return Promise.all(promises)
+    return auth.service.init()
+    .then(() => profile.service.init())
 }
 
 if(require.main === module){
