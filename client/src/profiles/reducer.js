@@ -5,6 +5,10 @@ function localReducer(state, action){
 }
 
 function inboundNetworkReducer(state, action){
+    if(! validateIncomingNetworkAction(action)){
+        console.error('invalid incoming network action: ', action)
+        return state
+    }
     if(action.status >= 400) return {
         ...state,
         error: action.data,
@@ -46,14 +50,22 @@ function inboundNetworkReducer(state, action){
     }
 }
 
+function outboundNetworkReducer(state, action){
+    switch(action.resource){
+        case '/profile':
+        case '/profile/all': return {
+            ...state,
+            loading: true,
+            error: null,
+            success: null
+        }
+        default: return state
+    }
+}
+
 function networkReducer(state, action){
     if(action.status) return inboundNetworkReducer({...state, loading: false}, action)
-    return { /* outbound network action */
-        ...state,
-        loading: true,
-        error: null,
-        succes: null
-    }
+    return outboundNetworkReducer(state, action)
 }
 
 const INITIAL_STATE = {
@@ -63,7 +75,7 @@ const INITIAL_STATE = {
     data: {}
 }
 
-export default function(state, action){
+export default function(state=INITIAL_STATE, action){
     if(action.network){
         return networkReducer(state, action)
     }

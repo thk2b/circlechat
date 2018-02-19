@@ -14,64 +14,54 @@ function localReducer(state, action){
     }
 }
 
-function loginReducer(state, action){
-    switch(action.type){
-        case 'POST':
-            if(action.status === 201){
-                // set userId - see #29
-                return {
-                    token: action.data.token,
-                    userId: action.data.userId,
-                    loading: false,
-                    error: null,
-                    success: {
-                        message: 'logged in successfully'
-                    }
-                }
-            } else {
-                return {
-                    ...state,
-                    loading: false,
-                    error: action.data,
-                    success: null
-                }
-            }
-        default:
-            return state
+function inboundNetworkActionReducer(state, action){
+    if(! validateIncomingNetworkAction(action)){
+        console.error('invalid incoming network action: ', action)
+        return state
     }
-}
-
-function authReducer(state, action){
-    switch(action.type){
-        case 'POST':
-            if(action.status === 201){
-                return {
-                    ...state,
-                    loading: false,
-                    success: { message: 'registered successfully'},
-                    error: null
-                }
-            } else {
-                return {
-                    ...state,
-                    loading: false,
-                    success: null,
-                    error: action.data
-                }
+    if(action.status >= 400) return {
+        ...state,
+        error: action.data,
+        loading: false
+    }
+    switch(action.resource){
+        case '/auth': switch(action.type){
+            case 'POST': return {
+                ...state,
+                loading: false,
+                success: { message: 'registered successfully'},
+                error: null
             }
-        case 'PUT':
-        case 'GET':
-        case 'DELETE':
+            case 'PUT':
+            case 'GET':
+            case 'DELETE':
+            default: return state
+        }
+        case '/auth/login': switch(action.type){
+            case 'POST': return {
+                token: action.data.token,
+                userId: action.data.userId,
+                loading: false,
+                error: null,
+                success: {
+                    message: 'logged in successfully'
+                }
+            }   
+            default: return state
+        }
         default: return state
     }
 }
 
-function networkReducer(state, action){
+function outboundNetworkReducer(state, action){
     switch(action.resource){
-        case '/auth/login':
-            return loginReducer(state, action)
         case '/auth':
-            return authReducer(state, action)
+        case '/auth/login': return {
+            ...state,
+            loading: true,
+            error: null,
+            success: null
+        }
         default: return state
     }
 }
@@ -86,21 +76,8 @@ const INITIAL_STATE = {
 
 export default function(state = INITIAL_STATE, action){
     if(action.network){
-        if(action.status){ /* incoming http request */
-            if(validateIncomingNetworkAction(action)){
-                return networkReducer(state, action)
-            } else {
-                console.error('invalid incoming network action: ', action)
-                return state
-            }
-        } else { /* outgoing http request */
-            return {
-                ...state,
-                loading: true,
-                error: null,
-                success: null
-            }
-        }
+        if(action.status) return inboundNetworkActionReducer(state, action)
+        return outboundNetworkReducer(state, action)
     } else {
         return localReducer(state, action)
     }

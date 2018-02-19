@@ -3,6 +3,9 @@ import axios from 'axios'
 import validateOutgoingNetworkAction from '../lib/validateOutgoingNetworkAction'
 
 const makeRequest = (url, verb, data) => {
+    if(process.env.NODE_ENV === 'test'){
+        return new Promise(() => {})
+    }
     switch(verb){
         case 'GET':
             return axios.get(url)
@@ -24,7 +27,8 @@ export default apiUrl => store => next => action => {
         if(validateOutgoingNetworkAction(action)){
             process.env.NODE_ENV === 'development' && console.log('outgoing http request: ', action)
 
-            const url = `${apiUrl}${action.resource}${action.resourceId}`
+            const { resourceId: id } = action
+            const url = `${apiUrl}${action.resource}${id?'/'+id:''}`
 
             makeRequest(url, action.type, action.data)
             .then(res => {

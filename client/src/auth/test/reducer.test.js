@@ -1,23 +1,32 @@
 import * as actions from '../actions'
 import reducer from '../reducer'
+import { store } from '../../store'
 
 describe('auth reducer', () => {
     test('dispatching login action', () => {
         // todo: change after data validatin is implemented
-        const state = reducer(undefined, {})
+        const state = store.getState()
+        store.dispatch(actions.login())
         expect(
-            reducer(state, actions.login({}))
-        ).toEqual(
-            {...state, loading: true}
-        )
+            store.getState()
+        ).toEqual({
+            ...state, auth: {
+                ...state.auth,
+                loading: true, error: null, success: null
+            }
+        })
     })
     test('dispatching register action', () => {
-        const state = reducer(undefined, {})
+        const state = store.getState()
+        store.dispatch(actions.register())
         expect(
-            reducer(state, actions.register({}))
-        ).toEqual(
-            {...state, loading: true}
-        )
+            store.getState()
+        ).toEqual({
+            ...state, auth: {
+                ...state.auth,
+                loading: true, error: null, success: null
+            }
+        })
     })
     test('incoming register error', () => {
         const state = reducer(undefined, {})

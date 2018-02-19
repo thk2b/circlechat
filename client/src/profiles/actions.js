@@ -1,7 +1,7 @@
 export const getAll = () => {
     return {
         network: 'http',
-        resource: '/profiles/all',
+        resource: '/profile/all',
         type: 'GET'
     }
 }
@@ -22,11 +22,10 @@ export const update = (id, data) => {
         data
     }
 }
-export const create = (id, data) => {
+export const create = data => {
     return {
         network: 'http',
         resource: '/profile',
-        resourceId: id,
         type: 'POST',
         data
     }
