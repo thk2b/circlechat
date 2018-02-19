@@ -21,7 +21,7 @@ function inboundNetworkActionReducer(state, action){
     }
     if(action.status >= 400) return {
         ...state,
-        error: action.data,
+        error: { ...action.data, status: action.status},
         loading: false
     }
     switch(action.resource){

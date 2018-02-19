@@ -11,9 +11,10 @@ function inboundNetworkReducer(state, action){
     }
     if(action.status >= 400) return {
         ...state,
-        error: action.data,
+        error: { ...action.data, status: action.status },
         loading: false
     }
+    state = {...state, success: true}
     switch(action.resource){
         case '/profile': 
             switch(action.type){
@@ -26,16 +27,17 @@ function inboundNetworkReducer(state, action){
                     ...state,
                     data: { 
                         ...state.data,
-                        [action.data.id]: {
-                            ...state.data[action.data.id],
+                        [action.resourceId]: {
+                            ...state.data[action.resourceId],
                             ...action.data
                         }
                     }
                 }
-                case 'DELETE': return {
+                case 'DELETE': 
+                return {
                     ...state,
                     data: Object.entries(state.data).reduce(
-                        (obj, [id, profile]) => id === action.resourceId? obj : {...obj, [id]: profile}
+                        (obj, [id, profile]) => profile.id === action.resourceId? obj : {...obj, [id]: profile}
                     , {})
                 }
                 default: return state

@@ -38,7 +38,7 @@ describe('auth reducer', () => {
         ).toEqual({
             ...state, 
             loading: false,
-            error: { message: 'some error'}
+            error: { message: 'some error', status: 400 }
         })
     })
     test('incoming register success ', () => {
@@ -64,7 +64,7 @@ describe('auth reducer', () => {
         ).toEqual({
             ...state, 
             loading: false,
-            error: { message: 'some error'}
+            error: { message: 'some error', status: 400 }
         })
     })
     test('incoming login success', () => {
@@ -85,7 +85,7 @@ describe('auth reducer', () => {
     test('clear request status action', () => {
         const state = reducer(undefined, {
             network: 'http', type: 'POST', resource: '/auth/login', 
-            status: 400, data: { message: 'some error' }
+            status: 400, data: { message: 'some error', status: 400}
         })
         expect(
             reducer(state, actions.clearRequestStatus())
