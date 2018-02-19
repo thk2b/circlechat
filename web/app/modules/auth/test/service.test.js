@@ -180,21 +180,22 @@ describe('auth service', function(){
     describe('update', function(){
         const { userId, email, pw } = credentials
 
-        it('should not update userId', function(){
+        it.skip('should not update userId', function(){
             return service.update(userId, { userId: 'newId' })
             .then(() => { throw new Error('should not resolve')})
             .catch(e => {
                 expect(e).to.deep.equal({ code: 422, message: 'invalid data'})
             })
         })
-        it('should update email', function(){
+        it.skip('should update email', function(){
             return service.update(userId, { email: 'new@email.cc' })
             .then(data => {
                 expect(data.email).to.equal(email)
             })
         })
 
-        it('should update and hash password', function(){
+        it.skip('should update and hash password', function(){
+            // TODO: evergreen
             return db.one(SQL`SELECT pw as "oldPw" FROM auth WHERE "userId"=${userId}`)
             .then(({ oldPw }) => {
                 service.update(userId, { pw: 'muuuch better passphrase' })
@@ -206,7 +207,7 @@ describe('auth service', function(){
                 })
             })
         })
-        it('should update both email an password at once', function(){
+        it.skip('should update both email an password at once', function(){
             const payload = { pw: 'newpw', email: 'new@email2.cc' }
             return service.update(userId, payload)
             .then(data => {

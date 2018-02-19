@@ -143,39 +143,111 @@ describe(API_URL, function(){
         })
     })
     describe(`GET ${API_URL}/all`, function(){
-        it('should not send all profiles when unauthenticated', function(){
-
+        it('should not send all profiles when unauthenticated', function(done){
+            request(server)
+                .get(API_URL + '/all')
+                .set('Content-Type', 'application/json')
+                .expect(401)
+                .end(done)
         })
-        it('should not send all profiles when unauthorized', function(){
-
+        it('should not send all profiles with an invalid token', function(done){
+            request(server)
+                .get(API_URL + '/all')
+                .set('Authorization', 'Bearer 0' + token)
+                .set('Content-Type', 'application/json')
+                .expect(401)
+                .end(done)
         })
-        it('should send all profiles when authorized and authenticated', function(){
-
+        it('should send all profiles when authorized and authenticated', function(done){
+            request(server)
+                .get(API_URL + '/all')
+                .set('Authorization', 'Bearer ' + token)
+                .set('Content-Type', 'application/json')
+                .expect(200)
+                .end((e, res) => {
+                    if(e) return done(e)
+                    expect(res.body).to.deep.equal({
+                        [savedProfile.id]: savedProfile, 
+                        [savedProfile1.id]: savedProfile1
+                    })
+                    done()
+                })
         })
     })
     describe(`PUT ${API_URL}`, function(){
-        it('should not update a profile when unauthenticated', function(){
-
+        it.skip('should not update a profile when unauthenticated', function(done){
+            request(server)
+                .put(API_URL + '/' + savedProfile.id)
+                .send({ status: 'OFFLINE' })
+                .set('Content-Type', 'application/json')
+                .expect(401)
+                .end(done)
         })
-        it('should not update a profile when unauthorized', function(){
-
+        it.skip('should not update a profile with an invalid token', function(done){
+            request(server)
+                .put(API_URL + '/' + savedProfile.id)
+                .send({ status: 'OFFLINE' })
+                .set('Authorization', 'Bearer 0' + token)
+                .set('Content-Type', 'application/json')
+                .expect(401)
+                .end(done)
         })
-        it('should not update a profile when data is invalid', function(){
-
+        it.skip('should not update another user\'s profile', function(done){
+            request(server)
+                .put(API_URL + '/' + savedProfile1.id)
+                .send({ status: 'OFFLINE' })
+                .set('Authorization', 'Bearer ' + token)
+                .set('Content-Type', 'application/json')
+                .expect(403)
+                .end(done)
         })
-        it('should update a profile when authorized and authenticated', function(){
-
+        it.skip('should not update a profile when data is invalid', function(done){
+            request(server)
+                .put(API_URL + '/' + savedProfile.id)
+                .send({ wrong: 'key' })
+                .set('Authorization', 'Bearer ' + token)
+                .set('Content-Type', 'application/json')
+                .expect(422)
+                .end(done)
+        })
+        it.skip('should update a profile when authorized and authenticated', function(done){
+            request(server)
+                .put(API_URL + '/' + savedProfile.id)
+                .send({ status: 'OFFLINE' })
+                .set('Authorization', 'Bearer ' + token)
+                .set('Content-Type', 'application/json')
+                .expect(202)
+                .end((e, res) => {
+                    if(e) return done(e)
+                    expect(res.body).to.deep.equal({...stavedProfile, status: 'OFFLINE'})
+                    done()
+                })
         })
     })
     describe(`DELETE ${API_URL}`, function(){
-        it('should not delete a profile when unauthenticated', function(){
-
+        it('should not delete a profile when unauthenticated', function(done){
+            request(server)
+                .delete(API_URL + '/' + savedProfile.id)
+                .set('Content-Type', 'application/json')
+                .expect(401)
+                .end(done)
         })
-        it('should not delete a profile when unauthorized', function(){
-
+        it.skip('should not delete another user\'s profile', function(done){
+            // see #32
+            request(server)
+                .delete(API_URL + '/' + savedProfile1.id)
+                .set('Authorization', 'Bearer ' + token)
+                .set('Content-Type', 'application/json')
+                .expect(403)
+                .end(done)
         })
-        it('should delete a profile when authorized and authenticated', function(){
-
+        it('should delete a profile when authorized and authenticated', function(done){
+            request(server)
+                .delete(API_URL + '/' + savedProfile.id)
+                .set('Authorization', 'Bearer ' + token)
+                .set('Content-Type', 'application/json')
+                .expect(202)
+                .end(done)
         })
     })
 })

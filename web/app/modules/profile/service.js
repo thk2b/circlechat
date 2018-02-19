@@ -91,9 +91,17 @@ function update(){
 /** 
  * delete profile
 */
-function remove(){
+function remove(requesterId, profileId){
     return new Promise((resolve, reject) => {
-        reject(new Error('not implemented'))
+        if(!requesterId){
+            return reject({ status: 401, message: 'unauthorized' })
+        }
+        db.none(SQL`
+            DELETE FROM profile
+            WHERE id=${profileId} and "userId"=${requesterId}
+        ;`)
+        .then(() => resolve(true))
+        .catch(e => reject({ status: 500, message: 'database error'}))
     })    
 }
 
