@@ -23,7 +23,10 @@ export default apiUrl => store => next => action => {
     if(action.status === undefined){ /* outgoing request, it does not have a status code */
         if(validateOutgoingNetworkAction(action)){
             process.env.NODE_ENV === 'development' && console.log('outgoing http request: ', action)
-            makeRequest(apiUrl + action.resource, action.type, action.data)
+
+            const url = `${apiUrl}${action.resource}${resourceId}`
+
+            makeRequest(url, action.type, action.data)
             .then(res => {
                 return {
                     ...action,

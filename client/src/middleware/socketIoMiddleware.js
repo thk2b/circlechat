@@ -37,9 +37,11 @@ export default socket => store => {
             if(validateOutgoingNetworkAction(action)){
                 process.env.NODE_ENV === 'development' && console.log({ws: action})
 
+                const meta = action.resourceId? { resourceId: action.resourceId } : {}
+
                 const payload = {
                     data: action.data, 
-                    meta: { type: action.type }
+                    meta: { ...meta, type: action.type }
                 }
                 socket.emit(action.resource, payload)
             } else {
