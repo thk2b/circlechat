@@ -1,0 +1,8 @@
+.Nav {
+    height: 85px;
+    background-color: var(--primary);
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+    text-transform: uppercase;
+}

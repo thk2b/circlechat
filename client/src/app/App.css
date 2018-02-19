@@ -6,6 +6,6 @@
     left: 0;
     overflow: hidden;
     font-family: sans-serif;
-    background-color: var(--primary);
+    background-color: var(--secondary);
     color: var(--text-color);
 }
