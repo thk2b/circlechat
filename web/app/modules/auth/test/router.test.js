@@ -12,7 +12,10 @@ const API_URL = '/api/v1/auth'
 describe(API_URL, function(){
     before(function(done){
         recreate()
-        .then(() => server.listen(1, () => done()))
+        .then(() => server.listen(1, e => done(e)))
+    })
+    after(function(done){
+        server.close(e => done(e))
     })
 
     const credentials = {

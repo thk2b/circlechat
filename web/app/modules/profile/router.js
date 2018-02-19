@@ -1,13 +1,21 @@
 const { Router } = require('express')
 
+const service = require('./service')
+
 const r = new Router()
 
 r.route('/')
-    .get((req, res) => {
-
-    })
     .post((req, res) => {
+        service.create(req.userId, req.body)
+        .then(profile => res.status(201).json(profile))
+        .catch(e => res.status(e.status || 500).json(e))
+    })
 
+r.route('/:id')
+    .get((req, res) => {
+        service.get(req.userId, req.params.id)
+        .then(profile => res.status(200).json(profile))
+        .catch(e => res.status(e.status || 500).json(e))
     })
     .put((req, res) => {
 

@@ -33,7 +33,7 @@ function create(requesterId, { userId, name=userId, description='', status='ONLI
         if(!userId){
             return reject({ status: 422, message: 'invalid data' })
         }
-        if(requesterId === null){
+        if(!requesterId){
             return reject({ status: 401, message: 'unauthorized' })
         }
         if(requesterId !== userId){
