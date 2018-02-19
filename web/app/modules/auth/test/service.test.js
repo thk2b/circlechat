@@ -6,6 +6,7 @@ const { recreate } = require('../../../manage')
 const db = require('../../../db')
 
 const service = require('../service')
+const { service: profileService } = require('../../profile')
 
 describe('auth table', function(){
     it('should create and drop auth table', function(){
@@ -18,7 +19,7 @@ describe('auth table', function(){
 
 describe('auth service', function(){
     const credentials = { 
-        userId: 'tester', 
+        userId: 'tester2', 
         email: 'test@test.cc', 
         pw: 'hunter2'
     }
@@ -69,6 +70,14 @@ describe('auth service', function(){
                 expect(e).to.deep.equal({
                     status: 422, message: 'incomplete credentials'
                 })
+            })
+        })
+        it('should have created a profile on successfull register', function(){
+            return profileService.getAll(credentials.userId)
+            .then((profiles) => {
+                const id = Object.keys(profiles)[0]
+                expect(id).not.to.be.undefined
+                expect(profiles[id].userId).to.equal(credentials.userId)
             })
         })
     })
@@ -145,13 +154,17 @@ describe('auth service', function(){
 
         it('should accept valid userId and valid password', function(){
             return service.login({ userId, pw })
-            .then(token => {
+            .then(({token, userId, profileId}) => {
+                expect(userId).not.to.be.undefined
+                expect(profileId).not.to.be.undefined
                 expect(token).to.be.a.string
             })
         })        
         it('should accept valid email and valid password', function(){
             return service.login({ email, pw })
-            .then(token => {
+            .then(({token, userId, profileId}) => {
+                expect(userId).not.to.be.undefined
+                expect(profileId).not.to.be.undefined
                 expect(token).to.be.a.string
             })
         })
@@ -161,7 +174,7 @@ describe('auth service', function(){
     describe('verifyToken', function(){
         it('should resolve with userId when given a valid token', function(){
             return service.login(credentials)
-            .then(service.verifyToken)
+            .then(data => service.verifyToken(data.token))
             .then(decodedToken => {
                 expect(decodedToken).to.equal(credentials.userId)
             })

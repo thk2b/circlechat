@@ -15,7 +15,7 @@ function init(){
             description VARCHAR(512) NOT NULL,
             status VARCHAR(25),
             PRIMARY KEY (id),
-            FOREIGN KEY ("userId") REFERENCES auth("userId")
+            FOREIGN KEY ("userId") REFERENCES auth("userId") ON DELETE CASCADE
         )
     ;`)
 }

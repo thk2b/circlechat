@@ -34,8 +34,8 @@ describe('profile service', function(){
     before(function(){
         return recreate()
         .then(() => Promise.all([
-            authService.register(credentials),
-            authService.register(credentials1)
+            authService.register(credentials, false),
+            authService.register(credentials1, false)
         ]))
     })
     describe('create', function(){
@@ -186,6 +186,16 @@ describe('profile service', function(){
             .then(() => { throw new Error('should not resolve') })
             .catch(e => {
                 expect(e).to.deep.equal({ status: 404, message: 'not found'})
+            })
+        })
+    })
+    describe('get all profiles when there are no profiles', function(){
+        it('should return an object', function(){
+            return service.drop()
+            .then(() => service.init())
+            .then(() => service.getAll(credentials.userId))
+            .then( profiles => {
+                expect(profiles).to.not.be.undefined
             })
         })
     })

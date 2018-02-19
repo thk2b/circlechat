@@ -54,7 +54,6 @@ describe(API_URL, function(){
                 })
         })
     })
-
     describe(`POST ${API_URL}/login`, function(){
         const { userId, pw } = credentials
         it('should not send a token when credentials are invalid', function(done){
@@ -65,7 +64,7 @@ describe(API_URL, function(){
                 .expect(401)
                 .end(done)
         })
-        it('should send back a token', function(done){
+        it('should send back a token, userId and profileId', function(done){
             request(server)
                 .post(API_URL + '/login')
                 .send({ userId, pw })
@@ -74,17 +73,18 @@ describe(API_URL, function(){
                 .end((e, res) => {
                     if(e) done(e)
                     expect(res.body.token).to.be.a.string
+                    expect(res.body.userId).to.not.be.undefined
+                    expect(res.body.profileId).to.not.be.undefined
                     token = res.token
                     done()
                 })
         })
     })
-
     describe(`GET ${API_URL}/:id/`, function(){
         let token
         before(function(done){
-            service.login(credentials).then(t => {
-                token = t
+            service.login(credentials).then((data) => {
+                token = data.token
                 done()
             }).catch(e => done(e))
         })
@@ -111,7 +111,6 @@ describe(API_URL, function(){
                 .end(done)
         })
     })
-
     describe(`PUT ${API_URL}/:id`, function(){
         it('', function(done){
             // .set('Authorization', 'bearer ' + token)
@@ -121,8 +120,8 @@ describe(API_URL, function(){
     describe(`DELETE ${API_URL}/:id`, function(){
         let token
         before(function(done){
-            service.login(credentials).then(t => {
-                token = t
+            service.login(credentials).then(data => {
+                token = data.token
                 done()
             }).catch(e => done(e))
         })

@@ -37,11 +37,12 @@ describe(API_URL, function(){
 
     before(function(done){
         recreate()
-        .then(() => auth.service.register(credentials))
+        .then(() => auth.service.register(credentials, false))
         .then(() => auth.service.login(credentials))
-        .then(_token => token = _token)
-        .then(() => auth.service.register(credentials1))
+        .then(data => token = data.token)
+        .then(() => auth.service.register(credentials1, false))
         .then(() => server.listen(1, () => done()))
+        .catch(e => done(e))
     })
     after(function(done){
         server.close(e => done(e))

@@ -7,6 +7,7 @@ const bulkSet = require('../../lib/bulkSet')
 
 const config = require('../../config')
 const db = require('../../db')
+const { service: profileService } = require('../profile')
 
 /**
  * Create database tables
@@ -32,7 +33,7 @@ function drop(){
 /**
  * Register a user
  */
-function register({ userId, email, pw }){
+function register({ userId, email, pw }, createProfile=true){
     return new Promise((resolve, reject) => {
         if(! userId || !email || !pw){
             return reject({ status: 422, message: `incomplete credentials`})
@@ -43,7 +44,6 @@ function register({ userId, email, pw }){
             VALUES (${userId}, ${email}, ${hashedPw})
             RETURNING "userId"
         ;`))
-        .then(id => resolve(id))
         .catch(e => {
             switch(e.code){
                 case '23505': // violates unique constraint
@@ -55,6 +55,8 @@ function register({ userId, email, pw }){
                     return reject({ status: 500, message: 'internal server error', data: e})
             }
         })
+        .then(() => createProfile && profileService.create(userId, { userId }))
+        .then(() => resolve({ userId }))
     })
 }
 
@@ -63,18 +65,21 @@ function register({ userId, email, pw }){
  */
 function login({ userId, email, pw }){
     return new Promise((resolve, reject) => {
+        let ownProfileId
         db.one(SQL`
-            SELECT "userId" as id, pw as "hashedPw" FROM auth 
-            WHERE "userId"=${userId} or email=${email}
-        ;`)        
-        .then(({ id, hashedPw}) => {
+            SELECT auth."userId" as id, pw as "hashedPw", profile.id as "profileId"
+            FROM auth LEFT JOIN profile ON auth."userId"=profile."userId"
+            WHERE auth."userId"=${userId} or email=${email}
+        ;`)
+        .then(({ id, hashedPw, profileId }) => {
+            ownProfileId = profileId
             userId = id
             return bcrypt.compare(pw, hashedPw)
         })
         .then(() => {
             jwt.sign(userId, config.secret, (e, token) => {
                 if(e) reject(e)
-                resolve(token)
+                resolve({token, profileId: ownProfileId, userId })
             })
         })
         .catch(e => reject({ status: 401, message: 'invalid credentials' }))
@@ -164,7 +169,7 @@ function remove(requesterId, id){
         if(requesterId !== id){
             return reject({ status: 403, message: 'not permitted' })
         }
-        return resolve(db.any(SQL`DELETE FROM auth WHERE "userId"=${id}`))
+        return resolve(db.any(SQL`DELETE FROM auth WHERE "userId"=${id};`))
     })
 }
 
