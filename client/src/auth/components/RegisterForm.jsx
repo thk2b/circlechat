@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Input, Button } from '../lib/components'
+import { Input, Button } from '../../lib/components'
 
 export default class LoginForm extends React.Component {
     constructor(props) {
@@ -8,6 +8,7 @@ export default class LoginForm extends React.Component {
     
         this.state = {
             userId: '',
+            email: '',
             pw: ''
         }
     }
@@ -18,11 +19,16 @@ export default class LoginForm extends React.Component {
     render() {
         return (
             <form onSubmit={e => this.handleSubmit(e)}>
-                <h1>Log in</h1>
-                <Input
-                    placeholder="id or email"
+                <h1>Register</h1>
+                <Input 
+                    placeholder="user id"
                     value={this.state.userId}
                     onChange={userId => this.setState({ userId })}
+                />
+                <Input 
+                    placeholder="email"
+                    value={this.state.email}
+                    onChange={email => this.setState({ email })}
                 />
                 <Input
                     type="password"
@@ -30,11 +36,11 @@ export default class LoginForm extends React.Component {
                     value={this.state.pw}
                     onChange={pw => this.setState({ pw })}
                 />
-                <Button onClick={e => this.handleSubmit(e)}>Log in</ Button>
+                <Button onClick={e => this.handleSubmit(e)}>Register</ Button>
                 <Button 
                     underlined 
                     onClick={e => this.props.onSecondary(e)}
-                >Register</ Button>
+                >Log in</ Button>
             </form>
         )
     }

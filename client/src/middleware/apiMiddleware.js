@@ -24,7 +24,7 @@ export default apiUrl => store => next => action => {
         if(validateOutgoingNetworkAction(action)){
             process.env.NODE_ENV === 'development' && console.log('outgoing http request: ', action)
 
-            const url = `${apiUrl}${action.resource}${resourceId}`
+            const url = `${apiUrl}${action.resource}${action.resourceId}`
 
             makeRequest(url, action.type, action.data)
             .then(res => {

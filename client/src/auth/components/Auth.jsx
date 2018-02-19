@@ -2,9 +2,9 @@ import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-import { Info, Spinner } from '../lib/components'
+import { Info, Spinner } from '../../lib/components'
 
-import { login, register, clearRequestStatus } from './actions'
+import { login, register, clearRequestStatus } from '../actions'
 import LoginForm from './LoginForm'
 import RegisterForm from './RegisterForm'
 
