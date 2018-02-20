@@ -44,7 +44,7 @@ describe('profile service', function(){
             .then(() => { throw new Error('should not resolve')})
             .catch(e => {
                 expect(e).to.deep.equal({
-                    status: 401, message: 'unauthorized'
+                    status: 401, message: 'unauthenticated'
                 })
             })
         })
@@ -53,7 +53,7 @@ describe('profile service', function(){
             .then(() => { throw new Error('should not resolve')})
             .catch(e => {
                 expect(e).to.deep.equal({
-                    status: 403, message: 'not permitted'
+                    status: 403, message: 'forbidden'
                 })
             })
         })
@@ -118,7 +118,7 @@ describe('profile service', function(){
             return service.getAll(null)
             .then(() =>{ throw new Error('should not resolve') })
             .catch(e => {
-                expect(e).to.deep.equal({ status: 401, message: 'unauthorized'})
+                expect(e).to.deep.equal({ status: 401, message: 'unauthenticated'})
             })
 
         })
@@ -169,7 +169,7 @@ describe('profile service', function(){
             return service.remove(null, savedProfile.id)
             .then(() => { throw new Error('should not resolve')})
             .catch(e => {
-                expect(e).to.deep.equal({ status: 401, message: 'unauthorized'})
+                expect(e).to.deep.equal({ status: 401, message: 'unauthenticated'})
             })
         })
         it.skip('should refuse to remove the profile when the profile belongs to another user', function(){
