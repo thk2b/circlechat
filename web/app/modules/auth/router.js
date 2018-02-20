@@ -12,8 +12,8 @@ r.route('/login')
         const _profile = login.then(({ token, userId }) => profile.of.user(userId, userId))
 
         Promise.all([login, _profile])
-        .then(([{ token, userId }, profile ]) => {
-            res.status(201).json({ token, userId, profile })
+        .then(([loginData, profileData ]) => {
+            res.status(201).json({ ...loginData, profile: profileData })
         })
         .catch(e => { res.status(e.status || 500).json(e) })
     })
@@ -32,7 +32,7 @@ r.route('/:id')
         .catch(e => res.status(e.status || 500).json(e))
     })
     .put((req, res) => {
-
+        res.status(500).json({ message: 'implemented' })
     })
     .delete((req, res) =>{
         service.remove(req.userId, req.params.id)

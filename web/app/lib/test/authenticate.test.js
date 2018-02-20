@@ -2,18 +2,19 @@ const chai = require('chai')
 const { expect } = chai
 chai.use(require("chai-as-promised"))
 
-const authorize = require('../authorize')
+const authenticate = require('../authenticate')
 
-describe('lib/authorize', function(){
+describe('lib/authenticate', function(){
     it('should reject when condition is false', function(){
-        expect(authorize(false)).to.be.rejected
+        expect(authenticate(null)).to.be.rejected
     })
     it('should reject with the correct error message when condition is false', function(){
-        expect(authorize(false)).to.be.rejectedWith(
-            { message: 'forbidden', status: 403 }
+        expect(authenticate(false)).to.be.rejectedWith(
+            { message: 'unauthenticated', status: 401 }
         )
     })
     it('resolve when the condition is true', function(){
-        expect(authorize(true)).to.eventually.equal()
+        expect(authenticate(true)).to.eventually.equal()
     })
+    
 })

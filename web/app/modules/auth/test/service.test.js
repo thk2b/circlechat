@@ -1,5 +1,6 @@
 const chai = require('chai')
 const { expect } = chai
+chai.use(require('chai-as-promised'))
 const SQL = require('sql-template-strings')
 
 const { recreate } = require('../../../manage')
@@ -85,16 +86,16 @@ describe('auth service', function(){
     describe('get', function(){
         it('should refuse when the requester is not permitted', function(){
             service.get('someone', credentials.userId)
-            .then(e => { throw new Error() })
+            .then(e => { throw new Error('should not resolve') })
             .catch(e => {
                 expect(e).to.deep.equal({
-                    status: 403, message: 'not permitted'
+                    status: 403, message: 'forbidden'
                 })
             })
         })
         it('should refuse invalid userId', function(){
             service.get('nobody', 'nobody')
-            .then(e => { throw new Error() })
+            .then(e => { throw new Error('should not resolve') })
             .catch(e => {
                 expect(e).to.deep.equal({
                     status: 404, message: 'user not found'
@@ -234,7 +235,7 @@ describe('auth service', function(){
             .then(() => { throw new Error('should not resolve') })
             .catch(e => {
                 expect(e).to.deep.equal({
-                    status: 401, message: 'unauthorized'
+                    status: 401, message: 'unauthenticated'
                 })
             })
         })
@@ -243,7 +244,7 @@ describe('auth service', function(){
             .then(() => { throw new Error('should not resolve') })
             .catch(e => {
                 expect(e).to.deep.equal({
-                    status: 403, message: 'not permitted'
+                    status: 403, message: 'forbidden'
                 })
             })
         })

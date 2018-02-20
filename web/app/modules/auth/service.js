@@ -4,6 +4,8 @@ const bcrypt = require('bcrypt-as-promised')
 const jwt = require('jsonwebtoken')
 
 const bulkSet = require('../../lib/bulkSet')
+const authenticate = require('../../lib/authenticate')
+const authorize = require('../../lib/authorize')
 
 const config = require('../../config')
 const db = require('../../db')
@@ -98,17 +100,10 @@ function verifyToken(token){
  * Get user with id
  */
 function get(requesterId, id){
-    return new Promise((resolve, reject) => {
-        if(requesterId === null){
-            return reject({ status: 401, message: 'unauthorized' })
-        }
-        if(requesterId !== id){
-            return reject({ status: 403, message: 'not permitted' })
-        }
-        db.one(SQL`SELECT "userId", email FROM auth WHERE "userId"=${id};`)
-        .then(data => resolve(data))
-        .catch(e => reject({ status: 404, message: 'user not found'}))
-    })
+    return authenticate(requesterId)
+    .then(() => authorize(requesterId === id))
+    .then(() => db.one(SQL`SELECT "userId", email FROM auth WHERE "userId"=${id};`)
+    .catch(e => Promise.reject({ status: 404, message: 'user not found'})))
 }
 
 // function updatePw(id, newPw){
@@ -161,15 +156,10 @@ function update(id, obj){
  * delete credentials
  */
 function remove(requesterId, id){
-    return new Promise((resolve, reject) => {
-        if(requesterId === null){
-            return reject({ status: 401, message: 'unauthorized' })
-        }
-        if(requesterId !== id){
-            return reject({ status: 403, message: 'not permitted' })
-        }
-        return resolve(db.any(SQL`DELETE FROM auth WHERE "userId"=${id};`))
-    })
+    return authenticate(requesterId)
+    .then(() => authorize(requesterId === id))
+    .then(() => db.any(SQL`DELETE FROM auth WHERE "userId"=${id};`)
+    .catch(e => Promise.reject({ status: 500, message: 'database error', data: e})))
 }
 
 module.exports = {

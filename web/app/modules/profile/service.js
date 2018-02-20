@@ -3,6 +3,7 @@ const SQL = require('sql-template-strings')
 
 const db = require('../../db')
 const authorize = require('../../lib/authorize')
+const authenticate = require('../../lib/authenticate')
 
 /** 
  * create table
