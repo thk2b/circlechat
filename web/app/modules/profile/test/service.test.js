@@ -91,7 +91,6 @@ describe('profile service', function(){
             })
         })
     })
-    
     describe('get profile', function(){
         it('should refuse to get a profile that does not exist', function(){
             return service.get(null, 1234)
@@ -189,7 +188,6 @@ describe('profile service', function(){
             })
         })
     })
-
     describe('get profile of user', function(){
         it('should not return a user\'s profile when unathenticated', function(){
             expect(

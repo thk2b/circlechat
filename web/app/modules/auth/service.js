@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken')
 const bulkSet = require('../../lib/bulkSet')
 const authenticate = require('../../lib/authenticate')
 const authorize = require('../../lib/authorize')
+const validate = require('../../lib/validate')
 
 const config = require('../../config')
 const db = require('../../db')
@@ -36,30 +37,26 @@ function drop(){
  * Register a user
  */
 function register({ userId, email, pw }, createProfile=true){
-    return new Promise((resolve, reject) => {
-        if(! userId || !email || !pw){
-            return reject({ status: 422, message: `incomplete credentials`})
+    return validate(userId && email && pw, 'credentials')
+    .then(() => bcrypt.hash(pw, 10))
+    .then(hashedPw => db.one(SQL`
+        INSERT INTO auth ("userId", email, pw)
+        VALUES (${userId}, ${email}, ${hashedPw})
+        RETURNING "userId"
+    ;`))
+    .catch(e => {
+        if(e.status) return Promise.reject(e)
+        switch(e.code){
+            case '23505': // violates unique constraint
+                return Promise.reject({ status: 409, message: 'user id or email already in use'})
+            case '23502': // violates null constraint
+                return Promise.reject({ status: 422, message: 'incomplete credentials'})
+            default:
+                console.error(e)
+                return Promise.reject({ status: 500, message: 'database error', data: e})
         }
-        bcrypt.hash(pw, 10)
-        .then(hashedPw => db.one(SQL`
-            INSERT INTO auth ("userId", email, pw)
-            VALUES (${userId}, ${email}, ${hashedPw})
-            RETURNING "userId"
-        ;`))
-        .catch(e => {
-            switch(e.code){
-                case '23505': // violates unique constraint
-                    return reject({ status: 409, message: `user id or email already in use`})
-                case '23502': // violates null constraint
-                    return reject({ status: 422, message: `incomplete credentials`})
-                default:
-                    console.error(e)
-                    return reject({ status: 500, message: 'internal server error', data: e})
-            }
-        })
-        .then(() => createProfile && profileService.create(userId, { userId }))
-        .then(() => resolve({ userId }))
     })
+    .then(() => createProfile && profileService.create(userId, { userId }))
 }
 
 /**

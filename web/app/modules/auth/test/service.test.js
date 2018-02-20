@@ -42,7 +42,7 @@ describe('auth service', function(){
             .then(() => { throw new Error('should not resolve') })
             .catch(e => {
                 expect(e).to.deep.equal({
-                    status: 422, message: 'incomplete credentials'
+                    status: 422, message: 'invalid credentials'
                 })
             })
         })
@@ -69,7 +69,7 @@ describe('auth service', function(){
             .then(() => { throw new Error('should not resolve')})
             .catch(e => {
                 expect(e).to.deep.equal({
-                    status: 422, message: 'incomplete credentials'
+                    status: 422, message: 'invalid credentials'
                 })
             })
         })
@@ -82,7 +82,6 @@ describe('auth service', function(){
             })
         })
     })
-
     describe('get', function(){
         it('should refuse when the requester is not permitted', function(){
             service.get('someone', credentials.userId)
@@ -169,7 +168,6 @@ describe('auth service', function(){
         })
 
     })
-
     describe('verifyToken', function(){
         it('should resolve with userId when given a valid token', function(){
             return service.login(credentials)
@@ -228,7 +226,6 @@ describe('auth service', function(){
             })
         })
     })
-
     describe('delete', function(){
         it('should not remove credentials when requester is unauthenticated', function(){
             return service.remove(null, credentials.userId)
