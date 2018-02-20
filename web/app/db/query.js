@@ -8,22 +8,26 @@ const error = e => ({
 })
 
 function query(q){
-    return db.any(query)
-    .catch(e => { 
-        console.log(e)
-        throw error(e)
+    return db.any(q)
+    .catch(e => {
+        return Promise.reject(error(e))
     })
 }
 
 function some(q){
-    throw new Error('not implemented')
+    return db.any(q)
+    .then(data => {
+        if(!data) return Promise.reject({ status: 404, message: 'not found'})
+        return data
+    })
 }
 
 function none(q){
-    return db.none(q)
+    return db.any(q)
+    .then(_ => Promise.resolve())
     .catch(e => { 
         console.log(e)
-        throw error(e)
+        return Promise.reject(error(e))
     })
 }
 
