@@ -14,17 +14,28 @@ function inboundNetworkReducer(state, action){
         error: { ...action.data, status: action.status },
         loading: false
     }
-    state = {...state, success: true}
+    // state = {...state, success: true}
     switch(action.resource){
+        case '/auth/login':
+            if(action.type === 'POST' && action.status === 201){
+                return {
+                    ...state,
+                    data: {
+                        ...state.data,
+                        [action.data.profile.id]: action.data.profile
+                    },
+                    ownProfileId: action.data.profile.id
+                }
+            }
         case '/profile': 
             switch(action.type){
                 case 'POST':
                 case 'GET': return {
-                    ...state,
+                    ...state, success: true, loading: false,
                     data: { ...state.data, [action.data.id]: action.data }
                 }
                 case 'PUT': return {
-                    ...state,
+                    ...state, success: true, loading: false,
                     data: { 
                         ...state.data,
                         [action.resourceId]: {
@@ -35,7 +46,7 @@ function inboundNetworkReducer(state, action){
                 }
                 case 'DELETE': 
                 return {
-                    ...state,
+                    ...state, success: true, loading: false,
                     data: Object.entries(state.data).reduce(
                         (obj, [id, profile]) => profile.id === action.resourceId? obj : {...obj, [id]: profile}
                     , {})
@@ -44,7 +55,7 @@ function inboundNetworkReducer(state, action){
             }
         case '/profile/all':
             if(action.type === 'GET') return {
-                ...state,
+                ...state, success: true, loading: false,
                 data: action.data
             }
             return state
@@ -66,7 +77,7 @@ function outboundNetworkReducer(state, action){
 }
 
 function networkReducer(state, action){
-    if(action.status) return inboundNetworkReducer({...state, loading: false}, action)
+    if(action.status) return inboundNetworkReducer(state, action)
     return outboundNetworkReducer(state, action)
 }
 

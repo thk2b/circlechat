@@ -3,7 +3,7 @@ import reducer from '../reducer'
 import { store } from '../../store'
 
 describe('profiles reducer', () => {
-    test('dispatching getAll', () => {
+    test('outgoing getAll', () => {
         const state = store.getState()
         store.dispatch(actions.getAll())
         expect(
@@ -15,7 +15,7 @@ describe('profiles reducer', () => {
             }
         })
     })
-    test('dispatching get', () => {
+    test('outgoing get', () => {
         const state = store.getState()
         store.dispatch(actions.get())
         expect(
@@ -27,7 +27,7 @@ describe('profiles reducer', () => {
             }
         })
     })
-    test('dispatching update', () => {
+    test('outgoing update', () => {
         const state = store.getState()
         store.dispatch(actions.update(123, {status: 'OFFLINE'}))
         expect(
@@ -39,7 +39,7 @@ describe('profiles reducer', () => {
             }
         })
     })
-    test('dispatching create', () => {
+    test('outgoing create', () => {
         const state = store.getState()
         store.dispatch(actions.create({ userId: 'tester', description: 'testing' }))
         expect(
@@ -51,7 +51,7 @@ describe('profiles reducer', () => {
             }
         })
     })
-    test('dispatching remove', () => {
+    test('outgoing remove', () => {
         const state = store.getState()
         store.dispatch(actions.remove())
         expect(
@@ -310,6 +310,29 @@ describe('profiles reducer', () => {
             loading: false,
             success: true,
             data: {}
+        })
+    })
+    test('incoming login success', () => {
+        const loginData = {
+            profile: { id: 123, userId: 'tester', status: 'OFFLINE'},
+            token: '1234',
+            userId: 'tester'
+        }
+        const state = store.getState().profiles
+        store.dispatch({
+            network: 'http',
+            resource: '/auth/login',
+            type: 'POST',
+            status: 201,
+            data: loginData
+        })
+        const newState = store.getState().profiles
+        expect(newState).toEqual({
+            ...state,
+            data: {
+                ...state.data, 123: loginData.profile
+            },
+            ownProfileId: 123
         })
     })
 })
