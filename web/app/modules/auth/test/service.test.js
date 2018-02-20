@@ -51,7 +51,7 @@ describe('auth service', function(){
             .then(() => { throw new Error('should not resolve')})
             .catch(e => {
                 expect(e).to.deep.equal({
-                    status: 409, message: 'user id or email already in use'
+                    status: 409, message: 'duplicate data'
                 })
             })
         })
@@ -60,7 +60,7 @@ describe('auth service', function(){
             .then(() => { throw new Error('should not resolve')})
             .catch(e => {
                 expect(e).to.deep.equal({
-                    status: 409, message: 'user id or email already in use'
+                    status: 409, message: 'duplicate data'
                 })
             })
         })

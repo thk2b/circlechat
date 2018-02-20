@@ -41,6 +41,10 @@ describe('lib/query/query', function(){
        return query(`SELECT * FROM test;`)
         .then(data => expect(data).to.deep.equal([{a: 1, b: 'hello'}, {a: 2, b: 'bye'}]))
     })
+    it('should work with sql-template-strings ', function(){
+       return query(SQL`SELECT * FROM test WHERE a=${1};`)
+        .then(data => expect(data).to.deep.equal([{a: 1, b: 'hello'}]))
+    })
     it('should throw a standard error', function(){
         expect(query(`SELECT * FROM nowhere;`)).to.be.rejected
     })

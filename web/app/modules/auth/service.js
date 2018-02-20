@@ -10,13 +10,14 @@ const validate = require('../../lib/validate')
 
 const config = require('../../config')
 const db = require('../../db')
+const { query, none, some } = require('../../db/query')
 const { service: profileService } = require('../profile')
 
 /**
  * Create database tables
  */
 function init(){
-    return db.any(`
+    return query(`
         CREATE TABLE auth (
             "userId" VARCHAR(30) UNIQUE NOT NULL,
             email VARCHAR(256) UNIQUE NOT NULL,
@@ -30,7 +31,7 @@ function init(){
  * Drop database tables
  */
 function drop(){
-    return db.none(`DROP TABLE IF EXISTS auth CASCADE;`)
+    return none(`DROP TABLE IF EXISTS auth CASCADE;`)
 }
 
 /**
@@ -39,23 +40,11 @@ function drop(){
 function register({ userId, email, pw }, createProfile=true){
     return validate(userId && email && pw, 'credentials')
     .then(() => bcrypt.hash(pw, 10))
-    .then(hashedPw => db.one(SQL`
+    .then(hashedPw => query(SQL`
         INSERT INTO auth ("userId", email, pw)
         VALUES (${userId}, ${email}, ${hashedPw})
         RETURNING "userId"
     ;`))
-    .catch(e => {
-        if(e.status) return Promise.reject(e)
-        switch(e.code){
-            case '23505': // violates unique constraint
-                return Promise.reject({ status: 409, message: 'user id or email already in use'})
-            case '23502': // violates null constraint
-                return Promise.reject({ status: 422, message: 'incomplete credentials'})
-            default:
-                console.error(e)
-                return Promise.reject({ status: 500, message: 'database error', data: e})
-        }
-    })
     .then(() => createProfile && profileService.create(userId, { userId }))
 }
 
@@ -64,20 +53,20 @@ function register({ userId, email, pw }, createProfile=true){
  */
 function login({ userId, email, pw }){
     return new Promise((resolve, reject) => {
-        let ownProfileId
-        db.one(SQL`
+        const data = query(SQL`
             SELECT "userId" as id, pw as "hashedPw"
             FROM auth
             WHERE "userId"=${userId} or email=${email}
         ;`)
-        .then(({ id, hashedPw }) => {
-            userId = id
+        const verify = data.then(([{ hashedPw }]) => {
             return bcrypt.compare(pw, hashedPw)
         })
-        .then(() => {
-            jwt.sign(userId, config.secret, (e, token) => {
+        
+        return Promise.all([data, verify])
+        .then(([[{ id }]]) => {
+            jwt.sign(id, config.secret, (e, token) => {
                 if(e) reject(e)
-                resolve({ token, userId })
+                resolve({ token, userId: id })
             })
         })
         .catch(e => reject({ status: 401, message: 'invalid credentials' }))
