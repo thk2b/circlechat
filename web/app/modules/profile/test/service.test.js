@@ -204,7 +204,6 @@ describe('profile service', function(){
         it('should return a user\'s profile when authenticated and authorized', function(){
             return service.of.user(credentials.userId, credentials.userId)
             .then(data => {
-                console.log(data)
                 expect(data).to.deep.equal(savedProfile)
             })
         })

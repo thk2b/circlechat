@@ -108,13 +108,13 @@ function remove(requesterId, profileId){
 
 const of = {
     user: (requesterId, userId) => (
-        authorize(requesterId)
+        authorize(requesterId === userId)
         .then(() => db.one(SQL`
             SELECT *
             FROM profile
             WHERE "userId"=${userId}
         ;`))
-        .catch(e => Promise.reject(e.code? e : { code: 500, message: 'database error'}))
+        .catch(e => Promise.reject(e.status? e : { code: 500, message: 'database error', data: e}))
     )
 }
 

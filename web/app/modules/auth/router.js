@@ -1,14 +1,21 @@
+const Promise = require('bluebird')
 const { Router } = require('express')
 
 const service = require('./service')
+const { service: profile } = require('../profile')
 
 const r = new Router()
 
 r.route('/login')
     .post((req, res) => {
-        service.login(req.body)
-        .then((data) => res.status(201).json(data))
-        .catch(e => res.status(e.status || 500).json(e))
+        const login = service.login(req.body)
+        const _profile = login.then(({ token, userId }) => profile.of.user(userId, userId))
+
+        Promise.all([login, _profile])
+        .then(([{ token, userId }, profile ]) => {
+            res.status(201).json({ token, userId, profile })
+        })
+        .catch(e => { res.status(e.status || 500).json(e) })
     })
 
 r.route('/')

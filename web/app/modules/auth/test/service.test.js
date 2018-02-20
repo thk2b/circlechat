@@ -154,17 +154,15 @@ describe('auth service', function(){
 
         it('should accept valid userId and valid password', function(){
             return service.login({ userId, pw })
-            .then(({token, userId, profileId}) => {
+            .then(({token, userId }) => {
                 expect(userId).not.to.be.undefined
-                expect(profileId).not.to.be.undefined
                 expect(token).to.be.a.string
             })
         })        
         it('should accept valid email and valid password', function(){
             return service.login({ email, pw })
-            .then(({token, userId, profileId}) => {
+            .then(({token, userId }) => {
                 expect(userId).not.to.be.undefined
-                expect(profileId).not.to.be.undefined
                 expect(token).to.be.a.string
             })
         })

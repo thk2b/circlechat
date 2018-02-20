@@ -74,7 +74,7 @@ describe(API_URL, function(){
                     if(e) done(e)
                     expect(res.body.token).to.be.a.string
                     expect(res.body.userId).to.not.be.undefined
-                    expect(res.body.profileId).to.not.be.undefined
+                    expect(res.body.profile.id).to.not.be.undefined
                     token = res.token
                     done()
                 })

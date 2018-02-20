@@ -67,19 +67,18 @@ function login({ userId, email, pw }){
     return new Promise((resolve, reject) => {
         let ownProfileId
         db.one(SQL`
-            SELECT auth."userId" as id, pw as "hashedPw", profile.id as "profileId"
-            FROM auth LEFT JOIN profile ON auth."userId"=profile."userId"
-            WHERE auth."userId"=${userId} or email=${email}
+            SELECT "userId" as id, pw as "hashedPw"
+            FROM auth
+            WHERE "userId"=${userId} or email=${email}
         ;`)
-        .then(({ id, hashedPw, profileId }) => {
-            ownProfileId = profileId
+        .then(({ id, hashedPw }) => {
             userId = id
             return bcrypt.compare(pw, hashedPw)
         })
         .then(() => {
             jwt.sign(userId, config.secret, (e, token) => {
                 if(e) reject(e)
-                resolve({token, profileId: ownProfileId, userId })
+                resolve({ token, userId })
             })
         })
         .catch(e => reject({ status: 401, message: 'invalid credentials' }))
