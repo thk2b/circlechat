@@ -1,6 +1,7 @@
 import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import { push } from 'react-router-redux'
 
 import { Info, Spinner } from '../../lib/components'
 import { Nav } from '../../nav'
@@ -16,14 +17,17 @@ const mapState = ({ profiles }, { match }) => {
     }
 }
 const mapDispatch = dispatch => {
-    return bindActionCreators({ get }, dispatch)
+    return bindActionCreators({ get, push }, dispatch)
 }
 
 class Profile extends React.Component {
     componentDidMount = () => {
         const { id, description } = this.props
         if(description || description === "") return
-        this.props.get(id)
+        if(id){
+            return this.props.get(id)
+        }
+        this.props.push('/login')
     }   
     
     render() {
