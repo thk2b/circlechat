@@ -3,7 +3,7 @@ const SQL = require('sql-template-strings')
 
 const error = e => {
     switch(e.code){
-        case '42P01':
+        case 0:
             return { status: 404, message: 'not found'}
         case '23505': // violates unique constraint
             return { status: 409, message: 'duplicate data'}
@@ -19,18 +19,17 @@ const error = e => {
     }
 }
 
-function query(q){
+function all(q){
     return db.any(q)
     .catch(e => {
         return Promise.reject(error(e))
     })
 }
 
-function some(q){
-    return db.any(q)
-    .then(data => {
-        if(!data) return Promise.reject({ status: 404, message: 'not found'})
-        return data
+function one(q){
+    return db.one(q)
+    .catch(e => {
+        return Promise.reject(error(e))
     })
 }
 
@@ -43,5 +42,5 @@ function none(q){
 }
 
 module.exports = {
-    some, query, none
+    one, all, none
 }

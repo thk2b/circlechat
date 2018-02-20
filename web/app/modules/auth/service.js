@@ -9,15 +9,14 @@ const authorize = require('../../lib/authorize')
 const validate = require('../../lib/validate')
 
 const config = require('../../config')
-const db = require('../../db')
-const { query, none, some } = require('../../db/query')
+const query = require('../../db/query')
 const { service: profileService } = require('../profile')
 
 /**
  * Create database tables
  */
 function init(){
-    return query(`
+    return query.none(`
         CREATE TABLE auth (
             "userId" VARCHAR(30) UNIQUE NOT NULL,
             email VARCHAR(256) UNIQUE NOT NULL,
@@ -31,7 +30,7 @@ function init(){
  * Drop database tables
  */
 function drop(){
-    return none(`DROP TABLE IF EXISTS auth CASCADE;`)
+    return query.none(`DROP TABLE IF EXISTS auth CASCADE;`)
 }
 
 /**
@@ -40,7 +39,7 @@ function drop(){
 function register({ userId, email, pw }, createProfile=true){
     return validate(userId && email && pw, 'credentials')
     .then(() => bcrypt.hash(pw, 10))
-    .then(hashedPw => query(SQL`
+    .then(hashedPw => query.none(SQL`
         INSERT INTO auth ("userId", email, pw)
         VALUES (${userId}, ${email}, ${hashedPw})
         RETURNING "userId"
@@ -53,17 +52,17 @@ function register({ userId, email, pw }, createProfile=true){
  */
 function login({ userId, email, pw }){
     return new Promise((resolve, reject) => {
-        const data = query(SQL`
+        const data = query.one(SQL`
             SELECT "userId" as id, pw as "hashedPw"
             FROM auth
             WHERE "userId"=${userId} or email=${email}
         ;`)
-        const verify = data.then(([{ hashedPw }]) => {
+        const verify = data.then(({ hashedPw }) => {
             return bcrypt.compare(pw, hashedPw)
         })
         
         return Promise.all([data, verify])
-        .then(([[{ id }]]) => {
+        .then(([{ id }]) => {
             jwt.sign(id, config.secret, (e, token) => {
                 if(e) reject(e)
                 resolve({ token, userId: id })
@@ -88,8 +87,7 @@ function verifyToken(token){
 function get(requesterId, id){
     return authenticate(requesterId)
     .then(() => authorize(requesterId === id))
-    .then(() => db.one(SQL`SELECT "userId", email FROM auth WHERE "userId"=${id};`)
-    .catch(e => Promise.reject({ status: 404, message: 'user not found'})))
+    .then(() => query.one(SQL`SELECT "userId", email FROM auth WHERE "userId"=${id};`))
 }
 
 // function updatePw(id, newPw){
@@ -144,8 +142,7 @@ function update(id, obj){
 function remove(requesterId, id){
     return authenticate(requesterId)
     .then(() => authorize(requesterId === id))
-    .then(() => db.any(SQL`DELETE FROM auth WHERE "userId"=${id};`)
-    .catch(e => Promise.reject({ status: 500, message: 'database error', data: e})))
+    .then(() => query.none(SQL`DELETE FROM auth WHERE "userId"=${id};`))
 }
 
 module.exports = {

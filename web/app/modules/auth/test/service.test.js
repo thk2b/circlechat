@@ -97,7 +97,7 @@ describe('auth service', function(){
             .then(e => { throw new Error('should not resolve') })
             .catch(e => {
                 expect(e).to.deep.equal({
-                    status: 404, message: 'user not found'
+                    status: 404, message: 'not found'
                 })
             })
         })
