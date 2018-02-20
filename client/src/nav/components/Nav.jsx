@@ -22,10 +22,9 @@ class Nav extends React.Component {
     
     render() {
         const { auth } = this.props
-        console.log(auth)
         return (
             <nav className={css.Nav}>
-                <p>{auth.userId}</p>
+                <p onClick={e=>this.props.push('/me')}>{auth.userId}</p>
                 <p>settings</p>
             </nav>
         )
