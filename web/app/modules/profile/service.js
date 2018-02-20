@@ -2,6 +2,7 @@ const Promise = require('bluebird')
 const SQL = require('sql-template-strings')
 
 const db = require('../../db')
+const authorize = require('../../lib/authorize')
 
 /** 
  * create table
@@ -105,6 +106,25 @@ function remove(requesterId, profileId){
     })    
 }
 
+const of = {
+    user: (requesterId, userId) => (
+        authorize(requesterId)
+        .then(() => db.one(SQL`
+            SELECT *
+            FROM profile
+            WHERE "userId"=${userId}
+        ;`))
+        .catch(e => Promise.reject(e.code? e : { code: 500, message: 'database error'}))
+    )
+}
+
 module.exports = {
-    init, drop, create, get, getAll, update, remove
+    init,
+    drop,
+    create,
+    get,
+    getAll,
+    update,
+    remove,
+    of
 }

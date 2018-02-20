@@ -181,21 +181,31 @@ describe('profile service', function(){
             })
         })
         it('should delete the profile', function(){
-            return service.remove(credentials.userId, savedProfile.id)
-            .then(() => service.get(savedProfile.id))
+            return service.remove(credentials1.userId, savedProfile1.id)
+            .then(() => service.get(savedProfile1.id))
             .then(() => { throw new Error('should not resolve') })
             .catch(e => {
                 expect(e).to.deep.equal({ status: 404, message: 'not found'})
             })
         })
     })
-    describe('get all profiles when there are no profiles', function(){
-        it('should return an object', function(){
-            return service.drop()
-            .then(() => service.init())
-            .then(() => service.getAll(credentials.userId))
-            .then( profiles => {
-                expect(profiles).to.not.be.undefined
+
+    describe('get profile of user', function(){
+        it('should not return a user\'s profile when unathenticated', function(){
+            expect(
+                service.of.user(null, credentials.userId)
+            ).to.be.rejectedWith({ status: 401, message: 'unauthorized'})
+        })
+        it('should not return a user\'s profile when unauthorized', function(){
+            expect(
+                service.of.user(null, credentials.userId)
+            ).to.be.rejectedWith({ status: 403, message: 'forbidden'})
+        })
+        it('should return a user\'s profile when authenticated and authorized', function(){
+            return service.of.user(credentials.userId, credentials.userId)
+            .then(data => {
+                console.log(data)
+                expect(data).to.deep.equal(savedProfile)
             })
         })
     })
