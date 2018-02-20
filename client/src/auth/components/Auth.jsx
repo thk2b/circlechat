@@ -18,12 +18,9 @@ class Auth extends React.Component {
     }
 
     componentDidUpdate = (prevProps, prevState) => {
-        if(this.state.isRegistering && this.props.success){
-            this.setState({ isRegistering: !this.state.isRegistering})    
-        }
-        if(this.props.success){
-            this.props.push('/')
-        }
+        if(!this.props.success) return
+        if(!this.state.isRegistering) return this.props.push('/')
+        this.toggleRegister()
     }
     
     toggleRegister = () => {

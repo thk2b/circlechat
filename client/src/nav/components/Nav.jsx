@@ -14,12 +14,6 @@ const mapDispatch = dispatch => {
 }
 
 class Nav extends React.Component {
-    componentDidMount = (prevProps, prevState) => {
-        if(!this.props.auth.token){
-            this.props.push('/login')
-        }
-    }
-    
     render() {
         const { auth } = this.props
         return (
