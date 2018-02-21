@@ -1,0 +1,43 @@
+.SlidingList {
+    background-color: var(--primary);
+    list-style: none;
+    margin: 0;
+    padding-left: 0;
+    max-width: 150px;
+    height: 100%;
+}
+
+.SlidingList li {
+    padding: 5px;
+    cursor: pointer;
+}
+
+.isLeft {
+    margin-right: auto;
+    
+}
+
+.isLeft li{
+    text-align: left;
+}
+
+.isRight {
+    margin-left: auto;
+    /* animation: slideFromRight .5s ease-in; */
+}
+
+.isRight li{
+    text-align: right;
+}
+
+@keyframes slideFromRight {
+    from {
+        margin-right: -50%;
+    }
+    to {
+        margin-right: 0
+    }
+}
+@keyframes slide-from-left {
+
+}

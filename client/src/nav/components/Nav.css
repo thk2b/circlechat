@@ -1,8 +1,9 @@
 .Nav {
-    height: 85px;
+    padding: 15px;
     background-color: var(--primary);
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-around;
+    align-items: center;
     text-transform: uppercase;
 }

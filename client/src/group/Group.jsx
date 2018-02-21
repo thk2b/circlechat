@@ -5,6 +5,7 @@ import { push } from 'react-router-redux'
 
 import SlidingList from '../lib/components/SlidingList'
 import ContextMenu from '../lib/components/ContextMenu'
+import Button from '../lib/components/Button'
 
 import { ProfileListItem } from '../profiles'
 
@@ -49,11 +50,11 @@ class Group extends React.Component {
     render() {
         const { isProfilesMenuOpen } = this.state
         const { goToProfile, profiles } = this.props
-        return <div>
+        return [
             <ContextMenu>
-                <button onClick={e => this.toggleMenu('users')}>users</button>
-            </ContextMenu>
-            <SlidingList right isOpen={isProfilesMenuOpen}>
+                <Button onClick={e => this.toggleMenu('users')}>users</Button>
+            </ContextMenu>,
+            <SlidingList isRight isOpen={isProfilesMenuOpen}>
                 {profiles.map(
                     p => <ProfileListItem
                         key={p.id}
@@ -62,9 +63,7 @@ class Group extends React.Component {
                     />
                 )}
             </SlidingList>
-
-
-        </div>
+        ]
     }
 }
 

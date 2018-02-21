@@ -1,13 +1,18 @@
 .Button {
+    height: 100%;
     background-color: var(--secondary);
-    margin-bottom: 1rem;
+    border: none;
     font-size: inherit;
     padding: .25rem;
     width: 50%;
+    border: 1px solid transparent;
 }
 
 .ButtonUnderlined {
     background-color: inherit;
-    border: none;
     border-bottom: 1px solid var(--text-color);
+}
+
+.Button:hover{
+    border-color: var(--border-color);
 }
