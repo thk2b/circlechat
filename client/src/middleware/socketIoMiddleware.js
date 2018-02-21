@@ -1,41 +1,34 @@
 import validateOutgoingNetworkAction from '../lib/validateOutgoingNetworkAction'
 
-// on the server: 
-// socket.emit('/message', {
-//     meta: {
-//         status: 201,
-//         type: 'POST'
-//     },
-//     data: {id: 1, text: 'hi'}
-// })
-
-const handle = dispatch => ({ meta, data }) => {
+const handle = (resource, dispatch) => ({ meta, data }) => {
     const action = {
-        // ...meta
-        resource: meta.resource,
+        resource,
+        network: 'ws',
         type: meta.type,
         status: meta.status,
-        data: data
+        data
     }
-    console.log('incoming socketio event: ', action)
+    process.env.NODE_ENV === 'development' && console.log('incoming ws message: ', action)
     dispatch(action)
 }
 
 const resources = [
-    // 'message', 
-    // 'user'
+    '/auth',
+    // '/profile'
+    // 'message',
 ]
 
 export default socket => store => {
     
     resources.forEach(
-        resource => socket.on(resource, handle(store.dispatch))
+        resource => socket.on(resource, handle(resource, store.dispatch))
     )
 
     return next => action => {
-        if(action.network === 'ws'){
+        if(action.network !== 'ws') return next(action)
+        if(action.status === undefined){ /* outgoing */
             if(validateOutgoingNetworkAction(action)){
-                process.env.NODE_ENV === 'development' && console.log({ws: action})
+                process.env.NODE_ENV === 'development' && console.log('outgoing ws message: ', action)
 
                 const meta = action.resourceId? { resourceId: action.resourceId } : {}
 

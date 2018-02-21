@@ -14,7 +14,7 @@ function localReducer(state, action){
     }
 }
 
-function inboundNetworkActionReducer(state, action){
+function inboundNetworkReducer(state, action){
     if(! validateIncomingNetworkAction(action)){
         console.error('invalid incoming network action: ', action)
         return state
@@ -23,6 +23,9 @@ function inboundNetworkActionReducer(state, action){
         ...state,
         error: { ...action.data, status: action.status},
         loading: false
+    }
+    if(action.network === 'ws'){
+        return {...state, isWsAuthenticated: true}
     }
     switch(action.resource){
         case '/auth': switch(action.type){
@@ -71,12 +74,13 @@ const INITIAL_STATE = {
     userId: null,
     error: null,
     success: null,
-    loading: false
+    loading: false,
+    isWsAuthenticated: false
 }
 
 export default function(state = INITIAL_STATE, action){
     if(action.network){
-        if(action.status) return inboundNetworkActionReducer(state, action)
+        if(action.status) return inboundNetworkReducer(state, action)
         return outboundNetworkReducer(state, action)
     } else {
         return localReducer(state, action)

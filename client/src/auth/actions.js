@@ -7,6 +7,15 @@ export const login = data => {
     }
 }
 
+export const loginWs = token => {
+    return {
+        network: 'ws',
+        resource: '/auth',
+        type: 'POST',
+        data: { token }
+    }
+}
+
 export const register = data => {
     return {
         network: 'http',
