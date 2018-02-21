@@ -176,7 +176,7 @@ describe(API_URL, function(){
         })
     })
     describe(`PUT ${API_URL}`, function(){
-        it.skip('should not update a profile when unauthenticated', function(done){
+        it('should not update a profile when unauthenticated', function(done){
             request(server)
                 .put(API_URL + '/' + savedProfile.id)
                 .send({ status: 'OFFLINE' })
@@ -184,7 +184,7 @@ describe(API_URL, function(){
                 .expect(401)
                 .end(done)
         })
-        it.skip('should not update a profile with an invalid token', function(done){
+        it('should not update a profile with an invalid token', function(done){
             request(server)
                 .put(API_URL + '/' + savedProfile.id)
                 .send({ status: 'OFFLINE' })
@@ -193,7 +193,7 @@ describe(API_URL, function(){
                 .expect(401)
                 .end(done)
         })
-        it.skip('should not update another user\'s profile', function(done){
+        it('should not update another user\'s profile', function(done){
             request(server)
                 .put(API_URL + '/' + savedProfile1.id)
                 .send({ status: 'OFFLINE' })
@@ -202,7 +202,7 @@ describe(API_URL, function(){
                 .expect(403)
                 .end(done)
         })
-        it.skip('should not update a profile when data is invalid', function(done){
+        it('should not update a profile when data is invalid', function(done){
             request(server)
                 .put(API_URL + '/' + savedProfile.id)
                 .send({ wrong: 'key' })
@@ -211,7 +211,7 @@ describe(API_URL, function(){
                 .expect(422)
                 .end(done)
         })
-        it.skip('should update a profile when authorized and authenticated', function(done){
+        it('should update a profile when authorized and authenticated', function(done){
             request(server)
                 .put(API_URL + '/' + savedProfile.id)
                 .send({ status: 'OFFLINE' })
@@ -220,7 +220,7 @@ describe(API_URL, function(){
                 .expect(202)
                 .end((e, res) => {
                     if(e) return done(e)
-                    expect(res.body).to.deep.equal({...stavedProfile, status: 'OFFLINE'})
+                    expect(res.body).to.deep.equal({...savedProfile, status: 'OFFLINE'})
                     done()
                 })
         })

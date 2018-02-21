@@ -9,15 +9,17 @@
     "test": "NODE_ENV=test mocha app/**/*.test.js --timeout 10000 --exit"
   },
   "dependencies":{ 
-    "express": "~4.16.2",
+    "bcrypt-as-promised": "~1.1.0",
+    "bluebird":"~3.5.1",
     "body-parser": "~1.18.2",
+    "duck-check": "~2.0.2",
+    "express": "~4.16.2",
+    "jsonwebtoken": "~8.1.1",
+    "knex": "~0.14.4",
     "pg-promise": "~7.4.1",
     "redis": "~2.8.0",
     "socket.io": "~2.0.4",
-    "bluebird":"~3.5.1",
-    "sql-template-strings": "~2.2.2",
-    "bcrypt-as-promised": "~1.1.0",
-    "jsonwebtoken": "~8.1.1"
+    "sql-template-strings": "~2.2.2"
   },
   "devDependencies": {
     "nodemon": "~1.14.11",

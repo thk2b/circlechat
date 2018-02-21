@@ -8,6 +8,7 @@ const error = e => {
         case '23505': // violates unique constraint
             return { status: 409, message: 'duplicate data'}
         case '23502': // violates null constraint
+        case '42703': // column does not exist
             return { status: 422, message: 'incomplete data'}
         default:
             return { status: 500, message: 'database error', data: e}

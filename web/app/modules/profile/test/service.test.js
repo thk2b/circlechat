@@ -112,6 +112,24 @@ describe('profile service', function(){
             })
         })
     })
+    describe('get profile of user', function(){
+        it('should not return a user\'s profile when unathenticated', function(){
+            expect(
+                service.of.user(null, credentials.userId)
+            ).to.be.rejectedWith({ status: 401, message: 'unauthorized'})
+        })
+        it('should not return a user\'s profile when unauthorized', function(){
+            expect(
+                service.of.user(null, credentials.userId)
+            ).to.be.rejectedWith({ status: 403, message: 'forbidden'})
+        })
+        it('should return a user\'s profile when authenticated and authorized', function(){
+            return service.of.user(credentials.userId, credentials.userId)
+            .then(data => {
+                expect(data).to.deep.equal(savedProfile)
+            })
+        })
+    })
     describe('get all profiles', function(){
         it('should refuse to get all profiles if not authenticated', function(){
             return service.getAll(null)
@@ -132,34 +150,45 @@ describe('profile service', function(){
         })
     })
     describe('update profile', function(){
-        it.skip('should refuse to update the profile when unauthenticated', function(){
-            return service.update(null, credentials.userId, { status: 'OFFLINE' })
+        it('should refuse to update the profile when unauthenticated', function(){
+            return service.update(null, savedProfile.id, { status: 'OFFLINE' })
             .then(() => { throw new Error('should not resolve')})
             .catch(e => {
-                expect(e).to.deep.equal({ status: 401, message: 'unauthorized'})
+                expect(e).to.deep.equal({ status: 401, message: 'unauthenticated'})
             })
         })
-        it.skip('should refuse to update status with an invalis status', function(){
-            return service.update(credentials.userId, credentials.userId, { status: 'invalid' })
+        it.skip('should refuse to update status with an invalid status', function(){
+            // TODO: create status table. enforce this wiht foreign key constraint: satus must exist in status table
+            // see #34
+            return service.update(credentials.userId, savedProfile.id, { status: 'invalid' })
             .then(() => { throw new Error('should not resolve')})
             .catch(e => {
                 expect(e).to.deep.equal({ status: 422, message: 'invalid data'})
             })
         })
-        it.skip('should refuse to update the profile when not permitted', function(){
-            return service.update(credentials1.userId, credentials.userId, { status: 'OFFLINE'})
+        it('should refuse to update another user\'s profile', function(){
+            return service.update(credentials.userId, savedProfile1.id, { status: 'OFFLINE'})
             .then(() => { throw new Error('should not resolve')})
             .catch(e => {
-                expect(e).to.deep.equal({ status: 403, message: 'not permitted'})
+                expect(e).to.deep.equal({ status: 403, message: 'forbidden'})
             })
         })
-        it.skip('should update the profile with multiple keys at once', function(){
+        it('should update the profile with one key/value pair', function(){
             const newProfile = {
-                ...savedProfile, description: 'new description', name: 'new name'
+                description: 'new description'
             }
-            return service.update(credentials.userId, credentials.userId, newProfile)
+            return service.update(credentials.userId, savedProfile.id, newProfile)
             .then(updatedProfile => {
-                expect(updatedProfile).to.deep.equal(newProfile)
+                expect(updatedProfile).to.deep.equal({...savedProfile, ...newProfile})
+            })
+        })
+        it('should update the profile with multiple keys at once', function(){
+            const newProfile = {
+                description: 'another description', name: 'new name'
+            }
+            return service.update(credentials.userId, savedProfile.id, newProfile)
+            .then(updatedProfile => {
+                expect(updatedProfile).to.deep.equal({...savedProfile, ...newProfile})
             })
         })
     })
@@ -185,24 +214,6 @@ describe('profile service', function(){
             .then(() => { throw new Error('should not resolve') })
             .catch(e => {
                 expect(e).to.deep.equal({ status: 404, message: 'not found'})
-            })
-        })
-    })
-    describe('get profile of user', function(){
-        it('should not return a user\'s profile when unathenticated', function(){
-            expect(
-                service.of.user(null, credentials.userId)
-            ).to.be.rejectedWith({ status: 401, message: 'unauthorized'})
-        })
-        it('should not return a user\'s profile when unauthorized', function(){
-            expect(
-                service.of.user(null, credentials.userId)
-            ).to.be.rejectedWith({ status: 403, message: 'forbidden'})
-        })
-        it('should return a user\'s profile when authenticated and authorized', function(){
-            return service.of.user(credentials.userId, credentials.userId)
-            .then(data => {
-                expect(data).to.deep.equal(savedProfile)
             })
         })
     })

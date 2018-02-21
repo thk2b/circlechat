@@ -25,8 +25,8 @@ r.route('/:id')
         .catch(e => res.status(e.status || 500).json(e))
     })
     .put((req, res) => {
-        service.update(req.userId, req.body)
-        .then( profile => res.status(202).json())
+        service.update(req.userId, req.params.id, req.body)
+        .then( profile => res.status(202).json(profile))
         .catch(e => res.status(e.status || 500).json(e))
     })
     .delete((req, res) => {

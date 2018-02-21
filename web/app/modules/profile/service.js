@@ -1,5 +1,6 @@
 const Promise = require('bluebird')
 const SQL = require('sql-template-strings')
+const knex = require('knex')({ client: 'pg' })
 
 const query = require('../../db/query')
 const authorize = require('../../lib/authorize')
@@ -63,9 +64,19 @@ function getAll(requesterId){
 /** 
  * update profile
 */
-function update(){
-    return new Promise((resolve, reject) => {
-        reject(new Error('not implemented'))
+function update(requesterId, profileId, obj){
+    return authenticate(requesterId)
+    .then(() => query.one(knex('profile')
+        .update(obj)
+        .where('userId', '=', requesterId)
+        .andWhere('id', '=', profileId)
+        .returning('*')
+        .toQuery()
+    ))
+    .catch(e => {
+        /* if no record was found, requesterId !== profile.userId */
+        if(e.status === 404) return authorize(false)
+        return Promise.reject(e)
     })
 }
 /** 
@@ -82,6 +93,11 @@ function remove(requesterId, profileId){
 const of = {
     user: (requesterId, userId) => (
         authorize(requesterId === userId)
+        .then(() => query.one(SQL`
+            SELECT *
+            FROM profile
+            WHERE "userId"=${userId}
+        ;`))
         .then(() => query.one(SQL`
             SELECT *
             FROM profile
