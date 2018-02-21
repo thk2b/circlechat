@@ -2,6 +2,7 @@ const chai = require('chai')
 const { expect } = chai
 chai.use(require('chai-subset'))
 const request = require('supertest')
+const socketIoClient = require('socket.io-client')
 
 const server = require('../../../server')
 const db = require('../../../db')
@@ -10,6 +11,8 @@ const service = require('../service')
 
 const { auth } = require('../../../modules')
 
+const PORT = 1
+const SOCKET_URL = `http://localhost:${PORT}`
 const API_URL = '/api/v1/profile'
 
 describe(API_URL, function(){
@@ -41,7 +44,7 @@ describe(API_URL, function(){
         .then(() => auth.service.login(credentials))
         .then(data => token = data.token)
         .then(() => auth.service.register(credentials1, false))
-        .then(() => server.listen(1, () => done()))
+        .then(() => server.listen(PORT, () => done()))
         .catch(e => done(e))
     })
     after(function(done){
@@ -76,7 +79,7 @@ describe(API_URL, function(){
                 .expect(422)
                 .end(done)
         })
-        it('should create a profile when authorized and authenticated', function(done){
+        it('should create a profile when authorized and authenticated, and notify websocket clients', function(done){
             request(server)
                 .post(API_URL + '/')
                 .set('Content-Type', 'application/json')
@@ -251,4 +254,63 @@ describe(API_URL, function(){
                 .end(done)
         })
     })
+})
+
+describe(`${API_URL} notifies websocket clients`, function(){
+    const user1 = { userId: 'user1', email: 'user1@test.cc', pw: '123'}
+    const user2 = { userId: 'user2', email: 'user2@test.cc', pw: '123'}
+    
+    let user1Profile = { userId: 'user1', description: 'new profile' }
+    let user2Profile = { userId: 'user2', description: 'new profile' }
+    let token1, token2
+    let ws1, ws2
+
+    before(function(done){
+        recreate()
+        .then(() => auth.service.register(user1))
+        .then(() => auth.service.login(user1))
+        .then(data => token1 = data.token)
+        .then(() => auth.service.register(user2, false)) // without creating a profile
+        .then(() => auth.service.login(user2))
+        .then(data => token2 = data.token)
+        .then(() => server.listen(PORT, () => {
+            ws1 = socketIoClient(SOCKET_URL)
+            ws1.on('connect', () => {
+                ws1.emit('/auth', { meta: { type: 'POST' }, data: { token: token1 }})
+                ws1.on('/auth', res => {
+                    if(res.meta.status !== 201) done(res.data)
+                    ws2 = socketIoClient(SOCKET_URL)
+                    ws2.on('connect', () => {
+                        ws2.emit('/auth', { meta: { type: 'POST' }, data: { token: token2 }})
+                        ws2.on('/auth', res => {
+                            if(res.meta.status !== 201) done(res.data)
+                            done()
+                        })
+                    })
+                })
+            })
+        }))
+        .catch(e => done(e))
+    })
+    it('should update clients on POST /profile', function(done){
+        ws1.on('/profile', ({ meta, data }) => {
+            expect(meta.status).to.equal(201)
+            expect(data.profile).to.deep.equal(user2Profile)
+            done()
+        })
+        request(server)
+        .post(API_URL + '/')
+        .set('Content-Type', 'application/json')
+        .set('Authorization', 'Bearer ' + token2)
+        .send(user2Profile)
+        .expect(201)
+        .end((e, res) => {
+            if(e) return done(e)
+            user2Profile = res.body
+        })
+    })
+    after(function(){
+        ws1 && ws1.disconnect()
+        ws2 && ws2.disconnect()
+    })  
 })

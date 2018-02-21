@@ -7,7 +7,13 @@ const r = new Router()
 r.route('/')
     .post((req, res) => {
         service.create(req.userId, req.body)
-        .then(profile => res.status(201).json(profile))
+        .then(profile => {
+            res.status(201).json(profile)
+            res.locals.socket && res.locals.socket.broadcast.emit('/profile', {
+                meta: { type: 'POST', status: 201 },
+                data: { profile }
+            })
+        })
         .catch(e => res.status(e.status || 500).json(e))
     })
 

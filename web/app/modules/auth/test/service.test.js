@@ -222,7 +222,6 @@ describe('auth service', function(){
             const payload = { pw: 'newpw', email: 'new@email2.cc' }
             return service.update(userId, payload)
             .then(data => {
-                console.log(data)
                 expect(data.email).to.equal(payload.email)
             })
         })
