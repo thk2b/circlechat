@@ -233,7 +233,7 @@ describe(API_URL, function(){
                 .expect(401)
                 .end(done)
         })
-        it.skip('should not delete another user\'s profile', function(done){
+        it('should not delete another user\'s profile', function(done){
             // see #32
             request(server)
                 .delete(API_URL + '/' + savedProfile1.id)
