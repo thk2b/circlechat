@@ -1,19 +1,12 @@
 const Promise = require('bluebird')
-const modules = require('../modules')
 
-/**
- * Drop all database tables
- */
-
+const { auth, profile } = require('../modules')
+/** 
+ * Drop all database tables one after the other.
+*/
 function drop(){
-    const promises = Object.entries(modules).map(
-        ([name, _module]) => {
-            if(_module.service.drop !== undefined){
-                return _module.service.drop()
-            }
-        }
-    )
-    return Promise.all(promises)
+    return auth.service.drop()
+    .then(() => profile.service.drop())
 }
 
 if(require.main === module){

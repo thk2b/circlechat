@@ -6,7 +6,8 @@ const io = require('socket.io')(server)
 
 const {
     auth,
-    profile
+    profile,
+    ping
     // user,
     // message
 } = require('./modules')
@@ -42,6 +43,7 @@ app.use('/api/v1', api)
 io.on('connection', socket => {
     socket.userId = null
     socket.on('/auth', data => auth.events(socket, io, data))
+    socket.on('/ping', data => ping.events(socket, io, data))
     socket.on('/user', data => user.events(socket, io, data))
     socket.on('/message', data => message.events(socket, io, data))
 })
