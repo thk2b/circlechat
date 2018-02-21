@@ -43,7 +43,7 @@ describe('profile service', function(){
             return service.create(null, { userId: credentials1.userId })
             .then(() => { throw new Error('should not resolve')})
             .catch(e => {
-                expect(e).to.deep.equal({
+                expect(e).to.containSubset({
                     status: 401, message: 'unauthenticated'
                 })
             })
@@ -52,7 +52,7 @@ describe('profile service', function(){
             return service.create(credentials.userId, { userId: credentials1.userId })
             .then(() => { throw new Error('should not resolve')})
             .catch(e => {
-                expect(e).to.deep.equal({
+                expect(e).to.containSubset({
                     status: 403, message: 'forbidden'
                 })
             })
@@ -61,7 +61,7 @@ describe('profile service', function(){
            return service.create(credentials.userId, {})
             .then(() => { throw new Error('should not resolve')})
             .catch(e => {
-                expect(e).to.deep.equal({
+                expect(e).to.containSubset({
                     status: 422, message: 'invalid data'
                 })
             })
@@ -96,7 +96,7 @@ describe('profile service', function(){
             return service.get(null, 1234)
             .then(() => { throw new Error('should not resolve') })
             .catch(e => {
-                expect(e).to.deep.equal({ status: 404, message: 'not found'})
+                expect(e).to.containSubset({ status: 404, message: 'not found'})
             })
         })
         it('should allow getting a profile if unauthenticated', function(){
@@ -135,7 +135,7 @@ describe('profile service', function(){
             return service.getAll(null)
             .then(() =>{ throw new Error('should not resolve') })
             .catch(e => {
-                expect(e).to.deep.equal({ status: 401, message: 'unauthenticated'})
+                expect(e).to.containSubset({ status: 401, message: 'unauthenticated'})
             })
 
         })
@@ -154,7 +154,7 @@ describe('profile service', function(){
             return service.update(null, savedProfile.id, { status: 'OFFLINE' })
             .then(() => { throw new Error('should not resolve')})
             .catch(e => {
-                expect(e).to.deep.equal({ status: 401, message: 'unauthenticated'})
+                expect(e).to.containSubset({ status: 401, message: 'unauthenticated'})
             })
         })
         it.skip('should refuse to update status with an invalid status', function(){
@@ -163,14 +163,14 @@ describe('profile service', function(){
             return service.update(credentials.userId, savedProfile.id, { status: 'invalid' })
             .then(() => { throw new Error('should not resolve')})
             .catch(e => {
-                expect(e).to.deep.equal({ status: 422, message: 'invalid data'})
+                expect(e).to.containSubset({ status: 422, message: 'invalid data'})
             })
         })
         it('should refuse to update another user\'s profile', function(){
             return service.update(credentials.userId, savedProfile1.id, { status: 'OFFLINE'})
             .then(() => { throw new Error('should not resolve')})
             .catch(e => {
-                expect(e).to.deep.equal({ status: 403, message: 'forbidden'})
+                expect(e).to.containSubset({ status: 403, message: 'forbidden'})
             })
         })
         it('should update the profile with one key/value pair', function(){
@@ -197,15 +197,14 @@ describe('profile service', function(){
             return service.remove(null, savedProfile.id)
             .then(() => { throw new Error('should not resolve')})
             .catch(e => {
-                expect(e).to.deep.equal({ status: 401, message: 'unauthenticated'})
+                expect(e).to.containSubset({ status: 401, message: 'unauthenticated'})
             })
         })
-        it.skip('should refuse to remove the profile when the profile belongs to another user', function(){
-            // see #32
+        it('should refuse to remove the profile when the profile belongs to another user', function(){
             return service.remove(credentials1.userId, savedProfile.id)
             .then(() => { throw new Error('should not resolve')})
             .catch(e => {
-                expect(e).to.deep.equal({ status: 403, message: 'not permitted'})
+                expect(e).to.containSubset({ status: 403, message: 'forbidden'})
             })
         })
         it('should delete the profile', function(){
@@ -213,7 +212,7 @@ describe('profile service', function(){
             .then(() => service.get(savedProfile1.id))
             .then(() => { throw new Error('should not resolve') })
             .catch(e => {
-                expect(e).to.deep.equal({ status: 404, message: 'not found'})
+                expect(e).to.containSubset({ status: 404, message: 'not found'})
             })
         })
     })

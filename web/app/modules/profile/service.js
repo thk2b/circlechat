@@ -74,7 +74,7 @@ function update(requesterId, profileId, obj){
         .toQuery()
     ))
     .catch(e => {
-        /* if no record was found, requesterId !== profile.userId */
+        /* if no record was updated, requesterId !== profile.userId */
         if(e.status === 404) return authorize(false)
         return Promise.reject(e)
     })
@@ -84,10 +84,16 @@ function update(requesterId, profileId, obj){
 */
 function remove(requesterId, profileId){
     return authenticate(requesterId)
-    .then(() => query.none(SQL`
+    .then(() => query.one(SQL`
         DELETE FROM profile
         WHERE id=${profileId} and "userId"=${requesterId}
+        RETURNING id
     ;`))
+    .catch(e => {
+        /* if no record was deleted, requesterId !== profile.userId */
+        if(e.status === 404) return authorize(false)
+        return Promise.reject(e)
+    })
 }
 
 const of = {

@@ -1,6 +1,7 @@
 const chai = require('chai')
 const { expect } = chai
 chai.use(require('chai-as-promised'))
+chai.use(require('chai-subset'))
 const SQL = require('sql-template-strings')
 
 const { recreate } = require('../../../manage')
@@ -41,7 +42,7 @@ describe('auth service', function(){
             return service.register({...credentials, email: 'valid@email.com', userId: undefined})
             .then(() => { throw new Error('should not resolve') })
             .catch(e => {
-                expect(e).to.deep.equal({
+                expect(e).to.containSubset({
                     status: 422, message: 'invalid credentials'
                 })
             })
@@ -50,7 +51,7 @@ describe('auth service', function(){
             return service.register({...credentials, userId: 'tester2'})
             .then(() => { throw new Error('should not resolve')})
             .catch(e => {
-                expect(e).to.deep.equal({
+                expect(e).to.containSubset({
                     status: 409, message: 'duplicate data'
                 })
             })
@@ -59,7 +60,7 @@ describe('auth service', function(){
             return service.register({...credentials, email: 'test2@test.cc'})
             .then(() => { throw new Error('should not resolve')})
             .catch(e => {
-                expect(e).to.deep.equal({
+                expect(e).to.containSubset({
                     status: 409, message: 'duplicate data'
                 })
             })
@@ -68,7 +69,7 @@ describe('auth service', function(){
             return service.register({...credentials, userId: ''})
             .then(() => { throw new Error('should not resolve')})
             .catch(e => {
-                expect(e).to.deep.equal({
+                expect(e).to.containSubset({
                     status: 422, message: 'invalid credentials'
                 })
             })
@@ -87,7 +88,7 @@ describe('auth service', function(){
             service.get('someone', credentials.userId)
             .then(e => { throw new Error('should not resolve') })
             .catch(e => {
-                expect(e).to.deep.equal({
+                expect(e).to.containSubset({
                     status: 403, message: 'forbidden'
                 })
             })
@@ -96,7 +97,7 @@ describe('auth service', function(){
             service.get('nobody', 'nobody')
             .then(e => { throw new Error('should not resolve') })
             .catch(e => {
-                expect(e).to.deep.equal({
+                expect(e).to.containSubset({
                     status: 404, message: 'not found'
                 })
             })
@@ -116,7 +117,7 @@ describe('auth service', function(){
             return service.login({ userId: 'idonotexist', pw })
             .then(() => { throw new Error('should not resolve')})
             .catch(e => {
-                expect(e).to.deep.equal({
+                expect(e).to.containSubset({
                     status: 401, message: 'invalid credentials'
                 })
             })
@@ -126,7 +127,7 @@ describe('auth service', function(){
             return service.login({ email: 'idonotexist@test.cc', pw })
             .then(() => { throw new Error('should not resolve')})
             .catch(e => {
-                expect(e).to.deep.equal({
+                expect(e).to.containSubset({
                     status: 401, message: 'invalid credentials'
                 })
             })
@@ -136,7 +137,7 @@ describe('auth service', function(){
             return service.login({ email, pw: 'hunter0' })
             .then(() => { throw new Error('should not resolve')})
             .catch(e => {
-                expect(e).to.deep.equal({
+                expect(e).to.containSubset({
                     status: 401, message: 'invalid credentials'
                 })
             })
@@ -146,7 +147,7 @@ describe('auth service', function(){
             return service.login({ email, pw: 'hunter0' })
             .then(() => { throw new Error('should not resolve')})
             .catch(e => {
-                expect(e).to.deep.equal({
+                expect(e).to.containSubset({
                     status: 401, message: 'invalid credentials'
                 })
             })
@@ -180,7 +181,7 @@ describe('auth service', function(){
             return service.verifyToken('obviously fake token. try harder.')
             .then(() => { throw new Error('should not resolve')})
             .catch(e => {
-                expect(e).to.deep.equal({
+                expect(e).to.containSubset({
                     status: 401,
                     message: 'invalid token'
                 })
@@ -194,7 +195,7 @@ describe('auth service', function(){
             return service.update(userId, { userId: 'newId' })
             .then(() => { throw new Error('should not resolve')})
             .catch(e => {
-                expect(e).to.deep.equal({ code: 422, message: 'invalid data'})
+                expect(e).to.containSubset({ code: 422, message: 'invalid data'})
             })
         })
         it.skip('should update email', function(){
@@ -231,7 +232,7 @@ describe('auth service', function(){
             return service.remove(null, credentials.userId)
             .then(() => { throw new Error('should not resolve') })
             .catch(e => {
-                expect(e).to.deep.equal({
+                expect(e).to.containSubset({
                     status: 401, message: 'unauthenticated'
                 })
             })
@@ -240,7 +241,7 @@ describe('auth service', function(){
             return service.remove('whatamidoing', credentials.userId)
             .then(() => { throw new Error('should not resolve') })
             .catch(e => {
-                expect(e).to.deep.equal({
+                expect(e).to.containSubset({
                     status: 403, message: 'forbidden'
                 })
             })

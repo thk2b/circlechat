@@ -30,7 +30,7 @@ r.route('/:id')
         .catch(e => res.status(e.status || 500).json(e))
     })
     .delete((req, res) => {
-        service.remove(req.userId)
+        service.remove(req.userId, req.params.id)
         .then(() => res.status(202).end())
         .catch(e => res.status(e.status || 500).json(e))
     })
