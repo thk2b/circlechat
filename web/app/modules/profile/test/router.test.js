@@ -340,8 +340,9 @@ describe(`${API_URL} notifies websocket clients`, function(){
             if(e) done(e)
         })
     })
-    after(function(){
+    after(function(done){
         ws1 && ws1.disconnect()
         ws2 && ws2.disconnect()
+        server.close(e => done(e))
     })  
 })

@@ -28,7 +28,7 @@ app.use((req, res, next) => {
         next()
     }
 })
-// app.locals.io = io
+app.locals.io = io
 app.use((req, res, next) => {
     /* find this user's socket and add it to locals so that we can broadcast from it in routes */
     if(!req.userId) return next()

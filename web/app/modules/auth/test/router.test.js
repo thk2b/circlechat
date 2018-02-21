@@ -1,12 +1,16 @@
 const chai = require('chai')
 const { expect } = chai
+chai.use(require('chai-subset'))
 const request = require('supertest')
+const socketIoClient = require('socket.io-client')
 
 const server = require('../../../server')
 const db = require('../../../db')
 const { recreate } = require('../../../manage')
 const service = require('../service')
 
+const PORT = 1
+const SOCKET_URL = `http://localhost:${PORT}`
 const API_URL = '/api/v1/auth'
 
 describe(API_URL, function(){
@@ -49,7 +53,7 @@ describe(API_URL, function(){
                 .expect(201)
                 .end((e, res) => {
                     if(e) done(e)
-                    expect(res.body.userId).to.equal(credentials.userId)
+                    expect(res.body).to.equal('')
                     done()
                 })
         })
@@ -149,3 +153,44 @@ describe(API_URL, function(){
     })
 })
 
+describe(`${API_URL} notifies websocket clients`, function(){
+    /* in this test, we emit with user2 and check events with user1 */
+    const user1 = { userId: 'user1', email: 'user1@test.cc', pw: '123'}
+    const user2 = { userId: 'user2', email: 'user2@test.cc', pw: '123'}
+    
+    let token
+    let ws
+
+    before(function(done){
+        recreate()
+        .then(() => service.register(user1))
+        .then(() => service.login(user1))
+        .then((data) => token = data.token)
+        .then(() => server.listen(PORT, () => {
+            ws = socketIoClient(SOCKET_URL)
+            ws.once('connect', () => {
+                done()
+            })
+        }))
+    })
+    it('should notify connected clients with a new profile', function(done){
+        ws.once('/auth', ({ meta, data }) => {
+            expect(meta).to.deep.equal({ type: 'POST', status: 201 })
+            expect(data.profile).to.containSubset({
+                userId: user2.userId, name: user2.userId
+            })
+            expect(data.profile.id).to.not.be.undefined
+            done()
+        })
+        request(server)
+        .post(API_URL + '/')
+        .send(user2)
+        .set('Content-Type', 'application/json')
+        .expect(201)
+        .end(e => {if(e) done(e)})
+    })
+    after(function(done){
+        ws.disconnect()
+        server.close(e => done(e))
+    })
+})

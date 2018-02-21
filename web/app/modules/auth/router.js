@@ -21,7 +21,13 @@ r.route('/login')
 r.route('/')
     .post((req, res) => {
         service.register(req.body)
-        .then(data => res.status(201).json(data))
+        .then(profile => {
+            res.status(201).json()
+            req.app.locals.io.emit('/auth', {
+                meta: { type: 'POST', status: 201 },
+                data: { profile }
+            })
+        })
         .catch(e => res.status(e.status || 500).json(e))
     })
 
