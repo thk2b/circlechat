@@ -50,7 +50,6 @@ describe(API_URL, function(){
     after(function(done){
         server.close(e => done(e))
     })
-
     describe(`POST ${API_URL}`, function(){
         it('should not create a profile when unauthenticated', function(done){
             request(server)
@@ -255,8 +254,8 @@ describe(API_URL, function(){
         })
     })
 })
-
 describe(`${API_URL} notifies websocket clients`, function(){
+    /* in this test, we emit with user2 and check events with user1 */
     const user1 = { userId: 'user1', email: 'user1@test.cc', pw: '123'}
     const user2 = { userId: 'user2', email: 'user2@test.cc', pw: '123'}
     
@@ -275,14 +274,14 @@ describe(`${API_URL} notifies websocket clients`, function(){
         .then(data => token2 = data.token)
         .then(() => server.listen(PORT, () => {
             ws1 = socketIoClient(SOCKET_URL)
-            ws1.on('connect', () => {
+            ws1.once('connect', () => {
                 ws1.emit('/auth', { meta: { type: 'POST' }, data: { token: token1 }})
-                ws1.on('/auth', res => {
+                ws1.once('/auth', res => {
                     if(res.meta.status !== 201) done(res.data)
                     ws2 = socketIoClient(SOCKET_URL)
-                    ws2.on('connect', () => {
+                    ws2.once('connect', () => {
                         ws2.emit('/auth', { meta: { type: 'POST' }, data: { token: token2 }})
-                        ws2.on('/auth', res => {
+                        ws2.once('/auth', res => {
                             if(res.meta.status !== 201) done(res.data)
                             done()
                         })
@@ -293,20 +292,52 @@ describe(`${API_URL} notifies websocket clients`, function(){
         .catch(e => done(e))
     })
     it('should update clients on POST /profile', function(done){
-        ws1.on('/profile', ({ meta, data }) => {
+        ws1.once('/profile', ({ meta, data }) => {
             expect(meta.status).to.equal(201)
             expect(data.profile).to.deep.equal(user2Profile)
             done()
         })
+        ws2.once('/profile', () => done(new Error('should not send event to this client')))
         request(server)
         .post(API_URL + '/')
         .set('Content-Type', 'application/json')
         .set('Authorization', 'Bearer ' + token2)
         .send(user2Profile)
-        .expect(201)
         .end((e, res) => {
-            if(e) return done(e)
+            if(e) done(e)
             user2Profile = res.body
+        })
+    })
+    it('should update other clients on PUT /profile', function(done){
+        newKeys = { status: 'OFFLINE' }
+        ws1.once('/profile', ({ meta, data }) => {
+            expect(meta.status).to.equal(202)
+            expect(data.profile).to.deep.equal({...user2Profile, ...newKeys})
+            done()
+        })
+        ws2.once('/profile', () => done(new Error('should not send event to this client')))
+        request(server)
+        .put(API_URL + '/' + user2Profile.id)
+        .send(newKeys)
+        .set('Authorization', 'Bearer ' + token2)
+        .set('Content-Type', 'application/json')
+        .end(e => {
+            if(e) done(e)
+        })
+    })
+    it('should update other clients on DELETE /profile', function(done){
+        ws1.once('/profile', ({ meta, data }) => {
+            expect(meta.status).to.equal(202)
+            expect(data).to.be.undefined
+            done()
+        })
+        ws2.once('/profile', () => done(new Error('should not send event to this client')))
+        request(server)
+        .delete(API_URL + '/' + user2Profile.id)
+        .set('Authorization', 'Bearer ' + token2)
+        .expect(202)
+        .end(e => {
+            if(e) done(e)
         })
     })
     after(function(){
