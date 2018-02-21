@@ -3,7 +3,6 @@ const SQL = require('sql-template-strings')
 const bcrypt = require('bcrypt-as-promised')
 const jwt = require('jsonwebtoken')
 
-const bulkSet = require('../../lib/bulkSet')
 const authenticate = require('../../lib/authenticate')
 const authorize = require('../../lib/authorize')
 const validate = require('../../lib/validate')

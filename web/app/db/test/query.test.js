@@ -8,7 +8,7 @@ const { one, all, none } = require('../query')
 
 before(function(){
     return db.any(`
-        CREATE TABLE test (
+        CREATE TABLE IF NOT EXISTS test (
             a INTEGER, b VARCHAR(5)
         )
     ;`)
@@ -18,7 +18,7 @@ before(function(){
         (1, 'hello'),
         (2, 'bye')
     ;`))
-    .then(() => db.any('CREATE TABLE test2 ();'))
+    .then(() => db.any('CREATE TABLE IF NOT EXISTS test2 ();'))
 })
 
 after(function(){

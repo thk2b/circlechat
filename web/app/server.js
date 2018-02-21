@@ -26,6 +26,7 @@ app.use((req, res, next) => {
         next()
     }
 })
+
 app.use(bodyParser.json())
 
 const api = new express.Router()
@@ -39,8 +40,10 @@ app.use('/api/v1', api)
 /* SOCKET.IO */
 
 io.on('connection', socket => {
-    socket.on('user', data => user.events(socket, io, data))
-    socket.on('message', data => message.events(socket, io, data))
+    socket.userId = null
+    socket.on('/auth', data => auth.events(socket, io, data))
+    socket.on('/user', data => user.events(socket, io, data))
+    socket.on('/message', data => message.events(socket, io, data))
 })
 
 module.exports = server
