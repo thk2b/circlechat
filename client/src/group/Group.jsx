@@ -37,7 +37,8 @@ class Group extends React.Component {
     componentDidMount(){
         if(!this.props.token ) return this.props.push('/login')
         const { profiles } = this.props
-        if(profiles === [] || profiles.length === 1){
+
+        if(profiles.length <= 1){
             this.props.getAllProfiles()
         }
     }

@@ -16,17 +16,6 @@ function inboundNetworkReducer(state, action){
     }
     // state = {...state, success: true}
     switch(action.resource){
-        case '/auth/login':
-            if(action.type === 'POST' && action.status === 201){
-                return {
-                    ...state,
-                    data: {
-                        ...state.data,
-                        [action.data.profile.id]: action.data.profile
-                    },
-                    ownProfileId: action.data.profile.id
-                }
-            }
         case '/profile': 
             switch(action.type){
                 case 'POST':

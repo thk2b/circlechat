@@ -34,8 +34,8 @@ class Profile extends React.Component {
             userId, name, description, status,
             loading, error, success
         } = this.props
-        return [
-            <Nav />,
+        return <React.Fragment>
+            <Nav />
             <div className={css.Profile}>
                 <h1>{name}</h1>
                 <h2>{userId}</h2>
@@ -45,7 +45,7 @@ class Profile extends React.Component {
                 {error && <Info danger>{error.message}</Info>}
                 {success && <Info success>{success.message}</Info>}
             </ div>
-        ]            
+        </React.Fragment>  
     }
 }
 
