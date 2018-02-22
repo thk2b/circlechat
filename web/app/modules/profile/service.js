@@ -98,7 +98,8 @@ function remove(requesterId, profileId){
 
 const of = {
     user: (requesterId, userId) => (
-        authorize(requesterId === userId)
+        authenticate(requesterId)
+        .then(() => authorize(requesterId === userId))
         .then(() => query.one(SQL`
             SELECT *
             FROM profile

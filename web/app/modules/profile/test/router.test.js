@@ -97,7 +97,15 @@ describe(API_URL, function(){
             return service.create(credentials1.userId, profile1)
             .then(profile => savedProfile1 = profile)
         })
-
+        it('should send a 422 when invalid query params are sent', function(done){
+            request(server)
+                .get(API_URL)
+                .query({wrong: 123})
+                .set('Content-Type', 'application/json')
+                .set('Authorization', 'Bearer ' + token)
+                .expect(422)
+                .end(done)
+        })
         it('should not send a profile that does not exist', function(done){
             request(server)
                 .get(API_URL)
@@ -139,6 +147,37 @@ describe(API_URL, function(){
             request(server)
                 .get(API_URL)
                 .query({ id: savedProfile.id })
+                .set('Content-Type', 'application/json')
+                .expect(200)
+                .end((e, res) => {
+                    if(e) return done(e)
+                    expect(res.body.id).to.not.be.undefined
+                    expect(res.body).to.containSubset(savedProfile)
+                    done()
+                })
+        })
+        it('should not send a user\'s own profile when specified in the query and unauthenticated', function(done){
+            request(server)
+                .get(API_URL)
+                .query({ userId: savedProfile.userId })
+                .set('Content-Type', 'application/json')
+                .expect(401)
+                .end(done)
+        })
+        it('should not send another user\'s profile when specified in the query', function(done){
+            request(server)
+                .get(API_URL)
+                .query({ userId: savedProfile1.userId })
+                .set('Authorization', 'Bearer ' + token)
+                .set('Content-Type', 'application/json')
+                .expect(403)
+                .end(done)
+        })
+        it('should send a user\'s own profile when specified in the query and authenticated', function(done){
+            request(server)
+                .get(API_URL)
+                .query({ userId: savedProfile.userId })
+                .set('Authorization', 'Bearer ' + token)
                 .set('Content-Type', 'application/json')
                 .expect(200)
                 .end((e, res) => {
