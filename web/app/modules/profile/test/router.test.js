@@ -100,7 +100,8 @@ describe(API_URL, function(){
 
         it('should not send a profile that does not exist', function(done){
             request(server)
-                .get(API_URL + '/' + 1234)
+                .get(API_URL)
+                .query({id: 123})
                 .set('Content-Type', 'application/json')
                 .set('Authorization', 'Bearer ' + token)
                 .expect(404)
@@ -108,7 +109,8 @@ describe(API_URL, function(){
         })
         it('should send a profile when authorized and authenticated', function(done){
             request(server)
-                .get(API_URL + '/' + savedProfile.id)
+                .get(API_URL)
+                .query({ id: savedProfile.id })
                 .set('Content-Type', 'application/json')
                 .set('Authorization', 'Bearer ' + token)
                 .expect(200)
@@ -121,7 +123,8 @@ describe(API_URL, function(){
         })
         it('should send a profile when requesting a different user\'s profile', function(done){
             request(server)
-                .get(API_URL + '/' + savedProfile1.id)
+                .get(API_URL)
+                .query({ id:savedProfile1.id })
                 .set('Content-Type', 'application/json')
                 .set('Authorization', 'Bearer ' + token)
                 .expect(200)
@@ -134,7 +137,8 @@ describe(API_URL, function(){
         })
         it('should send a profile when unauthenticated', function(done){
             request(server)
-                .get(API_URL + '/' + savedProfile.id)
+                .get(API_URL)
+                .query({ id: savedProfile.id })
                 .set('Content-Type', 'application/json')
                 .expect(200)
                 .end((e, res) => {
@@ -180,7 +184,8 @@ describe(API_URL, function(){
     describe(`PUT ${API_URL}`, function(){
         it('should not update a profile when unauthenticated', function(done){
             request(server)
-                .put(API_URL + '/' + savedProfile.id)
+                .put(API_URL)
+                .query({ id: savedProfile.id })
                 .send({ status: 'OFFLINE' })
                 .set('Content-Type', 'application/json')
                 .expect(401)
@@ -188,7 +193,8 @@ describe(API_URL, function(){
         })
         it('should not update a profile with an invalid token', function(done){
             request(server)
-                .put(API_URL + '/' + savedProfile.id)
+                .put(API_URL)
+                .query({ id: savedProfile.id })
                 .send({ status: 'OFFLINE' })
                 .set('Authorization', 'Bearer 0' + token)
                 .set('Content-Type', 'application/json')
@@ -197,7 +203,8 @@ describe(API_URL, function(){
         })
         it('should not update another user\'s profile', function(done){
             request(server)
-                .put(API_URL + '/' + savedProfile1.id)
+                .put(API_URL)
+                .query({ id: savedProfile1.id })
                 .send({ status: 'OFFLINE' })
                 .set('Authorization', 'Bearer ' + token)
                 .set('Content-Type', 'application/json')
@@ -206,7 +213,8 @@ describe(API_URL, function(){
         })
         it('should not update a profile when data is invalid', function(done){
             request(server)
-                .put(API_URL + '/' + savedProfile.id)
+                .put(API_URL)
+                .query({ id: savedProfile.id })
                 .send({ wrong: 'key' })
                 .set('Authorization', 'Bearer ' + token)
                 .set('Content-Type', 'application/json')
@@ -215,7 +223,8 @@ describe(API_URL, function(){
         })
         it('should update a profile when authorized and authenticated', function(done){
             request(server)
-                .put(API_URL + '/' + savedProfile.id)
+                .put(API_URL)
+                .query({ id: savedProfile.id })
                 .send({ status: 'OFFLINE' })
                 .set('Authorization', 'Bearer ' + token)
                 .set('Content-Type', 'application/json')
@@ -230,7 +239,8 @@ describe(API_URL, function(){
     describe(`DELETE ${API_URL}`, function(){
         it('should not delete a profile when unauthenticated', function(done){
             request(server)
-                .delete(API_URL + '/' + savedProfile.id)
+                .delete(API_URL)
+                .query({ id: savedProfile.id })
                 .set('Content-Type', 'application/json')
                 .expect(401)
                 .end(done)
@@ -238,7 +248,8 @@ describe(API_URL, function(){
         it('should not delete another user\'s profile', function(done){
             // see #32
             request(server)
-                .delete(API_URL + '/' + savedProfile1.id)
+                .delete(API_URL)
+                .query({ id: savedProfile1.id })
                 .set('Authorization', 'Bearer ' + token)
                 .set('Content-Type', 'application/json')
                 .expect(403)
@@ -246,7 +257,8 @@ describe(API_URL, function(){
         })
         it('should delete a profile when authorized and authenticated', function(done){
             request(server)
-                .delete(API_URL + '/' + savedProfile.id)
+                .delete(API_URL)
+                .query({ id: savedProfile.id })
                 .set('Authorization', 'Bearer ' + token)
                 .set('Content-Type', 'application/json')
                 .expect(202)
@@ -317,7 +329,8 @@ describe(`${API_URL} notifies websocket clients`, function(){
         })
         ws2.once('/profile', () => done(new Error('should not send event to this client')))
         request(server)
-        .put(API_URL + '/' + user2Profile.id)
+        .put(API_URL)
+        .query({ id: user2Profile.id })
         .send(newKeys)
         .set('Authorization', 'Bearer ' + token2)
         .set('Content-Type', 'application/json')
@@ -333,7 +346,8 @@ describe(`${API_URL} notifies websocket clients`, function(){
         })
         ws2.once('/profile', () => done(new Error('should not send event to this client')))
         request(server)
-        .delete(API_URL + '/' + user2Profile.id)
+        .delete(API_URL)
+        .query({ id: user2Profile.id })
         .set('Authorization', 'Bearer ' + token2)
         .expect(202)
         .end(e => {
