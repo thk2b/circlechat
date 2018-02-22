@@ -4,23 +4,23 @@ import { connect } from 'react-redux'
 
 import { RequestStatus, Spinner } from '../../lib/components'
 
-import { login, loginWs, register, clearRequestStatus } from '../actions'
+import { login, connectWs, register, clearRequestStatus } from '../actions'
 import LoginForm from './LoginForm'
 import RegisterForm from './RegisterForm'
 
 import css from './Auth.css'
 
 const mapState = ({ auth }) => {
-    const { token, request, loading } = auth
+    const { token, request, loading, ws } = auth
     return {
-        request, token, loading
+        request, token, loading, ws
     }
 }
 
 const mapDispatch = dispatch => {
     return bindActionCreators({
         login,
-        loginWs,
+        connectWs,
         register,
         clearRequestStatus
     }, dispatch)
@@ -34,10 +34,13 @@ class Auth extends React.Component {
 
     componentDidUpdate = (prevProps, prevState) => {
         if(this.props.request.status && this.props.request.status < 400){
-            if(!this.props.isRegistering){
-                return this.toggleRegister()
+            if(this.state.isRegistering){
+                return this.setState({ isRegistering: false })
             }
-            // this.props.token && this.props.loginWs(this.props.token)
+
+            if(this.props.token && !this.props.ws.connected && !this.props.ws.loading){
+                this.props.connectWs()
+            }
         }
     }
     

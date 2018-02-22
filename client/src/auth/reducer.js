@@ -27,6 +27,15 @@ function inboundNetworkReducer(state, action){
         }
     }
 
+    if(action.type === 'connect' && action.network === 'ws'){
+        return {
+            ...state,
+            ws: {
+                loading: false, connected: true
+            }
+        }
+    }
+
     switch(action.resource){
         case '/auth': switch(action.type){
             case 'POST': return {
@@ -44,6 +53,7 @@ function inboundNetworkReducer(state, action){
         }
         case '/auth/login': switch(action.type){
             case 'POST': return {
+                ...state,
                 token: action.data.token,
                 userId: action.data.userId,
                 loading: false,
@@ -59,6 +69,12 @@ function inboundNetworkReducer(state, action){
 }
 
 function outboundNetworkReducer(state, action){
+    if(action.type === 'connect' && action.network === 'ws'){
+        return {
+            ...state,
+            ws: {...state.ws, loading: true}
+        }
+    }
     switch(action.resource){
         case '/auth':
         case '/auth/login': return {
@@ -73,6 +89,7 @@ const INITIAL_STATE = {
     token: null,
     userId: null,
     request: { status: null },
+    ws: { connected: false, loading: false },
     loading: false
 }
 

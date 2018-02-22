@@ -7,12 +7,11 @@ export const login = data => {
     }
 }
 
-export const loginWs = token => {
+export const connectWs = () => {
     return {
         network: 'ws',
-        resource: '/auth',
-        type: 'POST',
-        data: { token }
+        resource: '/',
+        type: 'connect'
     }
 }
 

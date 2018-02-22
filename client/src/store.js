@@ -21,7 +21,7 @@ export const store = createStore(
         applyMiddleware(
             thunk,
             createApiMiddleware(`/api/v1`),
-            createSocketIoMiddleware(io(`${document.location.hostname}`)),
+            createSocketIoMiddleware(io, document.location.hostname),
             routerMiddleware(history)
         )
      )

@@ -13,34 +13,52 @@ const handle = (resource, dispatch) => ({ meta, data }) => {
 }
 
 const resources = [
-    '/auth',
-    // '/profile'
+    '/profile'
     // 'message',
 ]
 
-export default socket => store => {
-    
-    resources.forEach(
-        resource => socket.on(resource, handle(resource, store.dispatch))
-    )
+export default (connect, url) => store => next => action => {
+    if(action.network !== 'ws') return next(action)
 
-    return next => action => {
-        if(action.network !== 'ws') return next(action)
-        if(action.status === undefined){ /* outgoing */
-            if(validateOutgoingNetworkAction(action)){
-                process.env.NODE_ENV === 'development' && console.log('outgoing ws message: ', action)
+    let socket
+    if(action.type === 'connect'){
+        const token = store.getState().auth.token
+        if(!token){ return console.error('cannot connect to websocket without a token') }
 
-                const meta = action.resourceId? { resourceId: action.resourceId } : {}
+        console.log(url)
+        socket = connect(url, {
+            extraHeaders: { Authorization: 'Bearer ' + token }
+        })
 
-                const payload = {
-                    data: action.data, 
-                    meta: { ...meta, type: action.type }
-                }
-                socket.emit(action.resource, payload)
-            } else {
-                console.error('invalid outgoing network action: ', action)
-            }
-        }
-        return next(action)
+        socket.once('connect', () => {
+            console.log('socket connected')
+            store.dispatch({
+                ...action, status: 201
+            })
+        })
+        socket.on('disconnect', () => {
+            console.error('socket disconected')
+        })
+        
+        resources.forEach(
+            resource => socket.on(resource, handle(resource, store.dispatch))
+        )
     }
+
+    if(action.status === undefined){ /* outgoing */
+        if(validateOutgoingNetworkAction(action)){
+            process.env.NODE_ENV === 'development' && console.log('outgoing ws message: ', action)
+
+            const meta = action.resourceId? { resourceId: action.resourceId } : {}
+
+            const payload = {
+                data: action.data, 
+                meta: { ...meta, type: action.type }
+            }
+            socket && socket.emit(action.resource, payload)
+        } else {
+            console.error('invalid outgoing network action: ', action)
+        }
+    }
+    return next(action)
 }
