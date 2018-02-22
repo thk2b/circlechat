@@ -129,7 +129,7 @@ describe('profiles reducer', () => {
                 resource: '/profile',
                 params: { id: 123 },
                 status: 200,
-                data
+                data: { profile: data }
             })
         ).toEqual({
             ...state,
@@ -171,7 +171,7 @@ describe('profiles reducer', () => {
                 resource: '/profile',
                 ownUserId: 'tester',
                 status: 200,
-                data
+                data: { profile: data }
             })
         ).toEqual({
             ...state, 
@@ -273,7 +273,7 @@ describe('profiles reducer', () => {
                 type: 'POST',
                 resource: '/profile',
                 status: 201,
-                data
+                data: { profile: data }
             })
         ).toEqual({
             ...state, 

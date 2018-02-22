@@ -29,9 +29,10 @@ export default apiUrl => store => next => action => {
                 ...config
             })
             .then(res => {
+                console.log(res)
                 return {
                     ...action,
-                    ownUserId, /* required to check if we originated the action, or if anotehr client did */
+                    ownUserId, /* required to check if we originated the action, or if another client did */
                     status: res.status,
                     data: res.data
                 }
@@ -40,11 +41,13 @@ export default apiUrl => store => next => action => {
                 process.env.NODE_ENV === 'development' && console.log('incoming http request: ', newAction)
                 store.dispatch(newAction)
             })
-            .catch( ({ response }) => {
+            .catch( (e) => {
                 if(process.env.NODE_ENV === 'test'){
                     /* we always get a network err in unit tests */
                     return
                 }
+                console.error(e)
+                const { response } = e
                 const newAction = {
                     ...action,
                     status: response.data.status,
@@ -52,6 +55,7 @@ export default apiUrl => store => next => action => {
                 }
                 store.dispatch(newAction)
             })
+
         } else {
             process.env.NODE_ENV === 'development' && console.error('invalid outgoing network action: ', action)
         }

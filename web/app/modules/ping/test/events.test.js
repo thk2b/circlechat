@@ -40,9 +40,7 @@ describe('POST /ping event', function(){
         auth.login(credentials)
         .then(({token}) => {
             client = socketIoClient(SOCKET_URL, {
-                extraHeaders: {
-                    Authorization: 'Bearer '+token
-                }
+                query: 'token='+token
             })
             client.on('connect', () => {
                 client.emit('/ping')

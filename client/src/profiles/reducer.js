@@ -23,17 +23,18 @@ function inboundNetworkReducer(state, action){
         case '/profile': 
             switch(action.type){
                 case 'POST':
-                case 'GET': 
-                    if(action.data.userId === action.ownUserId){ /* we got our own profile */
+                case 'GET':
+                const { profile } = action.data
+                    if(profile.userId === action.ownUserId){ /* we got our own profile */
                         return {
                             ...state, loading: false, request: { status: action.status },
-                            ownProfileId: action.data.id,
-                            data: { ...state.data, [action.data.id]: action.data }
+                            ownProfileId: profile.id,
+                            data: { ...state.data, [profile.id]: profile }
                         }
                     }
                     return {
                         ...state, loading: false, request: { status: action.status },
-                        data: { ...state.data, [action.data.id]: action.data }
+                        data: { ...state.data, [profile.id]: profile }
                     }
                 case 'PUT': return {
                     ...state, loading: false, request: { status: action.status },

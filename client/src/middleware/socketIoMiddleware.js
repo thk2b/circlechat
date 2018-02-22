@@ -21,17 +21,16 @@ export default (connect, url) => store => next => action => {
     if(action.network !== 'ws') return next(action)
 
     let socket
-    if(action.type === 'connect'){
+    if(action.type === 'connect' && !action.status){
         const token = store.getState().auth.token
         if(!token){ return console.error('cannot connect to websocket without a token') }
 
-        console.log(url)
         socket = connect(url, {
-            extraHeaders: { Authorization: 'Bearer ' + token }
+            query: 'token='+token
         })
 
         socket.once('connect', () => {
-            console.log('socket connected')
+            process.env.NODE_ENV === 'development' && console.log('socket connected')
             store.dispatch({
                 ...action, status: 201
             })

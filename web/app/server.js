@@ -53,10 +53,7 @@ app.use('/api/v1', api)
 app.locals.io = io
 
 io.use((socket, next) => { /* authenticate websocket */
-    const rawToken = socket.request.headers.authorization
-    if(!rawToken) return 
-    const token = rawToken.split(' ')[1]
-
+    const token = socket.handshake.query && socket.handshake.query.token
     auth.service.verifyToken(token)
     .then((userId) => {
         socket.userId = userId

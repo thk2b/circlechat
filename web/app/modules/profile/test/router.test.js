@@ -78,7 +78,7 @@ describe(API_URL, function(){
                 .expect(422)
                 .end(done)
         })
-        it('should create a profile when authorized and authenticated, and notify websocket clients', function(done){
+        it('should create a profile when authorized and authenticated', function(done){
             request(server)
                 .post(API_URL + '/')
                 .set('Content-Type', 'application/json')
@@ -87,7 +87,7 @@ describe(API_URL, function(){
                 .expect(201)
                 .end((e, res) => {
                     if(e) return done(e)
-                    savedProfile = res.body
+                    savedProfile = res.body.profile
                     done()
                 })
         })
@@ -124,8 +124,8 @@ describe(API_URL, function(){
                 .expect(200)
                 .end((e, res) => {
                     if(e) return done(e)
-                    expect(res.body.id).to.not.be.undefined
-                    expect(res.body).to.containSubset(savedProfile)
+                    expect(res.body.profile.id).to.not.be.undefined
+                    expect(res.body.profile).to.containSubset(savedProfile)
                     done()
                 })
         })
@@ -138,8 +138,8 @@ describe(API_URL, function(){
                 .expect(200)
                 .end((e, res) => {
                     if(e) return done(e)
-                    expect(res.body.id).to.not.be.undefined
-                    expect(res.body).to.containSubset(savedProfile1)
+                    expect(res.body.profile.id).to.not.be.undefined
+                    expect(res.body.profile).to.containSubset(savedProfile1)
                     done()
                 })
         })
@@ -151,8 +151,8 @@ describe(API_URL, function(){
                 .expect(200)
                 .end((e, res) => {
                     if(e) return done(e)
-                    expect(res.body.id).to.not.be.undefined
-                    expect(res.body).to.containSubset(savedProfile)
+                    expect(res.body.profile.id).to.not.be.undefined
+                    expect(res.body.profile).to.containSubset(savedProfile)
                     done()
                 })
         })
@@ -182,8 +182,8 @@ describe(API_URL, function(){
                 .expect(200)
                 .end((e, res) => {
                     if(e) return done(e)
-                    expect(res.body.id).to.not.be.undefined
-                    expect(res.body).to.containSubset(savedProfile)
+                    expect(res.body.profile.id).to.not.be.undefined
+                    expect(res.body.profile).to.containSubset(savedProfile)
                     done()
                 })
         })
@@ -327,9 +327,9 @@ describe(`${API_URL} notifies websocket clients`, function(){
         .then(() => auth.service.login(user2))
         .then(data => token2 = data.token)
         .then(() => server.listen(PORT, () => {
-            ws1 = socketIoClient(SOCKET_URL, { extraHeaders: { Authorization: 'Bearer '+token1}})
+            ws1 = socketIoClient(SOCKET_URL, { query: 'token='+token1 })
             ws1.once('connect', () => {
-                ws2 = socketIoClient(SOCKET_URL, { extraHeaders: { Authorization: 'Bearer '+token2}})
+                ws2 = socketIoClient(SOCKET_URL, { query: 'token='+token2 })
                 ws2.once('connect', () => {
                     done()
                 })
@@ -351,7 +351,7 @@ describe(`${API_URL} notifies websocket clients`, function(){
         .send(user2Profile)
         .end((e, res) => {
             if(e) done(e)
-            user2Profile = res.body
+            user2Profile = res.body.profile
         })
     })
     it('should update other clients on PUT /profile', function(done){

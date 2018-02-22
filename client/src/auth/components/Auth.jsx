@@ -38,8 +38,9 @@ class Auth extends React.Component {
                 return this.setState({ isRegistering: false })
             }
 
-            if(this.props.token && !this.props.ws.connected && !this.props.ws.loading){
+            if(this.props.token && !this.props.ws.loading && !this.props.ws.connected){
                 this.props.connectWs()
+                this.props.clearRequestStatus()
             }
         }
     }
