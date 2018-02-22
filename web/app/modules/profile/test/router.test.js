@@ -327,19 +327,11 @@ describe(`${API_URL} notifies websocket clients`, function(){
         .then(() => auth.service.login(user2))
         .then(data => token2 = data.token)
         .then(() => server.listen(PORT, () => {
-            ws1 = socketIoClient(SOCKET_URL)
+            ws1 = socketIoClient(SOCKET_URL, { extraHeaders: { Authorization: 'Bearer '+token1}})
             ws1.once('connect', () => {
-                ws1.emit('/auth', { meta: { type: 'POST' }, data: { token: token1 }})
-                ws1.once('/auth', res => {
-                    if(res.meta.status !== 201) done(res.data)
-                    ws2 = socketIoClient(SOCKET_URL)
-                    ws2.once('connect', () => {
-                        ws2.emit('/auth', { meta: { type: 'POST' }, data: { token: token2 }})
-                        ws2.once('/auth', res => {
-                            if(res.meta.status !== 201) done(res.data)
-                            done()
-                        })
-                    })
+                ws2 = socketIoClient(SOCKET_URL, { extraHeaders: { Authorization: 'Bearer '+token2}})
+                ws2.once('connect', () => {
+                    done()
                 })
             })
         }))

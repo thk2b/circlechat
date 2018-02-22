@@ -40,6 +40,7 @@ export const create = data => {
         data
     }
 }
+
 export const remove = id => {
     return {
         network: 'http',

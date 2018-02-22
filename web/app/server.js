@@ -28,13 +28,12 @@ app.use((req, res, next) => {
         next()
     }
 })
-app.locals.io = io
-app.use((req, res, next) => {
-    /* find this user's socket and add it to locals so that we can broadcast from it in routes */
+
+app.use((req, res, next) => { /* find this user's socket and add it to locals so that we can broadcast from it in routes */
     if(!req.userId) return next()
     Object.entries(io.sockets.connected).forEach(
         ([id, socket]) => {
-            if(socket.userId === req.userId){
+            if(socket.userId === req.userId){ /* userId is set by io auth middleware */
                 res.locals.socket = socket
             }
         }
@@ -51,13 +50,28 @@ api.use('/profile', profile.router)
 app.use('/api/v1', api)
 
 /* SOCKET.IO */
+app.locals.io = io
+
+io.use((socket, next) => { /* authenticate websocket */
+    const rawToken = socket.request.headers.authorization
+    if(!rawToken) return 
+    const token = rawToken.split(' ')[1]
+
+    auth.service.verifyToken(token)
+    .then((userId) => {
+        socket.userId = userId
+        return next()
+    })
+    .catch(e => {
+        // socket.emit('unauthorized', e.message)
+        return
+    })
+})
 
 io.on('connection', socket => {
-    socket.userId = null
-    socket.on('/auth', data => auth.events(socket, io, data))
     socket.on('/ping', data => ping.events(socket, io, data))
-    socket.on('/user', data => user.events(socket, io, data))
-    socket.on('/message', data => message.events(socket, io, data))
+    // socket.on('/user', data => user.events(socket, io, data))
+    // socket.on('/message', data => message.events(socket, io, data))
 })
 
 module.exports = server
