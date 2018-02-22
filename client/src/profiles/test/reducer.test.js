@@ -68,8 +68,8 @@ describe('profiles reducer', () => {
         expect(
             reducer(state, {
                 network: 'http',
-                type: 'POST',
-                resource: '/profile',
+                type: 'GET',
+                resource: '/profile/all',
                 status: 999,
                 data: { message: 'test error' }
             })
@@ -84,14 +84,14 @@ describe('profiles reducer', () => {
     })
     test('incoming getAll success', () => {
         const data = {
-            id: 123, name: 'tester', description: '', sattus: 'ONLINE'
+            123: { id: 123, name: 'tester', description: '', status: 'ONLINE'}
         }
         const state = reducer(undefined, actions.create(data))
         expect(
             reducer(state, {
                 network: 'http',
-                type: 'POST',
-                resource: '/profile',
+                type: 'GET',
+                resource: '/profile/all',
                 status: 200,
                 data
             })
@@ -99,11 +99,7 @@ describe('profiles reducer', () => {
             ...state, 
             loading: false,
             success: true,
-            data: {
-                ...state.data,
-                [data.id]: data
-
-            }
+            data
         })
     })
     test('incoming get error', () => {
@@ -151,6 +147,54 @@ describe('profiles reducer', () => {
             }
         })
     })
+    test('incoming get own profile error', () => {
+        const state = reducer(undefined, actions.get(123))
+        expect(
+            reducer(state, {
+                network: 'http',
+                type: 'GET',
+                resource: '/profile',
+                userId: 'tester',
+                status: 999,
+                data: { message: 'test error' }
+            })
+        ).toEqual({
+            ...state, 
+            loading: false,
+            success: null,
+            error: {
+                status: 999, message: 'test error'
+            }
+        })
+    })
+    test('incoming get own profile success', () => {
+        const state = reducer(undefined, actions.get(123))
+        const data =  {
+            id: 123,
+            userId: 'tester',
+            status: 'OFFLINE'
+        }
+        expect(
+            reducer(state, {
+                network: 'http',
+                type: 'GET',
+                resource: '/profile',
+                userId: 'tester',
+                params: { userId: 'tester' },
+                status: 200,
+                data
+            })
+        ).toEqual({
+            ...state, 
+            loading: false,
+            success: true,
+            ownProfileId: 123,
+            data: {
+                ...state.data,
+                [data.id]: data
+            }
+        })
+    })
     test('incoming update error', () => {
         const data = {
             123: {
@@ -168,7 +212,7 @@ describe('profiles reducer', () => {
                 network: 'http',
                 type: 'PUT',
                 resource: '/profile',
-                resourceId: 123,
+                params: {id: 123},
                 status: 999,
                 data: { message: 'test error' }
             })
@@ -202,7 +246,7 @@ describe('profiles reducer', () => {
                 network: 'http',
                 type: 'PUT',
                 resource: '/profile',
-                resourceId: 123,
+                params: {id: 123},
                 status: 202,
                 data: updateData
             })
@@ -273,7 +317,7 @@ describe('profiles reducer', () => {
                 network: 'http',
                 type: 'DELETE',
                 resource: '/profile',
-                resourceId: 123,
+                params: {id: 123},
                 status: 999,
                 data: { message: 'test error' }
             })
@@ -302,7 +346,7 @@ describe('profiles reducer', () => {
                 network: 'http',
                 type: 'DELETE',
                 resource: '/profile',
-                resourceId: 123,
+                params: {id: 123},
                 status: 202,
             })
         ).toEqual({

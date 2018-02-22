@@ -26,7 +26,6 @@ class Profile extends React.Component {
         if(id){
             return this.props.get(id)
         }
-        this.props.push('/login')
     }   
     
     render() {
@@ -41,7 +40,7 @@ class Profile extends React.Component {
                 <h2>{userId}</h2>
                 <p>{description}</p>
                 <p>{status}</p>
-                {loading && <Spinner>loading</Spinner>}
+                {loading && 'loading'}
                 {error && <Info danger>{error.message}</Info>}
                 {success && <Info success>{success.message}</Info>}
             </ div>

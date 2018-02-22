@@ -19,16 +19,24 @@ function inboundNetworkReducer(state, action){
         case '/profile': 
             switch(action.type){
                 case 'POST':
-                case 'GET': return {
-                    ...state, success: true, loading: false,
-                    data: { ...state.data, [action.data.id]: action.data }
-                }
+                case 'GET': 
+                    if(action.data.userId === action.params.userId){ /* we got our own profile */
+                        return {
+                            ...state, success: true, loading: false,
+                            ownProfileId: action.data.id,
+                            data: { ...state.data, [action.data.id]: action.data }
+                        }
+                    }
+                    return {
+                        ...state, success: true, loading: false,
+                        data: { ...state.data, [action.data.id]: action.data }
+                    }
                 case 'PUT': return {
                     ...state, success: true, loading: false,
                     data: { 
                         ...state.data,
-                        [action.resourceId]: {
-                            ...state.data[action.resourceId],
+                        [action.params.id]: {
+                            ...state.data[action.params.id],
                             ...action.data
                         }
                     }
@@ -37,7 +45,7 @@ function inboundNetworkReducer(state, action){
                 return {
                     ...state, success: true, loading: false,
                     data: Object.entries(state.data).reduce(
-                        (obj, [id, profile]) => profile.id === action.resourceId? obj : {...obj, [id]: profile}
+                        (obj, [id, profile]) => profile.id === action.params.id? obj : {...obj, [id]: profile}
                     , {})
                 }
                 default: return state
@@ -74,6 +82,7 @@ const INITIAL_STATE = {
     loading: false,
     error: null,
     success: null,
+    ownProfileId: null,
     data: {}
 }
 

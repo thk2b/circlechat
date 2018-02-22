@@ -4,6 +4,8 @@ import { push } from 'react-router-redux'
 import { bindActionCreators } from 'redux'
 
 import Link from '../../lib/components/Link'
+import { OwnProfileLink } from '../../profiles'
+ 
 import css from './Nav.css'
 
 const mapState = ({ auth }) => {
@@ -20,7 +22,7 @@ class Nav extends React.Component {
         return (
             <nav className={css.Nav}>
                 <Link onClick={e=>this.props.push('/')}>home</Link>
-                <Link onClick={e=>this.props.push('/me')}>{auth.userId}</Link>
+                <OwnProfileLink />
                 <p>settings</p>
             </nav>
         )

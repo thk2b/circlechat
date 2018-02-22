@@ -19,10 +19,13 @@ function inboundNetworkReducer(state, action){
         console.error('invalid incoming network action: ', action)
         return state
     }
-    if(action.status >= 400) return {
-        ...state,
-        error: { ...action.data, status: action.status},
-        loading: false
+    if(action.status >= 400) {
+        if(action.resource !== '/auth' || action.resource !== '/auth/login') return state
+        return {
+            ...state,
+            error: { ...action.data, status: action.status},
+            loading: false
+        }
     }
 
     switch(action.resource){

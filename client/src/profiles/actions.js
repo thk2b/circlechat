@@ -14,16 +14,14 @@ export const get = id => {
     }
 }
 
-// TODO: update middleware to send params
-
-// export const getProfileOfUser = userId => {
-//     return {
-//         network: 'http',
-//         resource: '/profile',
-//         params: { userId },
-//         type: 'GET'
-//     }
-// }
+export const getProfileOfUser = userId => {
+    return {
+        network: 'http',
+        resource: '/profile',
+        params: { userId },
+        type: 'GET'
+    }
+}
 
 export const update = (id, data) => {
     return {
