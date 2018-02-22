@@ -35,7 +35,7 @@ function drop(){
 /**
  * Register a user
  */
-function register({ userId, email, pw }, createProfile=true){
+function register({ userId, email, pw }){
     return validate(userId && email && pw, 'credentials')
     .then(() => bcrypt.hash(pw, 10))
     .then(hashedPw => query.none(SQL`
@@ -43,7 +43,6 @@ function register({ userId, email, pw }, createProfile=true){
         VALUES (${userId}, ${email}, ${hashedPw})
         RETURNING "userId"
     ;`))
-    .then(() => createProfile && profileService.create(userId, { userId }))
 }
 
 /**

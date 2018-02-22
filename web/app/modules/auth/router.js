@@ -9,11 +9,8 @@ const r = new Router()
 r.route('/login')
     .post((req, res) => {
         const login = service.login(req.body)
-        const _profile = login.then(({ token, userId }) => profile.of.user(userId, userId))
-
-        Promise.all([login, _profile])
-        .then(([loginData, profileData ]) => {
-            res.status(201).json({ ...loginData, profile: profileData })
+        .then(({ token, userId }) => {
+            res.status(201).json({ token, userId })
         })
         .catch(e => { res.status(e.status || 500).json(e) })
     })
@@ -21,12 +18,8 @@ r.route('/login')
 r.route('/')
     .post((req, res) => {
         service.register(req.body)
-        .then(profile => {
-            res.status(201).json()
-            req.app.locals.io.emit('/auth', {
-                meta: { type: 'POST', status: 201 },
-                data: { profile }
-            })
+        .then(() => {
+            res.status(201).end()
         })
         .catch(e => res.status(e.status || 500).json(e))
     })

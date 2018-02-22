@@ -40,10 +40,10 @@ describe(API_URL, function(){
 
     before(function(done){
         recreate()
-        .then(() => auth.service.register(credentials, false))
+        .then(() => auth.service.register(credentials))
         .then(() => auth.service.login(credentials))
         .then(data => token = data.token)
-        .then(() => auth.service.register(credentials1, false))
+        .then(() => auth.service.register(credentials1))
         .then(() => server.listen(PORT, () => done()))
         .catch(e => done(e))
     })
@@ -269,7 +269,7 @@ describe(`${API_URL} notifies websocket clients`, function(){
         .then(() => auth.service.register(user1))
         .then(() => auth.service.login(user1))
         .then(data => token1 = data.token)
-        .then(() => auth.service.register(user2, false)) // without creating a profile
+        .then(() => auth.service.register(user2))
         .then(() => auth.service.login(user2))
         .then(data => token2 = data.token)
         .then(() => server.listen(PORT, () => {

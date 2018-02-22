@@ -34,8 +34,8 @@ describe('profile service', function(){
     before(function(){
         return recreate()
         .then(() => Promise.all([
-            authService.register(credentials, false),
-            authService.register(credentials1, false)
+            authService.register(credentials),
+            authService.register(credentials1)
         ]))
     })
     describe('create', function(){

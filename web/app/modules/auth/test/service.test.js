@@ -74,12 +74,11 @@ describe('auth service', function(){
                 })
             })
         })
-        it('should have created a profile on successfull register', function(){
+        it('should not have created a profile on successfull register', function(){
             return profileService.getAll(credentials.userId)
             .then((profiles) => {
                 const id = Object.keys(profiles)[0]
-                expect(id).not.to.be.undefined
-                expect(profiles[id].userId).to.equal(credentials.userId)
+                expect(id).to.be.undefined
             })
         })
     })

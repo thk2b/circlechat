@@ -53,7 +53,7 @@ describe(API_URL, function(){
                 .expect(201)
                 .end((e, res) => {
                     if(e) done(e)
-                    expect(res.body).to.equal('')
+                    expect(res.body).to.deep.equal({})
                     done()
                 })
         })
@@ -68,7 +68,7 @@ describe(API_URL, function(){
                 .expect(401)
                 .end(done)
         })
-        it('should send back a token, userId and profileId', function(done){
+        it('should send back a token, userId', function(done){
             request(server)
                 .post(API_URL + '/login')
                 .send({ userId, pw })
@@ -78,7 +78,6 @@ describe(API_URL, function(){
                     if(e) done(e)
                     expect(res.body.token).to.be.a.string
                     expect(res.body.userId).to.not.be.undefined
-                    expect(res.body.profile.id).to.not.be.undefined
                     token = res.token
                     done()
                 })
@@ -153,44 +152,46 @@ describe(API_URL, function(){
     })
 })
 
-describe(`${API_URL} notifies websocket clients`, function(){
-    /* in this test, we emit with user2 and check events with user1 */
-    const user1 = { userId: 'user1', email: 'user1@test.cc', pw: '123'}
-    const user2 = { userId: 'user2', email: 'user2@test.cc', pw: '123'}
+// ** DEPRECATED TEST FOR REFERENCE PURPOSES ONLY **
+//
+// describe(`${API_URL} notifies websocket clients`, function(){
+//     /* in this test, we emit with user2 and check events with user1 */
+//     const user1 = { userId: 'user1', email: 'user1@test.cc', pw: '123'}
+//     const user2 = { userId: 'user2', email: 'user2@test.cc', pw: '123'}
     
-    let token
-    let ws
+//     let token
+//     let ws
 
-    before(function(done){
-        recreate()
-        .then(() => service.register(user1))
-        .then(() => service.login(user1))
-        .then((data) => token = data.token)
-        .then(() => server.listen(PORT, () => {
-            ws = socketIoClient(SOCKET_URL)
-            ws.once('connect', () => {
-                done()
-            })
-        }))
-    })
-    it('should notify connected clients with a new profile', function(done){
-        ws.once('/auth', ({ meta, data }) => {
-            expect(meta).to.deep.equal({ type: 'POST', status: 201 })
-            expect(data.profile).to.containSubset({
-                userId: user2.userId, name: user2.userId
-            })
-            expect(data.profile.id).to.not.be.undefined
-            done()
-        })
-        request(server)
-        .post(API_URL + '/')
-        .send(user2)
-        .set('Content-Type', 'application/json')
-        .expect(201)
-        .end(e => {if(e) done(e)})
-    })
-    after(function(done){
-        ws.disconnect()
-        server.close(e => done(e))
-    })
-})
+//     before(function(done){
+//         recreate()
+//         .then(() => service.register(user1))
+//         .then(() => service.login(user1))
+//         .then((data) => token = data.token)
+//         .then(() => server.listen(PORT, () => {
+//             ws = socketIoClient(SOCKET_URL)
+//             ws.once('connect', () => {
+//                 done()
+//             })
+//         }))
+//     })
+//     it('should notify connected clients with a new profile', function(done){
+//         ws.once('/auth', ({ meta, data }) => {
+//             expect(meta).to.deep.equal({ type: 'POST', status: 201 })
+//             expect(data.profile).to.containSubset({
+//                 userId: user2.userId, name: user2.userId
+//             })
+//             expect(data.profile.id).to.not.be.undefined
+//             done()
+//         })
+//         request(server)
+//         .post(API_URL + '/')
+//         .send(user2)
+//         .set('Content-Type', 'application/json')
+//         .expect(201)
+//         .end(e => {if(e) done(e)})
+//     })
+//     after(function(done){
+//         ws.disconnect()
+//         server.close(e => done(e))
+//     })
+// })
