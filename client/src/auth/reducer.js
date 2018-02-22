@@ -24,9 +24,7 @@ function inboundNetworkReducer(state, action){
         error: { ...action.data, status: action.status},
         loading: false
     }
-    if(action.network === 'ws'){
-        return {...state, isWsAuthenticated: true}
-    }
+
     switch(action.resource){
         case '/auth': switch(action.type){
             case 'POST': return {
@@ -74,8 +72,7 @@ const INITIAL_STATE = {
     userId: null,
     error: null,
     success: null,
-    loading: false,
-    isWsAuthenticated: false
+    loading: false
 }
 
 export default function(state = INITIAL_STATE, action){

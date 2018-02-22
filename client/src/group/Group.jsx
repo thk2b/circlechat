@@ -50,10 +50,10 @@ class Group extends React.Component {
     render() {
         const { isProfilesMenuOpen } = this.state
         const { goToProfile, profiles } = this.props
-        return (
+        return <React.Fragment>
             <ContextMenu>
                 <Button onClick={e => this.toggleMenu('users')}>users</Button>
-            </ContextMenu>,
+            </ContextMenu>
             <SlidingList isRight isOpen={isProfilesMenuOpen}>
                 {profiles.map(
                     p => <ProfileListItem
@@ -63,7 +63,7 @@ class Group extends React.Component {
                     />
                 )}
             </SlidingList>
-        )
+        </React.Fragment>
     }
 }
 

@@ -5,5 +5,5 @@ export default assert({
     resource: String,
     type: String,
     status: Number,
-    data: oneOf({}, undefined)
+    data: oneOf({}, undefined, '')
 })

@@ -18,15 +18,13 @@ class Auth extends React.Component {
     }
 
     componentDidUpdate = (prevProps, prevState) => {
-        if(!this.props.success) return
-        
-        if(!this.state.isRegistering){
-            if(!this.props.isWsAuthenticated){
-                this.props.loginWs(this.props.token)
+        if(this.props.success){
+            if(this.props.isRegistering){
+                return this.toggleRegister()
             }
+            this.props.token && this.props.loginWs(this.props.token)
             return this.props.push('/')
         }
-        this.toggleRegister()
     }
     
     toggleRegister = () => {
@@ -53,9 +51,9 @@ class Auth extends React.Component {
 }
 
 const mapState = ({ auth }) => {
-    const { token, error, success, loading, isWsAuthenticated } = auth
+    const { token, error, success, loading } = auth
     return {
-        error, success, token, loading, isWsAuthenticated
+        error, success, token, loading
     }
 }
 
