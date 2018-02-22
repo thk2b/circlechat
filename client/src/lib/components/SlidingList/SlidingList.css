@@ -5,6 +5,7 @@
     padding-left: 0;
     max-width: 150px;
     height: 100%;
+    overflow-y: scroll;
 }
 
 .SlidingList li {
