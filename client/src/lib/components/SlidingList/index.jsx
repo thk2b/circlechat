@@ -9,8 +9,13 @@ export default ({ isOpen, isLeft, isRight, children, ...rest }) => {
     }
     if(! isOpen ) return null
 
-    // return <ul className={SlidingList}
-    return <ul className={classNames(css.SlidingList, css.isRight)}
+    const className = classNames(css.SlidingList, {
+        [css.isRight]: isRight,
+        [css.isLeft]: isLeft,
+        [css.isHidden]: !isOpen
+    })
+
+    return <ul className={className}
         {...rest}
     >
         { children }
