@@ -7,7 +7,6 @@ export default ({ isOpen, isLeft, isRight, children, ...rest }) => {
     if(isLeft===isRight){
         isLeft=false
     }
-    if(! isOpen ) return null
 
     const className = classNames(css.SlidingList, {
         [css.isRight]: isRight,
