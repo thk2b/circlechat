@@ -27,4 +27,12 @@ describe('validateOutgoingNetworkAction', () => {
             data: { data: 'data' }
         })).toBe(true)
     })
+    test('it should validate valid actions with a params key', () => {
+        expect(validateOutgoingNetworkAction({
+            network: 'http',
+            type: 'GET',
+            resource: 'some/url',
+            params: {id: 123}
+        })).toBe(true)
+    })
 })

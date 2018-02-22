@@ -142,9 +142,12 @@ describe('profile service', function(){
         it('should get all profiles', function(){
             return service.getAll(credentials.userId)
             .then(profiles => {
+                const {description:dump, ...profileData} = savedProfile
+                const {description:dump1, ...profileData1} = savedProfile1
+
                 expect(profiles).to.deep.equal({
-                    [savedProfile.id]: savedProfile, 
-                    [savedProfile1.id]: savedProfile1
+                    [savedProfile.id]: profileData, 
+                    [savedProfile1.id]: profileData1
                 })
             })
         })

@@ -212,9 +212,12 @@ describe(API_URL, function(){
                 .expect(200)
                 .end((e, res) => {
                     if(e) return done(e)
+                    const {description:dump, ...profileData} = savedProfile
+                    const {description:dump1, ...profileData1} = savedProfile1
+
                     expect(res.body).to.deep.equal({
-                        [savedProfile.id]: savedProfile, 
-                        [savedProfile1.id]: savedProfile1
+                        [savedProfile.id]: profileData, 
+                        [savedProfile1.id]: profileData1
                     })
                     done()
                 })

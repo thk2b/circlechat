@@ -312,27 +312,4 @@ describe('profiles reducer', () => {
             data: {}
         })
     })
-    test('incoming login success', () => {
-        const loginData = {
-            profile: { id: 123, userId: 'tester', status: 'OFFLINE'},
-            token: '1234',
-            userId: 'tester'
-        }
-        const state = store.getState().profiles
-        store.dispatch({
-            network: 'http',
-            resource: '/auth/login',
-            type: 'POST',
-            status: 201,
-            data: loginData
-        })
-        const newState = store.getState().profiles
-        expect(newState).toEqual({
-            ...state,
-            data: {
-                ...state.data, 123: loginData.profile
-            },
-            ownProfileId: 123
-        })
-    })
 })

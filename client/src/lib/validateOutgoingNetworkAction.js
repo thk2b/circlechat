@@ -4,5 +4,6 @@ export default assert({
     network: s => s === 'http' || s === 'ws',
     resource: String,
     type: String,
-    data: oneOf({}, undefined)
+    data: oneOf({}, undefined),
+    params: oneOf({}, undefined)
 })

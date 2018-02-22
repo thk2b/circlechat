@@ -2,28 +2,6 @@ import Promise from 'promise'
 import axios from 'axios'
 import validateOutgoingNetworkAction from '../lib/validateOutgoingNetworkAction'
 
-const makeRequest = (url, verb, data, token) => {
-    if(process.env.NODE_ENV === 'test'){
-        return new Promise(() => {})
-    }
-    const config = {}
-    if(token) config.headers = {
-        'Authorization':'Bearer ' + token
-    }
-    switch(verb){
-        case 'GET':
-            return axios.get(url, config)
-        case 'POST':
-            return axios.post(url, data, config)
-        case 'PUT':
-            return axios.put(url, data, config)
-        case 'DELETE':
-            return axios.delete(url, config)
-        default:
-            return new Promise((_, reject) => reject(new Error('invalid http verb: ', verb)))
-    }
-}
-
 export default apiUrl => store => next => action => {
     if(action.network !== 'http') return next(action)
 
@@ -31,11 +9,25 @@ export default apiUrl => store => next => action => {
         if(validateOutgoingNetworkAction(action)){
             process.env.NODE_ENV === 'development' && console.log('outgoing http request: ', action)
 
+            const config = {}
+
             const { resourceId: id } = action
             const url = `${apiUrl}${action.resource}${id?'/'+id:''}`
-            const { token } = store.getState().auth
 
-            makeRequest(url, action.type, action.data, token)
+            if(action.data) config.data = action.data
+
+            const { token } = store.getState().auth
+            if(token) config.headers = {
+                'Authorization':'Bearer ' + token
+            }
+
+            if(action.params) config.params = action.params
+            
+            axios({
+                method: action.type.toLowerCase(),
+                url,
+                ...config
+            })
             .then(res => {
                 return {
                     ...action,
@@ -48,6 +40,10 @@ export default apiUrl => store => next => action => {
                 store.dispatch(newAction)
             })
             .catch( ({ response }) => {
+                if(process.env.NODE_ENV === 'test'){
+                    /* we always get a network err in unit tests */
+                    return
+                }
                 const newAction = {
                     ...action,
                     status: response.data.status,

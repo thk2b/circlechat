@@ -37,7 +37,7 @@ class Auth extends React.Component {
             if(this.props.isRegistering){
                 return this.toggleRegister()
             }
-            this.props.token && this.props.loginWs(this.props.token)
+            // this.props.token && this.props.loginWs(this.props.token)
         }
     }
     
