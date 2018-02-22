@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 
-import { Info, Spinner } from '../../lib/components'
+import { RequestStatus, Spinner } from '../../lib/components'
 import { Nav } from '../../nav'
 
 import { get } from '../actions'
@@ -11,10 +11,10 @@ import css from './Profile.css'
 
 const mapState = ({ profiles }, { match }) => {
     const id = match.params.id || profiles.ownProfileId
-    const { loading, error, success } = profiles
+    const { loading, request } = profiles
     return {
         ...profiles.data[id], id,
-        loading, error, success
+        loading, request
     }
 }
 const mapDispatch = dispatch => bindActionCreators({ get, push }, dispatch)
@@ -31,7 +31,7 @@ class Profile extends React.Component {
     render() {
         const { 
             userId, name, description, status,
-            loading, error, success
+            loading, request
         } = this.props
         return <React.Fragment>
             <Nav />
@@ -41,8 +41,7 @@ class Profile extends React.Component {
                 <p>{description}</p>
                 <p>{status}</p>
                 {loading && 'loading'}
-                {error && <Info danger>{error.message}</Info>}
-                {success && <Info success>{success.message}</Info>}
+                <RequestStatus request={request}/>
             </ div>
         </React.Fragment>  
     }

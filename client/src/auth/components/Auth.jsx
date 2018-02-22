@@ -2,7 +2,7 @@ import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-import { Info, Spinner } from '../../lib/components'
+import { RequestStatus, Spinner } from '../../lib/components'
 
 import { login, loginWs, register, clearRequestStatus } from '../actions'
 import LoginForm from './LoginForm'
@@ -11,9 +11,9 @@ import RegisterForm from './RegisterForm'
 import css from './Auth.css'
 
 const mapState = ({ auth }) => {
-    const { token, error, success, loading } = auth
+    const { token, request, loading } = auth
     return {
-        error, success, token, loading
+        request, token, loading
     }
 }
 
@@ -33,8 +33,8 @@ class Auth extends React.Component {
     }
 
     componentDidUpdate = (prevProps, prevState) => {
-        if(this.props.success){
-            if(this.props.isRegistering){
+        if(this.props.request.status && this.props.request.status < 400){
+            if(!this.props.isRegistering){
                 return this.toggleRegister()
             }
             // this.props.token && this.props.loginWs(this.props.token)
@@ -47,7 +47,7 @@ class Auth extends React.Component {
     }
 
     render() {
-        const { error, success, loading, login, register, token } = this.props
+        const { request, loading, login, register, token } = this.props
         const { isRegistering } = this.state
         
         if(token) return this.props.children
@@ -60,8 +60,7 @@ class Auth extends React.Component {
                         :<LoginForm onSubmit={login} onSecondary={e => this.toggleRegister()}/>
                 }
                 {loading && <Spinner>loading</Spinner>}
-                {error && <Info danger>{error.message}</Info>}
-                {success && <Info success>{success.message}</Info>}
+                <RequestStatus request={request}/>
             </div>
         )
     }

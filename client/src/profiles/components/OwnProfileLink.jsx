@@ -5,30 +5,39 @@ import { push } from 'react-router-redux'
 
 import Link from '../../lib/components/Link'
 
-import { getProfileOfUser } from '../actions'
+import { getProfileOfUser, create } from '../actions'
 
 const mapState = ({ profiles, auth }) => {
     return {
         userId: auth.userId,
-        ownProfileId: profiles.ownProfileId
+        ownProfileId: profiles.ownProfileId,
+        request: profiles.request
     }
 }
 
 const mapDispatch = dispatch => {
-    return bindActionCreators({ push, getProfileOfUser }, dispatch)
+    return bindActionCreators({ push, getProfileOfUser, create }, dispatch)
+}
+
+const mergeProps = ({ userId, ...state }, { create, getProfileOfUser, ...dispatch }) => {
+    return {
+        getOwnProfile: () => getProfileOfUser(userId),
+        createOwnProfile: () => create({ userId }),
+        ...state, userId, ...dispatch
+    }
 }
 
 class OwnProfileLink extends React.Component {
     componentDidMount = () => {
         if(!this.props.ownProfileId){
-            this.props.getProfileOfUser(this.props.userId)
+            this.props.getOwnProfile()
         }
     }
-    //componentDidUpdate = (prevProps, prevState) => {
-        // if(request.status === 404){
-        //     this.props.createProfile()
-        // }
-    //}
+    componentDidUpdate = (prevProps, prevState) => {
+        if(this.props.request.status === 404){
+            this.props.createOwnProfile()
+        }
+    }
     
     render() {
         return <Link onClick={e => {
@@ -39,4 +48,4 @@ class OwnProfileLink extends React.Component {
     }
 }
 
-export default connect(mapState, mapDispatch)(OwnProfileLink)
+export default connect(mapState, mapDispatch, mergeProps )(OwnProfileLink)
