@@ -12,7 +12,7 @@ describe('auth reducer', () => {
         ).toEqual({
             ...state, auth: {
                 ...state.auth,
-                loading: true, error: null, success: null
+                loading: true
             }
         })
     })
@@ -24,7 +24,7 @@ describe('auth reducer', () => {
         ).toEqual({
             ...state, auth: {
                 ...state.auth,
-                loading: true, error: null, success: null
+                loading: true
             }
         })
     })
@@ -38,7 +38,7 @@ describe('auth reducer', () => {
         ).toEqual({
             ...state, 
             loading: false,
-            error: { message: 'some error', status: 400 }
+            request: { message: 'some error', status: 400 }
         })
     })
     test('incoming register success ', () => {
@@ -51,7 +51,7 @@ describe('auth reducer', () => {
         ).toEqual({
             ...state, 
             loading: false,
-            success: { message: 'registered successfully' }
+            request: { status: 201, message: 'registered successfully'}
         })
     })
     test('incoming login error', () => {
@@ -64,7 +64,7 @@ describe('auth reducer', () => {
         ).toEqual({
             ...state, 
             loading: false,
-            error: { message: 'some error', status: 400 }
+            request: { message: 'some error', status: 400 }
         })
     })
     test('incoming login success', () => {
@@ -77,7 +77,7 @@ describe('auth reducer', () => {
         ).toEqual({
             ...state, 
             loading: false,
-            success: { message: 'logged in successfully' },
+            request: { status: 201, message: 'logged in successfully'},
             token: 'some token',
             userId: 'user id'
         })
@@ -90,7 +90,7 @@ describe('auth reducer', () => {
         expect(
             reducer(state, actions.clearRequestStatus())
         ).toEqual(
-            {...state, error: null, success: null}
+            {...state, request: { status: null }}
         )
     })
 })

@@ -16,7 +16,7 @@ export default apiUrl => store => next => action => {
 
             if(action.data) config.data = action.data
 
-            const { token } = store.getState().auth
+            const { token, userId: ownUserId } = store.getState().auth
             if(token) config.headers = {
                 'Authorization':'Bearer ' + token
             }
@@ -31,6 +31,7 @@ export default apiUrl => store => next => action => {
             .then(res => {
                 return {
                     ...action,
+                    ownUserId, /* required to check if we originated the action, or if anotehr client did */
                     status: res.status,
                     data: res.data
                 }

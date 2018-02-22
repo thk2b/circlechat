@@ -7,8 +7,7 @@ function localReducer(state, action){
         case CLEAR_REQUEST_STATUS:
             return {
                 ...state,
-                error: null,
-                success: null
+                request: { status: null }
             }
         default: return state
     }
@@ -20,10 +19,10 @@ function inboundNetworkReducer(state, action){
         return state
     }
     if(action.status >= 400) {
-        if(action.resource !== '/auth' || action.resource !== '/auth/login') return state
+        if(action.resource !== '/auth' && action.resource !== '/auth/login') return state
         return {
             ...state,
-            error: { ...action.data, status: action.status},
+            request: { status: action.status, ...action.data },
             loading: false
         }
     }
@@ -33,8 +32,10 @@ function inboundNetworkReducer(state, action){
             case 'POST': return {
                 ...state,
                 loading: false,
-                success: { message: 'registered successfully'},
-                error: null
+                request: {
+                    status: action.status,
+                    message: 'registered successfully'
+                }
             }
             case 'PUT':
             case 'GET':
@@ -46,10 +47,10 @@ function inboundNetworkReducer(state, action){
                 token: action.data.token,
                 userId: action.data.userId,
                 loading: false,
-                error: null,
-                success: {
+                request: {
+                    status: action.status,
                     message: 'logged in successfully'
-                }
+                },
             }   
             default: return state
         }
@@ -62,9 +63,7 @@ function outboundNetworkReducer(state, action){
         case '/auth':
         case '/auth/login': return {
             ...state,
-            loading: true,
-            error: null,
-            success: null
+            loading: true
         }
         default: return state
     }
@@ -73,8 +72,7 @@ function outboundNetworkReducer(state, action){
 const INITIAL_STATE = {
     token: null,
     userId: null,
-    error: null,
-    success: null,
+    request: { status: null },
     loading: false
 }
 

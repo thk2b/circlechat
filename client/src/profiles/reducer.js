@@ -9,30 +9,34 @@ function inboundNetworkReducer(state, action){
         console.error('invalid incoming network action: ', action)
         return state
     }
-    if(action.status >= 400) return {
-        ...state,
-        error: { ...action.data, status: action.status },
-        loading: false
+    if(action.status >= 400){
+        if(action.resource === '/profile' || action.resource === '/profile/all'){
+            return {
+                ...state,
+                request: { status: action.status, ...action.data },
+                loading: false
+            }
+        }
+        return state
     }
-    // state = {...state, success: true}
     switch(action.resource){
         case '/profile': 
             switch(action.type){
                 case 'POST':
                 case 'GET': 
-                    if(action.data.userId === action.params.userId){ /* we got our own profile */
+                    if(action.data.userId === action.ownUserId){ /* we got our own profile */
                         return {
-                            ...state, success: true, loading: false,
+                            ...state, loading: false, request: { status: action.status },
                             ownProfileId: action.data.id,
                             data: { ...state.data, [action.data.id]: action.data }
                         }
                     }
                     return {
-                        ...state, success: true, loading: false,
+                        ...state, loading: false, request: { status: action.status },
                         data: { ...state.data, [action.data.id]: action.data }
                     }
                 case 'PUT': return {
-                    ...state, success: true, loading: false,
+                    ...state, loading: false, request: { status: action.status },
                     data: { 
                         ...state.data,
                         [action.params.id]: {
@@ -43,7 +47,7 @@ function inboundNetworkReducer(state, action){
                 }
                 case 'DELETE': 
                 return {
-                    ...state, success: true, loading: false,
+                    ...state, loading: false, request: { status: action.status },
                     data: Object.entries(state.data).reduce(
                         (obj, [id, profile]) => profile.id === action.params.id? obj : {...obj, [id]: profile}
                     , {})
@@ -52,7 +56,7 @@ function inboundNetworkReducer(state, action){
             }
         case '/profile/all':
             if(action.type === 'GET') return {
-                ...state, success: true, loading: false,
+                ...state, loading: false, request: { status: action.status },
                 data: action.data
             }
             return state
@@ -65,9 +69,7 @@ function outboundNetworkReducer(state, action){
         case '/profile':
         case '/profile/all': return {
             ...state,
-            loading: true,
-            error: null,
-            success: null
+            loading: true
         }
         default: return state
     }
@@ -80,8 +82,7 @@ function networkReducer(state, action){
 
 const INITIAL_STATE = {
     loading: false,
-    error: null,
-    success: null,
+    request: { status: null },
     ownProfileId: null,
     data: {}
 }

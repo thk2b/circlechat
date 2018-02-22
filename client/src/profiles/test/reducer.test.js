@@ -11,7 +11,7 @@ describe('profiles reducer', () => {
         ).toEqual({
             ...state, profiles: {
                 ...state.profiles,
-                loading: true, error: null, success: null
+                loading: true
             }
         })
     })
@@ -23,7 +23,7 @@ describe('profiles reducer', () => {
         ).toEqual({
             ...state, profiles: {
                 ...state.profiles,
-                loading: true, error: null, success: null
+                loading: true
             }
         })
     })
@@ -35,7 +35,7 @@ describe('profiles reducer', () => {
         ).toEqual({
             ...state, profiles: {
                 ...state.profiles,
-                loading: true, error: null, success: null
+                loading: true
             }
         })
     })
@@ -47,7 +47,7 @@ describe('profiles reducer', () => {
         ).toEqual({
             ...state, profiles: {
                 ...state.profiles,
-                loading: true, error: null, success: null
+                loading: true
             }
         })
     })
@@ -59,7 +59,7 @@ describe('profiles reducer', () => {
         ).toEqual({
             ...state, profiles: {
                 ...state.profiles,
-                loading: true, error: null, success: null
+                loading: true
             }
         })
     })
@@ -74,12 +74,9 @@ describe('profiles reducer', () => {
                 data: { message: 'test error' }
             })
         ).toEqual({
-            ...state, 
+            ...state,
             loading: false,
-            success: null,
-            error: {
-                status: 999, message: 'test error'
-            }
+            request: { status: 999, message: 'test error'}
         })
     })
     test('incoming getAll success', () => {
@@ -96,10 +93,10 @@ describe('profiles reducer', () => {
                 data
             })
         ).toEqual({
-            ...state, 
+            ...state,
+            data,
             loading: false,
-            success: true,
-            data
+            request: { status: 200 }
         })
     })
     test('incoming get error', () => {
@@ -115,15 +112,12 @@ describe('profiles reducer', () => {
         ).toEqual({
             ...state, 
             loading: false,
-            success: null,
-            error: {
-                status: 999, message: 'test error'
-            }
+            request: { status: 999, message: 'test error'}
         })
     })
     test('incoming get success', () => {
         const state = reducer(undefined, actions.get(123))
-        const data =  {
+        const data = {
             id: 123,
             userId: 999,
             status: 'OFFLINE'
@@ -133,18 +127,17 @@ describe('profiles reducer', () => {
                 network: 'http',
                 type: 'GET',
                 resource: '/profile',
-                resourceId: 123,
+                params: { id: 123 },
                 status: 200,
                 data
             })
         ).toEqual({
-            ...state, 
-            loading: false,
-            success: true,
+            ...state,
             data: {
-                ...state.data,
-                [data.id]: data
-            }
+                ...state.data, 123: data
+            },
+            loading: false,
+            request: { status: 200 }
         })
     })
     test('incoming get own profile error', () => {
@@ -161,10 +154,7 @@ describe('profiles reducer', () => {
         ).toEqual({
             ...state, 
             loading: false,
-            success: null,
-            error: {
-                status: 999, message: 'test error'
-            }
+            request: { status: 999, message: 'test error'}
         })
     })
     test('incoming get own profile success', () => {
@@ -179,15 +169,14 @@ describe('profiles reducer', () => {
                 network: 'http',
                 type: 'GET',
                 resource: '/profile',
-                userId: 'tester',
-                params: { userId: 'tester' },
+                ownUserId: 'tester',
                 status: 200,
                 data
             })
         ).toEqual({
             ...state, 
             loading: false,
-            success: true,
+            request: { status: 200 },
             ownProfileId: 123,
             data: {
                 ...state.data,
@@ -219,10 +208,7 @@ describe('profiles reducer', () => {
         ).toEqual({
             ...state, 
             loading: false,
-            success: null,
-            error: {
-                status: 999, message: 'test error'
-            }
+            request: { status: 999, message: 'test error'}
         })
     })
     test('incoming update success', () => {
@@ -253,7 +239,7 @@ describe('profiles reducer', () => {
         ).toEqual({
             ...state, 
             loading: false,
-            success: true,
+            request: { status: 202 },
             data: {
                 ...state.data,
                 123: { ...data[123], ...updateData }
@@ -273,8 +259,7 @@ describe('profiles reducer', () => {
         ).toEqual({
             ...state, 
             loading: false,
-            success: null,
-            error: { message: 'test error', status: 999 }
+            request: { status: 999, message: 'test error'}
         })
     })
     test('incoming create success', () => {
@@ -293,7 +278,7 @@ describe('profiles reducer', () => {
         ).toEqual({
             ...state, 
             loading: false,
-            success: true,
+            request: { status: 201 },
             data: {
                 ...state.data,
                 123: { ...data }
@@ -324,8 +309,7 @@ describe('profiles reducer', () => {
         ).toEqual({
             ...state, 
             loading: false,
-            success: null,
-            error: { message: 'test error', status: 999 }
+            request: { status: 999, message: 'test error'}
 
         })
     })
@@ -352,7 +336,7 @@ describe('profiles reducer', () => {
         ).toEqual({
             ...state, 
             loading: false,
-            success: true,
+            request: { status: 202 },
             data: {}
         })
     })
