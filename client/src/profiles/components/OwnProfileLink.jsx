@@ -24,6 +24,12 @@ class OwnProfileLink extends React.Component {
             this.props.getProfileOfUser(this.props.userId)
         }
     }
+    //componentDidUpdate = (prevProps, prevState) => {
+        // if(request.status === 404){
+        //     this.props.createProfile()
+        // }
+    //}
+    
     render() {
         return <Link onClick={e => {
             if(this.props.userId) this.props.push('/me')
