@@ -8,6 +8,6 @@ module.exports = function(data){
         }
     })
     if(ok(data)) return Promise.resolve()
-    return Promise.reject({ status: 400, message: 'invalid socketwebsocket message'})
+    return Promise.reject({ status: 422, message: 'invalid socketwebsocket message'})
 }
 

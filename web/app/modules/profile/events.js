@@ -13,10 +13,10 @@ module.exports = function(socket, io, { meta, data }={}){
                 })
             })
             .catch(e => {
-                if(e.status === 404) return /* when the user's profile does not exist yet */
+                if(e.status === 404) return /* the user's profile does not exist yet. no need to notify since it will get created shortly */
                 socket.emit(RESOURCE_NAME, {
                     meta: { type: 'PUT', status: e.status || 500 },
-                    data: { message: 'could not set status', e}
+                    data: { message: 'profile not found: could not set status', e}
                 })
             })
         case 'disconnect':
@@ -30,7 +30,7 @@ module.exports = function(socket, io, { meta, data }={}){
             .catch(e => {
                 socket.emit(RESOURCE_NAME, {
                     meta: { type: 'PUT', status: e.status || 500 },
-                    data: { message: 'could not set status', e}
+                    data: { message: 'profile not found: could not set status', e}
                 })
             })
         default:

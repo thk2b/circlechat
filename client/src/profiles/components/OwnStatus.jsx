@@ -10,21 +10,10 @@ const mapState = ({ profiles }) => {
 }
 
 const mapDispatch = dispatch => {
-    return {
-        setOnlineStatus: () => dispatch(update({ status: 'ONLINE' }))
-    }
+    return {}
 }
 
-class OwnProfile extends React.Component {
-    componentDidMount = () => {
-        if(this.props.status === 'OFFLINE'){
-            this.props.setOnlineStatus()
-        }
-    }
-    componentWillUnmount = () => {
-        console.log('bye')
-    }
-    
+class OwnProfile extends React.Component {    
     render() {
         return <div>
             {this.props.status}

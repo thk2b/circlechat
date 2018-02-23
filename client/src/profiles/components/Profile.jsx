@@ -38,7 +38,7 @@ class Profile extends React.Component {
             <div className={css.Profile}>
                 <h1>{name}</h1>
                 <h2>{userId}</h2>
-                <p>{description}</p>
+                <p>{description||<i>no description</i>}</p>
                 <p>{status}</p>
                 {loading && 'loading'}
                 <RequestStatus request={request}/>

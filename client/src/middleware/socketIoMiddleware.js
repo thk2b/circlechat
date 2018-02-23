@@ -13,6 +13,7 @@ const handle = (resource, dispatch) => ({ meta, data }) => {
 }
 
 const resources = [
+    // error
     '/profile'
     // 'message',
 ]
