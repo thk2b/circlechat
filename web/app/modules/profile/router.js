@@ -35,7 +35,7 @@ r.route('/')
         validateQueryParams(req.query)
         .then(() => service.update(req.userId, req.query.id, req.body))
         .then( profile => {
-            res.status(202).json(profile)
+            res.status(202).json({ profile })
             res.locals.socket && res.locals.socket.broadcast.emit('/profile', {
                 meta: { type: 'PUT', status: 202 },
                 data: { profile }

@@ -273,7 +273,7 @@ describe(API_URL, function(){
                 .expect(202)
                 .end((e, res) => {
                     if(e) return done(e)
-                    expect(res.body).to.deep.equal({...savedProfile, status: 'OFFLINE'})
+                    expect(res.body.profile).to.deep.equal({...savedProfile, status: 'OFFLINE'})
                     done()
                 })
         })

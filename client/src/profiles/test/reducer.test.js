@@ -219,8 +219,10 @@ describe('profiles reducer', () => {
                 status: 'ONLINE'
             }
         }
-        const updateData =  {
-            status: 'OFFLINE'
+        const updateData = {
+            profile:  {
+                status: 'OFFLINE'
+            }
         }
         const state = {
             ...reducer(undefined, {}),
@@ -242,7 +244,7 @@ describe('profiles reducer', () => {
             request: { status: 202 },
             data: {
                 ...state.data,
-                123: { ...data[123], ...updateData }
+                123: { ...data[123], ...updateData.profile }
             }
         })
     })
