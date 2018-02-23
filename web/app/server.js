@@ -67,8 +67,20 @@ io.use((socket, next) => { /* authenticate websocket */
 
 io.on('connection', socket => {
     socket.on('/ping', data => ping.events(socket, io, data))
-    // socket.on('/user', data => user.events(socket, io, data))
+    socket.on('/profile', data => profile.events(socket, io, data))
     // socket.on('/message', data => message.events(socket, io, data))
+
+    socket.on('disconnect', () => {
+        /* subscribe handlers to disconnect */
+        [ping.events, profile.events].forEach(
+            handler => handler(socket, io, { meta: { type: 'disconnect' } })
+        )
+    })
+    /* notify handlers of connection */
+    ;[ping.events, profile.events].forEach(
+        handler => handler(socket, io, { meta: { type: 'connect' } })
+    )
+
 })
 
 module.exports = server

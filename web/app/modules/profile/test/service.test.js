@@ -195,6 +195,35 @@ describe('profile service', function(){
             })
         })
     })
+    describe('set user status', function(){
+        it('should not set an invalid status', function(){
+            return service.setUserStatus(credentials.userId, credentials.userId, 'DOES_NOT_EXIST')
+            .then(() => { throw new Error('should not resolve')})
+            .catch(e => {
+                expect(e).to.contain({ status: 422 })
+            })
+        })
+        it('should not set another user\'s status', function(){
+            return service.setUserStatus(credentials1.userId, credentials.userId, 'ONLINE')
+            .then(() => { throw new Error('should not resolve')})
+            .catch(e => {
+                expect(e).to.contain({ status: 403 })
+            })
+        })
+        it('should not set an unauthenticated user\'s status', function(){
+            return service.setUserStatus(null, credentials.userId, 'ONLINE')
+            .then(() => { throw new Error('should not resolve')})
+            .catch(e => {
+                expect(e).to.contain({ status: 401 })
+            })
+        })
+        it('should the user\'s status', function(){
+            return service.setUserStatus(credentials.userId, credentials.userId, 'ONLINE')
+            .then(profile => {
+                expect(profile.status).to.equal('ONLINE')
+            })
+        })
+    })
     describe('remove profile', function(){
         it('should refuse to remove the profile when unauthenticated', function(){
             return service.remove(null, savedProfile.id)

@@ -32,6 +32,7 @@ export const update = (id, data) => {
         data
     }
 }
+
 export const create = data => {
     return {
         network: 'http',

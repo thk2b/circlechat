@@ -328,9 +328,9 @@ describe(`${API_URL} notifies websocket clients`, function(){
         .then(data => token2 = data.token)
         .then(() => server.listen(PORT, () => {
             ws1 = socketIoClient(SOCKET_URL, { query: 'token='+token1 })
-            ws1.once('connect', () => {
+            ws1.once('/profile', () => { /* fired after the connection event, with online status */
                 ws2 = socketIoClient(SOCKET_URL, { query: 'token='+token2 })
-                ws2.once('connect', () => {
+                ws2.once('/profile', () => {
                     done()
                 })
             })

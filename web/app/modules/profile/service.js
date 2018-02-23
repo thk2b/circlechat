@@ -113,6 +113,18 @@ const of = {
     )
 }
 
+const setUserStatus = (requesterId, userId, status) => (
+    authenticate(requesterId)
+    .then(() => authorize(requesterId === userId))
+    .then(() => validate(['ONLINE', 'OFFLINE', 'INVISIBLE'].indexOf(status)>= 0))
+    .then(() => query.one(SQL`
+        UPDATE profile
+        SET status=${status}
+        WHERE "userId"=${userId}
+        RETURNING *
+    ;`))
+)
+
 module.exports = {
     init,
     drop,
@@ -121,5 +133,6 @@ module.exports = {
     getAll,
     update,
     remove,
-    of
+    of,
+    setUserStatus
 }
