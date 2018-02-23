@@ -39,6 +39,7 @@ function inboundNetworkReducer(state, action){
                     }
                 case 'PUT': 
                     profile = action.data.profile
+                    const id = action.params.id
                     return {
                         ...state, loading: false, request: { status: action.status },
                         data: { 

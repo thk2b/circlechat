@@ -8,13 +8,13 @@ module.exports = function(socket, io, { meta, data }={}){
             return service.setUserStatus(socket.userId, socket.userId, 'ONLINE')
             .then(profile => {
                 io.emit(RESOURCE_NAME, { 
-                    meta: { type: 'PUT', status: 201 },
+                    meta: { type: 'GET', status: 201 },
                     data: { profile }
                 })
             })
             .catch(e => {
                 socket.emit(RESOURCE_NAME, {
-                    meta: { type: 'PUT', status: e.status || 500 },
+                    meta: { type: 'GET', status: e.status || 500 },
                     data: { message: 'could not set status', e}
                 })
             })
@@ -23,13 +23,13 @@ module.exports = function(socket, io, { meta, data }={}){
             return service.setUserStatus(socket.userId, socket.userId, 'OFFLINE')
             .then(profile => {
                 io.emit(RESOURCE_NAME, { 
-                    meta: { type: 'PUT', status: 201 },
+                    meta: { type: 'GET', status: 201 },
                     data: { profile }
                 })
             })
             .catch(e => {
                 socket.emit(RESOURCE_NAME, {
-                    meta: { type: 'PUT', status: e.status || 500 },
+                    meta: { type: 'GET', status: e.status || 500 },
                     data: { message: 'could not set status', e}
                 })
             })
