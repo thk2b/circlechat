@@ -4,6 +4,7 @@
     --secondary: rgb(117, 117, 117);
     --success: rgb(63, 168, 60);
     --danger: rgb(165, 54, 54);
+    --neutral: rgb(158, 148, 147);
     --border-color: rgba(0,0,0,1); 
   }
   
@@ -13,5 +14,6 @@
     --secondary: rgb(255, 255, 255);
     --success: rgba(24, 192, 18, .8);
     --danger: rgba(250, 6, 6, 0.6);
+    --neutral: rgb(198, 193, 192);
     --border-color: rgba(0,0,0,1);
   }

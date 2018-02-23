@@ -1,6 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
+
 import { update } from '../actions'
+import { Status } from '../../lib/components'
 
 const mapState = ({ profiles }) => {
     const ownProfile = profiles.data[profiles.ownProfileId]
@@ -13,12 +15,4 @@ const mapDispatch = dispatch => {
     return {}
 }
 
-class OwnProfile extends React.Component {    
-    render() {
-        return <div>
-            {this.props.status}
-        </div>
-    }
-}
-
-export default connect(mapState, mapDispatch)(OwnProfile)
+export default connect(mapState, mapDispatch)(Status)

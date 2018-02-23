@@ -1,0 +1,16 @@
+.Status {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    margin-left: 1rem;
+    vertical-align: bottom;
+}
+
+.isOnline {
+    background-color: var(--success);
+}
+
+.isOffline {
+    background-color: var(--neutral);
+}

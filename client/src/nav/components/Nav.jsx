@@ -4,7 +4,7 @@ import { push } from 'react-router-redux'
 import { bindActionCreators } from 'redux'
 
 import Link from '../../lib/components/Link'
-import { OwnProfileLink, OwnStatus } from '../../profiles'
+import { OwnProfileLink } from '../../profiles'
  
 import css from './Nav.css'
 
@@ -22,9 +22,9 @@ class Nav extends React.Component {
         return (
             <nav className={css.Nav}>
                 <Link onClick={e=>this.props.push('/')}>home</Link>
+                
                 <OwnProfileLink />
-                <OwnStatus />
-                <p>settings</p>
+                {/* <p>settings</p> */}
             </nav>
         )
     }

@@ -1,13 +1,14 @@
 import React from 'react'
 
-import Link from '../../lib/components/Link'
+import { Link, Status } from '../../lib/components'
 
-export default ({onClick, name, ...rest}) => {
+export default ({onClick, name, status, ...rest}) => {
     return <li onClick={onClick}
         {...rest}
     >
-        <Link >
+        <Link>
             <span>{name}</span>
+            <Status status={status}/>
         </Link>
     </li>
 }

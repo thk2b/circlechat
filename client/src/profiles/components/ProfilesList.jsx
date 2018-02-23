@@ -33,6 +33,7 @@ class ProfilesList extends React.Component {
                 key={p.id}
                 onClick={e => this.props.goToProfile(p.id)}
                 name={p.name}
+                status={p.status}
             />
         )
     }
