@@ -182,7 +182,7 @@ describe('profile service', function(){
             }
             return service.update(credentials.userId, savedProfile.id, newProfile)
             .then(updatedProfile => {
-                expect(updatedProfile).to.deep.equal({...savedProfile, ...newProfile})
+                expect(updatedProfile).to.deep.equal({id: savedProfile.id, ...newProfile})
             })
         })
         it('should update the profile with multiple keys at once', function(){
@@ -191,7 +191,7 @@ describe('profile service', function(){
             }
             return service.update(credentials.userId, savedProfile.id, newProfile)
             .then(updatedProfile => {
-                expect(updatedProfile).to.deep.equal({...savedProfile, ...newProfile})
+                expect(updatedProfile).to.deep.equal({id: savedProfile.id, ...newProfile})
             })
         })
     })

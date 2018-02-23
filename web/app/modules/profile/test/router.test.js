@@ -273,7 +273,7 @@ describe(API_URL, function(){
                 .expect(202)
                 .end((e, res) => {
                     if(e) return done(e)
-                    expect(res.body.profile).to.deep.equal({...savedProfile, status: 'OFFLINE'})
+                    expect(res.body).to.deep.equal({id: savedProfile.id, status: 'OFFLINE' })
                     done()
                 })
         })
@@ -320,17 +320,23 @@ describe(`${API_URL} notifies websocket clients`, function(){
 
     before(function(done){
         recreate()
-        .then(() => auth.service.register(user1))
-        .then(() => auth.service.login(user1))
-        .then(data => token1 = data.token)
-        .then(() => auth.service.register(user2))
-        .then(() => auth.service.login(user2))
-        .then(data => token2 = data.token)
+        .then(() => Promise.all([
+            auth.service.register(user1),
+            auth.service.register(user2)
+        ]))
+        .then(() => Promise.all([
+            auth.service.login(user1),
+            auth.service.login(user2)
+        ]))
+        .then(([{ token: t1 }, { token: t2 }]) => {
+            token1 = t1
+            token2 = t2
+        })
         .then(() => server.listen(PORT, () => {
             ws1 = socketIoClient(SOCKET_URL, { query: 'token='+token1 })
-            ws1.once('/profile', () => { /* fired after the connection event, with online status */
+            ws1.once('connect', () => { /* fired after the connection event, with online status */
                 ws2 = socketIoClient(SOCKET_URL, { query: 'token='+token2 })
-                ws2.once('/profile', () => {
+                ws2.once('connect', () => {
                     done()
                 })
             })
@@ -358,7 +364,7 @@ describe(`${API_URL} notifies websocket clients`, function(){
         newKeys = { status: 'OFFLINE' }
         ws1.once('/profile', ({ meta, data }) => {
             expect(meta.status).to.equal(202)
-            expect(data.profile).to.deep.equal({...user2Profile, ...newKeys})
+            expect(data).to.deep.equal({id: user2Profile.id, ...newKeys})
             done()
         })
         ws2.once('/profile', () => done(new Error('should not send event to this client')))

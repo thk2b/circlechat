@@ -40,7 +40,7 @@ describe('profile events', function(){
                 const ws1 = socketIoClient(SOCKET_URL, { query: 'token='+token })
                 ws1.once('/profile', ({ meta, data }) => {
                     expect(meta.type).to.equal('PUT')
-                    expect(data.profile).to.deep.equal({...profile1, status: 'ONLINE'})
+                    expect(data).to.deep.equal({id: profile1.id, status: 'ONLINE'})
                     ws1.disconnect()
                     done()
                 })
@@ -56,8 +56,8 @@ describe('profile events', function(){
                     const ws2 = socketIoClient(SOCKET_URL, { query: 'token='+t2 })
                     ws2.once('/profile', (p) => { // is now online
                         ws2.once('/profile', ({ meta, data }) => { // user1 is now offline
-                            expect(data.profile).to.deep.equal({
-                                ...profile1, status: 'OFFLINE'
+                            expect(data).to.deep.equal({
+                                id: profile1.id, status: 'OFFLINE'
                             })
                             ws2.disconnect()
                             done()

@@ -38,15 +38,14 @@ function inboundNetworkReducer(state, action){
                         data: { ...state.data, [profile.id]: profile }
                     }
                 case 'PUT': 
-                    profile = action.data.profile
-                    const id = action.params.id
+                    const id = (action.params && action.params.id) || action.data.id
                     return {
                         ...state, loading: false, request: { status: action.status },
                         data: { 
                             ...state.data,
-                            [action.params.id]: {
-                                ...state.data[action.params.id],
-                                ...profile
+                            [id]: {
+                                ...state.data[id],
+                                ...action.data
                             }
                         }
                     }

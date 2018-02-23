@@ -70,7 +70,7 @@ function update(requesterId, profileId, obj){
         .update(obj)
         .where('userId', '=', requesterId)
         .andWhere('id', '=', profileId)
-        .returning('*')
+        .returning(Object.keys(obj).concat('id'))
         .toQuery()
     ))
     .catch(e => {
@@ -121,7 +121,7 @@ const setUserStatus = (requesterId, userId, status) => (
         UPDATE profile
         SET status=${status}
         WHERE "userId"=${userId}
-        RETURNING *
+        RETURNING id, status
     ;`))
 )
 
