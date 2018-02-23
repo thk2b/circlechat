@@ -13,13 +13,13 @@ module.exports = function(socket, io, { meta, data }={}){
                 })
             })
             .catch(e => {
+                if(e.status === 404) return /* when the user's profile does not exist yet */
                 socket.emit(RESOURCE_NAME, {
                     meta: { type: 'GET', status: e.status || 500 },
                     data: { message: 'could not set status', e}
                 })
             })
         case 'disconnect':
-            console.log(0, 'disc')
             return service.setUserStatus(socket.userId, socket.userId, 'OFFLINE')
             .then(profile => {
                 io.emit(RESOURCE_NAME, { 

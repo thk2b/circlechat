@@ -29,7 +29,6 @@ export default apiUrl => store => next => action => {
                 ...config
             })
             .then(res => {
-                console.log(res)
                 return {
                     ...action,
                     ownUserId, /* required to check if we originated the action, or if another client did */
