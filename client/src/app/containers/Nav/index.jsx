@@ -3,8 +3,8 @@ import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import { bindActionCreators } from 'redux'
 
-import Link from '../../lib/components/Link'
-import { OwnProfileLink } from '../../profiles'
+import Link from '../../lib/Link'
+import OwnProfileLink from '../OwnProfileLink'
  
 import css from './Nav.css'
 

@@ -1,10 +1,8 @@
 import React from 'react'
 
-import SlidingList from '../lib/components/SlidingList'
-import ContextMenu from '../lib/components/ContextMenu'
-import Button from '../lib/components/Button'
+import { SlidingList, ContextMenu, Button} from '../../lib'
 
-import { ProfilesList } from '../profiles'
+import ProfilesList from '../ProfilesList'
 
 export default class Group extends React.Component {
     constructor(props){
