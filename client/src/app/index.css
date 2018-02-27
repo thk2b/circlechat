@@ -6,6 +6,19 @@
     left: 0;
     overflow: hidden;
     font-family: sans-serif;
-    background-color: var(--secondary);
+    background-color: var(--surface-0);
     color: var(--text-color);
+}
+
+h1 {
+    color: var(--text-header);
+    font-size: var(--text-size-xl);
+}
+h2 {
+    color: var(--text-header);
+    font-size: var(--text-size-l);
+}
+h {
+    color: var(--text-header);
+    font-size: var(--text-size-m);
 }

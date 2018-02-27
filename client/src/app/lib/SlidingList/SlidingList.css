@@ -1,5 +1,6 @@
 .SlidingList {
-    background-color: var(--primary);
+    background-color: var(--surface-1);
+    color: var(--text-important);
     list-style: none;
     margin: 0;
     padding-left: 0;

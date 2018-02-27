@@ -1,5 +1,5 @@
 .ContextMenu {
-    background-color: var(--primary);
+    background-color: var(--surface-1);
     border-top: 1px solid var(--text-color);
     height: 35px;
     display: flex;

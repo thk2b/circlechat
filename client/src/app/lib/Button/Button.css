@@ -1,18 +1,25 @@
 .Button {
     height: 100%;
-    background-color: var(--secondary);
+    background-color: var(--button-primary);
+    color: var(--text-important);
     border: none;
     font-size: inherit;
     padding: .25rem;
     width: 50%;
-    border: 1px solid transparent;
+    outline: 1px solid transparent;
 }
 
 .ButtonUnderlined {
     background-color: inherit;
-    border-bottom: 1px solid var(--text-color);
+    outline: none;
+    border-bottom: 1px solid var(--primary);
 }
 
-.Button:hover{
-    border-color: var(--border-color);
+.ButtonUnderlined:hover {
+    outline: 1px solid var(--primary);
+}
+
+.Button:hover {
+    border-bottom-color: transparent;
+    outline-color: var(--primary);
 }

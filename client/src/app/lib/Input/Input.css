@@ -1,5 +1,6 @@
 Input {
-    background-color: var(--secondary);
+    background-color: var(--surface-0);
+    border: 1px solid var(--primary);
     margin-bottom: 1rem;
     font-size: inherit;
     padding: .25rem;
