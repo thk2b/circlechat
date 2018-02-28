@@ -42,7 +42,6 @@ class OwnProfileLink extends React.Component {
     }
     
     render() {
-        console.log(this.props.children)
         return <Link onClick={e => {
             if(this.props.userId) this.props.push('/me')
         }}>
@@ -50,7 +49,7 @@ class OwnProfileLink extends React.Component {
                 src={profile} 
                 alt="profile icon"
             /> */}
-            <small>{this.props.userId}</small>  
+            <span>{this.props.userId}</span>  
             <OwnStatus />
         </Link>
     }

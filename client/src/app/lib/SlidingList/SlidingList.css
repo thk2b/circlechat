@@ -1,6 +1,9 @@
 .SlidingList {
     background-color: var(--surface-1);
     color: var(--text-important);
+    border: 1px solid var(--border);
+    border-top: none;
+    border-bottom: none;
     list-style: none;
     margin: 0;
     padding-left: 0;
@@ -9,9 +12,18 @@
     overflow-y: scroll;
 }
 
+.SlidingList a:hover {
+    text-decoration: none;
+}
+
 .SlidingList li {
     padding: 5px;
     cursor: pointer;
+    border-bottom: 1px solid var(--border);
+}
+
+.SlidingList li:hover {
+    background-color: var(--surface-2);
 }
 
 .isHidden {

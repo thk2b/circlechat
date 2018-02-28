@@ -6,7 +6,6 @@
     font-size: inherit;
     padding: .25rem;
     width: 50%;
-    outline: 1px solid transparent;
 }
 
 .ButtonUnderlined {
@@ -16,10 +15,10 @@
 }
 
 .ButtonUnderlined:hover {
-    outline: 1px solid var(--primary);
+    /* outline: 1px solid var(--primary); */
 }
 
 .Button:hover {
-    border-bottom-color: transparent;
-    outline-color: var(--primary);
+    /* border-bottom-color: transparent; */
+    /* outline-color: var(--primary); */
 }

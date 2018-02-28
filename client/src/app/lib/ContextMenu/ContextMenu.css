@@ -1,6 +1,8 @@
 .ContextMenu {
     background-color: var(--surface-1);
-    border-top: 1px solid var(--text-color);
+    border: 1px solid var(--border);
+    border-left: none;
+    border-right: none;
     height: 35px;
     display: flex;
     flex-flow: row-reverse nowrap;
