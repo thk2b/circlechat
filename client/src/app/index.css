@@ -7,7 +7,7 @@
     overflow: hidden;
     font-family: sans-serif;
     background-color: var(--surface-0);
-    color: var(--text-color);
+    color: var(--text-content);
 }
 
 h1 {
