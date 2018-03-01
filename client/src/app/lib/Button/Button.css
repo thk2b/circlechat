@@ -6,6 +6,7 @@
     font-size: inherit;
     padding: .25rem;
     width: 50%;
+    border-radius: 3px;
 }
 
 .ButtonUnderlined {
