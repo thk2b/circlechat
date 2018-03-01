@@ -17,7 +17,12 @@ input.Name {
 }
 
 .Description {
+    color: var(--text-content);
+    font-size: var(--text-size-m); 
+}
 
+textarea.Description {
+    display: block;
 }
 
 /* .Profile h1 */

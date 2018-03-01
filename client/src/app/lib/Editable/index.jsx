@@ -22,20 +22,29 @@ export default class Editable extends React.Component {
     toggle = key => this.setState({ [key]: !this.state[key] })
     handleChange = e => this.setState({ value: e.target.value })
     handleSubmit = () => {
+        this.setState({ editing: false, showIcon: false })
         this.props.onSubmit && this.props.onSubmit(this.state.value)
     }
     handleCancel = () => {
-        this.setState({ value: this.props.value })
+        this.setState({ value: this.props.value, editing: false, showIcon: false })
     }
     render() {
         if( this.state.editing ){
             return <div>
-                <input
-                    className={classNames(this.props.className)}
-                    value={this.state.value}
-                    onChange={e => this.handleChange(e)}
-                    onKeyDown={({ key }) => key === 'Enter' && this.handleSubmit()}
-                />
+                {this.props.isTextarea
+                    ?<textarea
+                        className={classNames(this.props.className)}
+                        value={this.state.value}
+                        onChange={e => this.handleChange(e)}
+                        onKeyDown={({ key }) => key === 'Enter' && this.handleSubmit()}
+                    />
+                    :<input
+                        className={classNames(this.props.className)}
+                        value={this.state.value}
+                        onChange={e => this.handleChange(e)}
+                        onKeyDown={({ key }) => key === 'Enter' && this.handleSubmit()}
+                    />
+                }
                 <button
                     onClick={e => this.handleSubmit()}
                 >save</button>

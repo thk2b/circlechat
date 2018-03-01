@@ -45,7 +45,14 @@ class Profile extends React.Component {
                     value={name}
                 />
                 <h2>{userId}</h2>
-                <p>{description||<i>no description</i>}</p>
+                {/* <p>{description||<i>no description</i>}</p> */}
+                <Editable
+                    onSubmit={description => this.props.update(profileId, { description })}
+                    as='p'
+                    isTextarea
+                    className={css.Description}
+                    value={description||'no description yet'}
+                />
                 <p>{status}</p>
                 {loading && 'loading'}
                 <RequestStatus request={request}/>
