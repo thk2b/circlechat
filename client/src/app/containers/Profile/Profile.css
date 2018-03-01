@@ -2,4 +2,22 @@
     padding: 10px;
 }
 
+.Name {
+    color: var(--text-header);
+    font-size: var(--text-size-xl);
+}
+
+input.Name {
+    font-weight: bold;
+}
+
+.Id {
+    color: var(--text-header);
+    font-size: var(--text-size-l);
+}
+
+.Description {
+
+}
+
 /* .Profile h1 */
