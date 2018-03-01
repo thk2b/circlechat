@@ -1,5 +1,9 @@
 import React from 'react'
 import classNames from 'classnames'
+import MdModeEdit from 'react-icons/lib/md/mode-edit'
+
+import Button from '../Button'
+import ButtonGroup from '../ButtonGroup'
 
 import css from './Editable.css'
 
@@ -45,12 +49,14 @@ export default class Editable extends React.Component {
                         onKeyDown={({ key }) => key === 'Enter' && this.handleSubmit()}
                     />
                 }
-                <button
-                    onClick={e => this.handleSubmit()}
-                >save</button>
-                <button
-                    onClick={e => this.handleCancel()}
-                >cancel</button>
+                <ButtonGroup maxWidth='200'>
+                    <Button
+                        onClick={e => this.handleSubmit()}
+                    >save</Button>
+                    <Button underlined
+                        onClick={e => this.handleCancel()}
+                    >cancel</Button>
+                </ButtonGroup>
             </div>
         }
         return <div className={css.Editable}
@@ -62,7 +68,7 @@ export default class Editable extends React.Component {
                     className={classNames(this.props.className)}
                 >
                     {this.state.value}
-                    {this.state.showIcon && <small>edit</small>}
+                    {this.state.showIcon && <MdModeEdit />}
                 </this.props.as>
         </div>
     }
