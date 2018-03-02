@@ -1,9 +1,13 @@
 import React from 'react'
 import classNames from 'classnames'
 import MdModeEdit from 'react-icons/lib/md/mode-edit'
+import MdCheck from 'react-icons/lib/md/check'
+import MdClear from 'react-icons/lib/md/clear'
+
 
 import Button from '../Button'
 import ButtonGroup from '../ButtonGroup'
+import InputWithButtons from '../InputWithButtons'
 
 import css from './Editable.css'
 
@@ -42,7 +46,7 @@ export default class Editable extends React.Component {
     render() {
         if( this.state.editing ){
             const Tag = this.props.isTextarea? 'textarea':'input'
-            return <div>
+            return <InputWithButtons>
                 <Tag
                     className={classNames(this.props.className)}
                     value={this.state.value}
@@ -50,15 +54,13 @@ export default class Editable extends React.Component {
                     onKeyDown={({ key }) => key === 'Enter' && this.handleSubmit()}
                     ref={i => this.$input = i}
                 />
-                <ButtonGroup maxWidth='200'>
-                    <Button
-                        onClick={e => this.handleSubmit()}
-                    >save</Button>
-                    <Button underlined
-                        onClick={e => this.handleCancel()}
-                    >cancel</Button>
-                </ButtonGroup>
-            </div>
+                <button
+                    onClick={e => this.handleSubmit()}
+                ><MdCheck /></button>
+                <button
+                    onClick={e => this.handleCancel()}
+                ><MdClear /></button>
+            </InputWithButtons>
         }
         return <div className={css.Editable}
                 onClick={e => this.toggle('editing') }
@@ -66,6 +68,7 @@ export default class Editable extends React.Component {
                 onMouseLeave={e => this.toggle('showIcon') }
             >
                 <this.props.as
+                
                     className={classNames(this.props.className)}
                 >
                     {this.props.value}

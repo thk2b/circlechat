@@ -1,0 +1,33 @@
+.InputWithButton {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.InputWithButton input, button {
+    /* height: var() */
+}
+
+.InputWithButton input {
+    margin: 0;
+    flex: 0 0 100%;
+    font-family: inherit;
+}
+.InputWithButton button {
+    width: 80px;
+    background-color: inherit;
+    font-size: var(--text-size-s);
+    padding: 1rem;
+    border: 1px solid var(--border);
+    border-top: none;
+}
+
+@media screen and (min-width: 380px){
+    .InputWithButton button {
+        font-size: var(--text-size-m);
+        border-top: 1px solid var(--border);
+        border-left: none;
+    }
+    .InputWithButton input {
+        flex: 1;
+    }
+}
