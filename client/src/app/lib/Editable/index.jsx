@@ -17,13 +17,19 @@ export default class Editable extends React.Component {
             value: this.props.value
         }
     }
+    set = key => value => this.setState({ [key]: value })
+    toggle = key => this.setState({ [key]: !this.state[key] })
+
     componentDidUpdate = (prevProps, prevState) => {
         if(this.props.value !== prevProps.value){
             this.setState({ value: this.props.value })
         }
+        if(!prevState.editing && this.state.editing){
+            this.$input.focus()
+            this.$input.select()
+        }
     }
-    
-    toggle = key => this.setState({ [key]: !this.state[key] })
+
     handleChange = e => this.setState({ value: e.target.value })
     handleSubmit = () => {
         this.setState({ editing: false, showIcon: false })
@@ -32,23 +38,18 @@ export default class Editable extends React.Component {
     handleCancel = () => {
         this.setState({ value: this.props.value, editing: false, showIcon: false })
     }
+
     render() {
         if( this.state.editing ){
+            const Tag = this.props.isTextarea? 'textarea':'input'
             return <div>
-                {this.props.isTextarea
-                    ?<textarea
-                        className={classNames(this.props.className)}
-                        value={this.state.value}
-                        onChange={e => this.handleChange(e)}
-                        onKeyDown={({ key }) => key === 'Enter' && this.handleSubmit()}
-                    />
-                    :<input
-                        className={classNames(this.props.className)}
-                        value={this.state.value}
-                        onChange={e => this.handleChange(e)}
-                        onKeyDown={({ key }) => key === 'Enter' && this.handleSubmit()}
-                    />
-                }
+                <Tag
+                    className={classNames(this.props.className)}
+                    value={this.state.value}
+                    onChange={e => this.handleChange(e)}
+                    onKeyDown={({ key }) => key === 'Enter' && this.handleSubmit()}
+                    ref={i => this.$input = i}
+                />
                 <ButtonGroup maxWidth='200'>
                     <Button
                         onClick={e => this.handleSubmit()}
@@ -67,8 +68,8 @@ export default class Editable extends React.Component {
                 <this.props.as
                     className={classNames(this.props.className)}
                 >
-                    {this.state.value}
-                    {this.state.showIcon && <MdModeEdit />}
+                    {this.props.value}
+                    {this.state.showIcon && <MdModeEdit/>}
                 </this.props.as>
         </div>
     }
