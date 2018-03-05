@@ -14,14 +14,17 @@ import css from './Editable.css'
 export default class Editable extends React.Component {
     constructor(props){
         super(props)
-        console.log(this.props)
         this.state = {
             editing: false,
             showIcon: false,
             value: this.props.value
         }
     }
-    set = key => value => this.setState({ [key]: value })
+    set = (key, value) => {
+        if(this.state[key] === value) return
+        this.setState({ [key]: value })
+    }
+
     toggle = key => this.setState({ [key]: !this.state[key] })
 
     componentDidUpdate = (prevProps, prevState) => {
@@ -64,8 +67,8 @@ export default class Editable extends React.Component {
         }
         return <div className={css.Editable}
                 onClick={e => this.toggle('editing') }
-                onMouseOver={e => this.toggle('showIcon') }
-                onMouseLeave={e => this.toggle('showIcon') }
+                onMouseOver={e => this.set('showIcon', true) }
+                onMouseLeave={e => this.set('showIcon', false) }
             >
                 <this.props.as
                     className={classNames(this.props.className)}
