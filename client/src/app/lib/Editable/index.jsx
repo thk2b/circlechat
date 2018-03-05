@@ -35,11 +35,11 @@ export default class Editable extends React.Component {
     }
 
     handleChange = e => this.setState({ value: e.target.value })
-    handleSubmit = () => {
+    submit = () => {
         this.setState({ editing: false, showIcon: false })
         this.props.onSubmit && this.props.onSubmit(this.state.value)
     }
-    handleCancel = () => {
+    cancel = () => {
         this.setState({ value: this.props.value, editing: false, showIcon: false })
     }
 
@@ -51,15 +51,15 @@ export default class Editable extends React.Component {
                     className={classNames(this.props.className)}
                     value={this.state.value}
                     onChange={e => this.handleChange(e)}
-                    onKeyDown={({ key }) => key === 'Enter' && this.handleSubmit()}
+                    onKeyDown={({ key }) => key === 'Enter' && this.submit()}
                     ref={i => this.$input = i}
                 />
-                <button
-                    onClick={e => this.handleSubmit()}
-                ><MdCheck /></button>
-                <button
-                    onClick={e => this.handleCancel()}
-                ><MdClear /></button>
+                <button onClick={e => this.submit()}>
+                    <MdCheck />
+                </button>
+                <button onClick={e => this.cancel()}>
+                    <MdClear />
+                </button>
             </InputWithButtons>
         }
         return <div className={css.Editable}
@@ -68,7 +68,6 @@ export default class Editable extends React.Component {
                 onMouseLeave={e => this.toggle('showIcon') }
             >
                 <this.props.as
-                
                     className={classNames(this.props.className)}
                 >
                     {this.props.value}
