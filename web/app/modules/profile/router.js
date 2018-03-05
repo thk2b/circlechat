@@ -62,32 +62,4 @@ r.route('/all')
         .catch(e => res.status(e.status || 500).json(e))
     })
 
-r.route('/:id')
-    .get((req, res) => {
-        profile.get(req.userId, req.params.id)
-        .then(profile => res.status(200).json(profile))
-        .catch(e => res.status(e.status || 500).json(e))
-    })
-    .put((req, res) => {
-        profile.update(req.userId, req.params.id, req.body)
-        .then( profile => {
-            res.status(202).json(profile)
-            res.locals.socket && res.locals.socket.broadcast.emit('/profile', {
-                meta: { type: 'PUT', status: 202 },
-                data: { profile }
-            })
-        })
-        .catch(e => res.status(e.status || 500).json(e))
-    })
-    .delete((req, res) => {
-        profile.remove(req.userId, req.params.id)
-        .then(() => {
-            res.status(202).end()
-            res.locals.socket && res.locals.socket.broadcast.emit('/profile', {
-                meta: { type: 'DELETE', status: 202 }
-            })
-        })
-        .catch(e => res.status(e.status || 500).json(e))
-    })
-
 module.exports = r
