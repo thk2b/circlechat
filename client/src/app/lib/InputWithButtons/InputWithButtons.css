@@ -5,12 +5,13 @@
 
 .InputWithButton input {
     margin: 0;
-    flex: 0 0 100%;
+    /* flex: 0 0 100%; */
     font-family: inherit;
 }
 
 .InputWithButton textarea {
     margin: 0;
+    flex-grow: 1;
 }
 
 .InputWithButton button {

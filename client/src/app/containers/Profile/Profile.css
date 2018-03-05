@@ -24,3 +24,9 @@ input.Name {
 textarea.Description {
     display: block;
 }
+
+@media screen and (min-width: 470px){
+    .Profile {
+        padding: 50px;
+    }
+}
