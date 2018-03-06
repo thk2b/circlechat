@@ -7,11 +7,12 @@ const db = require('../')
 const { one, all, none } = require('../query')
 
 before(function(){
-    return db.any(`
+    return db.any(`DROP TABLE IF EXISTS test; DROP TABLE IF EXISTS test2;`) 
+    .then(() => db.any(`
         CREATE TABLE IF NOT EXISTS test (
             a INTEGER, b VARCHAR(5)
         )
-    ;`)
+    ;`))
     .then(() => db.any(`
         INSERT INTO test (a, b)
         VALUES
