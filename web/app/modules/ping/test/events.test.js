@@ -43,7 +43,7 @@ describe('POST /ping event', function(){
                 query: 'token='+token
             })
             client.on('connect', () => {
-                client.emit('/ping')
+                client.emit('/ping', { meta: { type: 'POST' }})
             })
             client.on('/pong', ({ meta }) => {
                 expect(meta.status).to.equal(200)

@@ -27,7 +27,7 @@ function init(){
  * drop table
 */
 function drop(){
-    return query.none(`DROP TABLE IF EXISTS profile`)
+    return query.none(`DROP TABLE IF EXISTS profile CASCADE`)
 }
 /** 
  * create profile

@@ -14,8 +14,11 @@ describe('auth table', function(){
     it('should create and drop auth table', function(){
         return service.drop()
         .then(() => service.init())
-        .then(() => db.one('SELECT EXISTS ( SELECT 1 FROM auth );'))
-        .then(({ exists }) => expect(exists).to.be.false)
+        .then(() => db.one('SELECT to_regclass(\'public.auth\')'))
+        .then(({ to_regclass }) => expect(to_regclass).to.equal('auth'))
+        .then(() => service.drop())
+        .then(() => db.one('SELECT to_regclass(\'public.auth\')'))
+        .then(({ to_regclass }) => expect(to_regclass).to.be.null)
     })
 })
 

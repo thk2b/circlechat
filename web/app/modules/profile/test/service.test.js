@@ -14,8 +14,11 @@ describe('profile table', function(){
     it('should create and drop profile table', function(){
         return service.drop()
         .then(() => service.init())
-        .then(() => db.one('SELECT EXISTS (SELECT 1 FROM profile)'))
-        .then(({ exists }) => expect(exists).to.be.false)
+        .then(() => db.one('SELECT to_regclass(\'public.profile\')'))
+        .then(({ to_regclass }) => expect(to_regclass).to.equal('profile'))
+        .then(() => service.drop())
+        .then(() => db.one('SELECT to_regclass(\'public.profile\')'))
+        .then(({ to_regclass }) => expect(to_regclass).to.be.null)
     })
 })
 
