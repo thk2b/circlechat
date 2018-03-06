@@ -10,7 +10,7 @@ const validateQueryParams = query => {
 }
 
 r.route('/')
-    .post((req, res) => {
+    .post((req, res, next) => {
         profile.create(req.userId, req.body)
         .then(profile => {
             res.status(201).json({ profile })
@@ -19,9 +19,9 @@ r.route('/')
                 data: { profile }
             })
         })
-        .catch(e => res.status(e.status || 500).json(e))
+        .catch(next)
     })
-    .get((req, res) => {
+    .get((req, res, next) => {
         const parseQuery = () => {
             if(req.query.userId) return profile.of.user(req.userId, req.query.userId)
             if(req.query.id) return profile.get(req.userId, req.query.id)
@@ -29,9 +29,9 @@ r.route('/')
         }
         parseQuery()
         .then(profile => res.status(200).json({ profile }))
-        .catch(e => res.status(e.status || 500).json(e))
+        .catch(next)
     })
-    .put((req, res) => {
+    .put((req, res, next) => {
         validateQueryParams(req.query)
         .then(() => profile.update(req.userId, req.query.id, req.body))
         .then( data => {
@@ -41,9 +41,9 @@ r.route('/')
                 data
             })
         })
-        .catch(e => res.status(e.status || 500).json(e))
+        .catch(next)
     })
-    .delete((req, res) => {
+    .delete((req, res, next) => {
         validateQueryParams(req.query)
         .then(() => profile.remove(req.userId, req.query.id))
         .then(() => {
@@ -52,14 +52,14 @@ r.route('/')
                 meta: { type: 'DELETE', status: 202 }
             })
         })
-        .catch(e => res.status(e.status || 500).json(e))
+        .catch(next)
     })
 
 r.route('/all')
-    .get((req, res) => {
+    .get((req, res, next) => {
         profile.getAll(req.userId)
         .then(profiles => res.status(200).json(profiles))
-        .catch(e => res.status(e.status || 500).json(e))
+        .catch(next)
     })
 
 module.exports = r

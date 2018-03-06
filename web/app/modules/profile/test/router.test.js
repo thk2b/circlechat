@@ -288,7 +288,6 @@ describe(API_URL, function(){
                 .end(done)
         })
         it('should not delete another user\'s profile', function(done){
-            // see #32
             request(server)
                 .delete(API_URL)
                 .query({ id: savedProfile1.id })
