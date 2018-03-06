@@ -8,9 +8,8 @@ const validateSocketIoPayload = require('./lib/validateSocketIoPayload')
 const {
     auth,
     profile,
-    ping
-    // user,
-    // message
+    ping,
+    channel,
 } = require('./modules')
 
 /* API */
@@ -30,6 +29,8 @@ app.use((req, res, next) => {
         next()
     }
 })
+
+
 
 app.locals.io = io
 
@@ -67,6 +68,11 @@ const API_URL = '/api/v1'
 app
 .use(API_URL+'/auth', auth.router)
 .use(API_URL+'/profile', profile.router)
+.use(API_URL+'/channel', channel.router)
+
+app.use((err, req, res, next) => {
+    res.status(err.status || 500).json(e)
+})
 
 const events = {
     '/ping': ping.events,
