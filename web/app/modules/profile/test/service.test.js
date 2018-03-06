@@ -227,6 +227,18 @@ describe('profile service', function(){
             })
         })
     })
+    describe('profile belongs to user', function(){
+        it('should return false if the profile does not belong to user', function(){
+            expect(
+                service.belongsToUser(savedProfile1.id, credentials.userId)
+            ).to.eventually.equal(false)
+        })
+        it('should return true if the profile belongs to user', function(){
+            expect(
+                service.belongsToUser(savedProfile.id, credentials.userId)
+            ).to.eventually.equal(true)
+        })
+    })
     describe('remove profile', function(){
         it('should refuse to remove the profile when unauthenticated', function(){
             return service.remove(null, savedProfile.id)

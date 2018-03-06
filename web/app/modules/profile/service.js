@@ -61,11 +61,30 @@ function getAll(requesterId){
         (obj, profile) => ({...obj, [profile.id]: profile})
     , {})))
 }
+/**
+ * Resolves with true if the profile belongs to this user,
+ * false otherwise. 
+ * @param {*} profileId 
+ * @param {*} userId 
+ */
+const belongsToUser = (profileId, userId) => (
+    query.one(SQL`
+        SELECT EXISTS (
+            SELECT 1
+            FROM profile
+            WHERE id=${profileId} AND "userId"=${userId}
+        )
+    ;`)
+    .then(({exists}) => exists)
+)
 /** 
  * update profile
 */
 function update(requesterId, profileId, obj){
+    // TODO: prevent updating id
     return authenticate(requesterId)
+    .then(() => belongsToUser(profileId, requesterId))
+    .then(authorize)
     .then(() => query.one(knex('profile')
         .update(obj)
         .where('userId', '=', requesterId)
@@ -73,27 +92,18 @@ function update(requesterId, profileId, obj){
         .returning(Object.keys(obj).concat('id'))
         .toQuery()
     ))
-    .catch(e => {
-        /* if no record was updated, requesterId !== profile.userId */
-        if(e.status === 404) return authorize(false)
-        return Promise.reject(e)
-    })
 }
 /** 
  * delete profile
 */
 function remove(requesterId, profileId){
     return authenticate(requesterId)
-    .then(() => query.one(SQL`
+    .then(() => belongsToUser(profileId, requesterId))
+    .then(authorize)
+    .then(() => query.none(SQL`
         DELETE FROM profile
-        WHERE id=${profileId} and "userId"=${requesterId}
-        RETURNING id
+        WHERE id=${profileId}
     ;`))
-    .catch(e => {
-        /* if no record was deleted, requesterId !== profile.userId */
-        if(e.status === 404) return authorize(false)
-        return Promise.reject(e)
-    })
 }
 
 const of = {
@@ -134,5 +144,6 @@ module.exports = {
     update,
     remove,
     of,
-    setUserStatus
+    setUserStatus,
+    belongsToUser   
 }
