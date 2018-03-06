@@ -1,0 +1,23 @@
+.Info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    max-width: 400px;
+    width: 90%;
+    margin: 1rem auto;
+    padding: .5rem;
+    border-radius: .25rem;
+}
+
+.InfoDanger {
+    background-color: var(--danger)
+}
+
+.InfoSuccess {
+    background-color: var(--success)
+}
+
+.InfoWarning {
+    background-color: var(--warning)
+}

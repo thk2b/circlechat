@@ -1,0 +1,32 @@
+.Profile {
+    padding: 10px;
+}
+
+.Name {
+    color: var(--text-header);
+    font-size: var(--text-size-xl);
+}
+
+input.Name {
+    font-weight: bold;
+}
+
+.Id {
+    color: var(--text-header);
+    font-size: var(--text-size-l);
+}
+
+.Description {
+    color: var(--text-content);
+    font-size: var(--text-size-m); 
+}
+
+textarea.Description {
+    display: block;
+}
+
+@media screen and (min-width: 470px){
+    .Profile {
+        padding: 50px;
+    }
+}

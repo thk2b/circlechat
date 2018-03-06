@@ -1,0 +1,15 @@
+.Nav {
+    padding: 15px;
+    background-color: var(--primary);
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+    align-items: center;
+    text-transform: uppercase;
+}
+
+@media screen and (min-width: 480px){
+    .Nav {
+        justify-content: space-between;
+    }
+}

@@ -1,0 +1,28 @@
+/* credits to https://loading.io/css/ */
+
+.Spinner {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto;
+}
+
+.Spinner:after {
+    content: " ";
+    display: block;
+    width: 46px;
+    height: 46px;
+    margin: 1px;
+    border-radius: 50%;
+    border: 5px solid var(--secondary);
+    border-color: var(--secondary) transparent;
+    animation: spin 1.2s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}

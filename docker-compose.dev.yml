@@ -32,6 +32,7 @@ services:
       - NODE_ENV=dev
       - DATABASE_URL=postgres://postgres:postgres@db:5432/dev
       - DATABASE_TEST_URL=postgres://postgres:postgres@db:5432/test
+      - SECRET=hidememore
     command: ["npm", "run", "dev"]
     networks:
         - back

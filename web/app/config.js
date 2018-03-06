@@ -7,7 +7,8 @@ const base = {
         port: 6379,
         host: 'redis',
         db: 1
-    }
+    },
+    secret: process.env.SECRET
 }
 
 module.exports = {

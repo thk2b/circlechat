@@ -6,6 +6,8 @@ WORKDIR /src
 
 COPY app/package.json /src
 
+RUN apk --no-cache add --virtual builds-deps build-base python
+
 RUN npm install
 
 COPY ./app ./app

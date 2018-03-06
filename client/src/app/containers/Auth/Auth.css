@@ -1,0 +1,13 @@
+.Auth {
+    /* background-color: var(--surface-3); */
+    flex: 1 0;
+    max-width: 350px;
+    max-height: 400px;
+    margin: 0 auto;
+    padding: 25px;
+}
+
+.Auth button:not(:first-of-type) {
+    width: 40%;
+    margin-left: 10%;
+}

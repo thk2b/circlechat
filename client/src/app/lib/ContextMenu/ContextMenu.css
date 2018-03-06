@@ -1,0 +1,24 @@
+.ContextMenu {
+    background-color: var(--surface-1);
+    border: 1px solid var(--border);
+    border-left: none;
+    border-right: none;
+    height: 35px;
+    display: flex;
+    flex-flow: row-reverse nowrap;
+}
+
+.ContextMenu button {
+    background-color: transparent;
+    max-width: 60px;
+    border-top: none;
+}
+
+.ContextMenu button:first-child {
+    border-right: none;
+}
+
+.ContextMenu button:last-child {
+    /* border-left: none; */
+}
+
