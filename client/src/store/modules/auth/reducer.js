@@ -1,14 +1,16 @@
 import validateIncomingNetworkAction from '../../lib/validateIncomingNetworkAction'
 
-import { CLEAR_REQUEST_STATUS } from './actions'
+import { CLEAR_REQUEST_STATUS, LOGOUT } from './actions'
 
 function localReducer(state, action){
     switch(action.type){
-        case CLEAR_REQUEST_STATUS:
-            return {
-                ...state,
-                request: { status: null }
-            }
+        case CLEAR_REQUEST_STATUS: return {
+            ...state,
+            request: { status: null }
+        }
+        case LOGOUT: return {
+            ...state, token: null, userId: null
+        }
         default: return state
     }
 }

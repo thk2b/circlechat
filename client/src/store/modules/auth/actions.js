@@ -30,3 +30,10 @@ export const clearRequestStatus = () => {
         type: CLEAR_REQUEST_STATUS
     }
 }
+
+export const LOGOUT = 'auth/logout'
+export const logout = () => {
+    return {
+        type: LOGOUT
+    }
+}

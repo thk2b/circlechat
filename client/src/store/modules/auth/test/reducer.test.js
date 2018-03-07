@@ -93,4 +93,17 @@ describe('auth reducer', () => {
             {...state, request: { status: null }}
         )
     })
+    test('logout action', () => {
+        const state = reducer(undefined, {
+            network: 'http', type: 'POST', resource: '/auth/login', 
+            status: 201, data: { token: 'some token', userId: 'user id'}
+        })
+        expect(
+            reducer(state, actions.logout())
+        ).toEqual({
+            ...state,
+            token: null,
+            userId: null
+        })
+    })
 })
