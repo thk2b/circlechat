@@ -1,0 +1,26 @@
+.SettingsIcon {
+
+}
+
+.SettingsTooltip {
+    position: absolute;
+    left: 0;
+    top: 48px;
+    background-color: var(--surface-2);
+    border: 1px solid var(--border);
+    padding: 5%;
+}
+
+.SettingsTooltipButton {
+    background-color: transparent;
+    font-size: var(--text-info);
+    border: none;
+}
+
+.SettingsTooltipButton:hover {
+
+}
+
+.SettingsTooltipButton:actie {
+
+}
