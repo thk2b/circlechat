@@ -3,7 +3,7 @@
     background-color: var(--primary);
     display: flex;
     flex-flow: row nowrap;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     text-transform: uppercase;
 }

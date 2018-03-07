@@ -3,6 +3,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import MdSettings from 'react-icons/lib/md/settings'
 
+import { Button } from '../../lib'
 import { logout } from '../../../store/modules/auth'
 import css from './Settings.css'
 
@@ -25,11 +26,11 @@ class Settings extends React.Component {
                 this.setState({ open: !open })
             }}/>
             {open && <div className={css.SettingsTooltip}>
-                <button
+                <Button
                     className={css.SettingsTooltipButton}
                     onClick={_=> logout()}
                     >logout
-                </button>
+                </Button>
             </div>}
         </div>
     }

@@ -1,4 +1,6 @@
 import React from 'react'
+import MdChevronLeft from 'react-icons/lib/md/chevron-left'
+import MdChevronRight from 'react-icons/lib/md/chevron-right'
 
 import { SlidingList, ContextMenu, Button} from '../../lib'
 
@@ -22,7 +24,10 @@ export default class Group extends React.Component {
         const { goToProfile, profiles } = this.props
         return <React.Fragment>
             <ContextMenu>
-                <Button onClick={e => this.toggleMenu('users')}>users</Button>
+                <Button onClick={e => this.toggleMenu('users')}>
+                    users
+                    {isProfilesMenuOpen? <MdChevronRight/>: <MdChevronLeft />}
+                </Button>
             </ContextMenu>
             <SlidingList isRight isOpen={isProfilesMenuOpen}>
                 <ProfilesList />
