@@ -156,12 +156,13 @@ describe('channel service', function(){
             ).to.eventually.be.rejected.and.have.property('status', 403)
         })
         it('should update when authorized and authenticated, and set updatedAt', function(){
-            const update = { name: 'new name' }
+            const update = {name: 'new name' } 
             return service.update(credentials1.userId, channel1.id, update)
             .then(channel => {
                 expect(channel.updatedAt).to.not.equal(channel1.createdAt)
                 delete channel.updatedAt
-                expect(channel).to.deep.equal({ id: channel1.id, ...update })
+                expect(channel).to.deep.equal({id: channel1.id, ...update })
+                channel1 = {...channel, ...update}
             })
         })
         it.skip('should update multiple keys when authorized and authenticated', function(){
@@ -172,6 +173,7 @@ describe('channel service', function(){
                 expect(channel.updatedAt).to.not.equal(channel1.createdAt)
                 delete channel.updatedAt
                 expect(channel).to.deep.equal({...channel1, ...update })
+                channel1 = {...channel, ...update}
             })
         })
     })

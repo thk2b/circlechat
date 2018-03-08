@@ -35,10 +35,10 @@ describe('message service', function(){
     let channel2
     let channel3 /* this channel remains empty */
 
-    let message1
+    let message1 /* in channel1, created by profile1 */
     let message2
-    let message3 /* in channel2 */
-    let message4 /* in channel2 */
+    let message3 /* in channel2, created by profile2 */
+    let message4
     
     before(function(){
 
@@ -123,8 +123,8 @@ describe('message service', function(){
             /* create another message in channel1, 2 messages in channel2 */
             return Promise.all([
                 service.create(profile1.userId, { profileId: profile1.id, channelId: channel1.id, text: 'test message 2'}),
-                service.create(profile1.userId, { profileId: profile1.id, channelId: channel2.id, text: 'test message 3'}),
-                service.create(profile1.userId, { profileId: profile1.id, channelId: channel2.id, text: 'test message 4'})
+                service.create(profile2.userId, { profileId: profile2.id, channelId: channel2.id, text: 'test message 3'}),
+                service.create(profile2.userId, { profileId: profile2.id, channelId: channel2.id, text: 'test message 4'})
             ])
             .then(([m2, m3, m4]) => {
                 message2 = m2
@@ -186,6 +186,76 @@ describe('message service', function(){
         it('should resolve when there are no messages in the channel', function(){
             return service.inChannel(credentials1.userId, channel3.id)
             .then(messages => expect(messages).to.deep.equal({}))
+        })
+    })
+    describe('belongsToUser', function(){
+        it('should return false if the message does not belong to user', function(){
+            return expect(
+                service.belongsToUser(message1.id, credentials2.userId)
+            ).to.eventually.equal(false)
+        })
+        it('should return true if the message belongs to user', function(){
+            return expect(
+                service.belongsToUser(message1.id, credentials1.userId)
+            ).to.eventually.equal(true)
+        })
+    })
+    describe('update', function(){
+        it('should not update when authenticated', function(){
+            return expect(
+                service.update(undefined, message1.id, { text: 'some new text' })
+            ).to.eventually.be.rejected.and.have.property('status', 401)
+        })
+        it('should not update forbidden fields', function(){
+            return expect(
+                service.update(credentials1.userId, message1.id, { id: 123 })
+            ).to.eventually.be.rejected.and.have.property('status', 403)
+        })
+        it('should not update a message created by another user', function(){
+            return expect(
+                service.update(credentials1.userId, message3.id, { text: 'some new text'})
+            ).to.eventually.be.rejected.and.have.property('status', 403)
+        })
+        it('should update when authorized and authenticated, and set updatedAt', function(){
+            const update = { text: 'new text' }
+            return service.update(credentials1.userId, message1.id, update)
+            .then(message => {
+                expect(message.updatedAt).to.not.equal(message1.createdAt)
+                delete message.updatedAt
+                expect(message).to.deep.equal({ id: message1.id, ...update })
+                message1 = {...message, ...update}
+            })
+        })
+        it.skip('should update multiple keys when authorized and authenticated', function(){
+            // implemented but cannot test at the moment: only one key is allowed to be modified...
+            const update = { text: 'new text' }
+            return service.update(profile1.userId, message1.id, update)
+            .then(message => {
+                expect(message.updatedAt).to.not.equal(message1.createdAt)
+                delete message.updatedAt
+                expect(message).to.deep.equal({ id: message1.id, ...update })
+                message1 = {...message, ...update}
+            })
+        })
+    })
+    describe('remove', function(){
+        it('should not remove the message when unauthenticated', function(){
+            return expect(
+                service.remove(undefined, message1.id)
+            ).to.eventually.be.rejected.and.have.property('status', 401)
+        })
+        it('should not remove the message when unauthorized', function(){
+            return expect(
+                service.remove(profile1.userId, message3.id)
+            ).to.eventually.be.rejected.and.have.property('status', 403)
+        })
+        it('should remove the message when authenticated and authorized', function(){
+            return service.remove(profile1.userId, message1.id)
+            .then(() => service.get(profile1.userId, message1.id))
+            .then(() => { throw new Error('should not resolve') })
+            .catch(e => {
+                expect(e).to.contain({ status: 404, message: 'not found'})
+            })
         })
     })
 })

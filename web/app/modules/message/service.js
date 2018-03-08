@@ -80,16 +80,54 @@ function inChannel(requesterId, channelId, n=50, beforeId){
         `)
         return q
     })
-    .then(q => query.many(q))
+    .then(query.many)
 }
+/**
+ * wether the message was posted by the user
+ * @param {*} messageId 
+ * @param {*} requesterId 
+ */
+function belongsToUser(messageId, userId){
+    return query.one(SQL`
+        SELECT EXISTS (
+            SELECT 1
+            FROM message JOIN profile ON profile.id=message."profileId"
+            WHERE profile."userId"=${userId} AND message.id=${messageId}
+        )
+    ;`)
+    .then(({exists}) => exists)
+}
+
 /** 
  * update message
 */
-function update(requesterId, obj){}
+function update(requesterId, messageId, obj){
+    return authenticate(requesterId)
+    .then(() => belongsToUser(messageId, requesterId))
+    .then(authorize)
+    .then(() => authorize(Object.keys(obj).reduce(
+        /* if object contains any of these keys, then it's invalid */
+        (isValid, key) => !['id', 'profileId', 'channelId', 'createdAt', 'updatedAt'].includes(key)
+    , true)))
+    .then(() => query.one(knex('message')
+        .update({...obj, updatedAt: Date.now()})
+        .where('id', '=', messageId)
+        .returning(Object.keys(obj).concat('id', 'updatedAt'))
+        .toQuery()
+    ))
+}
 /** 
  * delete message
 */
-function remove(requesterId, messageId){}
+function remove(requesterId, messageId){
+    return authenticate(requesterId)
+    .then(() => belongsToUser(messageId, requesterId))
+    .then(authorize)
+    .then(() => query.none(SQL`
+        DELETE FROM message
+        WHERE id=${messageId}
+    ;`))
+}
 
 module.exports = {
     init,
@@ -97,6 +135,7 @@ module.exports = {
     create,
     get,
     inChannel,
+    belongsToUser,
     update,
     remove
 }
