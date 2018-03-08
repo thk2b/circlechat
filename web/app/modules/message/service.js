@@ -55,12 +55,33 @@ function create(requesterId, { profileId, channelId, text }){
 /** 
  * get message with id
 */
-function get(requesterId, messageId){}
+function get(requesterId, messageId){
+    return authenticate(requesterId)
+    .then(() => query.one(SQL`
+        SELECT * FROM message
+        WHERE "id"=${messageId}
+    ;`))
+}
 /** 
  * get n messages in channel
  * if beforeId is provided, get messages posted before that message
 */
-function inChannel(requesterId, channelId, n=50, beforeId){}
+function inChannel(requesterId, channelId, n=50, beforeId){
+    return authenticate(requesterId)
+    .then(() => {
+        const q = SQL`
+            SELECT * FROM message
+            WHERE "channelId"=${channelId}
+        `
+        if(beforeId) q.append(SQL`AND id < ${beforeId}`)
+        q.append(SQL`
+            ORDER BY id DESC
+            LIMIT ${n}
+        `)
+        return q
+    })
+    .then(q => query.many(q))
+}
 /** 
  * update message
 */

@@ -58,10 +58,7 @@ function get(requesterId, channelId){
 }
 function getAll(requesterId){
     return authenticate(requesterId)
-    .then(() => query.all(`SELECT * FROM channel;`))
-    .then( channels => channels.reduce(
-        (obj, channel) => ({...obj, [channel.id]: channel })
-    ,{}))
+    .then(() => query.many(`SELECT * FROM channel;`))
 }
 
 const belongsToUser = (channelId, userId) => (

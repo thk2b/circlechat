@@ -56,10 +56,7 @@ function get(requesterId, profileId){
 */
 function getAll(requesterId){
     return authenticate(requesterId)
-    .then(() => query.all(`SELECT id, "userId", name, status FROM profile;`)
-    .then(profiles => profiles.reduce(
-        (obj, profile) => ({...obj, [profile.id]: profile})
-    , {})))
+    .then(() => query.many(`SELECT id, "userId", name, status FROM profile;`))
 }
 /**
  * Resolves with true if the profile belongs to this user,

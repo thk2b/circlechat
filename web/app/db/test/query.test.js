@@ -1,10 +1,12 @@
 const SQL = require('sql-template-strings')
 const chai = require('chai')
 const { expect } = chai
-chai.use(require("chai-as-promised"))
+chai.use(require('chai-as-promised'))
 chai.use(require('chai-subset'))
+
 const db = require('../')
-const { one, all, none } = require('../query')
+
+const { one, all, none, many } = require('../query')
 
 before(function(){
     return db.any(`DROP TABLE IF EXISTS test; DROP TABLE IF EXISTS test2;`) 
@@ -69,5 +71,26 @@ describe('lib/query/none', function(){
     })
     it('should throw a standard error', function(){
         expect(none(`SELECT * FROM nowhere;`)).to.be.rejected
+    })
+})
+describe('lib/query/many', function(){
+    before(function(){
+        return db.none(`CREATE TABLE many(
+            id SERIAL, a INTEGER
+        );`)
+        .then(() => db.none(SQL`
+            INSERT INTO many (a) VALUES (100), (200), (300);
+        `))
+    })
+    after(function(){
+        return db.none(`DROP TABLE IF EXISTS many`)
+    })
+    it('should resolve with an object with ids as keys', function(){
+        return many('SELECT * FROM many')
+        .then( data => expect(data).to.deep.equal({
+            1: {id: 1, a: 100}, 
+            2: {id: 2, a: 200}, 
+            3: {id: 3, a: 300}
+        }))
     })
 })

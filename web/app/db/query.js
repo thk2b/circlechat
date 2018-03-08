@@ -45,6 +45,19 @@ function none(q){
     })
 }
 
+function many(q){
+    return db.any(q)
+    .then(data => data.reduce(
+        (obj, el) => {
+            if(el.id === undefined){
+                console.error('tables queried with db.query.many must have an id row. Query was: ', q)
+                return Promise.reject({ status: 500, message: 'internal server error'})
+            }
+            return {...obj, [el.id]: el}
+        }
+    , {}))
+}
+
 module.exports = {
-    one, all, none
+    one, all, none, many
 }
