@@ -70,6 +70,11 @@ describe('channel service', function(){
                 service.create(profile1.userId, { profileId: undefined, name: 'profile1' })
             ).to.eventually.be.rejected.and.have.property('status', 422)
         })
+        it('should not create a message when the profile does not exist', function(){
+            return expect(
+                service.create(profile1.userId, { profileId: 999, name: 'test channel'})
+            ).to.eventually.be.rejected.and.have.property('status', 403)
+        })
         it('should create a channel when the user is authorized and authenticated', function(){
             return service.create(profile1.userId, { profileId: profile1.id, name: 'channel1' })
             .then((channel) => {

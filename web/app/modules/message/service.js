@@ -7,6 +7,8 @@ const authorize = require('../../lib/authorize')
 const authenticate = require('../../lib/authenticate')
 const validate = require('../../lib/validate')
 
+const { service: profile } = require('../profile')
+
 /** 
  * create table
 */
@@ -36,7 +38,20 @@ function drop(){
 /** 
  * create message
 */
-function create(requesterId){}
+function create(requesterId, { profileId, channelId, text }){
+    return authenticate(requesterId)
+    .then(() => validate(profileId && channelId && text))
+    .then(() => profile.belongsToUser(profileId, requesterId))
+    .then(authorize)
+    .then(() => {
+        const now = Date.now()
+        return query.one(SQL`
+            INSERT INTO message ("profileId", "channelId", text, "createdAt", "updatedAt")
+            VALUES (${profileId}, ${channelId}, ${text}, ${now}, ${now})
+            RETURNING *
+        ;`)
+    })
+}
 /** 
  * get message with id
 */

@@ -233,6 +233,11 @@ describe('profile service', function(){
                 service.belongsToUser(savedProfile1.id, credentials.userId)
             ).to.eventually.equal(false)
         })
+        it.skip('should return 404 if the profile does not exist', function(){
+            return expect(
+                service.belongsToUser(999, credentials.userId)
+            ).to.eventually.be.rejected.and.have.property('status', 404)
+        })
         it('should return true if the profile belongs to user', function(){
             expect(
                 service.belongsToUser(savedProfile.id, credentials.userId)

@@ -10,6 +10,9 @@ const error = e => {
         case '23502': // violates null constraint
         case '42703': // column does not exist
             return { status: 422, message: 'incomplete or invalid data', data: e}
+        case '23503': // violates foreign key constraint
+            // should be 404. stays 403 for consistency until #55 is closed
+        return { status: 403, message: 'unauthorized', data: e}
         default:
             return { status: 500, message: 'database error', data: e}
     }
