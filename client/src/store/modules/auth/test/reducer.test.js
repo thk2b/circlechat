@@ -103,7 +103,8 @@ describe('auth reducer', () => {
         ).toEqual({
             ...state,
             token: null,
-            userId: null
+            userId: null,
+            request: { status: null }
         })
     })
 })

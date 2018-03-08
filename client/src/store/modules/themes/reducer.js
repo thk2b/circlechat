@@ -1,19 +1,29 @@
-import { constants as c } from './actions'
+import { SET_THEME } from './actions'
 
-const DEFAULT = {
-    active: 0,
-    list: [
-        { name: 'light' },
-        { name: 'dark'  }
-    ]
+const initialState = {
+    active: 'light',
+    list: ['light', 'dark']
 }
 
-export default function (state = DEFAULT, action){
+// const DEFAULT = {
+//     active: 0,
+//     list: [
+//         { name: 'light' },
+//         { name: 'dark'  }
+//     ]
+// }
+
+export default function (state = initialState, action){
     switch(action.type){
-        case c.SET_THEME:
+        case SET_THEME:
+            // if(!state.list.includes(action.name)){
+            //     console.error('invalid theme: ', action.name)
+            //     return state
+            // }
+            console.log(action)
             return { 
                 ...state,
-                active: action.id
+                active: action.name
              }
         default: return state
     }

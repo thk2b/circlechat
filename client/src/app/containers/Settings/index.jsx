@@ -5,6 +5,7 @@ import MdSettings from 'react-icons/lib/md/settings'
 
 import { Button } from '../../lib'
 import { logout } from '../../../store/modules/auth'
+import { SelectTheme } from '../'
 import css from './Settings.css'
 
 const mapDispatch = dispatch => bindActionCreators({ logout }, dispatch)
@@ -27,10 +28,13 @@ class Settings extends React.Component {
             }}/>
             {open && <div className={css.SettingsTooltip}>
                 <Button
-                    className={css.SettingsTooltipButton}
                     onClick={_=> logout()}
                     >logout
                 </Button>
+                <label>
+                    color theme
+                    <SelectTheme />
+                </label>
             </div>}
         </div>
     }

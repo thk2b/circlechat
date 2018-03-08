@@ -1,7 +1,7 @@
 .Button {
     height: 100%;
     background-color: var(--button-primary);
-    color: var(--text-important);
+    color: var(--text-content);
     border: none;
     font-size: inherit;
     padding: .25rem;

@@ -1,15 +1,15 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import themes from './themes.css'
+import css from './themes.css'
 
 const mapState = ({ themes }, ownProps) => ({
-    name: themes.list[themes.active].name,
+    name: themes.active,
     ...ownProps
 })
 
 const Theme = ({ name, children }) => (
-    <div className={themes[name]}>
+    <div className={css[name]}>
         {children}
     </div>
 )

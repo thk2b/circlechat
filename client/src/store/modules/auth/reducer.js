@@ -9,7 +9,8 @@ function localReducer(state, action){
             request: { status: null }
         }
         case LOGOUT: return {
-            ...state, token: null, userId: null
+            ...state, token: null, userId: null,
+             request: { status: null }
         }
         default: return state
     }
