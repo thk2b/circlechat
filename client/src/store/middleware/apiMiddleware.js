@@ -49,7 +49,7 @@ export default apiUrl => store => next => action => {
                 const { response } = e
                 const newAction = {
                     ...action,
-                    status: response.data.status,
+                    status: response.status,
                     data: response.data
                 }
                 store.dispatch(newAction)
