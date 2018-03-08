@@ -3,5 +3,5 @@ module.exports = {
     ping: require('./ping'),
     profile: require('./profile'),
     channel: require('./channel'),
-    // message: require('./message')
+    message: require('./message')
 }

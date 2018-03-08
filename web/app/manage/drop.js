@@ -1,14 +1,14 @@
 const Promise = require('bluebird')
 
-const { auth, profile, channel } = require('../modules')
+const { auth, profile, channel, message } = require('../modules')
 /** 
  * Drop all database tables one after the other.
 */
 function drop(){
-    return channel.service.drop()
+    return message.service.drop()
+    .then(() => channel.service.drop())
     .then(() => profile.service.drop())
     .then(() => auth.service.drop())
-    
 }
 
 if(require.main === module){

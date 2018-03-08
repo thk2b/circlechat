@@ -28,7 +28,7 @@ function init(){
  * drop table
 */
 function drop(){
-    return query.none(`DROP TABLE IF EXISTS channel`)
+    return query.none(`DROP TABLE IF EXISTS channel CASCADE`)
 }
 /** 
  * create a channel
