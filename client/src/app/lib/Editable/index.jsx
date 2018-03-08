@@ -57,12 +57,12 @@ export default class Editable extends React.Component {
                     onKeyDown={({ key }) => key === 'Enter' && this.submit()}
                     ref={i => this.$input = i}
                 />
-                <button onClick={e => this.submit()}>
+                <Button onClick={e => this.submit()}>
                     <MdCheck />
-                </button>
-                <button onClick={e => this.cancel()}>
+                </Button>
+                <Button onClick={e => this.cancel()}>
                     <MdClear />
-                </button>
+                </Button>
             </InputWithButtons>
         }
         return <div className={css.Editable}

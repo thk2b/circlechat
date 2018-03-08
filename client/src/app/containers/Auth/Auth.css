@@ -1,5 +1,5 @@
 .Auth {
-    /* background-color: var(--surface-3); */
+    /* background: radial-gradient(var(--surface-0), var(--surface-1)); */
     flex: 1 0;
     max-width: 350px;
     max-height: 400px;

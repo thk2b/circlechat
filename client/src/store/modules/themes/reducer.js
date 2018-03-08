@@ -1,7 +1,7 @@
 import { SET_THEME } from './actions'
 
 const initialState = {
-    active: 'light',
+    active: 'dark',
     list: ['light', 'dark']
 }
 

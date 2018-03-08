@@ -5,6 +5,7 @@ import css from './Button.css'
 
 export default ({ 
     onClick,
+    primary,
     underlined,
     children,
     ...rest
@@ -13,7 +14,8 @@ export default ({
     <button
         onClick={onClick}
         className={classNames(css.Button, {
-            [css.ButtonUnderlined]: underlined
+            [css.isPrimary]: primary,
+            [css.isUnderlined]: underlined
         })}
         {...rest}
     >

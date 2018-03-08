@@ -30,7 +30,7 @@ export default class LoginForm extends React.Component {
                     value={this.state.pw}
                     onChange={pw => this.setState({ pw })}
                 />
-                <Button onClick={e => this.handleSubmit(e)}>Log in</ Button>
+                <Button primary onClick={e => this.handleSubmit(e)}>Log in</ Button>
                 <Button 
                     underlined 
                     onClick={e => this.props.onSecondary(e)}
