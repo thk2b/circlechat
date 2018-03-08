@@ -7,9 +7,8 @@ chai.use(require('chai-subset'))
 const { recreate } = require('../../../manage')
 const db = require('../../../db')
 
-const { service: authService } = require('../../auth')
-const { service: profileService } = require('../../profile')
-const { service: channelService } = require('../../channel')
+const { auth, profile, channel } = require('../../')
+
 const service = require('../service')
 
 describe('message table', function(){
@@ -41,16 +40,15 @@ describe('message service', function(){
     let message4
     
     before(function(){
-
         /* register users, create their profiles, and create channels */
         return recreate()
         .then(() => Promise.all([
-            authService.register(credentials1),
-            authService.register(credentials2)
+            auth.service.register(credentials1),
+            auth.service.register(credentials2)
         ]))
         .then(() => Promise.all([
-            profileService.create(credentials1.userId, { userId: credentials1.userId }),
-            profileService.create(credentials2.userId, { userId: credentials2.userId })
+            profile.service.create(credentials1.userId, { userId: credentials1.userId }),
+            profile.service.create(credentials2.userId, { userId: credentials2.userId })
         ]))
         .then(([p1, p2]) => {
             profile1 = p1
@@ -58,9 +56,9 @@ describe('message service', function(){
             return [p1, p2]
         })
         .then(([p1, p2]) => Promise.all([
-            channelService.create(credentials1.userId, { profileId: p1.id, name: 'test channel 1'}),
-            channelService.create(credentials2.userId, { profileId: p2.id, name: 'test channel 2'}),
-            channelService.create(credentials2.userId, { profileId: p2.id, name: 'test channel 3'})
+            channel.service.create(credentials1.userId, { profileId: p1.id, name: 'test channel 1'}),
+            channel.service.create(credentials2.userId, { profileId: p2.id, name: 'test channel 2'}),
+            channel.service.create(credentials2.userId, { profileId: p2.id, name: 'test channel 3'})
         ]))
         .then(([c1, c2, c3]) => {
             channel1 = c1
@@ -251,10 +249,10 @@ describe('message service', function(){
         })
         it('should remove the message when authenticated and authorized', function(){
             return service.remove(profile1.userId, message1.id)
-            .then(() => service.get(profile1.userId, message1.id))
-            .then(() => { throw new Error('should not resolve') })
-            .catch(e => {
-                expect(e).to.contain({ status: 404, message: 'not found'})
+            .then(message => {
+                expect(message.id).to.equal(message1.id)
+                expect(message.text).to.equal('[deleted]')
+                expect(message.updatedAt).to.not.equal(message1.createdAt)
             })
         })
     })

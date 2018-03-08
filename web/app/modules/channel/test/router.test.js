@@ -131,6 +131,7 @@ describe(API_URL, function(){
         it('should notify websocket clients', function(done){
             socket.once('/channel', ({ meta, data }) => {
                 expect(meta.status).to.equal(201)
+                expect(meta.type).to.equal('POST')
                 expect(data.channel.name).to.equal(channel1.name)
                 done()
             })

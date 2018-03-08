@@ -10,6 +10,7 @@ const {
     profile,
     ping,
     channel,
+    message
 } = require('./modules')
 
 /* API */
@@ -69,14 +70,17 @@ app
 .use(API_URL+'/auth', auth.router)
 .use(API_URL+'/profile', profile.router)
 .use(API_URL+'/channel', channel.router)
+.use(API_URL+'/message', message.router)
 
 app.use((err, req, res, next) => {
+    // console.log(err)
     res.status(err.status || 500).json(e)
 })
 
 const events = {
     '/ping': ping.events,
-    '/profile': profile.events
+    '/profile': profile.events,
+    '/message': message.events,
 }
 
 io.on('connection', socket => {

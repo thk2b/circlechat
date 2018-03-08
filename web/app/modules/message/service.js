@@ -123,10 +123,9 @@ function remove(requesterId, messageId){
     return authenticate(requesterId)
     .then(() => belongsToUser(messageId, requesterId))
     .then(authorize)
-    .then(() => query.none(SQL`
-        DELETE FROM message
-        WHERE id=${messageId}
-    ;`))
+    .then(() => update(requesterId, messageId, {
+        text: '[deleted]'
+    }))
 }
 
 module.exports = {
