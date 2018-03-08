@@ -18,7 +18,7 @@ function init(){
             id SERIAL,
             "profileId" INTEGER NOT NULL,
             "channelId" INTEGER NOT NULL,
-            text VARCHAR(1024) NOT NULL,
+            text VARCHAR(1024),
             "createdAt" BIGINT NOT NULL,
             "updatedAt" BIGINT NOT NULL,
             PRIMARY KEY (id),
@@ -124,7 +124,7 @@ function remove(requesterId, messageId){
     .then(() => belongsToUser(messageId, requesterId))
     .then(authorize)
     .then(() => update(requesterId, messageId, {
-        text: '[deleted]'
+        text: null
     }))
 }
 

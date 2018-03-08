@@ -251,7 +251,7 @@ describe('message service', function(){
             return service.remove(profile1.userId, message1.id)
             .then(message => {
                 expect(message.id).to.equal(message1.id)
-                expect(message.text).to.equal('[deleted]')
+                expect(message.text).to.equal(null)
                 expect(message.updatedAt).to.not.equal(message1.createdAt)
             })
         })

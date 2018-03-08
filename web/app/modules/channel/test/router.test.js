@@ -259,11 +259,10 @@ describe(API_URL, function(){
                 .expect(202)
                 .end((e, res) => {
                     if(e) return done(e)
-                    channel = {...channel, ...res.body}
                     expect(res.body.id).to.not.be.undefined
                     expect(res.body.updatedAt).to.not.be.undefined
                     expect(res.body.name).to.equal('new name')
-                    
+                    channel = {...channel, ...res.body}
                     done()
                 })
         })

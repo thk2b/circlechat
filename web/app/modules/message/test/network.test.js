@@ -189,4 +189,231 @@ describe('message network', function(){
             socket1.emit('/message', { meta: { type: 'POST' }, data: message4})
         })
     })
+    describe(`GET ${API_URL}`, function(){
+        it('should send a 422 when invalid query params are sent', function(done){
+            request(server)
+                .get(API_URL)
+                .query({wrong: 123})
+                .set('Content-Type', 'application/json')
+                .set('Authorization', 'Bearer ' + token1)
+                .expect(422)
+                .end(done)
+        })
+        it('should not send a message that does not exist', function(done){
+            request(server)
+                .get(API_URL)
+                .query({id: 123})
+                .set('Content-Type', 'application/json')
+                .set('Authorization', 'Bearer ' + token1)
+                .expect(404)
+                .end(done)
+        })
+        it('should send a message when authorized and authenticated', function(done){
+            request(server)
+                .get(API_URL)
+                .query({ id: message1.id })
+                .set('Content-Type', 'application/json')
+                .set('Authorization', 'Bearer ' + token1)
+                .expect(200)
+                .end((e, res) => {
+                    if(e) return done(e)
+                    expect(res.body.message).to.deep.equal(message1)
+                    done()
+                })
+        })
+    })
+    describe(`GET ${API_URL}/all/?channelId=`, function(){
+        it('should send a 422 when invalid query params are sent', function(done){
+            request(server)
+                .get(API_URL+'/all')
+                .query({wrong: 123})
+                .set('Content-Type', 'application/json')
+                .set('Authorization', 'Bearer ' + token1)
+                .expect(422)
+                .end(done)
+        })
+        it('should not send messages from a channel that does not exist', function(done){
+            request(server)
+                .get(API_URL+'/all')
+                .query({channelId: 123})
+                .set('Content-Type', 'application/json')
+                .set('Authorization', 'Bearer ' + token1)
+                .expect(200)
+                .end((e, res) => {
+                    if(e) return done(e)
+                    expect(res.body).to.deep.equal({})
+                    done()
+                })
+        })
+        it('should send messages when authorized and authenticated', function(done){
+            request(server)
+                .get(API_URL+'/all')
+                .query({ channelId: channel1.id })
+                .set('Content-Type', 'application/json')
+                .set('Authorization', 'Bearer ' + token1)
+                .expect(200)
+                .end((e, res) => {
+                    if(e) return done(e)
+                    expect(res.body[message1.id]).to.not.be.undefined
+                    expect(res.body[message2.id]).to.not.be.undefined
+                    expect(res.body[message3.id]).to.be.undefined
+                    expect(res.body[message4.id]).to.be.undefined
+                    done()
+                })
+        })
+        it('should send n messages', function(done){
+            request(server)
+                .get(API_URL+'/all')
+                .query({ channelId: channel1.id, n: 1 })
+                .set('Content-Type', 'application/json')
+                .set('Authorization', 'Bearer ' + token1)
+                .expect(200)
+                .end((e, res) => {
+                    if(e) return done(e)
+                    expect(res.body[message1.id]).to.be.undefined
+                    expect(res.body[message2.id]).to.not.be.undefined
+                    expect(res.body[message3.id]).to.be.undefined
+                    expect(res.body[message4.id]).to.be.undefined
+                    done()
+                })
+        })
+        it('should send n messages after a message', function(done){
+            request(server)
+                .get(API_URL+'/all')
+                .query({ channelId: channel1.id, n: 1, after: message2.id })
+                .set('Content-Type', 'application/json')
+                .set('Authorization', 'Bearer ' + token1)
+                .expect(200)
+                .end((e, res) => {
+                    if(e) return done(e)
+                    expect(res.body[message1.id]).to.not.be.undefined
+                    expect(res.body[message2.id]).to.be.undefined
+                    expect(res.body[message3.id]).to.be.undefined
+                    expect(res.body[message4.id]).to.be.undefined
+                    done()
+                })
+        })  
+    })
+    describe(`PUT ${API_URL}`, function(){
+        it('should not update a message when unauthenticated', function(done){
+            request(server)
+                .put(API_URL)
+                .query({ id: message1.id })
+                .send({ text: 'new text' })
+                .set('Content-Type', 'application/json')
+                .expect(401)
+                .end(done)
+        })
+        it('should not update a message with an invalid token', function(done){
+            request(server)
+                .put(API_URL)
+                .query({ id: message1.id })
+                .send({ text: 'new text' })
+                .set('Authorization', 'Bearer 0' + token1)
+                .set('Content-Type', 'application/json')
+                .expect(401)
+                .end(done)
+        })
+        it('should not update a message created by another user', function(done){
+            request(server)
+                .put(API_URL)
+                .query({ id: message1.id })
+                .send({ text: 'new text' })
+                .set('Authorization', 'Bearer ' + token2)
+                .set('Content-Type', 'application/json')
+                .expect(403)
+                .end(done)
+        })
+        it('should not update a message when data is invalid', function(done){
+            request(server)
+                .put(API_URL)
+                .query({ id: message1.id })
+                .send({ wrong: 'key' })
+                .set('Authorization', 'Bearer ' + token1)
+                .set('Content-Type', 'application/json')
+                .expect(422)
+                .end(done)
+        })
+        it('should update a channel when authorized and authenticated', function(done){
+            request(server)
+                .put(API_URL)
+                .query({ id: message1.id })
+                .send({ text: 'new text 1' })
+                .set('Authorization', 'Bearer ' + token1)
+                .set('Content-Type', 'application/json')
+                .expect(202)
+                .end((e, res) => {
+                    if(e) return done(e)
+                    expect(res.body.id).to.not.be.undefined
+                    expect(res.body.updatedAt).to.not.be.undefined
+                    expect(res.body.text).to.equal('new text 1')
+                    message1 = {...message, ...res.body}
+                    done()
+                })
+        })
+        it('should notify websocket clients', function(done){
+            socket2.once('/message', ({ meta, data }) => {
+                expect(meta).to.deep.equal({
+                    status: 202, type: 'PUT'
+                })
+                expect(data.text).to.equal('new text 2')
+                done()
+            })
+            request(server)
+                .put(API_URL)
+                .query({ id: channel1.id })
+                .send({ text: 'new text 2' })
+                .set('Authorization', 'Bearer ' + token1)
+                .set('Content-Type', 'application/json')
+                .expect(202)
+                .end((e, res) => {
+                    if(e) return done(e)
+                    message2 = {...message2, ...res.body}
+                })
+        })
+    })
+    describe(`DELETE ${API_URL}`, function(){
+        it('should not delete a message when unauthenticated', function(done){
+            request(server)
+                .delete(API_URL)
+                .query({ id: message1.id })
+                .set('Content-Type', 'application/json')
+                .expect(401)
+                .end(done)
+        })
+        it('should not delete a message created by another user', function(done){
+            request(server)
+                .delete(API_URL)
+                .query({ id: message1.id })
+                .set('Authorization', 'Bearer ' + token2)
+                .set('Content-Type', 'application/json')
+                .expect(403)
+                .end(done)
+        })
+        it('should delete a message when authorized and authenticated', function(done){
+            request(server)
+                .delete(API_URL)
+                .query({ id: message1.id })
+                .set('Authorization', 'Bearer ' + token1)
+                .set('Content-Type', 'application/json')
+                .expect(202)
+                .end(done)
+        })
+        it('should notify websocket clients', function(done){
+            socket1.once('/message', ({ meta, data }) => {
+                expect(meta).to.deep.equal({
+                    status: 202, type: 'DELETE'
+                })
+                expect(data.text).to.equal(null)
+                expect(data.updatedAt).to.not.equal(message2.createdAt)
+            })
+            request(server)
+                .delete(API_URL)
+                .query({ id: channel1.id })
+                .set('Authorization', 'Bearer ' + token1)
+                .set('Content-Type', 'application/json')
+                .expect(202)
+                .end(done)
+        })
+    })
 })
