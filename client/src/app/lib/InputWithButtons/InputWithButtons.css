@@ -8,6 +8,7 @@
 }
 .InputWithButton input {
     margin: 0;
+    padding: 0 .25rem ;
     /* flex: 0 0 100%; */
     font-family: inherit;
 }

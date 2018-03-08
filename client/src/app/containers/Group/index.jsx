@@ -9,11 +9,12 @@ import ProfilesList from '../ProfilesList'
 export default class Group extends React.Component {
     constructor(props){
         super(props)
+        const isDesktop = window.innerWidth >= 680
         this.state = {
-            isProfilesMenuOpen: false
+            isProfilesMenuOpen: isDesktop
         }
     }
-
+    
     toggleMenu(name){
         if(name === 'users') return this.setState({
             isProfilesMenuOpen: !this.state.isProfilesMenuOpen
@@ -26,7 +27,7 @@ export default class Group extends React.Component {
             <ContextMenu>
                 <Button onClick={e => this.toggleMenu('users')}>
                     users
-                    {isProfilesMenuOpen? <MdChevronRight/>: <MdChevronLeft />}
+                    {isProfilesMenuOpen? <MdChevronRight/>: <MdChevronLeft/>}
                 </Button>
             </ContextMenu>
             <SlidingList isRight isOpen={isProfilesMenuOpen}>
