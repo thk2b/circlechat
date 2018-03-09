@@ -379,7 +379,10 @@ describe(`${API_URL} notifies websocket clients`, function(){
     })
     it('should update other clients on DELETE /profile', function(done){
         ws1.once('/profile', ({ meta, data }) => {
-            expect(meta.status).to.equal(202)
+            expect(meta).to.deep.equal({
+                status: 202, type: 'DELETE',
+                params: { id: user2Profile.id }
+            })
             expect(data).to.be.undefined
             done()
         })

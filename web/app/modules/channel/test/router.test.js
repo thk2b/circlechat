@@ -317,8 +317,10 @@ describe(API_URL, function(){
         it('should notify websocket clients', function(done){
             socket.once('/channel', ({ meta }) => {
                 expect(meta).to.deep.equal({
-                    status: 202, type: 'DELETE'
+                    status: 202, type: 'DELETE',
+                    params: { id: channel1.id }
                 })
+                done()
             })
             request(server)
                 .delete(API_URL)
@@ -326,7 +328,7 @@ describe(API_URL, function(){
                 .set('Authorization', 'Bearer ' + token1)
                 .set('Content-Type', 'application/json')
                 .expect(202)
-                .end(done)
+                .end(e => e&&done(e))
         })
     })
 })

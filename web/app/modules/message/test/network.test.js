@@ -400,12 +400,14 @@ describe('message network', function(){
                 .end(done)
         })
         it('should notify websocket clients', function(done){
-            socket1.once('/message', ({ meta, data }) => {
+            socket2.once('/message', ({ meta, data }) => {
                 expect(meta).to.deep.equal({
-                    status: 202, type: 'DELETE'
+                    status: 202, type: 'DELETE',
+                    params: { id: message2.id }
                 })
                 expect(data.text).to.equal(null)
                 expect(data.updatedAt).to.not.equal(message2.createdAt)
+                done()
             })
             request(server)
                 .delete(API_URL)
@@ -413,7 +415,7 @@ describe('message network', function(){
                 .set('Authorization', 'Bearer ' + token1)
                 .set('Content-Type', 'application/json')
                 .expect(202)
-                .end(done)
+                .end(e => e&&done(e))
         })
     })
 })

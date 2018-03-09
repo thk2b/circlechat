@@ -49,7 +49,9 @@ r.route('/')
         .then(() => {
             res.status(202).end()
             res.locals.socket && res.locals.socket.broadcast.emit('/profile', {
-                meta: { type: 'DELETE', status: 202 }
+                meta: { type: 'DELETE', status: 202, params: {
+                    id: parseInt(req.query.id)
+                }}
             })
         })
         .catch(next)

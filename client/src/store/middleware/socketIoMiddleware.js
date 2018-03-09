@@ -8,6 +8,9 @@ const handle = (resource, dispatch) => ({ meta, data }) => {
         status: meta.status,
         data
     }
+    if(meta.params){
+        action.params = meta.params
+    }
     process.env.NODE_ENV === 'development' && console.log('incoming ws message: ', action)
     dispatch(action)
 }
