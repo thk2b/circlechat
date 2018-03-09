@@ -17,11 +17,12 @@ import css from './Group.css'
 export default class Group extends React.Component {
     constructor(props){
         super(props)
-        const isDesktop = window.innerWidth >= 680
-        const isPhablet = window.innerWidth >= 380
+        this.isDesktop = window.innerWidth >= 680
+        this.isPhablet = window.innerWidth >= 480
+        this.isMobile = window.innerWidth <= 480
         this.state = {
-            isProfilesMenuOpen: isDesktop,
-            isChannelsMenuOpen: isPhablet
+            isProfilesMenuOpen: this.isDesktop,
+            isChannelsMenuOpen: this.isPhablet
         }
     }
     
@@ -35,6 +36,7 @@ export default class Group extends React.Component {
             })
         }
     }
+
     render() {
         const { isProfilesMenuOpen, isChannelsMenuOpen } = this.state
         const { goToProfile, profiles } = this.props
@@ -50,8 +52,10 @@ export default class Group extends React.Component {
                 </Button>
             </ContextMenu>
             <main className={css.Container}>
-                <Menu isLeft isOpen={isChannelsMenuOpen}>
-                    <ChannelsList />
+                <Menu isLeft 
+                    isOpen={isChannelsMenuOpen} 
+                    onClick={e => this.isMobile && this.toggleMenu('channels')}
+                    ><ChannelsList />
                 </Menu>
                 <Switch>
                     <Route path='/channel/create' component={CreateChannel}/>
@@ -59,8 +63,10 @@ export default class Group extends React.Component {
                     <Route path='/profile/:id' component={Profile}/>
                     <Route path='/me' component={Profile}/>
                 </Switch>
-                <Menu isRight isOpen={isProfilesMenuOpen}>
-                    <ProfilesList />
+                <Menu isRight 
+                    isOpen={isProfilesMenuOpen}
+                    onClick={e => this.isMobile && this.toggleMenu('profiles')}
+                    ><ProfilesList />
                 </Menu>
             </main>
         </React.Fragment>

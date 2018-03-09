@@ -4,7 +4,7 @@
     border-left: none;
     border-right: none;
     border-top: none;
-    height: 35px;
+    height: 2rem;
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;

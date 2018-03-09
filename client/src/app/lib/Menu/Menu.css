@@ -11,6 +11,7 @@
     height: 100%;
     overflow-y: auto;
     flex-basis: 180px;
+    z-index: 1;
 }
 
 .Menu > a {
@@ -21,6 +22,8 @@
 
 .isHidden {
     visibility: hidden;
+    flex: 0;
+    border: none;
 }
 
 .Menu a:hover {
@@ -28,7 +31,7 @@
 }
 
 .Menu li {
-    padding: 5px;
+    padding: 7px;
     cursor: pointer;
     border-bottom: 1px solid var(--border);
 }

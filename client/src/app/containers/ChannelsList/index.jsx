@@ -28,7 +28,6 @@ class ChannelsList extends React.Component {
             this.props.getAll()
         }
     }
-    
     render(){
         const { channels, push } = this.props
         return channels.map(
