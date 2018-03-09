@@ -34,12 +34,12 @@ export default class Group extends React.Component {
             case 'profiles': return this.setState({
                 isProfilesMenuOpen: !this.state.isProfilesMenuOpen
             })
+            default: return
         }
     }
 
     render() {
         const { isProfilesMenuOpen, isChannelsMenuOpen } = this.state
-        const { goToProfile, profiles } = this.props
         return <React.Fragment>
             <ContextMenu>
                 <Button onClick={e => this.toggleMenu('channels')}>

@@ -6,7 +6,6 @@ import MdClear from 'react-icons/lib/md/clear'
 
 
 import Button from '../Button'
-import ButtonGroup from '../ButtonGroup'
 import InputWithButtons from '../InputWithButtons'
 
 import css from './Editable.css'

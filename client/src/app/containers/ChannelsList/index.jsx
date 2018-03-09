@@ -32,6 +32,7 @@ class ChannelsList extends React.Component {
         const { channels, push } = this.props
         return channels.map(
             channel => <ChannelListItem
+                key={channel.id}
                 onClick={e => push(`/channel/${channel.id}`)}
                 {...channel}
             />

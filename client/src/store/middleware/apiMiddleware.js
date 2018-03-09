@@ -1,4 +1,3 @@
-import Promise from 'promise'
 import axios from 'axios'
 import validateOutgoingNetworkAction from '../lib/validateOutgoingNetworkAction'
 import validateIncomingNetworkAction from '../lib/validateIncomingNetworkAction'

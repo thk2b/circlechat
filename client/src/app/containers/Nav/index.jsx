@@ -5,13 +5,12 @@ import { bindActionCreators } from 'redux'
 
 import Link from '../../lib/Link'
 import { OwnProfileLink, Settings } from '../'
-
  
 import css from './Nav.css'
 
-const mapState = ({ auth }) => {
-    return { auth }
-}
+// const mapState = ({ auth }) => {
+//     return { auth }
+// }
 
 const mapDispatch = dispatch => {
     return bindActionCreators({ push }, dispatch)
@@ -19,7 +18,6 @@ const mapDispatch = dispatch => {
 
 class Nav extends React.Component {
     render() {
-        const { auth } = this.props
         return (
             <nav className={css.Nav}>
                 <Settings />
@@ -30,4 +28,4 @@ class Nav extends React.Component {
     }
 }
 
-export default connect(mapState, mapDispatch)(Nav)
+export default connect(undefined, mapDispatch)(Nav)

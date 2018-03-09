@@ -6,8 +6,8 @@ import { push } from 'react-router-redux'
 import Link from '../../lib/Link'
 import OwnStatus from '../OwnStatus'
 import { getProfileOfUser, create } from '../../../store/modules/profiles'
-import profile from './profile.svg'
-import css from './OwnProfileLink.css'
+// import profile from './profile.svg'
+// import css from './OwnProfileLink.css'
 
 const mapState = ({ profiles, auth }) => {
     return {
