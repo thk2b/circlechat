@@ -6,14 +6,13 @@ import { ContextMenu, Spinner } from '../../lib'
 import css from './Channel.css'
 
 const mapState = ({ channels }, ownProps) => {
-    console.log(ownProps.match)
     if(!ownProps.match.params.id){
         console.error('Channel must be rendered by a `Route` with an id param')
     }
     const channel = channels.data[ownProps.match.params.id]
     return {
         channel,
-        loading: channels.loading
+        loading: channels.loading || channels.request.status === null
     }
 }
 
