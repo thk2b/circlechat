@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 
 import { ContextMenu, Spinner } from '../../lib'
 
-import css from './Channel.css'
+// import css from './Channel.css'
 
 const mapState = ({ channels }, ownProps) => {
     if(!ownProps.match.params.id){
@@ -30,7 +30,7 @@ class Channel extends React.Component {
             <h1>Channel not found</h1>
         </div>
 
-        return <div className={css.Channel}>
+        return <div>
             <ContextMenu>
                 {channel.name}
             </ContextMenu>

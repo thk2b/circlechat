@@ -6,10 +6,20 @@
     position: relative;
 }
 
-.Container:nth-child(2) {
+.Container > div {
     flex-grow: 1;
+    height: 100%;
+    flex: 1;
+    position: absolute;
+    width: 100%;
 }
 
-.Container:not():nth-child(2) {
+.Container > ul {
     flex-grow: 0;
+}
+
+@media screen and (min-width: 380px){
+    .Container > div {
+        position: initial;
+    }
 }

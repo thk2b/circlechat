@@ -1,6 +1,6 @@
 .Profile {
     padding: 10px;
-    flex: 1;
+
 }
 
 .Name {
@@ -24,6 +24,12 @@ input.Name {
 
 textarea.Description {
     display: block;
+}
+
+@media screen and (min-width: 380px){
+    .Profile {
+        position: initial;
+    }
 }
 
 @media screen and (min-width: 470px){
