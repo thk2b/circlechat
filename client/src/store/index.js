@@ -1,5 +1,5 @@
 import { combineReducers, createStore, applyMiddleware, compose } from 'redux'
-import thunk from 'redux-thunk'
+// import thunk from 'redux-thunk'
 import io from 'socket.io-client'
 
 import createHistory from 'history/createBrowserHistory'
@@ -11,7 +11,7 @@ import profiles from './modules/profiles'
 import channels from './modules/channels'
 
 
-import { createApiMiddleware, createSocketIoMiddleware } from './middleware'
+import { apiMiddleware, socketIoMiddleware, redirectMiddleware } from './middleware'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -20,9 +20,10 @@ export const store = createStore(
     combineReducers({ router, themes, auth, profiles, channels }),
     composeEnhancers( 
         applyMiddleware(
-            thunk,
-            createApiMiddleware(`/api/v1`),
-            createSocketIoMiddleware(io, document.location.hostname),
+            // thunk,
+            apiMiddleware(`/api/v1`),
+            socketIoMiddleware(io, document.location.hostname),
+            redirectMiddleware,
             routerMiddleware(history)
         )
      )
