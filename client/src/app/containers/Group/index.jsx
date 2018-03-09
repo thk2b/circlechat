@@ -1,11 +1,11 @@
 import React from 'react'
-import { Route } from 'react-router'
+import { Switch, Route } from 'react-router'
 import MdChevronLeft from 'react-icons/lib/md/chevron-left'
 import MdChevronRight from 'react-icons/lib/md/chevron-right'
 
 import { Menu, ContextMenu, Button} from '../../lib'
 
-import { ProfilesList, ChannelsList, Channel } from '../'
+import { ProfilesList, CreateChannel, ChannelsList, Channel } from '../'
 import css from './Group.css'
 
 export default class Group extends React.Component {
@@ -47,7 +47,10 @@ export default class Group extends React.Component {
                 <Menu isLeft isOpen={isChannelsMenuOpen}>
                     <ChannelsList />
                 </Menu>
-                <Route path='/c/:id' component={Channel}/>
+                <Switch>
+                    <Route path='/c/create' component={CreateChannel}/>
+                    <Route path='/c/:id' component={Channel}/>
+                </Switch>
                 <Menu isRight isOpen={isProfilesMenuOpen}>
                     <ProfilesList />
                 </Menu>

@@ -13,12 +13,8 @@ export default () => (
                 {/* <Route exact path='/home' component={Lobby}/> */}
                 <Route path='/profile/:id' component={Profile}/>
                 <Route path='/me' component={Profile}/>
-                <Route exact path='/' render={() => (
-                    <React.Fragment>
-                        <Nav />
-                        <Group />
-                    </React.Fragment>
-                )}/>
+                <Nav />
+                <Group />
             </Auth>
         </div>
     </Theme>

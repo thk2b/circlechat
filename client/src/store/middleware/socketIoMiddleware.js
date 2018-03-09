@@ -17,7 +17,8 @@ const handle = (resource, dispatch) => ({ meta, data }) => {
 
 const resources = [
     // error
-    '/profile'
+    '/profile',
+    '/channel'
     // 'message',
 ]
 
