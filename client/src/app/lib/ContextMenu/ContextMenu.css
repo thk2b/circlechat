@@ -5,12 +5,13 @@
     border-right: none;
     height: 35px;
     display: flex;
-    flex-flow: row-reverse nowrap;
+    flex-flow: row nowrap;
+    justify-content: space-between;
 }
 
 .ContextMenu button {
     background-color: transparent;
-    max-width: 91px;
+    max-width: 95px;
     border-top: none;
 }
 

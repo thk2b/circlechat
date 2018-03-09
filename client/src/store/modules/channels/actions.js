@@ -1,7 +1,7 @@
 export const create = data => {
     /* data = { profileId, name } */
     return {
-        network: 'api',
+        network: 'http',
         type: 'POST',
         resource: '/channel',
         data
@@ -9,8 +9,9 @@ export const create = data => {
 }
 
 export const getAll = () => {
+    console.log('object')
     return {
-        network: 'api',
+        network: 'http',
         type: 'GET',
         resource: '/channel/all'
     }
@@ -18,7 +19,7 @@ export const getAll = () => {
 
 export const update = (id, data) => {
     return {
-        network: 'api',
+        network: 'http',
         type: 'PUT',
         resource: '/channel',
         params: { id },
@@ -28,7 +29,7 @@ export const update = (id, data) => {
 
 export const remove = id => {
     return {
-        network: 'api',
+        network: 'http',
         type: 'DELETE',
         resource: '/channel',
         params: { id }

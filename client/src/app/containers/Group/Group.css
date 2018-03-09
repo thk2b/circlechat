@@ -1,0 +1,14 @@
+.Container {
+    height: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+}
+
+.Container:nth-child(2) {
+    flex-grow: 1;
+}
+
+.Container:not():nth-child(2) {
+    flex-grow: 0;
+}

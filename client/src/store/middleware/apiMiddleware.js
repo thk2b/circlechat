@@ -42,7 +42,7 @@ export default apiUrl => store => next => action => {
                    process.env.NODE_ENV === 'test'    
                 ){
                     console.log('incoming http request: ', newAction)
-                    !validateIncomingNetworkAction(action) && console.error('invalid incoming network action: ', action)
+                    !validateIncomingNetworkAction(newAction) && console.error('invalid incoming network action: ', action)
                 }
                 store.dispatch(newAction)
             })
