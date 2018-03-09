@@ -25,13 +25,11 @@
     --border: rgb(184, 170, 170);
     --shadow: rgb(184, 170, 170);
 
-    /* 
     --secondary: rgb(255, 255, 255);
     --danger: rgba(250, 6, 6, 0.6);
     --border-color: rgba(0,0,0,1);
     --text-color: rgb(230, 230, 230);
     --border-color: rgba(0,0,0,1);
-    */
 
   }
   
@@ -62,10 +60,8 @@
     --border: rgb(144, 136, 136);
     --shadow: rgb(184, 170, 170);
 
-    /*
     --secondary: rgb(117, 117, 117);
     --success: rgb(63, 168, 60);
     --danger: rgb(165, 54, 54);
     --neutral: rgb(158, 148, 147); 
-    */
 }

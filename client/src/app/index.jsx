@@ -10,9 +10,6 @@ export default () => (
     <Theme>
         <div className={css.App}>
             <Auth>
-                {/* <Route exact path='/home' component={Lobby}/> */}
-                <Route path='/profile/:id' component={Profile}/>
-                <Route path='/me' component={Profile}/>
                 <Nav />
                 <Group />
             </Auth>

@@ -65,14 +65,14 @@ describe('channels reducer', () => {
     })
     test('incoming create success', () => {
         const state = reducer(undefined, actions.create({ profileId: 123, name: 'test channel' }))
-        const data = { id: 123, profileId: 123, name: 'test channel 1' }
+        const data = { channel: { id: 123, profileId: 123, name: 'test channel 1' }}
         expect(
             reducer(state, {
                 network: 'http', resource: '/channel', type: 'POST', status: 201, data
             })
         ).toEqual({
             ...state, loading: false, request: { status: 201 },
-            data: {...state.data, [data.id]: data }
+            data: {...state.data, [data.channel.id]: data.channel }
         })
     })
     test('incoming update error', () => {

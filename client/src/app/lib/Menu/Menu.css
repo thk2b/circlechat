@@ -13,6 +13,12 @@
     flex-basis: 180px;
 }
 
+.Menu > a {
+    display: block;
+    text-align: center;
+    font-size: var(--text-size-m)
+}
+
 .isHidden {
     visibility: hidden;
 }

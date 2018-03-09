@@ -5,7 +5,13 @@ import MdChevronRight from 'react-icons/lib/md/chevron-right'
 
 import { Menu, ContextMenu, Button} from '../../lib'
 
-import { ProfilesList, CreateChannel, ChannelsList, Channel } from '../'
+import { 
+    ProfilesList,
+    Profile,
+    CreateChannel,
+    ChannelsList,
+    Channel 
+} from '../'
 import css from './Group.css'
 
 export default class Group extends React.Component {
@@ -48,8 +54,10 @@ export default class Group extends React.Component {
                     <ChannelsList />
                 </Menu>
                 <Switch>
-                    <Route path='/c/create' component={CreateChannel}/>
-                    <Route path='/c/:id' component={Channel}/>
+                    <Route path='/channel/create' component={CreateChannel}/>
+                    <Route path='/channel/:id' component={Channel}/>
+                    <Route path='/profile/:id' component={Profile}/>
+                    <Route path='/me' component={Profile}/>
                 </Switch>
                 <Menu isRight isOpen={isProfilesMenuOpen}>
                     <ProfilesList />

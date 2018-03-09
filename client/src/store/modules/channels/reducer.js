@@ -18,7 +18,7 @@ function inboundNetworkReducer(state, action){
             case 'POST': return {
                 ...state,
                 data: { ...state.data, 
-                    [action.data.id]: action.data
+                    [action.data.channel.id]: action.data.channel
                 }
             }
             case 'PUT':

@@ -2,8 +2,12 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { push } from 'react-router-redux'
+import MdAddCircle from 'react-icons/lib/md/add-circle'
 
+import { Link } from '../../lib'
 import { getAll } from '../../../store/modules/channels'
+
+import ChannelListItem from './ChannelListItem'
 
 const mapState = ({ channels }) => {
     return {
@@ -26,10 +30,17 @@ class ChannelsList extends React.Component {
     }
     
     render(){
-        return <div>
-            {JSON.stringify(this.props.channels)}
-            <button onClick={e => this.props.push('/c/create')}>create</button>
-        </div>
+        const { channels, push } = this.props
+        return channels.map(
+            channel => <ChannelListItem
+                onClick={e => push(`/channel/${channel.id}`)}
+                {...channel}
+            />
+        ).concat(<Link
+            key='__createLink'
+            onClick={e => push('/channel/create')}
+            ><MdAddCircle/>
+        </Link>)
     }
 }
 
