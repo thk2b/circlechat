@@ -3,62 +3,62 @@ function localReducer(state, action){
 }
 
 function inboundNetworkReducer(state, action){
-    if(action.status >= 400){
-        if(action.resource === '/profile' || action.resource === '/profile/all'){
-            return {
-                ...state,
-                request: { status: action.status, ...action.data },
-                loading: false
-            }
-        }
-        return state
+    if(action.status >= 400) return {
+        ...state,
+        request: { status: action.status, ...action.data },
+        loading: false
     }
-    switch(action.resource){
-        case '/profile':
-            let profile
-            switch(action.type){
-                case 'POST':
-                case 'GET':
-                    profile = action.data.profile
-                    if(profile.userId === action.ownUserId){ /* we got our own profile */
-                        return {
-                            ...state, loading: false, request: { status: action.status },
-                            ownProfileId: profile.id,
-                            data: { ...state.data, [profile.id]: profile }
-                        }
-                    }
+    state = {
+        ...state,
+        loading: false,
+        request: { status: action.status }
+    }
+    if(action.resource === '/profile'){
+        let profile, id
+        switch(action.type){
+            case 'POST':
+            case 'GET':
+                profile = action.data.profile
+                if(profile.userId === action.ownUserId){ /* we got our own profile */
                     return {
-                        ...state, loading: false, request: { status: action.status },
+                        ...state,
+                        ownProfileId: profile.id,
                         data: { ...state.data, [profile.id]: profile }
                     }
-                case 'PUT': 
-                    const id = (action.params && action.params.id) || action.data.id
-                    return {
-                        ...state, loading: false, request: { status: action.status },
-                        data: { 
-                            ...state.data,
-                            [id]: {
-                                ...state.data[id],
-                                ...action.data
-                            }
+                }
+                return {
+                    ...state,
+                    data: { ...state.data, [profile.id]: profile }
+                }
+            case 'PUT': 
+                id = (action.params && action.params.id) || action.data.id
+                return {
+                    ...state,
+                    data: { 
+                        ...state.data,
+                        [id]: {
+                            ...state.data[id],
+                            ...action.data
                         }
                     }
-                case 'DELETE': 
+                }
+            case 'DELETE': 
+                id = action.params&&action.params.id || action.data.id
                 return {
-                    ...state, loading: false, request: { status: action.status },
+                    ...state,
                     data: Object.entries(state.data).reduce(
-                        (obj, [id, profile]) => profile.id === action.params.id? obj : {...obj, [id]: profile}
+                        (obj, [_, profile]) => profile.id === id
+                            ? obj : {...obj, [id]: profile }
                     , {})
                 }
-                default: return state
-            }
-        case '/profile/all':
-            if(action.type === 'GET') return {
-                ...state, loading: false, request: { status: action.status },
-                data: action.data
-            }
-            return state
-        default: return state
+            default: return state
+        }
+    } else if (action.resource === '/profile/all'){
+        if(action.type === 'GET') return {
+            ...state,
+            data: action.data
+        }
+        return state
     }
 }
 
@@ -74,6 +74,8 @@ function outboundNetworkReducer(state, action){
 }
 
 function networkReducer(state, action){
+    if(!['/profile', '/profile/all'].includes(action.resource)) return state
+
     if(action.status) return inboundNetworkReducer(state, action)
     return outboundNetworkReducer(state, action)
 }

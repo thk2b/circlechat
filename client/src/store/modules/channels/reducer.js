@@ -3,7 +3,55 @@ function localReducer(state, action){
 }
 
 function inboundNetworkReducer(state, action){
-    return state
+    if(action.status >= 400) return {
+        ...state, loading: false,
+        request: { status: action.status, ...action.data }
+    }
+    state = {
+        ...state,
+        loading: false,
+        request: { status: action.status }
+    }
+    if(action.resource === '/channel') {
+        let id
+        switch(action.type){
+            case 'POST': return {
+                ...state,
+                data: { ...state.data, 
+                    [action.data.id]: action.data
+                }
+            }
+            case 'PUT':
+                id = action.data.id || action.params.id
+                return {
+                    ...state,
+                    data: {
+                        ...state.data,
+                        [id]: {
+                            ...state.data[id], ...action.data
+                        }
+                    }
+                }
+            case 'DELETE':
+                id = action.params&&action.params.id || action.data.id
+                return {
+                    ...state,
+                    data: Object.entries(state.data).reduce(
+                        (obj, [_, profile]) => profile.id === id
+                            ? obj: {...obj, [id]: profile }
+                    , {})
+                }
+            default: return state
+        }
+    } else if (action.resource === '/channel/all'){
+        return {
+            ...state,
+            data: {
+                ...state.data,
+                ...action.data
+            }
+        }
+    }
 }
 
 function outboundNetworkReducer(state, action){
@@ -17,6 +65,8 @@ function outboundNetworkReducer(state, action){
 }
 
 function networkReducer(state, action){
+    if(!['/channel', '/channel/all'].includes(action.resource)) return state
+
     if(action.status) return inboundNetworkReducer(state, action)
     return outboundNetworkReducer(state, action)
 }

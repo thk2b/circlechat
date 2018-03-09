@@ -220,7 +220,7 @@ describe('profiles reducer', () => {
             }
         }
         const updateData = {
-            status: 'OFFLINE'
+            status: 'OFFLINE', id: 123
         }
         const state = {
             ...reducer(undefined, {}),
@@ -232,7 +232,6 @@ describe('profiles reducer', () => {
                 network: 'http',
                 type: 'PUT',
                 resource: '/profile',
-                params: {id: 123},
                 status: 202,
                 data: updateData
             })
