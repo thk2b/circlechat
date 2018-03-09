@@ -1,6 +1,7 @@
 import Promise from 'promise'
 import axios from 'axios'
 import validateOutgoingNetworkAction from '../lib/validateOutgoingNetworkAction'
+import validateIncomingNetworkAction from '../lib/validateIncomingNetworkAction'
 
 export default apiUrl => store => next => action => {
     if(action.network !== 'http') return next(action)
@@ -37,7 +38,12 @@ export default apiUrl => store => next => action => {
                 }
             })
             .then(newAction => {
-                process.env.NODE_ENV === 'development' && console.log('incoming http request: ', newAction)
+                if(process.env.NODE_ENV === 'development' || 
+                   process.env.NODE_ENV === 'test'    
+                ){
+                    console.log('incoming http request: ', newAction)
+                    !validateIncomingNetworkAction(action) && console.error('invalid incoming network action: ', action)
+                }
                 store.dispatch(newAction)
             })
             .catch( (e) => {

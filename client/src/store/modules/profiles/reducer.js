@@ -1,14 +1,8 @@
-import validateIncomingNetworkAction from '../../lib/validateIncomingNetworkAction'
-
 function localReducer(state, action){
     return state
 }
 
 function inboundNetworkReducer(state, action){
-    if(! validateIncomingNetworkAction(action)){
-        console.error('invalid incoming network action: ', action)
-        return state
-    }
     if(action.status >= 400){
         if(action.resource === '/profile' || action.resource === '/profile/all'){
             return {
@@ -92,8 +86,6 @@ const INITIAL_STATE = {
 }
 
 export default function(state=INITIAL_STATE, action){
-    if(action.network){
-        return networkReducer(state, action)
-    }
+    if(action.network) return networkReducer(state, action)
     return localReducer(state, action)
 }
