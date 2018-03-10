@@ -8,7 +8,6 @@ import Message from './Message'
 import MessageInput from './MessageInput'
 
 const mapState = ({ messages, profiles }, { channelId }) => {
-    // console.log(Object.entries(messages.data))
     return {
         messages: Object.entries(messages.data)
             .filter(
