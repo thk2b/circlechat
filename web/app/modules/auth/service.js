@@ -16,7 +16,7 @@ const { service: profileService } = require('../profile')
  */
 function init(){
     return query.none(`
-        CREATE TABLE auth (
+        CREATE TABLE IF NOT EXISTS auth (
             "userId" VARCHAR(30) UNIQUE NOT NULL,
             email VARCHAR(256) UNIQUE NOT NULL,
             pw VARCHAR(256) NOT NULL,

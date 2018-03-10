@@ -14,7 +14,7 @@ const { service: profile } = require('../profile')
 */
 function init(){
     return query.none(`
-        CREATE TABLE channel (
+        CREATE TABLE IF NOT EXISTS channel (
             id SERIAL UNIQUE NOT NULL,
             "profileId" INTEGER NOT NULL,
             name VARCHAR(30) UNIQUE NOT NULL,

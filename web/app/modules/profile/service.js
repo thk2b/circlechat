@@ -12,7 +12,7 @@ const validate = require('../../lib/validate')
 */
 function init(){
     return query.none(`
-        CREATE TABLE profile (
+        CREATE TABLE IF NOT EXISTS profile (
             id SERIAL UNIQUE NOT NULL,
             "userId" VARCHAR(256) UNIQUE NOT NULL,
             name VARCHAR(30) NOT NULL,
