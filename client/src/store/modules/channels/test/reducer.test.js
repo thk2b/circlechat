@@ -5,7 +5,7 @@ import { store } from '../../../'
 describe('channels reducer', () => {
     test('outgoing create', () => {
         const state = store.getState()
-        store.dispatch(actions.create({ name: 'test channel', profileId: 123 }))
+        store.dispatch(actions.create({ name: 'test channel create', profileId: 123 }))
         expect(
             store.getState()
         ).toEqual({

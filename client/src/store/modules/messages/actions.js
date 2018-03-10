@@ -1,18 +1,20 @@
-export const create = data => {
-    /* data = { profileId, name } */
+export const send = data => { /* { profileId, channelId, text } */
     return {
-        network: 'http',
+        network: 'ws',
         type: 'POST',
-        resource: '/channel',
+        resource: '/message',
         data
     }
 }
 
-export const getAll = () => {
+export const getInChannel = (channelId, afterId) => {
+    const params = { channelId }
+    if(afterId !== undefined) params.afterId = afterId
     return {
         network: 'http',
         type: 'GET',
-        resource: '/channel/all'
+        resource: '/message/all',
+        params
     }
 }
 
@@ -20,7 +22,7 @@ export const update = (id, data) => {
     return {
         network: 'http',
         type: 'PUT',
-        resource: '/channel',
+        resource: '/message',
         params: { id },
         data
     }
@@ -30,7 +32,7 @@ export const remove = id => {
     return {
         network: 'http',
         type: 'DELETE',
-        resource: '/channel',
+        resource: '/message',
         params: { id }
     }
 }

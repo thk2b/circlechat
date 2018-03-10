@@ -56,6 +56,7 @@ function inboundNetworkReducer(state, action){
 
 function outboundNetworkReducer(state, action){
     switch(action.resource){
+        case '/channel/all':
         case '/channel': return {
             ...state,
             loading: true
