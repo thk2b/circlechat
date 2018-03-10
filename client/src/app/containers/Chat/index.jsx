@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { send, getInChannel } from '../../../store/modules/messages'
+import { clearNotifications } from '../../../store/modules/notifications'
 
 import Message from './Message'
 import MessageInput from './MessageInput'
@@ -21,12 +22,13 @@ const mapState = ({ messages, profiles }, { channelId }) => {
 }
 
 const mapDispatch = dispatch => {
-    return bindActionCreators({ getInChannel, send }, dispatch)
+    return bindActionCreators({ clearNotifications, getInChannel, send }, dispatch)
 }
 
 const mergeProps = ({ profileId, ...state}, actions, { channelId }) => {
     return {
         ...state,
+        clearNotifications: () => actions.clearNotifications( channelId ),
         getMessages: after => actions.getInChannel( channelId, after ), /* after is the message ID of the last message we have. Pass it when we fetch additional messages */
         sendMessage: text => actions.send({ channelId, profileId, text })
     }
@@ -34,11 +36,9 @@ const mergeProps = ({ profileId, ...state}, actions, { channelId }) => {
 
 class Chat extends React.Component {
     componentDidMount = () => {
-        if(this.props.request.status === null){
-            this.props.getMessages()
-        }
+        console.log('object')
+        this.props.clearNotifications()
     }
-    
     render() {
         const { messages, sendMessage } = this.props
         return <div>

@@ -43,23 +43,43 @@ describe('notifications reducer', () => {
         })
         
     })
-    test('incoming GET /message/all', () => {
-        const state = reducer(undefined, {})
-        const messages = {
+    describe('incoming GET /message/all', () => {
+        let state = reducer(undefined, {})
+        const messages1 = {
             123: { text: 'test message 1', profileId: 123, channelId: 321, id: 123 },
             234: { text: 'test message 2', profileId: 123, channelId: 321, id: 234 },
             345: { text: 'test message 3', profileId: 123, channelId: 321, id: 345 },
         }
-        expect(
-            reducer(state, {
+        const messages2 = {
+            321: { text: 'test message 4', profileId: 123, channelId: 123, id: 321 },
+            432: { text: 'test message 5', profileId: 123, channelId: 123, id: 432 },
+            543: { text: 'test message 6', profileId: 123, channelId: 123, id: 543 },
+        }
+        test('should set notifications when there are no messages', () => {
+            const newState = reducer(state, {
                 network: 'http', resource: '/message/all', type: 'GET',
-                params: { channelId: 321, n: 3 }, status: 200, data: messages
+                params: { channelId: 321, n: 3 }, status: 200, data: messages1
             })
-        ).toEqual({
-            ...state, channels: {
-                321: 3
-            }
+            expect( newState ).toEqual({
+                ...state, channels: {
+                    321: 3
+                }
+            })
+            state = newState
         })
+        test('should set notifications when there are already messages', () => {
+            const newState = reducer(state, {
+                network: 'http', resource: '/message/all', type: 'GET',
+                params: { channelId: 123, n: 3 }, status: 200, data: messages2
+            })
+            expect( newState ).toEqual({
+                ...state, channels: {
+                    321: 3,
+                    123: 3
+                }
+            })
+        })
+
     })
     test('local clearNotifications action', () => {
         const state = {

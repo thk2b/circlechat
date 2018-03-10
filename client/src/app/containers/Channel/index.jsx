@@ -24,7 +24,7 @@ const mapDispatch = dispatch => {
 
 class Channel extends React.Component {
     render(){
-        const { channel, loading } = this.props
+        const { channel, loading, clearNotifications } = this.props
         
         if(loading) return <Spinner />
         
