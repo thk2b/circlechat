@@ -172,11 +172,10 @@ describe('channels reducer', () => {
             ...reducer(undefined,  {}),
             data
         }
-        const deleteData = { id: 123 }
         expect(
             reducer(state, {
                 network: 'http', resource: '/channel', type: 'DELETE', status: 202,
-                data: deleteData
+                params: { id: 123 }
             })
         ).toEqual({
             ...state, loading: false, request: { status: 202 },

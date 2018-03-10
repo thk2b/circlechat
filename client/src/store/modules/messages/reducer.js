@@ -15,9 +15,32 @@ function inboundNetworkReducer(state, action){
     if(action.resource === '/message') {
         let id
         switch(action.type){
-            case 'POST':
+            case 'POST': return {
+                ...state,
+                data: { ...state.data,
+                    [action.data.message.id]: action.data.message
+                }
+            }
             case 'PUT':
+                id = action.data.id || action.params.id
+                return {
+                    ...state,
+                    data: {
+                        ...state.data,
+                        [id]: {
+                            ...state.data[id], ...action.data
+                        }
+                    }
+                }
             case 'DELETE':
+                id = action.params&&action.params.id || action.data.id
+                return {
+                    ...state,
+                    data: Object.entries(state.data).reduce(
+                        (obj, [_, message]) => message.id === id
+                            ? obj: {...obj, [id]: message }
+                    , {})
+                }
             default: return state
         }
     } else if (action.resource === '/message/all'){
