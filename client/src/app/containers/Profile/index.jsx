@@ -1,7 +1,8 @@
 import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { push } from 'react-router-redux'
+import { push, goBack } from 'react-router-redux'
+import MdCancel from 'react-icons/lib/md/cancel'
 
 import { RequestStatus, Spinner, Editable } from '../../lib'
 
@@ -17,7 +18,7 @@ const mapState = ({ profiles }, { match }) => {
     }
 }
 const mapDispatch = dispatch => {
-    return bindActionCreators({ get, update, push }, dispatch)
+    return bindActionCreators({ get, update, push, goBack }, dispatch)
 }
 
 class Profile extends React.Component {
@@ -35,6 +36,7 @@ class Profile extends React.Component {
             loading, request
         } = this.props
         return <div className={css.Profile}>
+            <MdCancel onClick={e => this.props.goBack()}/>
             <Editable
                 onSubmit={name => this.props.update(profileId, { name })}
                 as='h1'

@@ -9,6 +9,7 @@
     max-width: 150px;
     padding: 0;
     height: 100%;
+    overflow-x: hidden;
     overflow-y: auto;
     flex-basis: 180px;
     z-index: 1;

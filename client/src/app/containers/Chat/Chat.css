@@ -1,0 +1,13 @@
+.Chat {
+    display: flex;
+    flex-flow: column nowrap;
+    height: 100%;
+    flex: 1;
+}
+
+.Chat ul {
+    padding: 0;
+    margin: 0;
+    flex: 1;
+    overflow-y: scroll;
+}

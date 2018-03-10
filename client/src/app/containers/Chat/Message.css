@@ -1,0 +1,15 @@
+.Message {
+    padding: .5rem;
+    margin: 1rem;
+    background-color: var(--surface-0);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+}
+
+.Message p {
+
+}
+
+.Message a {
+    
+}

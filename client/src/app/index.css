@@ -1,13 +1,16 @@
 .App {
     width: 100vw;
     height: 100vh;
-    position: absolute;
-    top: 0;
-    left: 0;
     overflow: hidden;
     font-family: sans-serif;
     background-color: var(--surface-0);
     color: var(--text-content);
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+body {
+    margin: 0
 }
 
 h1, h2, h3 {

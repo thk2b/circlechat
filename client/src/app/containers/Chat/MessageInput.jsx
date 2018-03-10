@@ -12,18 +12,16 @@ export default class MessageInput extends Component {
         this.setState({ text: '' })
     }
     render() {
-        return <div>
-            <InputWithButtons>
-                <Input
-                    value={this.state.text}
-                    onChange={text => this.setState({ text })}
-                    onKeyDown={({ key }) => key === 'Enter' && this.submit()}
-                />
-                <Button
-                    onClick={e => this.submit()}
-                    >send
-                </Button>
-            </InputWithButtons>
-        </div>
+        return <InputWithButtons>
+            <Input
+                value={this.state.text}
+                onChange={text => this.setState({ text })}
+                onKeyDown={({ key }) => key === 'Enter' && this.submit()}
+            />
+            <Button
+                onClick={e => this.submit()}
+                >send
+            </Button>
+        </InputWithButtons>
     }
 }

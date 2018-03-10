@@ -3,7 +3,11 @@ import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import { bindActionCreators } from 'redux'
 
+import { Link } from '../../lib'
+
 import { update, remove } from '../../../store/modules/messages'
+
+import css from './Message.css'
 
 const mapState = ({ profiles }, { profileId }) => {
     const profile = profiles.data[profileId]
@@ -27,12 +31,17 @@ const mergeProps = (state, actions, ownProps ) => {
 }
 
 const Message = ({
-    id, text, profileName, sentAt, updatedAt,
+    id, text, profileName, createdAt, updatedAt,
     updateMessage, removeMessage, goToProfile
 }) => {
-    return <div>
-        {JSON.stringify({id, text, profileName, sentAt, updatedAt})}
-    </div>
+    return <article className={css.Message}>
+        <p>{ text }</p>
+        <p>
+            <Link onClick={e => goToProfile()}>{ profileName }</Link>
+            <span> at { createdAt }</span>
+            {(createdAt !== updatedAt) && <span>updated at { updatedAt }</span>}
+        </p>
+    </article>
 }
 
 export default connect(mapState, mapDispatch, mergeProps)(Message)
