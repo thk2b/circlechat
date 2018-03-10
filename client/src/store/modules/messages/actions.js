@@ -1,6 +1,6 @@
 export const send = data => { /* { profileId, channelId, text } */
     return {
-        network: 'http',
+        network: 'ws',
         type: 'POST',
         resource: '/message',
         data

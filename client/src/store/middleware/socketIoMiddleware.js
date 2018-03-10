@@ -18,14 +18,14 @@ const handle = (resource, dispatch) => ({ meta, data }) => {
 const resources = [
     // error
     '/profile',
-    '/channel'
-    // 'message',
+    '/channel',
+    '/message',
 ]
 
+let socket
 export default (connect, url) => store => next => action => {
     if(action.network !== 'ws') return next(action)
 
-    let socket
     if(action.type === 'connect' && !action.status){
         const token = store.getState().auth.token
         if(!token){ return console.error('cannot connect to websocket without a token') }
