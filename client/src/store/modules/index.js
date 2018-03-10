@@ -1,5 +1,6 @@
-export { default as themes } from './themes'
 export { default as auth } from './auth'
-export { default as profiles } from './profiles'
 export { default as channels } from './channels'
 export { default as messages } from './messages'
+export { default as notifications } from './notifications'
+export { default as profiles } from './profiles'
+export { default as themes } from './themes'

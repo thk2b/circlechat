@@ -9,10 +9,13 @@ import { getAll } from '../../../store/modules/channels'
 
 import ChannelListItem from './ChannelListItem'
 
-const mapState = ({ channels }) => {
+const mapState = ({ channels, notifications }) => {
     return {
         channels: Object.entries(channels.data).map(
-            ([_, channel]) => channel
+            ([_, channel]) => ({
+                ...channel,
+                notifications: notifications.channels[channel.id]
+            })
         ),
         request: channels.request
     }

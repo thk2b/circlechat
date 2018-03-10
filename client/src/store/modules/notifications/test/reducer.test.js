@@ -1,4 +1,4 @@
-import * as messageActions from '../../messages/actions'
+import * as messageActions from '../../messages'
 
 import * as actions from  '../actions'
 import reducer from '../reducer'

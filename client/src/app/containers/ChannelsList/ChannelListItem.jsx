@@ -7,6 +7,7 @@ export default ({onClick, name, notifications }) => {
         <Link>
             <span>{name}</span>
             <Status />
+            <span>{notifications}</span>
         </Link>
     </li>
 }
