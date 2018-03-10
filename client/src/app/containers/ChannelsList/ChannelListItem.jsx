@@ -1,13 +1,15 @@
 import React from 'react'
 
-import { Link, Status } from '../../lib'
+import { Link, NotificationPill } from '../../lib'
+
+import css from './ChannelListItem.css'
 
 export default ({onClick, name, notifications }) => {
-    return <li onClick={onClick} >
-        <Link>
-            <span>{name}</span>
-            <Status />
-            <span>{notifications}</span>
-        </Link>
+    return <li
+        onClick={onClick}
+        className={css.ChannelListItem}
+    >
+        <Link>{name}</Link>
+        <NotificationPill count={notifications} />
     </li>
 }

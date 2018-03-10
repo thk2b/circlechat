@@ -3,7 +3,7 @@ import classNames from 'classnames'
 
 import css from './Info.css'
 
-export default ({ success, danger, warning, children, ...rest }) => {
+export default ({ success=true, danger, warning, children, ...rest }) => {
     if(!children) return null
     return (
         <p 

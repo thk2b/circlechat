@@ -8,7 +8,7 @@
 }
 
 .isOnline {
-    background-color: var(--success);
+    background-color: var(--active);
 }
 
 .isOffline {

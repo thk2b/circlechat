@@ -1,6 +1,7 @@
 :root, .light {
     --primary: rgb(114, 189, 133);
     --success: rgba(0, 47, 255, 0.8);
+    --active: rgba(0, 47, 255, 0.8);
     --neutral: rgb(198, 193, 192);
 
     --button-primary: var(--primary);
@@ -10,8 +11,9 @@
     --text-content: rgb(54, 54, 54);
     --text-info: rgb(98, 98, 98);
     --text-important: rgb(24, 24, 24);
+    --text-inverted: rgb(255, 255, 255);
 
-    --text-size-xs: .5rem; 
+    --text-size-xs: .8rem; 
     --text-size-s: 1rem; 
     --text-size-m: 1.5rem; 
     --text-size-l: 2.5rem; 
@@ -45,12 +47,7 @@
     --text-content: rgb(199, 199, 199);
     --text-info: rgb(199, 199, 199);
     --text-important: rgb(199, 199, 199);
-
-    --text-size-xs: .5rem; 
-    --text-size-s: 1rem; 
-    --text-size-m: 1.5rem; 
-    --text-size-l: 2.5rem; 
-    --text-size-xl: 3rem; 
+    --text-inverted: rgb(0, 0, 0);
 
     --surface-0: rgb(32, 32, 32);
     --surface-1: rgb(62, 62, 62);
