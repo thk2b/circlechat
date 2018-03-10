@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 
 import { ContextMenu, Spinner } from '../../lib'
 
+import { Chat } from '../'
+
 // import css from './Channel.css'
 
 const mapState = ({ channels }, ownProps) => {
@@ -34,6 +36,7 @@ class Channel extends React.Component {
             <ContextMenu>
                 {channel.name}
             </ContextMenu>
+            <Chat channelId={channel.id}/>
         </div>
     }
 }

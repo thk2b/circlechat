@@ -1,15 +1,15 @@
 export const send = data => { /* { profileId, channelId, text } */
     return {
-        network: 'ws',
+        network: 'http',
         type: 'POST',
         resource: '/message',
         data
     }
 }
 
-export const getInChannel = (channelId, afterId) => {
-    const params = { channelId }
-    if(afterId !== undefined) params.afterId = afterId
+export const getInChannel = (channelId, after) => {
+    const params = { channelId, n: 50 }
+    if(after !== undefined) params.after = after
     return {
         network: 'http',
         type: 'GET',
