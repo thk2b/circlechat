@@ -14,6 +14,7 @@ export default class MessageInput extends Component {
     render() {
         return <InputWithButtons>
             <Input
+                onClick={e => this.props.onFocus(e)}
                 value={this.state.text}
                 onChange={text => this.setState({ text })}
                 onKeyDown={({ key }) => key === 'Enter' && this.submit()}

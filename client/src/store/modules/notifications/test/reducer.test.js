@@ -41,6 +41,19 @@ describe('notifications reducer', () => {
                 }
             })
         })
+        // test('should not increment for the user\'s own messages' , () => {
+        //     expect(
+        //         reducer(state, {
+        //             network: 'ws', resource: '/message', type: 'POST',
+        //             status: 201, data: { message: message2 }
+        //         })
+        //     ).toEqual({
+        //         ...state,
+        //         channels: {
+        //             321: 2
+        //         }
+        //     })
+        // })
         
     })
     describe('incoming GET /message/all', () => {

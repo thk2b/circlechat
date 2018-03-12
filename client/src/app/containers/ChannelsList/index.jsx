@@ -6,6 +6,7 @@ import MdAddCircle from 'react-icons/lib/md/add-circle'
 
 import { Link } from '../../lib'
 import { getAll } from '../../../store/modules/channels'
+import { clearNotifications } from '../../../store/modules/notifications'
 
 import ChannelListItem from './ChannelListItem'
 
@@ -22,7 +23,7 @@ const mapState = ({ channels, notifications }) => {
 }
 
 const mapDispatch = dispatch => {
-    return bindActionCreators({ getAll, push }, dispatch)
+    return bindActionCreators({ getAll, push, clearNotifications }, dispatch)
 }
 
 class ChannelsList extends React.Component {
@@ -31,12 +32,16 @@ class ChannelsList extends React.Component {
             this.props.getAll()
         }
     }
+    onListItemClick = channelId => {
+        this.props.push(`/channel/${channelId}`)
+        this.props.clearNotifications(channelId)
+    }
     render(){
-        const { channels, push } = this.props
+        const { channels } = this.props
         return channels.map(
             channel => <ChannelListItem
                 key={channel.id}
-                onClick={e => push(`/channel/${channel.id}`)}
+                onClick={e => this.onListItemClick(channel.id)}
                 {...channel}
             />
         ).concat(<Link

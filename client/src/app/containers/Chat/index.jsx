@@ -37,24 +37,18 @@ const mergeProps = ({ profileId, ...state}, actions, { channelId }) => {
 }
 
 class Chat extends React.Component {
-    componentDidMount = () => {
-    //   console.log('mount')
-    }
-    
-    componentDidUpdate = () => {
-        // console.log('update')
-        // this.props.clearNotifications()
-    }
     render() {
-        const { messages, sendMessage } = this.props
-        return <div className={css.Chat}>
+        const { messages, sendMessage, clearNotifications } = this.props
+        return <div
+            className={css.Chat}
+        >
             <Messages
                 messages={messages}
-                onScrolled={e => console.log('scrolled')}
-                onScrolledTop={e => console.log('scrolled top')}
+                // onScrolledTop={e => getMoreMessages()}
             />
             <MessageInput
                 onSubmit={text => sendMessage(text)}
+                onFocus={e => clearNotifications()}
             />
         </div>
     }
