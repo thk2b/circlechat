@@ -1,6 +1,6 @@
 .InputWithButton {
     display: flex;
-    flex-flow: row wrap;
+    flex-flow: row nowrap;
 }
 
 .InputWithButton input, textarea {
@@ -9,31 +9,29 @@
 .InputWithButton input {
     margin: 0;
     padding: 0 .25rem ;
-    /* flex: 0 0 100%; */
+    flex: 1;
     font-family: inherit;
 }
 
 .InputWithButton textarea {
     margin: 0;
     flex-grow: 1;
+    border: 1px solid var(--border);
 }
 
 .InputWithButton button {
-    width: 80px;
+    height: unset;
+    width: 55px;
     background-color: inherit;
     font-size: var(--text-size-s);
     padding: 1rem;
     border: 1px solid var(--border);
-    border-top: none;
+    border-left: none;
 }
 
 @media screen and (min-width: 380px){
     .InputWithButton button {
+        width: 80px;
         font-size: var(--text-size-m);
-        border-top: 1px solid var(--border);
-        border-left: none;
-    }
-    .InputWithButton input {
-        flex: 1;
     }
 }
