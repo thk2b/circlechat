@@ -10,13 +10,22 @@ export default class Time extends React.Component {
             elapsed: getElapsed(this.props.since)
         }
         if(this.props.updateInterval){
-            setInterval(() => this.update(), this.props.updateInterval)
+            this.interval = setInterval(() => {
+                this.update()
+            }, this.props.updateInterval)
         }
     }
 
+    componentWillUnmount = () => {
+        clearInterval(this.interval)
+    }
+    
     update = () => this.setState({ elapsed: getElapsed(this.props.since) })
 
     render(){
-        return `${ms(this.state.elapsed, { long: true })} ago`
+        let { elapsed } = this.state
+        
+        if( elapsed > 60 * 1000) return `${ms(elapsed, { long: true })} ago`
+        return 'just now'
     }
 }
