@@ -6,6 +6,7 @@
     justify-content: space-between;
     position: relative;
     display: flex;
+    min-height: 0px;
 }
 
 .Container > div {

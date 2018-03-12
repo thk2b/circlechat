@@ -24,7 +24,7 @@
     width: 55px;
     background-color: inherit;
     font-size: var(--text-size-s);
-    padding: 1rem;
+    padding: 1rem 0;
     border: 1px solid var(--border);
     border-left: none;
 }
