@@ -1,10 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { MdClear } from 'react-icons/lib/md'
+import { bindActionCreators } from 'redux'
 
-import { ContextMenu, Spinner } from '../../lib'
+import { ContextMenu, Spinner, Editable } from '../../lib'
+
+import { remove, update } from '../../../store/modules/channels'
 
 import { Chat } from '../'
-
 import css from './Channel.css'
 
 const mapState = ({ channels }, ownProps) => {
@@ -19,12 +22,24 @@ const mapState = ({ channels }, ownProps) => {
 }
 
 const mapDispatch = dispatch => {
-    return {}
+    return bindActionCreators({ remove, update }, dispatch)
+}
+
+const mergeProps = ( state, { remove, update }, ownProps ) => {
+    const { id } = ownProps.match.params
+    return {
+        ...state,
+        removeChannel: () => remove(id),
+        renameChannel: name => update(id, { name })
+    }
 }
 
 class Channel extends React.Component {
     render(){
-        const { channel, loading, clearNotifications } = this.props
+        const {
+            channel, loading,
+            clearNotifications, renameChannel, removeChannel
+        } = this.props
         
         if(loading) return <Spinner />
         
@@ -34,7 +49,12 @@ class Channel extends React.Component {
 
         return <div className={css.Channel}>
             <ContextMenu>
-                {channel.name}
+                <Editable
+                    as='span'
+                    value={channel.name}
+                    onSubmit={ name => renameChannel(name) }
+                />
+                <MdClear onClick={ e => removeChannel() }/>
             </ContextMenu>
             <Chat channelId={channel.id}/>
         </div>
@@ -42,4 +62,4 @@ class Channel extends React.Component {
 }
 
 
-export default connect(mapState, mapDispatch)(Channel)
+export default connect(mapState, mapDispatch, mergeProps)(Channel)

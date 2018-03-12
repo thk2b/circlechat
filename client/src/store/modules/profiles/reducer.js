@@ -48,7 +48,7 @@ function inboundNetworkReducer(state, action){
                     ...state,
                     data: Object.entries(state.data).reduce(
                         (obj, [_, profile]) => profile.id === id
-                            ? obj : {...obj, [id]: profile }
+                            ? obj : {...obj, [profile.id]: profile }
                     , {})
                 }
             default: return state
