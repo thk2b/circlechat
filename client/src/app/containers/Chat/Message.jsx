@@ -4,7 +4,7 @@ import { push } from 'react-router-redux'
 import { bindActionCreators } from 'redux'
 import MdClear from 'react-icons/lib/md/clear'
 
-import { Editable, Link } from '../../lib'
+import { Editable, Link, Time } from '../../lib'
 
 import { update, remove } from '../../../store/modules/messages'
 
@@ -45,12 +45,18 @@ const Message = ({
                 onSubmit={text => updateMessage(text)}
             />
         }
-        <p>
+        <aside>
             <Link onClick={e => goToProfile()}>{ profileName }</Link>
-            <span> at { createdAt }</span>
-            {(createdAt !== updatedAt) && <span> {deleted?'deleted':'updated'} at { updatedAt }</span>}
+            <p>
+                <Time since={createdAt} updateInterval={60*1000}/>
+            </p>
+            
+            {(createdAt !== updatedAt) && <p>
+                {deleted?'deleted':'updated'} { <Time since={updatedAt} updateInterval={60*1000}/> }
+            </p>}
+            
             {!deleted && <MdClear onClick={e => deleteMessage()} />}
-        </p>
+        </aside>
     </article>
 }
 

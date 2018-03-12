@@ -5,3 +5,18 @@
     border: 1px solid var(--border);
     border-radius: 3px;
 }
+
+.Message a {
+    font-weight: bold;
+}
+
+.Message aside {
+    display: flex;
+    justify-content: space-between;
+    max-width: 350px;
+    align-items: center;
+}
+
+.Message aside p {
+
+}
