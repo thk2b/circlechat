@@ -36,6 +36,7 @@ function inboundNetworkReducer(state, action){
             }
         }
     }
+    return state
 }
 
 function networkReducer(state, action){

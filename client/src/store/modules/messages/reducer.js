@@ -21,6 +21,7 @@ function inboundNetworkReducer(state, action){
                     [action.data.message.id]: action.data.message
                 }
             }
+            case 'DELETE':
             case 'PUT':
                 id = action.data.id || action.params.id
                 return {
@@ -31,15 +32,6 @@ function inboundNetworkReducer(state, action){
                             ...state.data[id], ...action.data
                         }
                     }
-                }
-            case 'DELETE':
-                id = action.params&&action.params.id || action.data.id
-                return {
-                    ...state,
-                    data: Object.entries(state.data).reduce(
-                        (obj, [_, message]) => message.id === id
-                            ? obj: {...obj, [id]: message }
-                    , {})
                 }
             default: return state
         }

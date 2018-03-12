@@ -402,7 +402,7 @@ describe('message network', function(){
         it('should notify websocket clients', function(done){
             socket2.once('/message', ({ meta, data }) => {
                 expect(meta).to.deep.equal({
-                    status: 202, type: 'DELETE',
+                    status: 202, type: 'PUT',
                     params: { id: message2.id }
                 })
                 expect(data.text).to.equal(null)

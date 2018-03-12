@@ -48,9 +48,9 @@ r.route('/')
         .then( data => {
             res.status(202).json(data)
             res.locals.socket && res.locals.socket.broadcast.emit('/message', {
-                meta: { type: 'DELETE', status: 202,
+                meta: { type: 'PUT', status: 202, /* emit a PUT */
                     params: { id: parseInt(req.query.id) }
-            },
+                },
                 data
             })
         })

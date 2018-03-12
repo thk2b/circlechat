@@ -2,8 +2,9 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import { bindActionCreators } from 'redux'
+import MdClear from 'react-icons/lib/md/clear'
 
-import { Link } from '../../lib'
+import { Editable, Link } from '../../lib'
 
 import { update, remove } from '../../../store/modules/messages'
 
@@ -31,15 +32,24 @@ const mergeProps = (state, actions, ownProps ) => {
 }
 
 const Message = ({
-    id, text, profileName, createdAt, updatedAt,
-    updateMessage, removeMessage, goToProfile
+    text, profileName, createdAt, updatedAt,
+    updateMessage, deleteMessage, goToProfile
 }) => {
+    const deleted = text === null
     return <article className={css.Message}>
-        <p>{ text }</p>
+        {deleted
+            ?<p>[deleted]</p>
+            :<Editable
+                as='p'
+                value={text}
+                onSubmit={text => updateMessage(text)}
+            />
+        }
         <p>
             <Link onClick={e => goToProfile()}>{ profileName }</Link>
             <span> at { createdAt }</span>
-            {(createdAt !== updatedAt) && <span>updated at { updatedAt }</span>}
+            {(createdAt !== updatedAt) && <span> {deleted?'deleted':'updated'} at { updatedAt }</span>}
+            {!deleted && <MdClear onClick={e => deleteMessage()} />}
         </p>
     </article>
 }
