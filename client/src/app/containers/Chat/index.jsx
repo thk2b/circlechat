@@ -7,7 +7,7 @@ import { send, getInChannel } from '../../../store/modules/messages'
 import { clearNotifications } from '../../../store/modules/notifications'
 
 import css from './Chat.css'
-import Message from './Message'
+import Messages from './Messages'
 import MessageInput from './MessageInput'
 
 const mapState = ({ messages, profiles }, { channelId }) => {
@@ -48,11 +48,11 @@ class Chat extends React.Component {
     render() {
         const { messages, sendMessage } = this.props
         return <div className={css.Chat}>
-            <ul>
-                {messages.map(
-                    message => <Message key={message.id} {...message}/>
-                )}
-            </ul>
+            <Messages
+                messages={messages}
+                onScrolled={e => console.log('scrolled')}
+                onScrolledTop={e => console.log('scrolled top')}
+            />
             <MessageInput
                 onSubmit={text => sendMessage(text)}
             />
