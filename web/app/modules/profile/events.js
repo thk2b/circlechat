@@ -28,6 +28,7 @@ module.exports = function(socket, io, { meta, data }={}){
                 })
             })
             .catch(e => {
+                if(e.status === 404) return Promise.resolve()
                 socket.emit(RESOURCE_NAME, {
                     meta: { type: 'PUT', status: e.status || 500 },
                     data: { message: 'profile not found: could not set status', e}
