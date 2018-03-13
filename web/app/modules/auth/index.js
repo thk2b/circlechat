@@ -1,4 +1,5 @@
 module.exports = {
     service: require('./service'),
-    router: require('./router')
+    router: require('./router'),
+    events: require('./events')
 }

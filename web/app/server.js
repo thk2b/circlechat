@@ -78,9 +78,10 @@ app.use((err, req, res, next) => {
 })
 
 const events = {
+    '/auth': auth.events,
     '/ping': ping.events,
     '/profile': profile.events,
-    '/message': message.events,
+    '/message': message.events
 }
 
 io.on('connection', socket => {

@@ -57,8 +57,7 @@ function inboundNetworkReducer(state, action){
         case '/auth/login': switch(action.type){
             case 'POST': return {
                 ...state,
-                token: action.data.token,
-                userId: action.data.userId,
+                ...action.data,
                 loading: false,
                 request: {
                     status: action.status,
@@ -91,6 +90,7 @@ function outboundNetworkReducer(state, action){
 const INITIAL_STATE = {
     token: null,
     userId: null,
+    lastLogoutAt: null,
     request: { status: null },
     ws: { connected: false, loading: false },
     loading: false

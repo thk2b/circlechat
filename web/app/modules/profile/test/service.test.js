@@ -220,7 +220,7 @@ describe('profile service', function(){
                 expect(e).to.contain({ status: 401 })
             })
         })
-        it('should the user\'s status', function(){
+        it('should set the user\'s status', function(){
             return service.setUserStatus(credentials.userId, credentials.userId, 'ONLINE')
             .then(profile => {
                 expect(profile.status).to.equal('ONLINE')

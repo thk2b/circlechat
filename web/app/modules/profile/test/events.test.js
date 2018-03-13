@@ -45,6 +45,7 @@ describe('profile events', function(){
                     done()
                 })
             })
+            .catch(done)
         })
     })
     describe('disconnect event', function(){
@@ -66,6 +67,7 @@ describe('profile events', function(){
                     })
                 })                
             })
+            .catch(done)
         })
     })
 })

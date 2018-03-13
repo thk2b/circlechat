@@ -38,6 +38,8 @@ describe('auth service', function(){
             .then(([creds]) => {
                 expect(creds.email).to.equal(credentials.email)
                 expect(creds.userId).to.equal(credentials.userId)
+                expect(creds.registeredAt).to.not.be.undefined
+                expect(creds.lastLogoutAt).to.be.null
                 expect(creds.pw).not.to.equal(credentials.pw, 'password should be hashed')
             })
         })
@@ -157,8 +159,9 @@ describe('auth service', function(){
 
         it('should accept valid userId and valid password', function(){
             return service.login({ userId, pw })
-            .then(({token, userId }) => {
+            .then(({token, userId, lastLogoutAt }) => {
                 expect(userId).not.to.be.undefined
+                expect(lastLogoutAt).not.to.be.undefined
                 expect(token).to.be.a.string
             })
         })        
@@ -169,7 +172,24 @@ describe('auth service', function(){
                 expect(token).to.be.a.string
             })
         })
-
+    })
+    describe('logout', function(){
+        it('should not logout when unauthenticated ', function(){
+            return expect(
+                service.logout(undefined, credentials.userId)
+            ).to.eventually.be.rejected.and.have.property('status', 401)
+        })
+        it('should not logout another user ', function(){
+            return expect(
+                service.logout(credentials.userId, 'someone else')
+            ).to.eventually.be.rejected.and.have.property('status', 403)
+        })
+        it('should update lastLogoutAt', function(){
+            return service.logout(credentials.userId, credentials.userId)
+            .then(user => {
+                expect(user.lastLogoutAt).to.not.be.undefined
+            })
+        })
     })
     describe('verifyToken', function(){
         it('should resolve with userId when given a valid token', function(){

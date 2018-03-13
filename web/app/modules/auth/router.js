@@ -9,8 +9,8 @@ const r = new Router()
 r.route('/login')
     .post((req, res, next) => {
         const login = service.login(req.body)
-        .then(({ token, userId }) => {
-            res.status(201).json({ token, userId })
+        .then(data => {
+            res.status(201).json(data)
         })
         .catch(next)
     })

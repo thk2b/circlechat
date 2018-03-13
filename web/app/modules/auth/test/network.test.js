@@ -68,7 +68,7 @@ describe(API_URL, function(){
                 .expect(401)
                 .end(done)
         })
-        it('should send back a token, userId', function(done){
+        it('should send back a token, userId, lastLogoutAt', function(done){
             request(server)
                 .post(API_URL + '/login')
                 .send({ userId, pw })
@@ -77,7 +77,10 @@ describe(API_URL, function(){
                 .end((e, res) => {
                     if(e) done(e)
                     expect(res.body.token).to.be.a.string
+                    expect(res.body.lastLogoutAt).to.not.be.undefined
                     expect(res.body.userId).to.not.be.undefined
+                    expect(res.body.email).to.be.undefined
+                    expect(res.body.hashedPw).to.be.undefined
                     token = res.token
                     done()
                 })

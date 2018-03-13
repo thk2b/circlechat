@@ -20,7 +20,9 @@ function init(){
             "userId" VARCHAR(30) UNIQUE NOT NULL,
             email VARCHAR(256) UNIQUE NOT NULL,
             pw VARCHAR(256) NOT NULL,
-            PRIMARY KEY ("userId")
+            "registeredAt" BIGINT NOT NULL,
+            "lastLogoutAt" BIGINT,
+            PRIMARY KEY ("userId") 
         )
     ;`)
 }
@@ -39,8 +41,8 @@ function register({ userId, email, pw }){
     return validate(userId && email && pw, 'credentials')
     .then(() => bcrypt.hash(pw, 10))
     .then(hashedPw => query.none(SQL`
-        INSERT INTO auth ("userId", email, pw)
-        VALUES (${userId}, ${email}, ${hashedPw})
+        INSERT INTO auth ("userId", email, pw, "registeredAt", "lastLogoutAt")
+        VALUES (${userId}, ${email}, ${hashedPw}, ${Date.now()}, NULL)
         RETURNING "userId"
     ;`))
 }
@@ -51,7 +53,7 @@ function register({ userId, email, pw }){
 function login({ userId, email, pw }){
     return new Promise((resolve, reject) => {
         const data = query.one(SQL`
-            SELECT "userId" as id, pw as "hashedPw"
+            SELECT "userId" as id, pw as "hashedPw", "lastLogoutAt"
             FROM auth
             WHERE "userId"=${userId} or email=${email}
         ;`)
@@ -60,14 +62,27 @@ function login({ userId, email, pw }){
         })
         
         return Promise.all([data, verify])
-        .then(([{ id }]) => {
+        .then(([{ id, lastLogoutAt }]) => {
             jwt.sign(id, config.secret, (e, token) => {
                 if(e) reject(e)
-                resolve({ token, userId: id })
+                resolve({ token, userId: id, lastLogoutAt })
             })
         })
         .catch(e => reject({ status: 401, message: 'invalid credentials' }))
     })
+}
+/**
+ * Logout a user
+ */
+function logout(requesterId, userId){
+    return authenticate(requesterId)
+    .then(() => authorize(requesterId === userId))
+    .then(() => query.one(SQL`
+        UPDATE auth
+        SET "lastLogoutAt" = ${Date.now()}
+        WHERE "userId" = ${userId}
+        RETURNING *
+    ;`))
 }
 
 function verifyToken(token){
@@ -148,6 +163,7 @@ module.exports = {
     drop,
     register,
     login,
+    logout,
     verifyToken,
     get,
     update,
