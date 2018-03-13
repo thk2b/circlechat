@@ -12,12 +12,12 @@ export const getAll = () => {
         network: 'http',
         type: 'GET',
         resource: '/message/all',
-        params: { n: 30 }
+        params: { n: 15 }
     }
 }
 
 export const getInChannel = (channelId, after) => {
-    const params = { channelId, n: 50 }
+    const params = { channelId, n: 30 }
     if(after !== undefined) params.after = after
     return {
         network: 'http',

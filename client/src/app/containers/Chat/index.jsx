@@ -10,7 +10,7 @@ import css from './Chat.css'
 import Messages from './Messages'
 import MessageInput from './MessageInput'
 
-const mapState = ({ messages, profiles }, { channelId }) => {
+const mapState = ({ messages, profiles, hasMore }, { channelId }) => {
     return {
         messages: Object.entries(messages.data)
             .filter(
@@ -19,7 +19,8 @@ const mapState = ({ messages, profiles }, { channelId }) => {
                 ([_, message]) => message
             ),
         request: messages.request,
-        profileId: profiles.ownProfileId
+        profileId: profiles.ownProfileId,
+        hasMore: hasMore.messages[channelId]
     }
 }
 
@@ -31,20 +32,23 @@ const mergeProps = ({ profileId, ...state}, actions, { channelId }) => {
     return {
         ...state,
         clearNotifications: () => actions.clearNotifications( channelId ),
-        getMessages: after => actions.getInChannel( channelId, after ), /* after is the message ID of the last message we have. Pass it when we fetch additional messages */
+        getMoreMessages: () => actions.getInChannel( channelId, state.messages[0].id ), /* fetch additional messages posted before the first mesasge we have */
         sendMessage: text => actions.send({ channelId, profileId, text })
     }
 }
 
 class Chat extends React.Component {
     render() {
-        const { messages, sendMessage, clearNotifications } = this.props
+        const {
+            messages, hasMore,
+            sendMessage, clearNotifications, getMoreMessages
+        } = this.props
         return <div
             className={css.Chat}
         >
             <Messages
                 messages={messages}
-                // onScrolledTop={e => getMoreMessages()}
+                onScrolledTop={e => hasMore && getMoreMessages()}
             />
             <MessageInput
                 onSubmit={text => sendMessage(text)}
