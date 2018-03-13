@@ -59,9 +59,13 @@ r.route('/')
 
 r.route('/all')
     .get((req, res, next) => {
-        validate(req.query.channelId)
-        .then(() => message.inChannel(req.userId, req.query.channelId, req.query.n, req.query.after))
-        .then(messages => res.status(200).json(messages))
+        const { channelId, n, after } = req.query
+        
+        const q = channelId
+            ? message.inChannel(req.userId, channelId, n, after)
+            : message.getAll(req.userId, n)
+
+        q.then(messages => res.status(200).json(messages))
         .catch(next)
     })
 

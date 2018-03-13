@@ -222,16 +222,42 @@ describe('message network', function(){
                 })
         })
     })
-    describe(`GET ${API_URL}/all/?channelId=`, function(){
-        it('should send a 422 when invalid query params are sent', function(done){
+    describe(`GET ${API_URL}/all`, function(){
+        it('should not send a message when unauthenticated', function(done){
             request(server)
                 .get(API_URL+'/all')
-                .query({wrong: 123})
                 .set('Content-Type', 'application/json')
-                .set('Authorization', 'Bearer ' + token1)
-                .expect(422)
+                .set('Authorization', 'Bearer 0' + token1)
+                .expect(401)
                 .end(done)
         })
+        it('should send messages when authorized and authenticated', function(done){
+            request(server)
+                .get(API_URL+'/all')
+                .set('Content-Type', 'application/json')
+                .set('Authorization', 'Bearer ' + token1)
+                .expect(200)
+                .end((e, res) => {
+                    if(e) return done(e)
+                    expect(res.body).to.have.keys(message1.id, message2.id, message3.id, message4.id)
+                    done()
+                })
+        })
+        it('should send n messages when authorized and authenticated', function(done){
+            request(server)
+                .get(API_URL+'/all')
+                .query({ n: 1})
+                .set('Content-Type', 'application/json')
+                .set('Authorization', 'Bearer ' + token1)
+                .expect(200)
+                .end((e, res) => {
+                    if(e) return done(e)
+                    expect(res.body).to.have.keys(message2.id, message4.id)
+                    done()
+                })
+        })
+    })
+    describe(`GET ${API_URL}/all/?channelId=`, function(){
         it('should not send messages from a channel that does not exist', function(done){
             request(server)
                 .get(API_URL+'/all')
