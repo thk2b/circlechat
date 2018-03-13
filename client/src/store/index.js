@@ -7,7 +7,12 @@ import { routerReducer as router, routerMiddleware } from 'react-router-redux'
 
 import * as reducers from './modules'
 
-import { apiMiddleware, socketIoMiddleware, sideEffectMiddleware } from './middleware'
+import {
+    apiMiddleware,
+    socketIoMiddleware,
+    sideEffectMiddleware,
+    notificationsMiddleware
+} from './middleware'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -21,6 +26,7 @@ const create = () => createStore(
             apiMiddleware(`/api/v1`),
             socketIoMiddleware(io, document.location.hostname),
             sideEffectMiddleware,
+            notificationsMiddleware,
             routerMiddleware(history)
         )
      )

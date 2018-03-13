@@ -43,15 +43,6 @@ export default ({ getState, dispatch }) => next => action => {
                 dispatch(push(`/channel/${action.data.channel.id}`))
             }
             break
-
-        case '/message':
-            if(action.type === 'POST'){
-                const state = getState()
-                if(action.data.message.profileId === state.profiles.ownProfileId){
-                    dispatch(clearNotifications(action.data.message.channelId))
-                }
-                break
-            }
         default: 
             break
     }

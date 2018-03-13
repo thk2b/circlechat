@@ -106,7 +106,7 @@ describe('notifications reducer', () => {
         })
 
     })
-    test('local clearNotifications action', () => {
+    test('local clear action', () => {
         const state = {
             ...reducer(undefined, {}),
             channels: {
@@ -119,6 +119,23 @@ describe('notifications reducer', () => {
         ).toEqual({
             ...state, channels: {
                 123: 0,
+                999: 12
+            }
+        })
+    })
+    test('local increment action', () => {
+        const state = {
+            ...reducer(undefined, {}),
+            channels: {
+                123: 42,
+                999: 12
+            }
+        }
+        expect(
+            reducer(state, actions.increment(123))
+        ).toEqual({
+            ...state, channels: {
+                123: 43,
                 999: 12
             }
         })
