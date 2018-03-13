@@ -37,7 +37,7 @@ class ChannelsList extends React.Component {
         this.props.clearNotifications(channelId)
     }
     render(){
-        const { channels } = this.props
+        const { channels, push } = this.props
         return channels.map(
             channel => <ChannelListItem
                 key={channel.id}
