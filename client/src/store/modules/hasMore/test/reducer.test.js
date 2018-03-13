@@ -15,7 +15,6 @@ describe('hasMore reducer', () => {
         }
 
         test('should work upon recieving message/all?n=', () => {
-            console.log({state})
             expect(
                 reducer(state, {
                     network: 'http', type: 'GET', resource: '/message/all',

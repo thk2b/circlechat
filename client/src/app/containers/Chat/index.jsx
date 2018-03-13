@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux'
 import autoScroll from 'autoscroll-react'
 
 import { send, getInChannel } from '../../../store/modules/messages'
-import { clearNotifications } from '../../../store/modules/notifications'
+import { clear as clearNotifications } from '../../../store/modules/notifications'
 
 import css from './Chat.css'
 import Messages from './Messages'

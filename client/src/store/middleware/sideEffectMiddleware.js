@@ -6,7 +6,7 @@ import {
     create as createProfile,
     getAll as getAllProfiles
 } from '../modules/profiles'
-import { clearNotifications } from '../modules/notifications'
+import { clear as clearNotifications } from '../modules/notifications'
 
 /**
  * This middleware listens for specific network actions and triggers side effects such as:

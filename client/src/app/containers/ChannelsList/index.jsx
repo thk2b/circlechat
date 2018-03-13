@@ -5,7 +5,7 @@ import { push } from 'react-router-redux'
 import MdAddCircle from 'react-icons/lib/md/add-circle'
 
 import { Link } from '../../lib'
-import { clearNotifications } from '../../../store/modules/notifications'
+import { clear as clearNotifications } from '../../../store/modules/notifications'
 
 import ChannelListItem from './ChannelListItem'
 

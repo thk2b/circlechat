@@ -1,7 +1,7 @@
-import { CLEAR_NOTIFICATIONS } from './actions'
+import { CLEAR} from './actions'
 
 function localReducer(state, action){
-    if(action.type === CLEAR_NOTIFICATIONS) return {
+    if(action.type === CLEAR) return {
         ...state,
         channels: {
             ...state.channels,

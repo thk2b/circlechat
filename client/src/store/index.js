@@ -12,7 +12,8 @@ import { apiMiddleware, socketIoMiddleware, sideEffectMiddleware } from './middl
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 export const history = createHistory()
-export const store = createStore(
+
+const create = () => createStore(
     combineReducers( reducers ),
     composeEnhancers( 
         applyMiddleware(
@@ -24,3 +25,6 @@ export const store = createStore(
         )
      )
 )
+export default create
+
+export const store = create()

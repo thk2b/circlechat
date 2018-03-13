@@ -3,9 +3,12 @@ import * as messageActions from '../../messages'
 import * as actions from  '../actions'
 import reducer from '../reducer'
 
+import createStore from '../../../'
+
 describe('notifications reducer', () => {
     describe('incoming POST /message', () => {
-        let state = reducer(undefined, {})
+        const store = createStore()
+        const initialState = store.getState()
         const message1 = {
             text: 'test message', profileId: 123, channelId: 321, id: 123
         }
@@ -13,51 +16,61 @@ describe('notifications reducer', () => {
             text: 'test message', profileId: 123, channelId: 321, id: 123
         }
         test('should be one when the message is the first message', () => {
-            const newState = reducer(state, {
+            store.dispatch({
                 network: 'ws', resource: '/message', type: 'POST',
                 status: 201, data: { message: message1 }
             })
             expect(
-                newState
+                store.getState().notifications
             ).toEqual({
-                ...state,
+                ...initialState.notifications,
                 channels: {
                     321: 1
                 }
             })
-            state = newState
-            
         })
         test('should increment when there are already notifications', () => {
+            store.dispatch({
+                network: 'ws', resource: '/message', type: 'POST',
+                status: 201, data: { message: message2 }
+            })
             expect(
-                reducer(state, {
-                    network: 'ws', resource: '/message', type: 'POST',
-                    status: 201, data: { message: message2 }
-                })
+                store.getState().notifications
             ).toEqual({
-                ...state,
+                ...initialState.notifications,
                 channels: {
                     321: 2
                 }
             })
         })
-        // test('should not increment for the user\'s own messages' , () => {
-        //     expect(
-        //         reducer(state, {
-        //             network: 'ws', resource: '/message', type: 'POST',
-        //             status: 201, data: { message: message2 }
-        //         })
-        //     ).toEqual({
-        //         ...state,
-        //         channels: {
-        //             321: 2
-        //         }
-        //     })
-        // })
+        test('should not increment for the user\'s own messages' , () => {
+            store.dispatch({
+                network: 'http', type: 'GET',
+                resource: '/profile', ownUserId: 'tester',
+                status: 200, data: { profile: {
+                    id: 123,
+                    userId: 'tester',
+                    status: 'OFFLINE'
+                }}
+            }) /* set own profile */
+            store.dispatch({
+                network: 'ws', resource: '/message', type: 'POST',
+                status: 201, data: { message: message2 }
+            })
+            expect(
+                store.getState().notifications
+            ).toEqual({
+                ...initialState.notifications,
+                channels: {
+                    321: 2
+                }
+            })
+        })
         
     })
     describe('incoming GET /message/all', () => {
-        let state = reducer(undefined, {})
+        const store = createStore()
+        const state = store.getState()
         const messages1 = {
             123: { text: 'test message 1', profileId: 123, channelId: 321, id: 123 },
             234: { text: 'test message 2', profileId: 123, channelId: 321, id: 234 },
@@ -69,24 +82,23 @@ describe('notifications reducer', () => {
             543: { text: 'test message 6', profileId: 123, channelId: 123, id: 543 },
         }
         test('should set notifications when there are no messages', () => {
-            const newState = reducer(state, {
+            store.dispatch({
                 network: 'http', resource: '/message/all', type: 'GET',
                 params: { channelId: 321, n: 3 }, status: 200, data: messages1
             })
-            expect( newState ).toEqual({
-                ...state, channels: {
+            expect( store.getState().notifications ).toEqual({
+                ...state.notifications, channels: {
                     321: 3
                 }
             })
-            state = newState
         })
         test('should set notifications when there are already messages', () => {
-            const newState = reducer(state, {
+            store.dispatch({
                 network: 'http', resource: '/message/all', type: 'GET',
                 params: { channelId: 123, n: 3 }, status: 200, data: messages2
             })
-            expect( newState ).toEqual({
-                ...state, channels: {
+            expect( store.getState().notifications ).toEqual({
+                ...state.notifications, channels: {
                     321: 3,
                     123: 3
                 }
@@ -103,7 +115,7 @@ describe('notifications reducer', () => {
             }
         }
         expect(
-            reducer(state, actions.clearNotifications(123))
+            reducer(state, actions.clear(123))
         ).toEqual({
             ...state, channels: {
                 123: 0,
