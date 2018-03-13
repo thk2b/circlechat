@@ -72,14 +72,14 @@ describe('notifications reducer', () => {
         const store = createStore()
         const state = store.getState()
         const messages1 = {
-            123: { text: 'test message 1', profileId: 123, channelId: 321, id: 123 },
-            234: { text: 'test message 2', profileId: 123, channelId: 321, id: 234 },
-            345: { text: 'test message 3', profileId: 123, channelId: 321, id: 345 },
+            123: { text: 'test message 1', profileId: 123, channelId: 321, id: 123, createdAt: 100 },
+            234: { text: 'test message 2', profileId: 123, channelId: 321, id: 234, createdAt: 100 },
+            345: { text: 'test message 3', profileId: 123, channelId: 321, id: 345, createdAt: 100 },
         }
         const messages2 = {
-            321: { text: 'test message 4', profileId: 123, channelId: 123, id: 321 },
-            432: { text: 'test message 5', profileId: 123, channelId: 123, id: 432 },
-            543: { text: 'test message 6', profileId: 123, channelId: 123, id: 543 },
+            321: { text: 'test message 4', profileId: 123, channelId: 123, id: 321, createdAt: 10 },
+            432: { text: 'test message 5', profileId: 123, channelId: 123, id: 432, createdAt: 10 },
+            543: { text: 'test message 6', profileId: 123, channelId: 123, id: 543, createdAt: 10 },
         }
         test('should set notifications when there are no messages', () => {
             store.dispatch({
@@ -103,6 +103,28 @@ describe('notifications reducer', () => {
                     123: 3
                 }
             })
+        })
+        test('should not increment for messages posted before last logout', function(){
+            const store = createStore()
+            const initialState = store.getState()
+            store.dispatch({
+                network: 'http', type: 'POST', resource: '/auth/login', 
+                status: 201, data: { token: 'some token', userId: 'user id', lastLogoutAt: 80}
+            })
+            store.dispatch({
+                network: 'http', resource: '/message/all', type: 'GET',
+                params: { n: 3 }, status: 200, data: { ...messages1, ...messages2 }
+            })
+            expect(
+                store.getState().notifications
+            ).toEqual({
+                ...initialState.notifications,
+                channels: {
+                    321: 3, //123: undefined
+                }
+            })
+
+            
         })
 
     })
