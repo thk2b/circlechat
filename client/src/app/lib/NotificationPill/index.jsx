@@ -2,9 +2,9 @@ import React from 'react'
 
 import css from './NotificationPill.css'
 
-export default ({ count }) => {
+export default ({ count, hasMore }) => {
     if(! count ) return null
     return <span className={css.NotificationPill} >
-        { count }
+        { hasMore && '+'}{ count }
     </span>
 }

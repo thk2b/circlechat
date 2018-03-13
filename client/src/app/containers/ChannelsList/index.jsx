@@ -9,7 +9,7 @@ import { clearNotifications } from '../../../store/modules/notifications'
 
 import ChannelListItem from './ChannelListItem'
 
-const mapState = ({ channels, notifications }) => {
+const mapState = ({ channels, notifications, hasMore }) => {
     return {
         channels: Object.entries(channels.data).map(
             ([_, channel]) => ({
@@ -17,7 +17,8 @@ const mapState = ({ channels, notifications }) => {
                 notifications: notifications.channels[channel.id]
             })
         ),
-        request: channels.request
+        request: channels.request,
+        hasMore
     }
 }
 
@@ -31,11 +32,12 @@ class ChannelsList extends React.Component {
         this.props.clearNotifications(channelId)
     }
     render(){
-        const { channels, push } = this.props
+        const { channels, hasMore, push } = this.props
         return channels.map(
             channel => <ChannelListItem
                 key={channel.id}
                 onClick={e => this.onListItemClick(channel.id)}
+                hasMore={hasMore.messages[channel.id]}
                 {...channel}
             />
         ).concat(<Link

@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "autoprefixer": "7.1.6",
-    "autoscroll-react": "^3.0.2",
+    "autoscroll-react": "^3.1.0",
     "axios": "^0.17.1",
     "babel-core": "6.26.0",
     "babel-eslint": "7.2.3",
