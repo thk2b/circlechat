@@ -33,14 +33,17 @@ function inboundNetworkReducer(state, action){
                     }
                 }
             case 'DELETE':
-                id = action.params&&parseInt(action.params.id) || action.data.id
-                console.log('to delete: ', id, typeof id)
+                id = action.params
+                    ? parseInt(action.params.id) //TODO: check if parseInt is required
+                    : action.data.id
                 return {
                     ...state,
                     data: Object.entries(state.data).reduce(
-                        (obj, [_, channel]) => channel.id === id
+                        (obj, [_, channel]) => {
+                            return channel.id === id
                             ? obj 
                             : ({...obj, [channel.id]: channel })
+                        }
                     , {})
                 }
             default: return state

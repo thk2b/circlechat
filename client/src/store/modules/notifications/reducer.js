@@ -27,14 +27,17 @@ function inboundNetworkReducer(state, action){
     }
 
     if(action.resource === '/message/all' && action.type === 'GET'){
-        currentCount = state.channels[action.params.channelId] || 0
-        return {
-            ...state,
-            channels: {
-                ...state.channels,
-                [action.params.channelId]: currentCount + Object.keys(action.data).length
+        const newState = state
+        Object.entries(action.data).forEach(
+            ([_, message]) => {
+                if(newState.channels[message.channelId]){
+                    newState.channels[message.channelId] += 1
+                } else {
+                    newState.channels[message.channelId] = 1
+                }
             }
-        }
+        )
+        return newState
     }
     return state
 }

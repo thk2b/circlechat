@@ -7,6 +7,15 @@ export const send = data => { /* { profileId, channelId, text } */
     }
 }
 
+export const getAll = () => {
+    return {
+        network: 'http',
+        type: 'GET',
+        resource: '/message/all',
+        params: { n: 30 }
+    }
+}
+
 export const getInChannel = (channelId, after) => {
     const params = { channelId, n: 50 }
     if(after !== undefined) params.after = after

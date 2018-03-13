@@ -171,11 +171,11 @@ describe('messages reducer', () => {
         expect(
             reducer(state, {
                 network: 'http', resource: '/message', type: 'DELETE',
-                params: { id: 123 }, status: 202
+                params: { id: 123 }, status: 202, data: { text: null }
             })
         ).toEqual({
             ...state, loading: false, request: { status: 202 },
-            data: {}
+            data: { 123: { text: null, profileId: 123, channelId: 321, id: 123 }, }
         })
     })
 })

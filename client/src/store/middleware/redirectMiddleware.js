@@ -1,5 +1,5 @@
 import { push } from 'react-router-redux'
-import { getInChannel as getMessagesInChannel } from '../modules/messages'
+import { getAll as getAllMessages } from '../modules/messages'
 import { clearNotifications } from '../modules/notifications'
 
 /**
@@ -17,11 +17,7 @@ export default ({ getState, dispatch }) => next => action => {
             }
             return next(action)
         case '/channel/all':
-            if(action.type === 'GET'){
-                Object.keys(action.data).forEach(
-                    (channelId) => dispatch(getMessagesInChannel(channelId))
-                )
-            }
+            dispatch(getAllMessages())
             return next(action)
         case '/message':
             if(action.type === 'POST'){

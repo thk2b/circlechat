@@ -23,7 +23,9 @@ function inboundNetworkReducer(state, action){
             }
             case 'DELETE':
             case 'PUT':
-                id = action.data.id || action.params.id
+                id = action.params
+                    ? action.params.id
+                    : action.data.id
                 return {
                     ...state,
                     data: {

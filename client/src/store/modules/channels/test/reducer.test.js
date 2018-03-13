@@ -169,7 +169,7 @@ describe('channels reducer', () => {
             123: { id: 123, profileId: 321, name: 'test channel' }
         }
         const state = {
-            ...reducer(undefined,  {}),
+            ...reducer(undefined, {}),
             data
         }
         expect(
