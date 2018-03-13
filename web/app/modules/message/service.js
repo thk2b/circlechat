@@ -63,6 +63,21 @@ function get(requesterId, messageId){
     ;`))
 }
 /** 
+ * get n messages in each channel
+*/
+function getAll(requesterId, n=50){
+    return authenticate(requesterId)
+    .then(() => query.many(SQL`
+        SELECT m.* FROM channel
+        JOIN LATERAL (
+            SELECT * FROM message
+            WHERE message."channelId" = channel.id
+            ORDER BY id DESC
+            LIMIT ${n}
+        ) AS m ON true;
+    `))
+}
+/** 
  * get n messages in channel
  * if beforeId is provided, get messages posted before that message
 */
@@ -97,7 +112,6 @@ function belongsToUser(messageId, userId){
     ;`)
     .then(({exists}) => exists)
 }
-
 /** 
  * update message
 */
@@ -133,6 +147,7 @@ module.exports = {
     drop,
     create,
     get,
+    getAll,
     inChannel,
     belongsToUser,
     update,

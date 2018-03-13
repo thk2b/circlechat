@@ -147,6 +147,32 @@ describe('message service', function(){
             })
         })
     })
+    describe('getAll', function(){
+        it('should reject when unauthenticated', function(){
+            return expect(service.getAll(undefined))
+            .to.eventually.be.rejected.and.have.property('status', 401)
+        })
+        it('should resolve with messages when authenticated', function(){
+            return service.getAll(credentials1.userId)
+            .then(messages => {
+                expect(messages).to.deep.equal({
+                    [message1.id]: message1,
+                    [message2.id]: message2,
+                    [message3.id]: message3,
+                    [message4.id]: message4
+                })
+            })
+        })
+        it('should resolve with n messages when authenticated', function(){
+            return service.getAll(credentials1.userId, 1)
+            .then(messages => {
+                expect(messages).to.deep.equal({
+                    [message2.id]: message2,
+                    [message4.id]: message4
+                })
+            })
+        })
+    })
     describe('get messages in channel', function(){
         it('should reject when unauthenticated', function(){
             return expect(service.inChannel(undefined, channel1.id))
