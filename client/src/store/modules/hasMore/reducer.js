@@ -34,7 +34,6 @@ export default function(state=intialState, action){
                         const currentCount = (counts[message.channelId] || 0) + 1
                         counts[message.channelId] = currentCount    
                         newMessagesState[message.channelId] = currentCount === n
-                    
                         return {...counts, [message.channelId]: currentCount }
                     }
                 , {})
