@@ -5,8 +5,7 @@ import { push } from 'react-router-redux'
 
 import Link from '../../lib/Link'
 import OwnStatus from '../OwnStatus'
-import { getProfileOfUser, create } from '../../../store/modules/profiles'
-// import profile from './profile.svg'
+
 // import css from './OwnProfileLink.css'
 
 const mapState = ({ profiles, auth }) => {
@@ -18,41 +17,16 @@ const mapState = ({ profiles, auth }) => {
 }
 
 const mapDispatch = dispatch => {
-    return bindActionCreators({ push, getProfileOfUser, create }, dispatch)
+    return bindActionCreators({ push }, dispatch)
 }
 
-const mergeProps = ({ userId, ...state }, { create, getProfileOfUser, ...dispatch }, ownProps) => {
-    return {
-        getOwnProfile: () => getProfileOfUser(userId),
-        createOwnProfile: () => create({ userId }),
-        ...state, userId, ...dispatch, ...ownProps
-    }
+const OwnProfileLink = ({ push, userId }) => {
+    return <Link onClick={e => {
+        if(userId) push('/me')
+    }}>
+        <span>{ userId }</span>  
+        <OwnStatus />
+    </Link>
 }
 
-class OwnProfileLink extends React.Component {
-    componentDidMount = () => {
-        if(!this.props.ownProfileId){
-            this.props.getOwnProfile()
-        }
-    }
-    componentDidUpdate = (prevProps, prevState) => {
-        if(this.props.request.status === 404){
-            this.props.createOwnProfile()
-        }
-    }
-    
-    render() {
-        return <Link onClick={e => {
-            if(this.props.userId) this.props.push('/me')
-        }}>
-            {/* <img className={css.ProfileIcon}
-                src={profile} 
-                alt="profile icon"
-            /> */}
-            <span>{this.props.userId}</span>  
-            <OwnStatus />
-        </Link>
-    }
-}
-
-export default connect(mapState, mapDispatch, mergeProps )(OwnProfileLink)
+export default connect(mapState, mapDispatch)(OwnProfileLink)

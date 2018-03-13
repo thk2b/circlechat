@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { push } from 'react-router-redux'
 
-import { getAll } from '../../../store/modules/profiles'
 import ProfileListItem from './ProfileListItem'
 
 const mapState = ({ profiles }) => {
@@ -15,18 +14,11 @@ const mapState = ({ profiles }) => {
 }
 const mapDispatch = dispatch => {
     return {
-        ...bindActionCreators({ getAll }, dispatch),
         goToProfile: id => dispatch(push('/profile/'+id)),
     }
 }
 
 class ProfilesList extends React.Component {
-    componentDidMount = () => {
-        if(this.props.profiles.length <= 1){
-            this.props.getAll()
-        }
-    }
-    
     render() {
         return this.props.profiles.map(
             p => <ProfileListItem

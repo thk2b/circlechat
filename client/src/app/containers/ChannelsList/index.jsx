@@ -5,7 +5,6 @@ import { push } from 'react-router-redux'
 import MdAddCircle from 'react-icons/lib/md/add-circle'
 
 import { Link } from '../../lib'
-import { getAll } from '../../../store/modules/channels'
 import { clearNotifications } from '../../../store/modules/notifications'
 
 import ChannelListItem from './ChannelListItem'
@@ -23,15 +22,10 @@ const mapState = ({ channels, notifications }) => {
 }
 
 const mapDispatch = dispatch => {
-    return bindActionCreators({ getAll, push, clearNotifications }, dispatch)
+    return bindActionCreators({ push, clearNotifications }, dispatch)
 }
 
 class ChannelsList extends React.Component {
-    componentDidMount = () => {
-        if(this.props.request.status === null){
-            this.props.getAll()
-        }
-    }
     onListItemClick = channelId => {
         this.props.push(`/channel/${channelId}`)
         this.props.clearNotifications(channelId)
