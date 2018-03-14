@@ -16,6 +16,7 @@ export default ({ getState, dispatch }) => next => action => {
     }
 
     if(action.resource === '/message/all' && action.type === 'GET'){
+        if(action.params.after) return
         return Object.entries(action.data).forEach(
             ([_, message]) => {
                 if(message.createdAt > state.auth.lastLogoutAt){ /* message was created after last logout */

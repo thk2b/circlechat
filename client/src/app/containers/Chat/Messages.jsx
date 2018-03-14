@@ -5,9 +5,9 @@ import Message from './Message'
 
 export default autoscroll(class Messages extends React.Component {
     render() {
-        const { messages } = this.props
+        const { messages, ...rest } = this.props
         return <ul
-            {...this.props}
+            {...rest}
         >
             { messages.map(
                 message => <Message key={message.id} {...message}/>
