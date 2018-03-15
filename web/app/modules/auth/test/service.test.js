@@ -210,45 +210,68 @@ describe('auth service', function(){
             })
         })
     })
-    describe('update', function(){
-        const { userId, email, pw } = credentials
-
-        it.skip('should not update userId', function(){
-            return service.update(userId, { userId: 'newId' })
-            .then(() => { throw new Error('should not resolve')})
-            .catch(e => {
-                expect(e).to.containSubset({ code: 422, message: 'invalid data'})
-            })
-        })
-        it.skip('should update email', function(){
-            return service.update(userId, { email: 'new@email.cc' })
-            .then(data => {
-                expect(data.email).to.equal(email)
-            })
-        })
-
-        it.skip('should update and hash password', function(){
-            // TODO: evergreen
-            return db.one(SQL`SELECT pw as "oldPw" FROM auth WHERE "userId"=${userId}`)
-            .then(({ oldPw }) => {
-                service.update(userId, { pw: 'muuuch better passphrase' })
-                .then(data => {
-                    expect(data.email).to.equal(email)
-                    expect(data.userId).to.equal(userId)
-                    expect(data.pw).not.to.equal(oldPw)
-                    expect(data.pw).not.to.equal('newpw', 'password should be hashed')
+    describe('update email', function(){
+        it('should not update email when unauthenticated', function(){
+            return expect(
+                service.updateEmail(undefined, credentials.userId, {
+                    pw:  credentials.pw, newEmail: 'newmail@abc.com'
                 })
-            })
+            ).to.eventually.be.rejected.and.have.property('status', 401)
         })
-        it.skip('should update both email an password at once', function(){
-            const payload = { pw: 'newpw', email: 'new@email2.cc' }
-            return service.update(userId, payload)
-            .then(data => {
-                expect(data.email).to.equal(payload.email)
+        it('should not update email when password is incorrect', function(){
+            return expect(
+                service.updateEmail(credentials.userId, credentials.userId, {
+                    pw:  'wrong password', newEmail: 'newmail@abc.com'
+                })
+            ).to.eventually.be.rejected.and.have.property('status', 401)
+        })
+        it('should not update another user\'s email', function(){
+            return expect(
+                service.updateEmail(credentials.userId, 'someone else', {
+                    pw:  credentials.pw, newEmail: 'newmail@abc.com'
+                })
+            ).to.eventually.be.rejected.and.have.property('status', 403)
+        })
+        it('should update email when authenticated and authorized', function(){
+            service.updateEmail(credentials.userId, credentials.userId, {
+                pw:  credentials.pw, newEmail: 'newmail@abc.com'
+            })
+            .then(user => {
+                expect(user.email).to.equal('newmail@abc.com')
             })
         })
     })
-    describe('delete', function(){
+    describe('update password', function(){
+        it('should not update password when unauthenticated', function(){
+            return expect(
+                service.updatePw(undefined, credentials.userId, {
+                    currentPw: credentials.pw, newPw: 'new password'
+                })
+            ).to.eventually.be.rejected.and.have.property('status', 401)
+        })
+        it('should not update password when current password is incorrect', function(){
+            return expect(
+                service.updatePw(credentials.userId, credentials.userId, {
+                    currentPw: 'wrongpw', newPw: 'new password'
+                })
+            ).to.eventually.be.rejected.and.have.property('status', 401)
+        })
+        it('should not update another user\'s password', function(){
+            return expect(
+                service.updatePw(credentials.userId, 'someone else', {
+                    currentPw: credentials.pw, newPw: 'new password'
+                })
+            ).to.eventually.be.rejected.and.have.property('status', 403)
+        })
+        it('should update password when authenticated and authorized', function(){
+            service.updatePw(credentials.userId, credentials.userId, {
+                currentPw: credentials.pw, newPw: 'new password'
+            })
+            .then(() => service.login({ userId: credentials.userId, pw: 'new password'}))
+            .then(({ token }) => expect(token).to.not.be.undefined)
+        })
+    })
+    describe('remove', function(){
         it('should not remove credentials when requester is unauthenticated', function(){
             return service.remove(null, credentials.userId)
             .then(() => { throw new Error('should not resolve') })

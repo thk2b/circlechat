@@ -46,7 +46,6 @@ function register({ userId, email, pw }){
         RETURNING "userId"
     ;`))
 }
-
 /**
  * Login a user
  */
@@ -103,52 +102,40 @@ function get(requesterId, id){
     .then(() => query.one(SQL`SELECT "userId", email FROM auth WHERE "userId"=${id};`))
 }
 
-// function updatePw(id, newPw){
-//     return new Promise((resolve, reject) => {
-//         bcrypt.hash(newPw, 10)
-//         .then(hashedPw => db.one(SQL`
-//             UPDATE auth 
-//             SET pw=${hashedPw}
-//             WHERE "userId"=${id};`))
-//         .then(() => resolve(id))
-//         .catch(e => reject(e))
-//     })
-// }
-/**
- * update credentials with keys
- */
-function update(id, obj){
-    // // check object: do not update userId; hash new pw.
-    // if(obj['userId'] !== undefined){
-    //     delete obj['userId']
-    // }
-    // let updatingPwPromise = undefined
-    // if(obj['pw'] !== undefined){
-    //     updatingPwPromise = updatePw(id, obj['pw'])
-    //     delete obj['pw']
-    // }
-
-    // const { setStatement, values } = bulkSet(obj)
-    // values.push(id)
-    // const query = `
-    //     UPDATE auth 
-    //     SET ${setStatement} 
-    //     WHERE "userId"=($${values.length}) 
-    //     RETURNING *
-    // ;`
-    // console.log(query)
-    // if(updatingPwPromise){
-    //     return Promise.all(
-    //         updatingPwPromise,
-    //         db.any(query, values)
-    //     )
-    // } else return db.any(query, values)
-    // // .then(data => console.log(data))
-    return new Promise((resolve, reject) => {
-        reject(new Error('not implemented'))
-    })
+function verifyPassword(userId, pw){
+    return query.one(SQL`SELECT pw AS "hashedPw" FROM auth WHERE "userId"=${userId};`)
+    .then(({ hashedPw }) => bcrypt.compare(hashedPw, pw))
+    .catch(e => authenticate(false))
 }
-
+/**
+ * change password
+ */
+function updatePw(requesterId, userId, { currentPw, newPw }){
+    return authenticate(requesterId)
+    .then(() => authorize(requesterId === userId))
+    .then(() => verifyPassword(userId, currentPw))
+    .then(() => bcrypt.hash( newPw, 10 ))
+    .then(( hashedPw ) => query.one(SQL`
+        UPDATE auth
+        SET pw=${hashedPw}
+        WHERE "userId"=${userId}
+        RETURNING "userId"
+    ;`))
+}
+/**
+ * change email
+ */
+function updateEmail(requesterId, userId, { pw, newEmail } ){
+    return authenticate(requesterId)
+    .then(() => authorize(requesterId === userId))
+    .then(() => verifyPassword(userId, pw))
+    .then(() => query.one(SQL`
+        UPDATE auth
+        SET email=${newEmail}
+        WHERE "userId"=${userId}
+        RETURNING "userId", email
+    ;`))   
+}
 /**
  * delete credentials
  */
@@ -166,6 +153,7 @@ module.exports = {
     logout,
     verifyToken,
     get,
-    update,
+    updateEmail,
+    updatePw,
     remove
 }
