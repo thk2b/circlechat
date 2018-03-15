@@ -24,14 +24,25 @@ r.route('/')
         .catch(next)
     })
 
+r.route('/password')
+    .put((req, res, next) => {
+        service.updatePw(req.userId, req.userId, req.body)
+        .then( user => res.status(202).json({ user }))
+        .catch(next)
+    })
+
+r.route('/email')
+    .put((req, res, next) => {
+        service.updateEmail(req.userId, req.userId, req.body)
+        .then( user => res.status(202).json({ user }))
+        .catch(next)
+    })
+
 r.route('/:id')
     .get((req, res, next) => {
         service.get(req.userId, req.params.id)
         .then(user => res.status(200).json(user))
         .catch(next)
-    })
-    .put((req, res, next) => {
-        res.status(500).json({ message: 'implemented' })
     })
     .delete((req, res, next) =>{
         service.remove(req.userId, req.params.id)

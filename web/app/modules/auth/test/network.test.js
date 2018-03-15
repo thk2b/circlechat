@@ -87,7 +87,7 @@ describe(API_URL, function(){
         })
     })
     describe(`GET ${API_URL}/:id/`, function(){
-        let token
+
         before(function(done){
             service.login(credentials).then((data) => {
                 token = data.token
@@ -117,10 +117,62 @@ describe(API_URL, function(){
                 .end(done)
         })
     })
-    describe(`PUT ${API_URL}/:id`, function(){
-        it('', function(done){
-            // .set('Authorization', 'bearer ' + token)
-            done(false)
+    describe(`PUT ${API_URL}/password`, function(){
+        it('should not update password when unauthenticated', function(done){
+            request(server)
+                .put(`${API_URL}/password`)
+                .set('Authorization', 'bearer ' + 'no')
+                .send({ currentPw: credentials.pw, newPw: 'new password' })
+                .expect(401)
+                .end(done)
+        })
+        it('should not update password when password is invalid', function(done){
+            request(server)
+                .put(`${API_URL}/password`)
+                .set('Authorization', 'bearer ' + token)
+                .send({ currentPw: 'wrong pw', newPw: 'new password' })
+                .expect(401)
+                .end(done)
+        })
+        it('should update password', function(done){
+            request(server)
+                .put(`${API_URL}/password`)
+                .set('Authorization', 'bearer ' + token)
+                .send({ currentPw: credentials.pw, newPw: 'new password' })
+                .expect(202)
+                .end(() => {
+                    credentials.pw = 'new password'
+                    done()
+                })
+        })
+    })
+    describe(`PUT ${API_URL}/email`, function(){
+        it('should not update email when unauthenticated', function(done){
+            request(server)
+                .put(`${API_URL}/email`)
+                .set('Authorization', 'bearer ' + 'no')
+                .send({ pw: credentials.pw, newEmail: 'new@email.com' })
+                .expect(401)
+                .end(done)
+        })
+        it('should not update email when password is invalid', function(done){
+            request(server)
+                .put(`${API_URL}/email`)
+                .set('Authorization', 'bearer ' + token)
+                .send({ currentPw: 'wrong pw', newEmail: 'new@email.com' })
+                .expect(401)
+                .end(done)
+        })
+        it('should update email', function(done){
+            request(server)
+                .put(`${API_URL}/email`)
+                .set('Authorization', 'bearer ' + token)
+                .send({ currentPw: credentials.pw, newEmail: 'new@email.com' })
+                .expect(202)
+                .end(() => {
+                    credentials.email = 'new@email.com'
+                    done()
+                })
         })
     })
     describe(`DELETE ${API_URL}/:id`, function(){
@@ -154,47 +206,3 @@ describe(API_URL, function(){
         })
     })
 })
-
-// ** DEPRECATED TEST FOR REFERENCE PURPOSES ONLY **
-//
-// describe(`${API_URL} notifies websocket clients`, function(){
-//     /* in this test, we emit with user2 and check events with user1 */
-//     const user1 = { userId: 'user1', email: 'user1@test.cc', pw: '123'}
-//     const user2 = { userId: 'user2', email: 'user2@test.cc', pw: '123'}
-    
-//     let token
-//     let ws
-
-//     before(function(done){
-//         recreate()
-//         .then(() => service.register(user1))
-//         .then(() => service.login(user1))
-//         .then((data) => token = data.token)
-//         .then(() => server.listen(PORT, () => {
-//             ws = socketIoClient(SOCKET_URL)
-//             ws.once('connect', () => {
-//                 done()
-//             })
-//         }))
-//     })
-//     it('should notify connected clients with a new profile', function(done){
-//         ws.once('/auth', ({ meta, data }) => {
-//             expect(meta).to.deep.equal({ type: 'POST', status: 201 })
-//             expect(data.profile).to.containSubset({
-//                 userId: user2.userId, name: user2.userId
-//             })
-//             expect(data.profile.id).to.not.be.undefined
-//             done()
-//         })
-//         request(server)
-//         .post(API_URL + '/')
-//         .send(user2)
-//         .set('Content-Type', 'application/json')
-//         .expect(201)
-//         .end(e => {if(e) done(e)})
-//     })
-//     after(function(done){
-//         ws.disconnect()
-//         server.close(e => done(e))
-//     })
-// })

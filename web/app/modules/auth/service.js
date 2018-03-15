@@ -104,7 +104,7 @@ function get(requesterId, id){
 
 function verifyPassword(userId, pw){
     return query.one(SQL`SELECT pw AS "hashedPw" FROM auth WHERE "userId"=${userId};`)
-    .then(({ hashedPw }) => bcrypt.compare(hashedPw, pw))
+    .then(({ hashedPw }) => bcrypt.compare(pw, hashedPw))
     .catch(e => authenticate(false))
 }
 /**
