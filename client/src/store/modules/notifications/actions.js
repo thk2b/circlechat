@@ -7,9 +7,9 @@ export const clear = channelId => {
 }
 
 export const INCREMENT = '/notifications/increment'
-export const increment = channelId => {
+export const increment = (channelId, by=1) => {
     return {
         type: INCREMENT,
-        channelId
+        channelId, by
     }
 }

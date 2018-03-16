@@ -145,7 +145,7 @@ describe('notifications reducer', () => {
             }
         })
     })
-    test('local increment action', () => {
+    describe('local increment action', () => {
         const state = {
             ...reducer(undefined, {}),
             channels: {
@@ -153,13 +153,25 @@ describe('notifications reducer', () => {
                 999: 12
             }
         }
-        expect(
-            reducer(state, actions.increment(123))
-        ).toEqual({
-            ...state, channels: {
-                123: 43,
-                999: 12
-            }
+        test('it should increment by 1 by default', () => {
+            expect(
+                reducer(state, actions.increment(123))
+            ).toEqual({
+                ...state, channels: {
+                    123: 43,
+                    999: 12
+                }
+            })
+        })
+        test('it should increment by n', () => {
+            expect(
+                reducer(state, actions.increment(123, 10))
+            ).toEqual({
+                ...state, channels: {
+                    123: 52,
+                    999: 12
+                }
+            })
         })
     })
 })

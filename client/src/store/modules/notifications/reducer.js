@@ -17,7 +17,7 @@ export default function(state=initialState, action){
             ...state,
             channels: {
                 ...state.channels,
-                [action.channelId]: ( state.channels[action.channelId] || 0 ) + 1
+                [action.channelId]: ( state.channels[action.channelId] || 0 ) + action.by
             }
         }
         default: return state

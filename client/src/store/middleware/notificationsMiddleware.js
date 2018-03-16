@@ -17,12 +17,15 @@ export default ({ getState, dispatch }) => next => action => {
 
     if(action.resource === '/message/all' && action.type === 'GET'){
         if(action.params.after) return
-        return Object.entries(action.data).forEach(
-            ([_, message]) => {
-                if(message.createdAt > state.auth.lastLogoutAt){ /* message was created after last logout */
-                    dispatch(increment(message.channelId))
-                }
-            }
+        const newNotificationsByChannel = Object.entries(action.data).reduce(
+            (obj, [_, message]) => (
+                message.createdAt > state.auth.lastLogoutAt /* message was created after last logout */
+                ? {...obj, [message.channelId]: (obj[message.channelId] || 0) + 1 }
+                : obj
+            )
+        , {})
+        Object.entries(newNotificationsByChannel).forEach(
+            ([ channelId, count ]) => dispatch(increment(channelId, count))
         )
     }
 }
