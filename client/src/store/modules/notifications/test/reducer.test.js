@@ -26,7 +26,8 @@ describe('notifications reducer', () => {
                 ...initialState.notifications,
                 channels: {
                     321: 1
-                }
+                },
+                total: 1
             })
         })
         test('should increment when there are already notifications', () => {
@@ -40,7 +41,8 @@ describe('notifications reducer', () => {
                 ...initialState.notifications,
                 channels: {
                     321: 2
-                }
+                },
+                total: 2
             })
         })
         test('should not increment for the user\'s own messages' , () => {
@@ -63,7 +65,8 @@ describe('notifications reducer', () => {
                 ...initialState.notifications,
                 channels: {
                     321: 2
-                }
+                },
+                total: 2
             })
         })
         
@@ -90,6 +93,7 @@ describe('notifications reducer', () => {
                 ...state.notifications, channels: {
                     321: 3
                 }
+                , total: 3
             })
         })
         test('should set notifications when there are already messages', () => {
@@ -101,7 +105,8 @@ describe('notifications reducer', () => {
                 ...state.notifications, channels: {
                     321: 3,
                     123: 3
-                }
+                },
+                total: 6
             })
         })
         test('should not increment for messages posted before last logout', function(){
@@ -121,7 +126,8 @@ describe('notifications reducer', () => {
                 ...initialState.notifications,
                 channels: {
                     321: 3, //123: undefined
-                }
+                },
+                total: 3
             })
 
             
@@ -134,7 +140,8 @@ describe('notifications reducer', () => {
             channels: {
                 123: 42,
                 999: 12
-            }
+            },
+            total: 54
         }
         expect(
             reducer(state, actions.clear(123))
@@ -142,7 +149,8 @@ describe('notifications reducer', () => {
             ...state, channels: {
                 123: 0,
                 999: 12
-            }
+            },
+            total: 12
         })
     })
     describe('local increment action', () => {
@@ -151,7 +159,8 @@ describe('notifications reducer', () => {
             channels: {
                 123: 42,
                 999: 12
-            }
+            },
+            total: 54
         }
         test('it should increment by 1 by default', () => {
             expect(
@@ -160,17 +169,20 @@ describe('notifications reducer', () => {
                 ...state, channels: {
                     123: 43,
                     999: 12
-                }
+                },
+                total: 55
             })
         })
         test('it should increment by n', () => {
             expect(
                 reducer(state, actions.increment(123, 10))
             ).toEqual({
-                ...state, channels: {
+                ...state,
+                channels: {
                     123: 52,
                     999: 12
-                }
+                },
+                total: 64
             })
         })
     })

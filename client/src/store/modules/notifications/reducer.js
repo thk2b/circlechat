@@ -1,7 +1,8 @@
 import { CLEAR, INCREMENT } from './actions'
 
 const initialState = {
-    channels: {}
+    channels: {},
+    total: 0
 }
 
 export default function(state=initialState, action){
@@ -11,14 +12,16 @@ export default function(state=initialState, action){
             channels: {
                 ...state.channels,
                 [action.channelId]: 0
-            }
+            },
+            total: state.total - (state.channels[action.channelId] || 0)
         }
         case INCREMENT: return {
             ...state,
             channels: {
                 ...state.channels,
                 [action.channelId]: ( state.channels[action.channelId] || 0 ) + action.by
-            }
+            },
+            total: state.total + action.by
         }
         default: return state
     }
