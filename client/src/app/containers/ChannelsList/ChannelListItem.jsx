@@ -10,6 +10,6 @@ export default ({onClick, name, notifications, hasMore }) => {
         className={css.ChannelListItem}
     >
         <Link>{name}</Link>
-        <NotificationPill count={notifications} hasMore={hasMore} />
+        <NotificationPill count={notifications} hasMore={hasMore && notifications >= 20} />
     </li>
 }
