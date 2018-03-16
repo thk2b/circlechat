@@ -12,10 +12,10 @@ function drop(){
 }
 
 if(require.main === module){
-    if(process.env.NODE_ENV === 'prod' || process.env.NODE_ENV === undefined){
-        console.error('refusing to drop production DB')
-        process.exit(0)
-    }
+    // if(process.env.NODE_ENV === 'prod' || process.env.NODE_ENV === undefined){
+    //     console.error('refusing to drop production DB')
+    //     process.exit(0)
+    // }
     drop()
         .then(() => console.log('droped database'))
         .catch(e => console.error('failed to drop database: ', e))

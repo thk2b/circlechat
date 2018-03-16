@@ -38,7 +38,6 @@ class CreateChannel extends React.Component {
         this.props.createChannel(this.state.name)
     }
     render(){
-        console.log(this.props.request)
         return <div>
             <h2>create a channel</h2>
             <InputWithButtons>
