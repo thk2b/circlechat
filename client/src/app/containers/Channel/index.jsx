@@ -1,9 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { MdClear } from 'react-icons/lib/md'
 import { bindActionCreators } from 'redux'
 
-// import Toolbar from 'material-ui/Toolbar'
+import { Toolbar, ToolbarTitle, ToolbarGroup } from 'material-ui/Toolbar'
+import IconButton from 'material-ui/IconButton'
+import ClearIcon from 'material-ui/svg-icons/action/delete'
 import { ContextMenu, Spinner, Editable } from '../../lib'
 
 import { remove, update } from '../../../store/modules/channels'
@@ -49,14 +50,23 @@ class Channel extends React.Component {
         </div>
 
         return <div className={css.Channel}>
-            {/* <ContextMenu>
-                <Editable
+            <Toolbar>
+                <ToolbarGroup>
+                    <ToolbarTitle
+                        text={channel.name}
+                    />
+                </ToolbarGroup>
+                {/* <Editable
                     as='span'
                     value={channel.name}
                     onSubmit={ name => renameChannel(name) }
-                />
-                <MdClear onClick={ e => removeChannel() }/>
-            </ContextMenu> */}
+                /> */}
+                <ToolbarGroup>
+                    <IconButton onClick={ e => removeChannel() }>
+                        <ClearIcon />
+                    </IconButton>
+                </ToolbarGroup>
+            </Toolbar>
             <Chat channelId={channel.id}/>
         </div>
     }
