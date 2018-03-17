@@ -5,6 +5,7 @@ import { push } from 'react-router-redux'
 import MdAddCircle from 'react-icons/lib/md/add-circle'
 
 import { List, ListItem } from 'material-ui/List'
+import Subheader from 'material-ui/Subheader'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentAdd from 'material-ui/svg-icons/content/add'
 
@@ -44,6 +45,7 @@ class ChannelsList extends React.Component {
     render(){
         const { channels, hasMore } = this.props
         return <List className={css.ChannelsList}>
+            {this.props.showHeader && <Subheader>Channels</Subheader>}
             {channels.map(
                 channel => <ChannelListItem
                     key={channel.id}

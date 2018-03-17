@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux'
 import { push } from 'react-router-redux'
 
 import List from 'material-ui/List/List'
+import Subheader from 'material-ui/Subheader'
 
 import css from './ProfilesList.css'
 import ProfileListItem from './ProfileListItem'
@@ -28,6 +29,7 @@ class ProfilesList extends React.Component {
     } 
     render() {
         return <List className={css.ProfilesList}>
+            {this.props.showHeader && <Subheader>Profiles</Subheader>}
             {this.props.profiles.map(
                 p => <ProfileListItem
                     key={p.id}
