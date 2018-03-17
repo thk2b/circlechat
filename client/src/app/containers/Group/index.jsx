@@ -4,8 +4,6 @@ import { Switch, Route } from 'react-router'
 import GroupIcon from 'material-ui/svg-icons/social/group'
 import ChatIcon from 'material-ui/svg-icons/communication/chat'
 import ChannelIcon from 'material-ui/svg-icons/communication/rss-feed'
-import IconButton from 'material-ui/IconButton'
-import { Toolbar, ToolbarGroup, ToolbarSeparator } from 'material-ui/Toolbar'
 import { BottomNavigation, BottomNavigationItem } from 'material-ui/BottomNavigation'
 import SwipeableViews from 'react-swipeable-views'
 
@@ -96,7 +94,6 @@ export default class Group extends React.Component {
         </React.Fragment>
     }
     render() {
-        const { isProfilesMenuOpen, isChannelsMenuOpen } = this.state
         const { device } = this.props
         if(device.isMobile) return this.renderMobile()
         if(device.isTablet) return this.renderTablet()

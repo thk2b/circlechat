@@ -36,7 +36,6 @@ export default class LoginForm extends React.Component {
                 <div>
                     <RaisedButton primary
                         label='login'
-                        primary
                         onClick={e => this.handleSubmit(e)}
                     />
                     <FlatButton

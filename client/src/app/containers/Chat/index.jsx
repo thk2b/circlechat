@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import autoScroll from 'autoscroll-react'
 
 import { send, getInChannel } from '../../../store/modules/messages'
 import { clear as clearNotifications } from '../../../store/modules/notifications'

@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import { bindActionCreators } from 'redux'
 
-import { Toolbar, ToolbarGroup, ToolbarTitle, ToolbarSeparator } from 'material-ui/Toolbar'
 import AppBar from 'material-ui/AppBar'
 import { OwnProfileLink, Settings } from '../'
 

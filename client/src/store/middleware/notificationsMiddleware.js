@@ -1,4 +1,4 @@
-import { increment, clear } from '../modules/notifications'
+import { increment } from '../modules/notifications'
 
 export default ({ getState, dispatch }) => next => action => {
     if(!action.network || !action.status || action.status >= 400){

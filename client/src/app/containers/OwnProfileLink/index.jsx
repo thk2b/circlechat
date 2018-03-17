@@ -4,9 +4,7 @@ import { bindActionCreators } from 'redux'
 import { push } from 'react-router-redux'
 
 import AccountIcon from 'material-ui/svg-icons/action/account-circle'
-import Avatar from 'material-ui/Avatar'
 import IconButton from 'material-ui/IconButton'
-import OwnStatus from '../OwnStatus'
 
 const mapState = ({ profiles, auth }) => {
     return {

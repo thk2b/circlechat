@@ -2,14 +2,12 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { push } from 'react-router-redux'
-import MdAddCircle from 'react-icons/lib/md/add-circle'
 
-import { List, ListItem } from 'material-ui/List'
+import { List } from 'material-ui/List'
 import Subheader from 'material-ui/Subheader'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentAdd from 'material-ui/svg-icons/content/add'
 
-import { Link } from '../../lib'
 import { clear as clearNotifications } from '../../../store/modules/notifications'
 
 import css from './ChannelsList.css'
