@@ -3,7 +3,9 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { push } from 'react-router-redux'
 
-import Link from '../../lib/Link'
+import AccountIcon from 'material-ui/svg-icons/action/account-circle'
+import Avatar from 'material-ui/Avatar'
+import IconButton from 'material-ui/IconButton'
 import OwnStatus from '../OwnStatus'
 
 // import css from './OwnProfileLink.css'
@@ -21,12 +23,13 @@ const mapDispatch = dispatch => {
 }
 
 const OwnProfileLink = ({ push, userId }) => {
-    return <Link onClick={e => {
-        if(userId) push('/me')
-    }}>
-        <span>{ userId }</span>  
-        <OwnStatus />
-    </Link>
+    return <IconButton
+        onClick={e => {
+            if(userId) push('/me')
+        }}
+    >
+        <AccountIcon/>
+    </IconButton>
 }
 
 export default connect(mapState, mapDispatch)(OwnProfileLink)

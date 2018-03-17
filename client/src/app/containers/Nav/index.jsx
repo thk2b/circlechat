@@ -3,10 +3,9 @@ import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import { bindActionCreators } from 'redux'
 
-import Link from '../../lib/Link'
+import { Toolbar, ToolbarGroup, ToolbarTitle, ToolbarSeparator } from 'material-ui/Toolbar'
+import AppBar from 'material-ui/AppBar'
 import { OwnProfileLink, Settings } from '../'
- 
-import css from './Nav.css'
 
 const mapDispatch = dispatch => {
     return bindActionCreators({ push }, dispatch)
@@ -14,13 +13,11 @@ const mapDispatch = dispatch => {
 
 class Nav extends React.Component {
     render() {
-        return (
-            <nav className={css.Nav}>
-                <Settings />
-                <Link onClick={e=>this.props.push('/')}>home</Link>
-                <OwnProfileLink />
-            </nav>
-        )
+        return <AppBar
+            iconElementLeft={<Settings />}
+            title='CircleChat'
+            iconElementRight={<OwnProfileLink />}
+        />
     }
 }
 
