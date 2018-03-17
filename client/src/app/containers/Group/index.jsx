@@ -3,6 +3,10 @@ import { Switch, Route } from 'react-router'
 import MdChevronLeft from 'react-icons/lib/md/chevron-left'
 import MdChevronRight from 'react-icons/lib/md/chevron-right'
 
+import GroupIcon from 'material-ui/svg-icons/social/group'
+import ChatIcon from 'material-ui/svg-icons/communication/chat'
+import ChannelIcon from 'material-ui/svg-icons/communication/rss-feed'
+import { BottomNavigation, BottomNavigationItem } from 'material-ui/BottomNavigation'
 import SwipeableViews from 'react-swipeable-views'
 import { Menu, ContextMenu, Button} from '../../lib'
 
@@ -19,9 +23,9 @@ export default class Group extends React.Component {
     constructor(props){
         super(props)
         this.state = {
-            isProfilesMenuOpen: this.isDesktop,
-            isChannelsMenuOpen: this.isPhablet,
-            swipeableIndex: 1
+            isProfilesMenuOpen: this.props.device.isDesktop,
+            isChannelsMenuOpen: this.props.device.isPhablet,
+            viewIndex: 1
         }
     }
     
@@ -36,21 +40,43 @@ export default class Group extends React.Component {
             default: return
         }
     }
+    selectView(i){
+        this.setState({ viewIndex: i })
+    }
     renderMobile(){
-        return <SwipeableViews
-            className={css.Group}
-            index={this.state.swipeableIndex}
-            onChangeIndex={i => this.setState({ swipeableIndex: i })}
-        >
-            <ChannelsList resetSwipeableIndex={() => this.setState({ swipeableIndex: 1 })}/>
-            <Switch>
-                <Route path='/channel/create' component={CreateChannel}/>
-                <Route path='/channel/:id' component={Channel}/>
-                <Route path='/profile/:id' component={Profile}/>
-                <Route path='/me' component={Profile}/>
-            </Switch>
-            <ProfilesList resetSwipeableIndex={() => this.setState({ swipeableIndex: 1 })}/>
-        </SwipeableViews>
+        return <React.Fragment>
+            <BottomNavigation selectedIndex={this.state.viewIndex}>
+                <BottomNavigationItem
+                    label="channels"
+                    icon={<ChannelIcon/>}
+                    onClick={e => this.selectView(0)}
+                />
+                <BottomNavigationItem
+                    label="chat"
+                    icon={<ChatIcon />}
+                    onClick={e => this.selectView(1)}
+                />
+                <BottomNavigationItem
+                    label="users"
+                    icon={<GroupIcon/>}
+                    onClick={e => this.selectView(2)}
+                />
+            </BottomNavigation>
+            <SwipeableViews
+                className={css.Group}
+                index={this.state.viewIndex}
+                onChangeIndex={i => this.setState({ viewIndex: i })}
+            >
+                <ChannelsList resetSwipeableIndex={() => this.setState({ viewIndex: 1 })}/>
+                <Switch>
+                    <Route path='/channel/create' component={CreateChannel}/>
+                    <Route path='/channel/:id' component={Channel}/>
+                    <Route path='/profile/:id' component={Profile}/>
+                    <Route path='/me' component={Profile}/>
+                </Switch>
+                <ProfilesList resetSwipeableIndex={() => this.setState({ viewIndex: 1 })}/>
+            </SwipeableViews>
+        </React.Fragment>
     }
     render() {
         const { isProfilesMenuOpen, isChannelsMenuOpen } = this.state
