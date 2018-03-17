@@ -71,6 +71,7 @@ export default class Group extends React.Component {
                     <Route path='/channel/:id' component={Channel}/>
                     <Route path='/profile/:id' component={Profile}/>
                     <Route path='/me' component={Profile}/>
+                    <Route path='/' render={()=><div style={{width: 100+'vw'}}/>}/>
                 </Switch>
                 <ProfilesList resetSwipeableIndex={() => this.setState({ viewIndex: 1 })}/>
             </SwipeableViews>
