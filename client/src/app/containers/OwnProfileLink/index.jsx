@@ -8,8 +8,6 @@ import Avatar from 'material-ui/Avatar'
 import IconButton from 'material-ui/IconButton'
 import OwnStatus from '../OwnStatus'
 
-// import css from './OwnProfileLink.css'
-
 const mapState = ({ profiles, auth }) => {
     return {
         userId: auth.userId,
