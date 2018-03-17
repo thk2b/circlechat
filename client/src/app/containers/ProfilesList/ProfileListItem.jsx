@@ -1,14 +1,13 @@
 import React from 'react'
 
+import ListItem from 'material-ui/List/ListItem'
 import { Link, Status } from '../../lib'
 
 export default ({onClick, name, status, ...rest}) => {
-    return <li onClick={onClick}
+    return <ListItem onClick={onClick}
         {...rest}
     >
-        <Link>
-            <span>{name}</span>
-            <Status status={status}/>
-        </Link>
-    </li>
+        <span>{name}</span>
+        <Status status={status}/>
+    </ListItem>
 }

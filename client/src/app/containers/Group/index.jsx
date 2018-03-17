@@ -3,6 +3,7 @@ import { Switch, Route } from 'react-router'
 import MdChevronLeft from 'react-icons/lib/md/chevron-left'
 import MdChevronRight from 'react-icons/lib/md/chevron-right'
 
+import SwipeableViews from 'react-swipeable-views'
 import { Menu, ContextMenu, Button} from '../../lib'
 
 import { 
@@ -34,10 +35,22 @@ export default class Group extends React.Component {
             default: return
         }
     }
-
+    renderMobile(){
+        return <SwipeableViews className={css.Group}>
+            <ChannelsList />
+            <Switch>
+                <Route path='/channel/create' component={CreateChannel}/>
+                <Route path='/channel/:id' component={Channel}/>
+                <Route path='/profile/:id' component={Profile}/>
+                <Route path='/me' component={Profile}/>
+            </Switch>
+            <ProfilesList />
+        </SwipeableViews>
+    }
     render() {
         const { isProfilesMenuOpen, isChannelsMenuOpen } = this.state
         const { device } = this.props
+        if(device.isMobile) return this.renderMobile()
         return <React.Fragment>
             <ContextMenu>
                 <Button onClick={e => this.toggleMenu('channels')}>

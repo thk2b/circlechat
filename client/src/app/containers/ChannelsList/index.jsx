@@ -4,6 +4,10 @@ import { bindActionCreators } from 'redux'
 import { push } from 'react-router-redux'
 import MdAddCircle from 'react-icons/lib/md/add-circle'
 
+import List from 'material-ui/List/List'
+import FloatingActionButton from 'material-ui/FloatingActionButton'
+import ContentAdd from 'material-ui/svg-icons/content/add'
+
 import { Link } from '../../lib'
 import { clear as clearNotifications } from '../../../store/modules/notifications'
 
@@ -33,18 +37,21 @@ class ChannelsList extends React.Component {
     }
     render(){
         const { channels, hasMore, push } = this.props
-        return channels.map(
-            channel => <ChannelListItem
-                key={channel.id}
-                onClick={e => this.onListItemClick(channel.id)}
-                hasMore={hasMore.messages[channel.id]}
-                {...channel}
-            />
-        ).concat(<Link
-            key='__createLink'
-            onClick={e => push('/channel/create')}
-            ><MdAddCircle/>
-        </Link>)
+        return <List>
+            {channels.map(
+                channel => <ChannelListItem
+                    key={channel.id}
+                    onClick={e => this.onListItemClick(channel.id)}
+                    hasMore={hasMore.messages[channel.id]}
+                    {...channel}
+                />
+            )}
+            <FloatingActionButton
+                onClick={e => push('/channel/create')}
+            >
+                <ContentAdd/>
+            </FloatingActionButton>
+        </List>
     }
 }
 

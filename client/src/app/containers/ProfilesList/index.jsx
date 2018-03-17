@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { push } from 'react-router-redux'
 
+import List from 'material-ui/List/List'
 import ProfileListItem from './ProfileListItem'
 
 const mapState = ({ profiles }) => {
@@ -20,14 +21,16 @@ const mapDispatch = dispatch => {
 
 class ProfilesList extends React.Component {
     render() {
-        return this.props.profiles.map(
-            p => <ProfileListItem
-                key={p.id}
-                onClick={e => this.props.goToProfile(p.id)}
-                name={p.name}
-                status={p.status}
-            />
-        )
+        return <List>
+            {this.props.profiles.map(
+                p => <ProfileListItem
+                    key={p.id}
+                    onClick={e => this.props.goToProfile(p.id)}
+                    name={p.name}
+                    status={p.status}
+                />
+            )}
+        </List>
     }
 }
 
