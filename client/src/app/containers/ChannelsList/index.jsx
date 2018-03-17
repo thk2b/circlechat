@@ -54,7 +54,7 @@ class ChannelsList extends React.Component {
                     {...channel}
                 />
             )}
-            <FloatingActionButton
+            <FloatingActionButton mini
                 className={css.CreateChannelButton}
                 onClick={e => this.onCreateButtonClick()}
             >

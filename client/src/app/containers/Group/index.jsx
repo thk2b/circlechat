@@ -62,6 +62,7 @@ export default class Group extends React.Component {
                 />
             </BottomNavigation>
             <SwipeableViews
+                resistance
                 className={css.Group}
                 index={this.state.viewIndex}
                 onChangeIndex={i => this.setState({ viewIndex: i })}
