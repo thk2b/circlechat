@@ -17,9 +17,6 @@ import css from './Group.css'
 export default class Group extends React.Component {
     constructor(props){
         super(props)
-        this.isDesktop = window.innerWidth >= 680
-        this.isPhablet = window.innerWidth >= 480
-        this.isMobile = window.innerWidth <= 480
         this.state = {
             isProfilesMenuOpen: this.isDesktop,
             isChannelsMenuOpen: this.isPhablet
@@ -40,6 +37,7 @@ export default class Group extends React.Component {
 
     render() {
         const { isProfilesMenuOpen, isChannelsMenuOpen } = this.state
+        const { device } = this.props
         return <React.Fragment>
             <ContextMenu>
                 <Button onClick={e => this.toggleMenu('channels')}>
@@ -54,7 +52,7 @@ export default class Group extends React.Component {
             <main className={css.Container}>
                 <Menu isLeft 
                     isOpen={isChannelsMenuOpen} 
-                    onClick={e => this.isMobile && this.toggleMenu('channels')}
+                    onClick={e => device.isMobile && this.toggleMenu('channels')}
                     ><ChannelsList />
                 </Menu>
                 <Switch>
@@ -65,7 +63,7 @@ export default class Group extends React.Component {
                 </Switch>
                 <Menu isRight 
                     isOpen={isProfilesMenuOpen}
-                    onClick={e => this.isMobile && this.toggleMenu('profiles')}
+                    onClick={e => device.isMobile && this.toggleMenu('profiles')}
                     ><ProfilesList />
                 </Menu>
             </main>
