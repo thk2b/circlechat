@@ -4,13 +4,14 @@ import { bindActionCreators } from 'redux'
 import { push } from 'react-router-redux'
 import MdAddCircle from 'react-icons/lib/md/add-circle'
 
-import List from 'material-ui/List/List'
+import { List, ListItem } from 'material-ui/List'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentAdd from 'material-ui/svg-icons/content/add'
 
 import { Link } from '../../lib'
 import { clear as clearNotifications } from '../../../store/modules/notifications'
 
+import css from './ChannelsList.css'
 import ChannelListItem from './ChannelListItem'
 
 const mapState = ({ channels, notifications, hasMore }) => {
@@ -33,10 +34,15 @@ const mapDispatch = dispatch => {
 class ChannelsList extends React.Component {
     onListItemClick = channelId => {
         this.props.push(`/channel/${channelId}`)
+        this.props.resetSwipeableIndex()
         this.props.clearNotifications(channelId)
     }
+    onCreateButtonClick = () => {
+        this.props.push('/channel/create')
+        this.props.resetSwipeableIndex()
+    }
     render(){
-        const { channels, hasMore, push } = this.props
+        const { channels, hasMore } = this.props
         return <List>
             {channels.map(
                 channel => <ChannelListItem
@@ -47,7 +53,8 @@ class ChannelsList extends React.Component {
                 />
             )}
             <FloatingActionButton
-                onClick={e => push('/channel/create')}
+                className={css.CreateChannelButton}
+                onClick={e => this.onCreateButtonClick()}
             >
                 <ContentAdd/>
             </FloatingActionButton>

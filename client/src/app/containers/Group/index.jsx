@@ -20,7 +20,8 @@ export default class Group extends React.Component {
         super(props)
         this.state = {
             isProfilesMenuOpen: this.isDesktop,
-            isChannelsMenuOpen: this.isPhablet
+            isChannelsMenuOpen: this.isPhablet,
+            swipeableIndex: 1
         }
     }
     
@@ -36,15 +37,19 @@ export default class Group extends React.Component {
         }
     }
     renderMobile(){
-        return <SwipeableViews className={css.Group}>
-            <ChannelsList />
+        return <SwipeableViews
+            className={css.Group}
+            index={this.state.swipeableIndex}
+            onChangeIndex={i => this.setState({ swipeableIndex: i })}
+        >
+            <ChannelsList resetSwipeableIndex={() => this.setState({ swipeableIndex: 1 })}/>
             <Switch>
                 <Route path='/channel/create' component={CreateChannel}/>
                 <Route path='/channel/:id' component={Channel}/>
                 <Route path='/profile/:id' component={Profile}/>
                 <Route path='/me' component={Profile}/>
             </Switch>
-            <ProfilesList />
+            <ProfilesList resetSwipeableIndex={() => this.setState({ swipeableIndex: 1 })}/>
         </SwipeableViews>
     }
     render() {

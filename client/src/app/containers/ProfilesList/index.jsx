@@ -20,12 +20,16 @@ const mapDispatch = dispatch => {
 }
 
 class ProfilesList extends React.Component {
+    handleItemClick = profileId => {
+        this.props.goToProfile(profileId)
+        this.props.resetSwipeableIndex()
+    } 
     render() {
         return <List>
             {this.props.profiles.map(
                 p => <ProfileListItem
                     key={p.id}
-                    onClick={e => this.props.goToProfile(p.id)}
+                    onClick={e => this.handleItemClick(p.id)}
                     name={p.name}
                     status={p.status}
                 />
