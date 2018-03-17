@@ -3,13 +3,15 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 import Paper from 'material-ui/Paper'
-import { RequestStatus, Spinner } from '../../lib'
+import Snackbar from 'material-ui/Snackbar'
+import CircularProgress from 'material-ui/CircularProgress'
 
 import { login, connectWs, register, clearRequestStatus } from '../../../store/modules/auth'
 import LoginForm from './LoginForm'
 import RegisterForm from './RegisterForm'
 
 import css from './Auth.css'
+import { LinearProgress } from 'material-ui';
 
 const mapState = ({ auth }) => {
     const { token, request, loading, ws } = auth
@@ -38,10 +40,10 @@ class Auth extends React.Component {
             if(this.state.isRegistering){
                 return this.setState({ isRegistering: false })
             }
-
+            this.props.clearRequestStatus()
             if(this.props.token && !this.props.ws.loading && !this.props.ws.connected){
-                this.props.connectWs()
-                this.props.clearRequestStatus()
+                //TODO: move to middleware
+                this.props.connectWs()    
             }
         }
     }
@@ -57,18 +59,22 @@ class Auth extends React.Component {
         
         if(token) return this.props.children
         
-        return (
-            <Paper className={css.Auth} zDepth={3}>
-                <h2>Welcome to CircleChat !</h2>
+        return <div className={css.Auth}>
+            <h2>Welcome to CircleChat !</h2>
+            <Paper zDepth={3}>
                 {
                     isRegistering
                         ?<RegisterForm onSubmit={data => register(data)} onSecondary={e => this.toggleRegister()}/>
                         :<LoginForm onSubmit={login} onSecondary={e => this.toggleRegister()}/>
                 }
-                {loading && <Spinner>loading</Spinner>}
-                <RequestStatus request={request}/>
+                {loading && <LinearProgress />}
+                {request.status && <Snackbar
+                    open={true}
+                    message={request.message}
+                    autoHideDuration={4000}
+                />}
             </Paper>
-        )
+        </div>
     }
 }
 

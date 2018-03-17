@@ -1,10 +1,15 @@
 .Auth {
     max-width: 350px;
     align-self: center;
-    padding: 25px;
+    
+}
+
+.Auth h2 {
+    margin-left: 25px;
 }
 
 .Auth form {
+    padding: 25px;
     display: flex;
     flex-flow: column wrap;
 }

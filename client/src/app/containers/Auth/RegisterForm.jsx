@@ -21,7 +21,7 @@ export default class LoginForm extends React.Component {
     render() {
         return (
             <form onSubmit={e => this.handleSubmit(e)}>
-                <h1>Register</h1>
+                <h3>Register</h3>
                 <TextField 
                     floatingLabelText="user id"
                     hintText="Your permanant id"
