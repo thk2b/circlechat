@@ -1,13 +1,10 @@
 .Auth {
-    /* background: radial-gradient(var(--surface-0), var(--surface-1)); */
-    flex: 1 0;
     max-width: 350px;
-    max-height: 400px;
-    margin: 0 auto;
+    align-self: center;
     padding: 25px;
 }
 
-.Auth button:not(:first-of-type) {
-    width: 40%;
-    margin-left: 10%;
+.Auth form {
+    display: flex;
+    flex-flow: column wrap;
 }

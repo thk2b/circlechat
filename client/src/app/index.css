@@ -1,8 +1,10 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
 .App {
     width: 100vw;
     height: 100vh;
     overflow: hidden;
-    font-family: sans-serif;
+    font-family: 'Roboto', sans-serif;
     background-color: var(--surface-0);
     color: var(--text-content);
     display: flex;
@@ -29,4 +31,12 @@ h2 {
 h3 {
     color: var(--text-header);
     font-size: var(--text-size-m);
+}
+/* HACK: https://github.com/mui-org/material-ui/issues/283 */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s, color 5000s ease-in-out 0s;
+    transition-delay: background-color 5000s, color 5000s;
 }

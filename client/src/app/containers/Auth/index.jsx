@@ -2,6 +2,7 @@ import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
+import Paper from 'material-ui/Paper'
 import { RequestStatus, Spinner } from '../../lib'
 
 import { login, connectWs, register, clearRequestStatus } from '../../../store/modules/auth'
@@ -57,7 +58,8 @@ class Auth extends React.Component {
         if(token) return this.props.children
         
         return (
-            <div className={css.Auth}>
+            <Paper className={css.Auth} zDepth={3}>
+                <h2>Welcome to CircleChat !</h2>
                 {
                     isRegistering
                         ?<RegisterForm onSubmit={data => register(data)} onSecondary={e => this.toggleRegister()}/>
@@ -65,7 +67,7 @@ class Auth extends React.Component {
                 }
                 {loading && <Spinner>loading</Spinner>}
                 <RequestStatus request={request}/>
-            </div>
+            </Paper>
         )
     }
 }

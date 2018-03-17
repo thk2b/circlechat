@@ -1,6 +1,8 @@
 import React from 'react'
 
-import { Input, Button } from '../../lib'
+import TextField from 'material-ui/TextField'
+import FlatButton from 'material-ui/FlatButton'
+import RaisedButton from 'material-ui/RaisedButton'
 
 export default class LoginForm extends React.Component {
     constructor(props) {
@@ -20,27 +22,34 @@ export default class LoginForm extends React.Component {
         return (
             <form onSubmit={e => this.handleSubmit(e)}>
                 <h1>Register</h1>
-                <Input 
-                    placeholder="user id"
+                <TextField 
+                    floatingLabelText="user id"
+                    hintText="Your permanant id"
                     value={this.state.userId}
-                    onChange={userId => this.setState({ userId })}
+                    onChange={({ target }) => this.setState({ userId: target.value })}
                 />
-                <Input 
-                    placeholder="email"
+                <TextField 
+                    floatingLabelText="email"
                     value={this.state.email}
-                    onChange={email => this.setState({ email })}
+                    onChange={({ target }) => this.setState({ email: target.value })}
                 />
-                <Input
+                <TextField
                     type="password"
-                    placeholder="password"
+                    floatingLabelText="password"
+                    hintText="Pick a strong password"
                     value={this.state.pw}
-                    onChange={pw => this.setState({ pw })}
+                    onChange={({ target }) => this.setState({ pw: target.value })}
                 />
-                <Button primary onClick={e => this.handleSubmit(e)}>Register</ Button>
-                <Button 
-                    underlined 
-                    onClick={e => this.props.onSecondary(e)}
-                >Log in</ Button>
+                <div>
+                    <RaisedButton primary
+                        label="Register"
+                        onClick={e => this.handleSubmit(e)}
+                    />
+                    <FlatButton
+                        label="Log in"
+                        onClick={e => this.props.onSecondary(e)}
+                    />
+                </div>
             </form>
         )
     }

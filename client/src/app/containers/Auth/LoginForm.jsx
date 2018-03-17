@@ -1,6 +1,8 @@
 import React from 'react'
 
-import { Input, Button } from '../../lib'
+import TextField from 'material-ui/TextField'
+import FlatButton from 'material-ui/FlatButton'
+import RaisedButton from 'material-ui/RaisedButton'
 
 export default class LoginForm extends React.Component {
     constructor(props) {
@@ -18,23 +20,30 @@ export default class LoginForm extends React.Component {
     render() {
         return (
             <form onSubmit={e => this.handleSubmit(e)}>
-                <h1>Log in</h1>
-                <Input
-                    placeholder="id or email"
+                <h3>Log in</h3>
+                <TextField
+                    floatingLabelText="id or email"
                     value={this.state.userId}
-                    onChange={userId => this.setState({ userId })}
+                    onChange={({ target }) => this.setState({ userId: target.value })}
                 />
-                <Input
+                <TextField
                     type="password"
-                    placeholder="password"
+                    floatingLabelText="password"
                     value={this.state.pw}
-                    onChange={pw => this.setState({ pw })}
+                    onChange={({ target }) => this.setState({ pw: target.value })}
                 />
-                <Button primary onClick={e => this.handleSubmit(e)}>Log in</ Button>
-                <Button 
-                    underlined 
-                    onClick={e => this.props.onSecondary(e)}
-                >Register</ Button>
+                <br/>
+                <div>
+                    <RaisedButton primary
+                        label='login'
+                        primary
+                        onClick={e => this.handleSubmit(e)}
+                    />
+                    <FlatButton
+                        label='register'
+                        onClick={e => this.props.onSecondary(e)}
+                    />
+                </div>
             </form>
         )
     }

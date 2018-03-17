@@ -8,10 +8,6 @@ import { OwnProfileLink, Settings } from '../'
  
 import css from './Nav.css'
 
-// const mapState = ({ auth }) => {
-//     return { auth }
-// }
-
 const mapDispatch = dispatch => {
     return bindActionCreators({ push }, dispatch)
 }
