@@ -8,7 +8,6 @@ import ChatIcon from 'material-ui/svg-icons/communication/chat'
 import ChannelIcon from 'material-ui/svg-icons/communication/rss-feed'
 import { BottomNavigation, BottomNavigationItem } from 'material-ui/BottomNavigation'
 import SwipeableViews from 'react-swipeable-views'
-import { Menu, ContextMenu, Button} from '../../lib'
 
 import { 
     ProfilesList,
@@ -78,39 +77,26 @@ export default class Group extends React.Component {
             </SwipeableViews>
         </React.Fragment>
     }
+    renderTablet(){
+        return this.renderMobile()
+    }
+    renderDesktop(){
+        return <div className={css.Group}>
+            <ChannelsList />
+            <Switch>
+                <Route path='/channel/create' component={CreateChannel}/>
+                <Route path='/channel/:id' component={Channel}/>
+                <Route path='/profile/:id' component={Profile}/>
+                <Route path='/me' component={Profile}/>
+            </Switch>
+            <ProfilesList />
+        </div>
+    }
     render() {
         const { isProfilesMenuOpen, isChannelsMenuOpen } = this.state
         const { device } = this.props
         if(device.isMobile) return this.renderMobile()
-        return <React.Fragment>
-            <ContextMenu>
-                <Button onClick={e => this.toggleMenu('channels')}>
-                    {isChannelsMenuOpen? <MdChevronLeft/>: <MdChevronRight/>}
-                    channels
-                </Button>
-                <Button onClick={e => this.toggleMenu('profiles')}>
-                    users
-                    {isProfilesMenuOpen? <MdChevronRight/>: <MdChevronLeft/>}
-                </Button>
-            </ContextMenu>
-            <main className={css.Container}>
-                <Menu isLeft 
-                    isOpen={isChannelsMenuOpen} 
-                    onClick={e => device.isMobile && this.toggleMenu('channels')}
-                    ><ChannelsList />
-                </Menu>
-                <Switch>
-                    <Route path='/channel/create' component={CreateChannel}/>
-                    <Route path='/channel/:id' component={Channel}/>
-                    <Route path='/profile/:id' component={Profile}/>
-                    <Route path='/me' component={Profile}/>
-                </Switch>
-                <Menu isRight 
-                    isOpen={isProfilesMenuOpen}
-                    onClick={e => device.isMobile && this.toggleMenu('profiles')}
-                    ><ProfilesList />
-                </Menu>
-            </main>
-        </React.Fragment>
+        if(device.isTablet) return this.renderTablet()
+        if(device.isDesktop) return this.renderDesktop()
     }
 }

@@ -34,16 +34,16 @@ const mapDispatch = dispatch => {
 class ChannelsList extends React.Component {
     onListItemClick = channelId => {
         this.props.push(`/channel/${channelId}`)
-        this.props.resetSwipeableIndex()
+        this.props.resetSwipeableIndex&&this.props.resetSwipeableIndex()
         this.props.clearNotifications(channelId)
     }
     onCreateButtonClick = () => {
         this.props.push('/channel/create')
-        this.props.resetSwipeableIndex()
+        this.props.resetSwipeableIndex&&this.props.resetSwipeableIndex()
     }
     render(){
         const { channels, hasMore } = this.props
-        return <List>
+        return <List className={css.ChannelsList}>
             {channels.map(
                 channel => <ChannelListItem
                     key={channel.id}

@@ -1,5 +1,6 @@
 .Channel {
-    background-color: var(--surface-3);
+    /* background-color: var(--surface-3); */
+    flex: 1;
     display: flex;
     flex-flow: column nowrap;
     height: 100%;

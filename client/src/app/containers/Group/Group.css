@@ -1,29 +1,8 @@
-.Container,
 .Group {
     height: 100%;
-    flex: 1 0;
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
     position: relative;
-    display: flex;
     min-height: 0px;
-}
-
-.Container > div {
-    flex-grow: 1;
-    height: 100%;
-    flex: 1;
-    position: absolute;
-    width: 100%;
-}
-
-.Container > ul {
-    flex-grow: 0;
-}
-
-@media screen and (min-width: 380px){
-    .Container > div {
-        position: initial;
-    }
 }

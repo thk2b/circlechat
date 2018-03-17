@@ -4,6 +4,8 @@ import { bindActionCreators } from 'redux'
 import { push } from 'react-router-redux'
 
 import List from 'material-ui/List/List'
+
+import css from './ProfilesList.css'
 import ProfileListItem from './ProfileListItem'
 
 const mapState = ({ profiles }) => {
@@ -22,10 +24,10 @@ const mapDispatch = dispatch => {
 class ProfilesList extends React.Component {
     handleItemClick = profileId => {
         this.props.goToProfile(profileId)
-        this.props.resetSwipeableIndex()
+        this.props.resetSwipeableIndex&&this.props.resetSwipeableIndex()
     } 
     render() {
-        return <List>
+        return <List className={css.ProfilesList}>
             {this.props.profiles.map(
                 p => <ProfileListItem
                     key={p.id}
