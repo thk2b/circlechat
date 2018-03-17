@@ -4,6 +4,7 @@
     display: flex;
     flex-flow: column nowrap;
     height: 100%;
+    max-width: 100vw;
 }
 
 .Channel aside {

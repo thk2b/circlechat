@@ -1,7 +1,5 @@
 import React from 'react'
 import { Switch, Route } from 'react-router'
-import MdChevronLeft from 'react-icons/lib/md/chevron-left'
-import MdChevronRight from 'react-icons/lib/md/chevron-right'
 
 import GroupIcon from 'material-ui/svg-icons/social/group'
 import ChatIcon from 'material-ui/svg-icons/communication/chat'

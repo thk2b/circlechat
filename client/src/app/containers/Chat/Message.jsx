@@ -4,6 +4,8 @@ import { push } from 'react-router-redux'
 import { bindActionCreators } from 'redux'
 import MdClear from 'react-icons/lib/md/clear'
 
+import { Card, CardHeader, CardText } from 'material-ui/Card'
+
 import { Editable, Link, Time } from '../../lib'
 
 import { update, remove } from '../../../store/modules/messages'
@@ -36,6 +38,22 @@ const Message = ({
     updateMessage, deleteMessage, goToProfile
 }) => {
     const deleted = text === null
+
+    return <Card className={css.Message}>
+        <CardHeader
+            title={<span
+                onClick={e => goToProfile()}
+            >
+                { profileName }
+            </span>}
+            subtitle={<React.Fragment>
+                <Time since={createdAt} updateInterval={60*1000}/>
+                {/* TODO: add deleted / updated at time */}
+            </React.Fragment>}
+        />
+        <CardText>{ text }</CardText>
+    </Card>
+
     return <article className={css.Message}>
         {deleted
             ?<p>[deleted]</p>

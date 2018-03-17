@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { MdClear } from 'react-icons/lib/md'
 import { bindActionCreators } from 'redux'
 
+// import Toolbar from 'material-ui/Toolbar'
 import { ContextMenu, Spinner, Editable } from '../../lib'
 
 import { remove, update } from '../../../store/modules/channels'
@@ -48,14 +49,14 @@ class Channel extends React.Component {
         </div>
 
         return <div className={css.Channel}>
-            <ContextMenu>
+            {/* <ContextMenu>
                 <Editable
                     as='span'
                     value={channel.name}
                     onSubmit={ name => renameChannel(name) }
                 />
                 <MdClear onClick={ e => removeChannel() }/>
-            </ContextMenu>
+            </ContextMenu> */}
             <Chat channelId={channel.id}/>
         </div>
     }

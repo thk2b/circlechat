@@ -1,18 +1,10 @@
 .Message {
-    padding: .5rem;
     margin: 1rem;
-    background-color: var(--surface-0);
-    border: 1px solid var(--border);
-    border-radius: 3px;
 }
 
-.Message a {
-    font-weight: bold;
-}
-
-.Message aside {
+/* .Message aside {
     display: flex;
     justify-content: space-between;
     max-width: 350px;
     align-items: center;
-}
+} */
