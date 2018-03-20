@@ -15,7 +15,6 @@ export default class LoginForm extends React.Component {
         }
     }
     handleSubmit = e => {
-        e.preventDefault()
         this.props.onSubmit(this.state)
     }
     render() {
@@ -39,6 +38,7 @@ export default class LoginForm extends React.Component {
                     hintText="Pick a strong password"
                     value={this.state.pw}
                     onChange={({ target }) => this.setState({ pw: target.value })}
+                    onKeyDown={({ key }) => !this.props.isTextarea && key === 'Enter' && this.handleSubmit()}
                 />
                 <div>
                     <RaisedButton primary
