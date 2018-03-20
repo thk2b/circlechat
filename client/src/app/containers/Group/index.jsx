@@ -5,6 +5,8 @@ import GroupIcon from 'material-ui/svg-icons/social/group'
 import ChatIcon from 'material-ui/svg-icons/communication/chat'
 import ChannelIcon from 'material-ui/svg-icons/communication/rss-feed'
 import { BottomNavigation, BottomNavigationItem } from 'material-ui/BottomNavigation'
+import { Toolbar, ToolbarGroup, ToolbarTitle } from 'material-ui/Toolbar'
+import { Tabs, Tab } from 'material-ui/Tabs'
 import SwipeableViews from 'react-swipeable-views'
 
 import { 
@@ -41,41 +43,48 @@ export default class Group extends React.Component {
         this.setState({ viewIndex: i })
     }
     renderMobile(){
-        return <React.Fragment>
-            <BottomNavigation selectedIndex={this.state.viewIndex}>
-                <BottomNavigationItem
-                    label="channels"
+        return <SwipeableViews
+            className={css.Group}
+            index={this.state.viewIndex}
+            onChangeIndex={i => this.setState({ viewIndex: i })}
+        >
+            <Tabs className={css.MenuTabs}>
+                <Tab
+                    label='channels'
                     icon={<ChannelIcon/>}
-                    onClick={e => this.selectView(0)}
-                />
-                <BottomNavigationItem
-                    label="chat"
-                    icon={<ChatIcon />}
-                    onClick={e => this.selectView(1)}
-                />
-                <BottomNavigationItem
-                    label="users"
+                >
+                    <ChannelsList resetSwipeableIndex={() => this.setState({ viewIndex: 1 })}/>
+                </Tab>
+                <Tab
+                    label='users'
                     icon={<GroupIcon/>}
-                    onClick={e => this.selectView(2)}
+                >
+                    <ProfilesList resetSwipeableIndex={() => this.setState({ viewIndex: 1 })}/>
+                </Tab>
+            </Tabs>
+            <Switch>
+                <Route path='/channel/create' component={CreateChannel}/>
+                <Route
+                    path='/channel/:id'
+                    render={({ match }) => (
+                        <Channel match={match} onBack={() => this.setState({ viewIndex: 0 })} />
+                    )}
                 />
-            </BottomNavigation>
-            <SwipeableViews
-                resistance
-                className={css.Group}
-                index={this.state.viewIndex}
-                onChangeIndex={i => this.setState({ viewIndex: i })}
-            >
-                <ChannelsList resetSwipeableIndex={() => this.setState({ viewIndex: 1 })}/>
-                <Switch>
-                    <Route path='/channel/create' component={CreateChannel}/>
-                    <Route path='/channel/:id' component={Channel}/>
-                    <Route path='/profile/:id' component={Profile}/>
-                    <Route path='/me' component={Profile}/>
-                    <Route path='/' render={()=><div style={{width: 100+'vw'}}/>}/>
-                </Switch>
-                <ProfilesList resetSwipeableIndex={() => this.setState({ viewIndex: 1 })}/>
-            </SwipeableViews>
-        </React.Fragment>
+                <Route
+                    path='/profile/:id'
+                    render={({ match }) => (
+                        <Profile match={match} onBack={() => this.setState({ viewIndex: 0 })} />
+                    )}
+                />
+                <Route
+                    path='/me'
+                    render={({ match }) => (
+                        <Profile match={match} onBack={() => this.setState({ viewIndex: 0 })} />
+                    )}
+                />
+                <Route exact path='/' render={()=><div style={{width: 100+'vw'}}/>}/>
+            </Switch>
+        </SwipeableViews>
     }
     renderTablet(){
         return this.renderMobile()

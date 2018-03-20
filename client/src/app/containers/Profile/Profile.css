@@ -1,6 +1,9 @@
 .Profile {
-    padding: 10px;
     flex: 1;
+    display: flex;
+    flex-flow: column nowrap;
+    height: 100%;
+    width: 100vw;
 }
 
 .Name {
@@ -17,23 +20,8 @@ input.Name {
     font-size: var(--text-size-l);
 }
 
-/* .Description {
-    color: var(--text-content);
-    font-size: var(--text-size-m); 
+/* @media screen and (min-width: 470px){
+    .Profile {
+
+    }
 } */
-
-textarea.Description {
-    display: block;
-}
-
-@media screen and (min-width: 380px){
-    .Profile {
-        position: initial;
-    }
-}
-
-@media screen and (min-width: 470px){
-    .Profile {
-        padding: 50px;
-    }
-}

@@ -47,7 +47,7 @@ export default class Editable extends React.Component {
 
     render() {
         if( this.state.editing ){
-            return <div>
+            return <div className={css.Editable}>
                 <TextField
                     name="editable-field"
                     value={this.state.value}
@@ -55,6 +55,7 @@ export default class Editable extends React.Component {
                     onKeyDown={({ key }) => !this.props.isTextarea && key === 'Enter' && this.submit()}
                     ref={i => this.$input = i}
                     multiLine={this.props.isTextarea || false}
+                    style={{width: 'auto'}}
                 />
                 <IconButton
                     tooltip="save"

@@ -6,6 +6,8 @@ import { Toolbar, ToolbarTitle, ToolbarGroup } from 'material-ui/Toolbar'
 import IconButton from 'material-ui/IconButton'
 // import Snackbar from 'material-ui/Snackbar'
 import ClearIcon from 'material-ui/svg-icons/action/delete'
+import BackIcon from 'material-ui/svg-icons/navigation/arrow-back'
+
 import { Spinner, Editable } from '../../lib'
 
 import { remove, update } from '../../../store/modules/channels'
@@ -14,6 +16,7 @@ import { Chat } from '../'
 import css from './Channel.css'
 
 const mapState = ({ channels }, ownProps) => {
+    console.log(ownProps)
     if(!ownProps.match.params.id){
         console.error('Channel must be rendered by a `Route` with an id param')
     }
@@ -33,7 +36,8 @@ const mergeProps = ( state, { remove, update }, ownProps ) => {
     return {
         ...state,
         removeChannel: () => remove(id),
-        renameChannel: name => update(id, { name })
+        renameChannel: name => update(id, { name }),
+        ...ownProps
     }
 }
 
@@ -52,6 +56,9 @@ class Channel extends React.Component {
 
         return <div className={css.Channel}>
             <Toolbar>
+                <ToolbarGroup>
+                    <BackIcon onClick={e => this.props.onBack() }/>
+                </ToolbarGroup>
                 <ToolbarGroup>
                     <Editable
                         value={channel.name}

@@ -2,6 +2,8 @@ import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
+import { Toolbar, ToolbarTitle, ToolbarGroup } from 'material-ui/Toolbar'
+import BackIcon from 'material-ui/svg-icons/navigation/arrow-back'
 // import Snackbar from 'material-ui/Snackbar'
 import { Spinner, Editable } from '../../lib'
 
@@ -21,7 +23,6 @@ const mapDispatch = dispatch => {
 }
 
 class Profile extends React.Component {
-
     componentDidMount = () => {
         const { id, description } = this.props
         if(description || description === "") return
@@ -36,6 +37,11 @@ class Profile extends React.Component {
             loading, request
         } = this.props
         return <div className={css.Profile}>
+            <Toolbar>
+                <ToolbarGroup>
+                    <BackIcon onClick={e => this.props.onBack() }/>
+                </ToolbarGroup>
+            </Toolbar>
             <Editable
                 onSubmit={name => this.props.update(profileId, { name })}
                 value={name}
@@ -46,7 +52,7 @@ class Profile extends React.Component {
             <Editable
                 onSubmit={description => this.props.update(profileId, { description })}
                 isTextarea
-                value={description||'no description yet'}
+                value={description||''}
             >
                 {description||'no description yet'}
             </Editable>
