@@ -28,12 +28,13 @@ class ProfilesList extends React.Component {
         this.props.resetSwipeableIndex&&this.props.resetSwipeableIndex()
     } 
     render() {
+        const { profiles, showHeader } = this.props
         return <div className={css.ProfilesList}>
-            <Toolbar>
+            {showHeader && <Toolbar>
                 <ToolbarTitle text="profiles"/>
-            </Toolbar>
+            </Toolbar>}
             <List>
-            {this.props.profiles.map(
+            {profiles.map(
                 p => <ProfileListItem
                     key={p.id}
                     onClick={e => this.handleItemClick(p.id)}

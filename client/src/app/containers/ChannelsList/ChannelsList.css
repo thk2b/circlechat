@@ -1,15 +1,12 @@
 .ChannelsList {}
 
 .CreateChannelButton {
-    position: absolute;
-    bottom: 8px;
-    left: 8px;
+    margin-left: 16px;
 }
 
 @media screen and (min-width: 768px){
     .ChannelsList {
         flex: .25;
         max-width: 250px;
-        /* border-left: ; */
     }
 }

@@ -42,11 +42,11 @@ class ChannelsList extends React.Component {
         this.props.resetSwipeableIndex&&this.props.resetSwipeableIndex()
     }
     render(){
-        const { channels, hasMore } = this.props
+        const { channels, hasMore, showHeader } = this.props
         return <div className={css.ChannelsList}>
-            <Toolbar>
+            {showHeader && <Toolbar>
                 <ToolbarTitle text="channels"/>
-            </Toolbar>
+            </Toolbar>}
             <List>
                 {channels.map(
                     channel => <ChannelListItem
@@ -56,31 +56,14 @@ class ChannelsList extends React.Component {
                         {...channel}
                     />
                 )}
-                <FloatingActionButton mini
-                    className={css.CreateChannelButton}
-                    onClick={e => this.onCreateButtonClick()}
-                >
-                    <ContentAdd/>
-                </FloatingActionButton>
             </List>
+            <FloatingActionButton mini
+                className={css.CreateChannelButton}
+                onClick={e => this.onCreateButtonClick()}
+            >
+                <ContentAdd/>
+            </FloatingActionButton>
         </div>
-        // return <List className={css.ChannelsList}>
-        //     {this.props.showHeader && <Subheader>Channels</Subheader>}
-        //     {channels.map(
-        //         channel => <ChannelListItem
-        //             key={channel.id}
-        //             onClick={e => this.onListItemClick(channel.id)}
-        //             hasMore={hasMore.messages[channel.id]}
-        //             {...channel}
-        //         />
-        //     )}
-        //     <FloatingActionButton mini
-        //         className={css.CreateChannelButton}
-        //         onClick={e => this.onCreateButtonClick()}
-        //     >
-        //         <ContentAdd/>
-        //     </FloatingActionButton>
-        // </List>
     }
 }
 
