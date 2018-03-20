@@ -41,11 +41,11 @@ const Message = ({
 
     return <Card className={css.Message}>
         <CardHeader
-            title={<span
+            title={<Link
                 onClick={e => goToProfile()}
             >
                 { profileName }
-            </span>}
+            </Link>}
             subtitle={<React.Fragment>
                 <Time since={createdAt} updateInterval={60*1000}/>
                 {/* TODO: add deleted / updated at time */}

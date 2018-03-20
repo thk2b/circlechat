@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux'
 
 import { Toolbar, ToolbarTitle, ToolbarGroup } from 'material-ui/Toolbar'
 import IconButton from 'material-ui/IconButton'
+// import Snackbar from 'material-ui/Snackbar'
 import ClearIcon from 'material-ui/svg-icons/action/delete'
 import { Spinner, Editable } from '../../lib'
 
@@ -68,6 +69,11 @@ class Channel extends React.Component {
                 </ToolbarGroup>
             </Toolbar>
             <Chat channelId={channel.id}/>
+            {/* {channel.request.status >= 400 && <Snackbar
+                open={true}
+                message={channel.request.message}
+                autoHideDuration={4000}
+            />} */}
         </div>
     }
 }

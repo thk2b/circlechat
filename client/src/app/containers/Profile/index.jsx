@@ -2,7 +2,8 @@ import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-import { RequestStatus, Spinner, Editable } from '../../lib'
+// import Snackbar from 'material-ui/Snackbar'
+import { Spinner, Editable } from '../../lib'
 
 import { get, update } from '../../../store/modules/profiles'
 import css from './Profile.css'
@@ -20,6 +21,7 @@ const mapDispatch = dispatch => {
 }
 
 class Profile extends React.Component {
+
     componentDidMount = () => {
         const { id, description } = this.props
         if(description || description === "") return
@@ -50,7 +52,6 @@ class Profile extends React.Component {
             </Editable>
             <p>{status}</p>
             {loading && 'loading'}
-            <RequestStatus request={request}/>
         </ div>
     }
 }
