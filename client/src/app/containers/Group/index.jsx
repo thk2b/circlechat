@@ -15,6 +15,7 @@ import {
     Channel 
 } from '../'
 import css from './Group.css'
+import { Toolbar } from 'material-ui';
 
 export default class Group extends React.Component {
     constructor(props){
@@ -96,6 +97,9 @@ export default class Group extends React.Component {
                 <Route path='/channel/:id' component={Channel}/>
                 <Route path='/profile/:id' component={Profile}/>
                 <Route path='/me' component={Profile}/>
+                <Route exact path='/' render={() => (
+                    <Toolbar style={{ flex: 1 }}/>
+                )}/>
             </Switch>
             <ProfilesList showHeader/>
         </div>
