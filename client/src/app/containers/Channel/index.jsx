@@ -56,9 +56,9 @@ class Channel extends React.Component {
 
         return <div className={css.Channel}>
             <Toolbar>
-                <ToolbarGroup>
+                {this.props.onBack && <ToolbarGroup>
                     <BackIcon onClick={e => this.props.onBack() }/>
-                </ToolbarGroup>
+                </ToolbarGroup>}
                 <ToolbarGroup>
                     <Editable
                         value={channel.name}

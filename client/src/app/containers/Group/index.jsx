@@ -92,14 +92,25 @@ export default class Group extends React.Component {
     renderDesktop(){
         return <React.Fragment>
             <div className={css.Group}>
-                <ChannelsList showHeader/>
+                <Toolbar>
+                    <ToolbarGroup>
+
+                    </ToolbarGroup>
+                    <ToolbarGroup>
+
+                    </ToolbarGroup>
+                    <ToolbarGroup>
+
+                    </ToolbarGroup>
+                </Toolbar>
+                <ChannelsList />
                 <Switch>
                     <Route path='/channel/create' component={CreateChannel}/>
                     <Route path='/channel/:id' component={Channel}/>
                     <Route path='/profile/:id' component={Profile}/>
                     <Route path='/me' component={Profile}/>
                 </Switch>
-                <ProfilesList showHeader/>
+                <ProfilesList />
             </div>
         </React.Fragment>
     }

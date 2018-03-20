@@ -38,9 +38,9 @@ class Profile extends React.Component {
         } = this.props
         return <div className={css.Profile}>
             <Toolbar>
-                <ToolbarGroup>
+                {this.props.onBack && <ToolbarGroup>
                     <BackIcon onClick={e => this.props.onBack() }/>
-                </ToolbarGroup>
+                </ToolbarGroup>}
             </Toolbar>
             <Editable
                 onSubmit={name => this.props.update(profileId, { name })}
