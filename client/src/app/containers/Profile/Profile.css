@@ -3,7 +3,12 @@
     display: flex;
     flex-flow: column nowrap;
     height: 100%;
-    width: 100vw;
+}
+
+.ProfileContainer {
+    margin: 16px;
+    padding: 16px;
+    flex: 1;
 }
 
 .Name {
@@ -22,6 +27,6 @@ input.Name {
 
 /* @media screen and (min-width: 470px){
     .Profile {
-
+        padding: ;
     }
 } */

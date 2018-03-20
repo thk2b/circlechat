@@ -2,6 +2,7 @@ import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
+import Paper from 'material-ui/Paper'
 import { Toolbar, ToolbarTitle, ToolbarGroup } from 'material-ui/Toolbar'
 import BackIcon from 'material-ui/svg-icons/navigation/arrow-back'
 // import Snackbar from 'material-ui/Snackbar'
@@ -42,22 +43,24 @@ class Profile extends React.Component {
                     <BackIcon onClick={e => this.props.onBack() }/>
                 </ToolbarGroup>}
             </Toolbar>
-            <Editable
-                onSubmit={name => this.props.update(profileId, { name })}
-                value={name}
-            >
-                <h1 className={css.Name}>{name}</h1>
-            </Editable>
-            <h2>{userId}</h2>
-            <Editable
-                onSubmit={description => this.props.update(profileId, { description })}
-                isTextarea
-                value={description||''}
-            >
-                {description||'no description yet'}
-            </Editable>
-            <p>{status}</p>
-            {loading && 'loading'}
+            <Paper className={css.ProfileContainer}>
+                <Editable
+                    onSubmit={name => this.props.update(profileId, { name })}
+                    value={name}
+                >
+                    <h1 className={css.Name}>{name}</h1>
+                </Editable>
+                <h2>{userId}</h2>
+                <Editable
+                    onSubmit={description => this.props.update(profileId, { description })}
+                    isTextarea
+                    value={description||''}
+                >
+                    {description||'no description yet'}
+                </Editable>
+                <p>{status}</p>
+                {loading && 'loading'}
+            </Paper>
         </ div>
     }
 }
