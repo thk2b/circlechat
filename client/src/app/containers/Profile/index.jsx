@@ -11,12 +11,12 @@ import { Spinner, Editable } from '../../lib'
 import { get, update } from '../../../store/modules/profiles'
 import css from './Profile.css'
 
-const mapState = ({ profiles }, { match }) => {
+const mapState = ({ profiles, device }, { match }) => {
     const id = match.params.id || profiles.ownProfileId
     const { loading, request } = profiles
     return {
         ...profiles.data[id], id,
-        loading, request
+        loading, request, device
     }
 }
 const mapDispatch = dispatch => {
@@ -35,15 +35,17 @@ class Profile extends React.Component {
     render() {
         const { 
             userId, name, description, status, id: profileId,
-            loading, request
+            loading, request, device
         } = this.props
+
+        const Container = device.isMobile? 'div' : Paper
         return <div className={css.Profile}>
             <Toolbar>
                 {this.props.onBack && <ToolbarGroup>
                     <BackIcon onClick={e => this.props.onBack() }/>
                 </ToolbarGroup>}
             </Toolbar>
-            <Paper className={css.ProfileContainer}>
+            <Container className={css.ProfileContainer}>
                 <Editable
                     onSubmit={name => this.props.update(profileId, { name })}
                     value={name}
@@ -60,7 +62,7 @@ class Profile extends React.Component {
                 </Editable>
                 <p>{status}</p>
                 {loading && 'loading'}
-            </Paper>
+            </Container>
         </ div>
     }
 }
