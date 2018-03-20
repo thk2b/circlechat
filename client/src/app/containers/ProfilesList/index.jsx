@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 
 import List from 'material-ui/List/List'
+import { Toolbar, ToolbarGroup, ToolbarTitle } from 'material-ui/Toolbar'
 import Subheader from 'material-ui/Subheader'
 
 import css from './ProfilesList.css'
@@ -27,8 +28,11 @@ class ProfilesList extends React.Component {
         this.props.resetSwipeableIndex&&this.props.resetSwipeableIndex()
     } 
     render() {
-        return <List className={css.ProfilesList}>
-            {this.props.showHeader && <Subheader>Profiles</Subheader>}
+        return <div className={css.ProfilesList}>
+            <Toolbar>
+                <ToolbarTitle text="profiles"/>
+            </Toolbar>
+            <List>
             {this.props.profiles.map(
                 p => <ProfileListItem
                     key={p.id}
@@ -37,7 +41,19 @@ class ProfilesList extends React.Component {
                     status={p.status}
                 />
             )}
-        </List>
+            </List>
+        </div>
+        // return <List className={css.ProfilesList}>
+        //     {this.props.showHeader && <Subheader>Profiles</Subheader>}
+        //     {this.props.profiles.map(
+        //         p => <ProfileListItem
+        //             key={p.id}
+        //             onClick={e => this.handleItemClick(p.id)}
+        //             name={p.name}
+        //             status={p.status}
+        //         />
+        //     )}
+        // </List>
     }
 }
 

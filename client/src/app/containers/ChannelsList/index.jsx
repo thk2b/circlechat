@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux'
 import { push } from 'react-router-redux'
 
 import { List } from 'material-ui/List'
+import { Toolbar, ToolbarGroup, ToolbarTitle } from 'material-ui/Toolbar'
 import Subheader from 'material-ui/Subheader'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentAdd from 'material-ui/svg-icons/content/add'
@@ -42,23 +43,44 @@ class ChannelsList extends React.Component {
     }
     render(){
         const { channels, hasMore } = this.props
-        return <List className={css.ChannelsList}>
-            {this.props.showHeader && <Subheader>Channels</Subheader>}
-            {channels.map(
-                channel => <ChannelListItem
-                    key={channel.id}
-                    onClick={e => this.onListItemClick(channel.id)}
-                    hasMore={hasMore.messages[channel.id]}
-                    {...channel}
-                />
-            )}
-            <FloatingActionButton mini
-                className={css.CreateChannelButton}
-                onClick={e => this.onCreateButtonClick()}
-            >
-                <ContentAdd/>
-            </FloatingActionButton>
-        </List>
+        return <div className={css.ChannelsList}>
+            <Toolbar>
+                <ToolbarTitle text="channels"/>
+            </Toolbar>
+            <List>
+                {channels.map(
+                    channel => <ChannelListItem
+                        key={channel.id}
+                        onClick={e => this.onListItemClick(channel.id)}
+                        hasMore={hasMore.messages[channel.id]}
+                        {...channel}
+                    />
+                )}
+                <FloatingActionButton mini
+                    className={css.CreateChannelButton}
+                    onClick={e => this.onCreateButtonClick()}
+                >
+                    <ContentAdd/>
+                </FloatingActionButton>
+            </List>
+        </div>
+        // return <List className={css.ChannelsList}>
+        //     {this.props.showHeader && <Subheader>Channels</Subheader>}
+        //     {channels.map(
+        //         channel => <ChannelListItem
+        //             key={channel.id}
+        //             onClick={e => this.onListItemClick(channel.id)}
+        //             hasMore={hasMore.messages[channel.id]}
+        //             {...channel}
+        //         />
+        //     )}
+        //     <FloatingActionButton mini
+        //         className={css.CreateChannelButton}
+        //         onClick={e => this.onCreateButtonClick()}
+        //     >
+        //         <ContentAdd/>
+        //     </FloatingActionButton>
+        // </List>
     }
 }
 

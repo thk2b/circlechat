@@ -4,8 +4,6 @@ import { Switch, Route } from 'react-router'
 import GroupIcon from 'material-ui/svg-icons/social/group'
 import ChatIcon from 'material-ui/svg-icons/communication/chat'
 import ChannelIcon from 'material-ui/svg-icons/communication/rss-feed'
-import { BottomNavigation, BottomNavigationItem } from 'material-ui/BottomNavigation'
-import { Toolbar, ToolbarGroup, ToolbarTitle } from 'material-ui/Toolbar'
 import { Tabs, Tab } from 'material-ui/Tabs'
 import SwipeableViews from 'react-swipeable-views'
 
@@ -23,7 +21,7 @@ export default class Group extends React.Component {
         super(props)
         this.state = {
             isProfilesMenuOpen: this.props.device.isDesktop,
-            isChannelsMenuOpen: this.props.device.isPhablet,
+            isChannelsMenuOpen: this.props.device.isDesktop,
             viewIndex: 1
         }
     }
@@ -90,27 +88,17 @@ export default class Group extends React.Component {
         return this.renderMobile()
     }
     renderDesktop(){
+        const { isProfilesMenuOpen, isChannelsMenuOpen } = this.state
         return <React.Fragment>
             <div className={css.Group}>
-                <Toolbar>
-                    <ToolbarGroup>
-
-                    </ToolbarGroup>
-                    <ToolbarGroup>
-
-                    </ToolbarGroup>
-                    <ToolbarGroup>
-
-                    </ToolbarGroup>
-                </Toolbar>
-                <ChannelsList />
+                <ChannelsList showHeader/>
                 <Switch>
                     <Route path='/channel/create' component={CreateChannel}/>
                     <Route path='/channel/:id' component={Channel}/>
                     <Route path='/profile/:id' component={Profile}/>
                     <Route path='/me' component={Profile}/>
                 </Switch>
-                <ProfilesList />
+                <ProfilesList showHeader/>
             </div>
         </React.Fragment>
     }
