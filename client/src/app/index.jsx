@@ -11,35 +11,13 @@ import { Group, Auth, TitleBar } from './containers'
 import css from './index.css'
 
 export default class App extends React.Component {
-    constructor(props){
-        super(props)
-        this.state = {
-            device: this.getDeviceType()
-        }
-    }
-    componentDidMount = () => {
-        window.addEventListener('resize', () => {
-            this.setState({ device: this.getDeviceType() })
-        })
-    }
-    
-    getDeviceType = () => {
-        const isDesktop = window.innerWidth >= 768
-        const isMobile = window.innerWidth <= 425
-        const isTablet = !isDesktop && !isMobile
-
-        return {
-            isDesktop, isMobile, isTablet
-        }
-    }
     render(){
-        const { device } = this.state
         return <MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
             <div className={css.App}>
                 <TitleBar />
-                <Auth device={device}>
+                <Auth>
                     <Nav />
-                    <Group device={device}/>
+                    <Group/>
                 </Auth>
             </div>
         </MuiThemeProvider>

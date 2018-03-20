@@ -13,10 +13,10 @@ import RegisterForm from './RegisterForm'
 import css from './Auth.css'
 import { LinearProgress } from 'material-ui';
 
-const mapState = ({ auth }) => {
+const mapState = ({ auth, device }) => {
     const { token, request, loading, ws } = auth
     return {
-        request, token, loading, ws
+        request, token, loading, ws, device
     }
 }
 

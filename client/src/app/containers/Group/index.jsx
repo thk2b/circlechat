@@ -1,5 +1,6 @@
 import React from 'react'
 import { Switch, Route } from 'react-router'
+import { connect } from 'react-redux'
 
 import GroupIcon from 'material-ui/svg-icons/social/group'
 import ChatIcon from 'material-ui/svg-icons/communication/chat'
@@ -17,7 +18,11 @@ import {
 import css from './Group.css'
 import { Toolbar } from 'material-ui';
 
-export default class Group extends React.Component {
+const mapState = ({ device }) => {
+    return { device }
+}
+
+class Group extends React.Component {
     constructor(props){
         super(props)
         this.state = {
@@ -111,3 +116,5 @@ export default class Group extends React.Component {
         if(device.isDesktop) return this.renderDesktop()
     }
 }
+
+export default connect(mapState)(Group)
