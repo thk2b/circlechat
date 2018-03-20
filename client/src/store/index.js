@@ -11,7 +11,8 @@ import {
     apiMiddleware,
     socketIoMiddleware,
     sideEffectMiddleware,
-    notificationsMiddleware
+    notificationsMiddleware,
+    deviceMiddleware
 } from './middleware'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -27,6 +28,7 @@ const create = () => createStore(
             socketIoMiddleware(io, document.location.hostname),
             sideEffectMiddleware,
             notificationsMiddleware,
+            deviceMiddleware(window),
             routerMiddleware(history)
         )
      )
