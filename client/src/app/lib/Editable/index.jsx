@@ -1,12 +1,12 @@
 import React from 'react'
 import classNames from 'classnames'
-import MdModeEdit from 'react-icons/lib/md/mode-edit'
-import MdCheck from 'react-icons/lib/md/check'
-import MdClear from 'react-icons/lib/md/clear'
 
-
-import Button from '../Button'
-import InputWithButtons from '../InputWithButtons'
+import IconButton from 'material-ui/IconButton'
+import TextField from 'material-ui/TextField'
+import CheckIcon from 'material-ui/svg-icons/action/done'
+import ClearIcon from 'material-ui/svg-icons/content/clear'
+import EditIcon from 'material-ui/svg-icons/image/edit'
+import DeleteIcon from 'material-ui/svg-icons/action/delete-forever'
 
 import css from './Editable.css'
 
@@ -47,34 +47,47 @@ export default class Editable extends React.Component {
 
     render() {
         if( this.state.editing ){
-            const Tag = this.props.isTextarea? 'textarea':'input'
-            return <InputWithButtons>
-                <Tag
-                    className={classNames(this.props.className)}
+            return <div>
+                <TextField
+                    name="editable-field"
                     value={this.state.value}
                     onChange={e => this.handleChange(e)}
-                    onKeyDown={({ key }) => key === 'Enter' && this.submit()}
+                    onKeyDown={({ key }) => !this.props.isTextarea && key === 'Enter' && this.submit()}
                     ref={i => this.$input = i}
+                    multiLine={this.props.isTextarea || false}
                 />
-                <Button onClick={e => this.submit()}>
-                    <MdCheck />
-                </Button>
-                <Button onClick={e => this.cancel()}>
-                    <MdClear />
-                </Button>
-            </InputWithButtons>
+                <IconButton
+                    tooltip="save"
+                    onClick={e => this.submit()}
+                >
+                    <CheckIcon />
+                </IconButton>
+                <IconButton
+                    tooltip="cancel"
+                    onClick={e => this.cancel()}
+                >
+                    <ClearIcon />
+                </IconButton>
+            </div>
         }
-        return <div className={css.Editable}
-                onClick={e => this.toggle('editing') }
+        return <div
+                className={css.Editable}
                 onMouseOver={e => this.set('showIcon', true) }
                 onMouseLeave={e => this.set('showIcon', false) }
             >
-                <this.props.as
-                    className={classNames(this.props.className)}
+                {this.props.children}
+                {this.state.showIcon && <IconButton
+                    onClick={e => this.toggle('editing')}
+                    tooltip="edit"
                 >
-                    {this.props.value}
-                    {this.state.showIcon && <MdModeEdit/>}
-                </this.props.as>
+                    <EditIcon/>
+                </IconButton>}
+                {this.state.showIcon && this.props.isDeletable && <IconButton
+                    onClick={e => this.props.onDelete()}
+                    tooltip="delete"
+                >
+                    <DeleteIcon/>
+                </IconButton>}
         </div>
     }
 }

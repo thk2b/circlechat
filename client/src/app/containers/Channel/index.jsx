@@ -52,15 +52,15 @@ class Channel extends React.Component {
         return <div className={css.Channel}>
             <Toolbar>
                 <ToolbarGroup>
-                    <ToolbarTitle
-                        text={channel.name}
-                    />
+                    <Editable
+                        value={channel.name}
+                        onSubmit={ name => renameChannel(name) }
+                    >
+                        <ToolbarTitle
+                            text={channel.name}
+                        />
+                    </Editable>
                 </ToolbarGroup>
-                {/* <Editable
-                    as='span'
-                    value={channel.name}
-                    onSubmit={ name => renameChannel(name) }
-                /> */}
                 <ToolbarGroup>
                     <IconButton onClick={ e => removeChannel() }>
                         <ClearIcon />

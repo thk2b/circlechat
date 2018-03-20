@@ -51,31 +51,18 @@ const Message = ({
                 {/* TODO: add deleted / updated at time */}
             </React.Fragment>}
         />
-        <CardText>{ text }</CardText>
-    </Card>
-
-    return <article className={css.Message}>
         {deleted
-            ?<p>[deleted]</p>
+            ?<CardText>[deleted]</CardText>
             :<Editable
-                as='p'
+                isDeletable
                 value={text}
-                onSubmit={text => updateMessage(text)}
-            />
+                onSubmit={text => text && updateMessage(text)}
+                onDelete={() => deleteMessage()}
+            >
+                <CardText>{ text }</CardText>
+            </Editable>
         }
-        <aside>
-            <Link onClick={e => goToProfile()}>{ profileName }</Link>
-            <p>
-                <Time since={createdAt} updateInterval={60*1000}/>
-            </p>
-            
-            {(createdAt !== updatedAt) && <p>
-                {deleted?'deleted':'updated'} { <Time since={updatedAt} updateInterval={60*1000}/> }
-            </p>}
-            
-            {!deleted && <MdClear onClick={e => deleteMessage()} />}
-        </aside>
-    </article>
+    </Card>
 }
 
 export default connect(mapState, mapDispatch, mergeProps)(Message)

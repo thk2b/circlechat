@@ -17,10 +17,10 @@ input.Name {
     font-size: var(--text-size-l);
 }
 
-.Description {
+/* .Description {
     color: var(--text-content);
     font-size: var(--text-size-m); 
-}
+} */
 
 textarea.Description {
     display: block;
