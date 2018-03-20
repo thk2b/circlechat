@@ -1,29 +1,23 @@
+import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme'
+import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme'
+
 import { SET_THEME } from './actions'
 
 const initialState = {
     active: 'light',
-    list: ['light', 'dark']
+    data: {
+        light: lightBaseTheme,
+        dark: darkBaseTheme
+    }
 }
-
-// const DEFAULT = {
-//     active: 0,
-//     list: [
-//         { name: 'light' },
-//         { name: 'dark'  }
-//     ]
-// }
 
 export default function (state = initialState, action){
     switch(action.type){
         case SET_THEME:
-            // if(!state.list.includes(action.name)){
-            //     console.error('invalid theme: ', action.name)
-            //     return state
-            // }
-            console.log(action)
             return { 
                 ...state,
-                active: action.name
+                active: action.name,
+                active: state.data[action.name]
              }
         default: return state
     }

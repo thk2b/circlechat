@@ -8,17 +8,18 @@ import { setTheme } from '../../../store/modules/themes'
 
 const mapState = ({ themes }) => {
     return {
-        themes
+        activeTheme: themes.active,
+        themeNames: Object.keys(themes.data)
     }
 }
 
 const mapDispatch = dispatch => bindActionCreators({ setTheme }, dispatch)
 
-const SelectTheme = ({ themes, setTheme }) => {
+const SelectTheme = ({ activeTheme, themeNames, setTheme }) => {
     return <Select
-        options={themes.list}
+        options={themeNames}
         onSelect={name => setTheme(name)}
-        value={themes.active}
+        value={activeTheme}
     />
 }
 

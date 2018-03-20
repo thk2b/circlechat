@@ -1,18 +1,13 @@
 import React from 'react'
 
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-import getMuiTheme from 'material-ui/styles/getMuiTheme'
-// import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme'
-import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme'
-
 import Nav from './containers/Nav'
-import { Group, Auth, TitleBar } from './containers'
+import { Theme, Group, Auth, TitleBar } from './containers'
 
 import css from './index.css'
 
-export default class App extends React.Component {
+export default class App extends React.Component {    
     render(){
-        return <MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
+        return <Theme>
             <div className={css.App}>
                 <TitleBar />
                 <Auth>
@@ -20,6 +15,6 @@ export default class App extends React.Component {
                     <Group/>
                 </Auth>
             </div>
-        </MuiThemeProvider>
+        </Theme>
     }   
 }

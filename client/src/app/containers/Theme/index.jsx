@@ -1,17 +1,23 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import css from './themes.css'
 
-const mapState = ({ themes }, ownProps) => ({
-    name: themes.active,
-    ...ownProps
-})
+const mapState = ({ themes }) => {
+    console.log(themes)
+    return {
+        theme: themes.data[themes.active],
+    }
+}
 
-const Theme = ({ name, children }) => (
-    <div className={css[name]}>
+const Theme = ({ theme, children }) => (
+    <MuiThemeProvider 
+        muiTheme={getMuiTheme(theme)}
+    >
         {children}
-    </div>
+    </MuiThemeProvider>
 )
 
 export default connect(mapState)(Theme) 
