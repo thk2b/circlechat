@@ -19,7 +19,6 @@ import css from './Group.css'
 import { Toolbar } from 'material-ui';
 
 const mapState = ({ device }, ownProps) => {
-    console.log(ownProps)
     return { device }
 }
 

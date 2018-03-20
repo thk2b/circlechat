@@ -6,7 +6,6 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import css from './themes.css'
 
 const mapState = ({ themes }) => {
-    console.log(themes)
     return {
         theme: themes.data[themes.active],
     }
