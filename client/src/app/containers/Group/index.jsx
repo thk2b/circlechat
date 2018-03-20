@@ -1,5 +1,5 @@
 import React from 'react'
-import { Switch, Route } from 'react-router'
+import { Switch, Route, withRouter } from 'react-router'
 import { connect } from 'react-redux'
 
 import GroupIcon from 'material-ui/svg-icons/social/group'
@@ -18,7 +18,8 @@ import {
 import css from './Group.css'
 import { Toolbar } from 'material-ui';
 
-const mapState = ({ device }) => {
+const mapState = ({ device }, ownProps) => {
+    console.log(ownProps)
     return { device }
 }
 
@@ -117,4 +118,4 @@ class Group extends React.Component {
     }
 }
 
-export default connect(mapState)(Group)
+export default withRouter(connect(mapState)(Group))

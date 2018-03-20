@@ -16,7 +16,6 @@ import { Chat } from '../'
 import css from './Channel.css'
 
 const mapState = ({ channels }, ownProps) => {
-    console.log(ownProps)
     if(!ownProps.match.params.id){
         console.error('Channel must be rendered by a `Route` with an id param')
     }
