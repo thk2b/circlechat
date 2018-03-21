@@ -4,7 +4,6 @@ import { push } from 'react-router-redux'
 
 import List from 'material-ui/List/List'
 import { Toolbar, ToolbarGroup, ToolbarTitle } from 'material-ui/Toolbar'
-import Subheader from 'material-ui/Subheader'
 
 import css from './ProfilesList.css'
 import ProfileListItem from './ProfileListItem'

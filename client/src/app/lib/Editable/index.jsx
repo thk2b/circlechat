@@ -1,5 +1,4 @@
 import React from 'react'
-import classNames from 'classnames'
 
 import IconButton from 'material-ui/IconButton'
 import TextField from 'material-ui/TextField'

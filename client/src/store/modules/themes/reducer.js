@@ -16,8 +16,7 @@ export default function (state = initialState, action){
         case SET_THEME:
             return { 
                 ...state,
-                active: action.name,
-                active: state.data[action.name]
+                active: action.name
              }
         default: return state
     }

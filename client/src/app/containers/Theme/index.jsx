@@ -3,7 +3,8 @@ import { connect } from 'react-redux'
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
-import css from './themes.css'
+
+import './themes.css'
 
 const mapState = ({ themes }) => {
     return {

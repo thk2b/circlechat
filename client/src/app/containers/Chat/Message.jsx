@@ -2,14 +2,11 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import { bindActionCreators } from 'redux'
-import MdClear from 'react-icons/lib/md/clear'
 
 import { Card, CardHeader, CardText } from 'material-ui/Card'
-
 import { Editable, Link, Time } from '../../lib'
 
 import { update, remove } from '../../../store/modules/messages'
-
 import css from './Message.css'
 
 const mapState = ({ profiles }, { profileId }) => {

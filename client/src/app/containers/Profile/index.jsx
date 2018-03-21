@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 import Paper from 'material-ui/Paper'
-import { Toolbar, ToolbarTitle, ToolbarGroup } from 'material-ui/Toolbar'
+import { Toolbar, ToolbarGroup } from 'material-ui/Toolbar'
 import BackIcon from 'material-ui/svg-icons/navigation/arrow-back'
 // import Snackbar from 'material-ui/Snackbar'
 import { Spinner, Editable } from '../../lib'

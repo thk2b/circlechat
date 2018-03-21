@@ -3,7 +3,6 @@ import { Switch, Route, withRouter } from 'react-router'
 import { connect } from 'react-redux'
 
 import GroupIcon from 'material-ui/svg-icons/social/group'
-import ChatIcon from 'material-ui/svg-icons/communication/chat'
 import ChannelIcon from 'material-ui/svg-icons/communication/rss-feed'
 import { Tabs, Tab } from 'material-ui/Tabs'
 import SwipeableViews from 'react-swipeable-views'
@@ -94,7 +93,7 @@ class Group extends React.Component {
         return this.renderMobile()
     }
     renderDesktop(){
-        const { isProfilesMenuOpen, isChannelsMenuOpen } = this.state
+        // const { isProfilesMenuOpen, isChannelsMenuOpen } = this.state
         return <div className={css.Group}>
             <ChannelsList showHeader/>
             <Switch>

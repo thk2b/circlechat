@@ -20,7 +20,7 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 export const history = createHistory()
 
 const create = () => createStore(
-    combineReducers( reducers ),
+    combineReducers({...reducers, router }),
     composeEnhancers( 
         applyMiddleware(
             // thunk,

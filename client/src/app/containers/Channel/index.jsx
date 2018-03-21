@@ -44,7 +44,7 @@ class Channel extends React.Component {
     render(){
         const {
             channel, loading,
-            clearNotifications, renameChannel, removeChannel
+            renameChannel, removeChannel
         } = this.props
         
         if(loading) return <Spinner />
