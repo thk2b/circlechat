@@ -39,14 +39,16 @@ const Message = ({
 
     return <Card className={css.Message}>
         <CardContent>
-            <Link
-                onClick={e => goToProfile()}
-            >
-                { profileName }
-            </Link>
-            <Time since={createdAt} updateInterval={60*1000}/>
-        </CardContent>
-        {deleted
+            <Typography>
+                <Link
+                    onClick={e => goToProfile()}
+                >
+                    { profileName }
+                </Link>
+                <br/>
+                <Time since={createdAt} updateInterval={60*1000}/>
+            </Typography>
+            {deleted
             ?<Typography>[deleted]</Typography>
             :<Editable
                 isDeletable
@@ -57,6 +59,7 @@ const Message = ({
                 <Typography>{ text }</Typography>
             </Editable>
         }
+        </CardContent>
     </Card>
 }
 
