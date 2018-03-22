@@ -1,4 +1,6 @@
-.ProfilesList {  }
+.ProfilesList { 
+    flex: 1;
+ }
 
 @media screen and (min-width: 768px){
     .ProfilesList {

@@ -72,11 +72,17 @@ class Group extends React.Component {
         const emptyToolbarSection = () => <div className={classes.flex} />
 
         return <SwipeableViews
-            style={{ maxWidth: '100vw' }}
+            style={{
+                maxWidth: '100vw',
+            }}
             index={this.state.viewIndex}
             onChangeIndex={i => this.setState({ viewIndex: i })}
         >
-            <React.Fragment>
+            <div style={{
+                display: 'flex',
+                flexFlow: 'column nowrap',
+                height: '100%'
+            }}>
                 <Tabs
                     className={classes.tabs}
                     value={this.state.tabIndex}
@@ -94,7 +100,7 @@ class Group extends React.Component {
                 </Tabs>
                 { tabIndex === 0 && <ChannelsList resetSwipeableIndex={() => this.setState({ viewIndex: 1 })}/>}
                 { tabIndex === 1 && <ProfilesList resetSwipeableIndex={() => this.setState({ viewIndex: 1 })}/>}
-            </React.Fragment>
+            </div>
             <React.Fragment>
                 <Toolbar className={classes.toolbar}>
                     <Switch>

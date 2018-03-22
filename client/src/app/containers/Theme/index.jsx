@@ -19,7 +19,6 @@ const themes = {
 }
 
 const mapState = ({ theme }) => {
-    console.log(createMuiTheme(themes[theme.active]))
     return {
         theme: themes[theme.active],
     }

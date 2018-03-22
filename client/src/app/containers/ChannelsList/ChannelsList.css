@@ -1,4 +1,6 @@
-.ChannelsList {}
+.ChannelsList {
+    flex: 1;
+}
 
 .CreateChannelButton {
     margin-left: 16px;
