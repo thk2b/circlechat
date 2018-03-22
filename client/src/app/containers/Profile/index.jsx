@@ -2,14 +2,21 @@ import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
+import { withStyles } from 'material-ui/styles'
+import Typography from 'material-ui/Typography'
 import Paper from 'material-ui/Paper'
-import { Toolbar, ToolbarGroup } from 'material-ui/Toolbar'
 import BackIcon from 'material-ui-icons/ArrowBack'
-// import Snackbar from 'material-ui/Snackbar'
+
 import { Spinner, Editable } from '../../lib'
 
 import { get, update } from '../../../store/modules/profiles'
 import css from './Profile.css'
+
+const styles = theme => ({
+    root: {
+        backgroundColor: theme.palette.background.default
+    }
+})
 
 const mapState = ({ profiles, device }, { match }) => {
     const id = match.params.id || profiles.ownProfileId
@@ -33,38 +40,34 @@ class Profile extends React.Component {
     }   
     
     render() {
-        const { 
+        const {
+            classes,
             userId, name, description, status, id: profileId,
             loading, request, device
         } = this.props
 
         const Container = device.isMobile? 'div' : Paper
-        return <div className={css.Profile}>
-            <Toolbar>
-                {this.props.onBack && <ToolbarGroup>
-                    <BackIcon onClick={e => this.props.onBack() }/>
-                </ToolbarGroup>}
-            </Toolbar>
+        return <div className={css.Profile + ' ' + classes.root}>
             <Container className={css.ProfileContainer}>
                 <Editable
                     onSubmit={name => this.props.update(profileId, { name })}
                     value={name}
                 >
-                    <h1 className={css.Name}>{name}</h1>
+                    <Typography className={css.Name}>{name}</Typography>
                 </Editable>
-                <h2>{userId}</h2>
+                <Typography>{userId}</Typography>
                 <Editable
                     onSubmit={description => this.props.update(profileId, { description })}
                     isTextarea
                     value={description||''}
                 >
-                    {description||'no description yet'}
+                    <Typography>{description||'no description yet'}</Typography>
                 </Editable>
-                <p>{status}</p>
+                <Typography>{status}</Typography>
                 {loading && 'loading'}
             </Container>
         </ div>
     }
 }
 
-export default connect(mapState, mapDispatch)(Profile)
+export default withStyles(styles)(connect(mapState, mapDispatch)(Profile))
