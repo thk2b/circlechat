@@ -38,5 +38,4 @@ class Channel extends React.Component {
     }
 }
 
-
 export default connect(mapState)(Channel)

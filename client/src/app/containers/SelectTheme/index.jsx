@@ -16,11 +16,14 @@ const mapState = ({ theme }) => {
 const mapDispatch = dispatch => bindActionCreators({ setTheme }, dispatch)
 
 const SelectTheme = ({ activeTheme, themeNames, setTheme }) => {
-    return <Select
-        options={themeNames}
-        onSelect={name => setTheme(name)}
-        value={activeTheme}
-    />
+    return <React.Fragment>
+        theme: 
+        <Select
+            options={themeNames}
+            onSelect={name => setTheme(name)}
+            value={activeTheme}
+        />
+    </React.Fragment>
 }
 
 export default connect(mapState, mapDispatch)(SelectTheme)
