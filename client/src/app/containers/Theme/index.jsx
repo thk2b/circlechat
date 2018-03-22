@@ -5,9 +5,23 @@ import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles'
 
 import './themes.css'
 
-const mapState = ({ themes }) => {
+const themes = {
+    light: {
+        palette: {
+            type: 'light',
+        }
+    },
+    dark: {
+        palette: {
+            type: 'dark',
+        }
+    }
+}
+
+const mapState = ({ theme }) => {
+    console.log(createMuiTheme(themes[theme.active]))
     return {
-        theme: themes.data[themes.active],
+        theme: themes[theme.active],
     }
 }
 

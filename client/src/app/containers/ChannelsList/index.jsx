@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { push } from 'react-router-redux'
 
+import { withStyles } from 'material-ui/styles'
 import List from 'material-ui/List'
 import Toolbar from 'material-ui/Toolbar'
 import Typography from 'material-ui/Typography'
@@ -13,6 +14,12 @@ import { clear as clearNotifications } from '../../../store/modules/notification
 
 import css from './ChannelsList.css'
 import ChannelListItem from './ChannelListItem'
+
+const styles = theme => ({
+    root: {
+        backgroundColor: theme.palette.background.paper,
+    }
+})
 
 const mapState = ({ channels, notifications, hasMore }) => {
     return {
@@ -42,8 +49,8 @@ class ChannelsList extends React.Component {
         this.props.resetSwipeableIndex&&this.props.resetSwipeableIndex()
     }
     render(){
-        const { channels, hasMore, showHeader } = this.props
-        return <div className={css.ChannelsList}>
+        const { channels, hasMore, showHeader, classes } = this.props
+        return <div className={css.ChannelsList + ' ' + classes.root}>
             {showHeader && <Toolbar>
                 <Typography variant='title'>channels</Typography>
             </Toolbar>}
@@ -68,4 +75,4 @@ class ChannelsList extends React.Component {
     }
 }
 
-export default connect(mapState, mapDispatch)(ChannelsList)
+export default withStyles(styles)(connect(mapState, mapDispatch)(ChannelsList))

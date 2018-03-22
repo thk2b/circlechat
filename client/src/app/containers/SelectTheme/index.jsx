@@ -4,12 +4,12 @@ import { bindActionCreators } from 'redux'
 
 import { Select } from '../../lib'
 
-import { setTheme } from '../../../store/modules/themes'
+import { setTheme } from '../../../store/modules/theme'
 
-const mapState = ({ themes }) => {
+const mapState = ({ theme }) => {
     return {
-        activeTheme: themes.active,
-        themeNames: Object.keys(themes.data)
+        activeTheme: theme.active,
+        themeNames: ['light', 'dark']
     }
 }
 

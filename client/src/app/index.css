@@ -5,8 +5,6 @@
     height: 100vh;
     overflow: hidden;
     font-family: 'Roboto', sans-serif;
-    background-color: var(--surface-0);
-    color: var(--text-content);
     display: flex;
     flex-flow: column nowrap;
 }

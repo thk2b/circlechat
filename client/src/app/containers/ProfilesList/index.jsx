@@ -2,12 +2,20 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 
+
+import { withStyles } from 'material-ui/styles'
 import List from 'material-ui/List'
 import Toolbar from 'material-ui/Toolbar'
 import Typography from 'material-ui/Typography'
 
 import css from './ProfilesList.css'
 import ProfileListItem from './ProfileListItem'
+
+const styles = theme => ({
+    root: {
+        backgroundColor: theme.palette.background.paper,
+    }
+})
 
 const mapState = ({ profiles }) => {
     return {
@@ -28,8 +36,8 @@ class ProfilesList extends React.Component {
         this.props.resetSwipeableIndex&&this.props.resetSwipeableIndex()
     } 
     render() {
-        const { profiles, showHeader } = this.props
-        return <div className={css.ProfilesList}>
+        const { profiles, showHeader, classes } = this.props
+        return <div className={css.ProfilesList + ' ' + classes.root}>
             {showHeader && <Toolbar>
                 <Typography>profiles</Typography>
             </Toolbar>}
@@ -58,4 +66,4 @@ class ProfilesList extends React.Component {
     }
 }
 
-export default connect(mapState, mapDispatch)(ProfilesList)
+export default withStyles(styles)(connect(mapState, mapDispatch)(ProfilesList))

@@ -37,20 +37,19 @@ class Settings extends React.Component {
             >
                 <SettingsIcon/>
             </IconButton>
-            <Popover
+            <Menu
                 open={open}
                 anchorEl={this.anchorEl}
                 onClose={() => this.handleRequestClose()}
             >
-                <Menu>
-                    <MenuItem onClick={ () => logout()}>
-                        Logout
-                    </MenuItem>
-                    <MenuItem>
-                        <SelectTheme />
-                    </MenuItem>
-                </Menu>
-            </Popover>
+                <MenuItem onClick={ () => logout()}>
+                    Logout
+                </MenuItem>
+                <MenuItem>
+                    <SelectTheme />
+                </MenuItem>
+            </Menu>
+            
         </React.Fragment>
     }
 }
