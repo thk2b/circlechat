@@ -13,7 +13,6 @@ import { OwnProfileLink, Settings } from '../'
 const styles = {
     root: {
         position: 'initial',
-        flexGrow: 1,
     },
     flex: {
         flex: 1,

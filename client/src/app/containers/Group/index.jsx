@@ -32,6 +32,11 @@ const styles = theme => {
         tabs: {
             backgroundColor: theme.palette.primary.main
         },
+        swipableContainer: {
+            display: 'flex',
+            flexFlow: 'column nowrap',
+            height: '100%'
+        }
 }}
 
 const mapState = ({ device }, ownProps) => {
@@ -75,15 +80,15 @@ class Group extends React.Component {
         return <SwipeableViews
             style={{
                 maxWidth: '100vw',
+                flex: 1
+            }}
+            containerStyle={{
+                height: '100%'
             }}
             index={this.state.viewIndex}
             onChangeIndex={i => this.setState({ viewIndex: i })}
         >
-            <div style={{
-                display: 'flex',
-                flexFlow: 'column nowrap',
-                height: '100%'
-            }}>
+            <div className={classes.swipableContainer}>
                 <Tabs
                     className={classes.tabs}
                     value={this.state.tabIndex}
@@ -102,7 +107,7 @@ class Group extends React.Component {
                 { tabIndex === 0 && <ChannelsList resetSwipeableIndex={() => this.setState({ viewIndex: 1 })}/>}
                 { tabIndex === 1 && <ProfilesList resetSwipeableIndex={() => this.setState({ viewIndex: 1 })}/>}
             </div>
-            <React.Fragment>
+            <div className={classes.swipableContainer}>
                 <Toolbar className={classes.toolbar}>
                     <Switch>
                         <Route
@@ -134,7 +139,7 @@ class Group extends React.Component {
                     />
                     <Route exact path='/' render={()=><div style={{width: 100+'vw'}}/>}/>
                 </Switch>
-            </React.Fragment>
+            </div>
         </SwipeableViews>
     }
     renderTablet(){

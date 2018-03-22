@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { goBack, push } from 'react-router-redux'
 
-import { Toolbar, ToolbarGroup } from 'material-ui/Toolbar'
 import TextField from 'material-ui/TextField'
 import Button from 'material-ui/Button'
 import { create } from '../../../store/modules/channels'
@@ -39,12 +38,7 @@ class CreateChannel extends React.Component {
         this.props.createChannel(this.state.name)
     }
     render(){
-        return <div style={{ flex: 1 }}>
-            <Toolbar>
-                <ToolbarGroup>
-                    create a channel
-                </ToolbarGroup>
-            </Toolbar>
+        return <div>
             <TextField
                 fullWidth
                 value={this.state.name}
