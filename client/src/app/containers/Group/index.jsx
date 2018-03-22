@@ -7,7 +7,7 @@ import Toolbar from 'material-ui/Toolbar'
 import Typography from 'material-ui/Typography'
 import GroupIcon from 'material-ui-icons/Group'
 import ChannelIcon from 'material-ui-icons/RssFeed'
-import { Tabs, Tab } from 'material-ui/Tabs'
+import Tabs, { Tab } from 'material-ui/Tabs'
 import SwipeableViews from 'react-swipeable-views'
 
 import { 
@@ -21,14 +21,16 @@ import {
 import css from './Group.css'
 
 const styles = theme => {
-    console.log(theme)
     return {
         flex: {
             flex: 1
         },
         toolbar: {
             backgroundColor: theme.palette.primary.main
-        }
+        },
+        tabs: {
+            backgroundColor: theme.palette.primary.main
+        },
 }}
 
 const mapState = ({ device }, ownProps) => {
@@ -41,7 +43,8 @@ class Group extends React.Component {
         this.state = {
             isProfilesMenuOpen: this.props.device.isDesktop,
             isChannelsMenuOpen: this.props.device.isDesktop,
-            viewIndex: 1
+            viewIndex: 0,
+            tabIndex: 0
         }
     }
     
@@ -59,48 +62,72 @@ class Group extends React.Component {
     selectView(i){
         this.setState({ viewIndex: i })
     }
+    selectTab(i){
+        this.setState({ tabIndex: i })
+    }
     renderMobile(){
+        const { tabIndex } = this.state
+        const { classes } = this.props
+
+        const emptyToolbarSection = () => <div className={classes.flex} />
+
         return <SwipeableViews
-            className={css.Group}
+            style={{ maxWidth: '100vw' }}
             index={this.state.viewIndex}
             onChangeIndex={i => this.setState({ viewIndex: i })}
         >
-            <Tabs className={css.MenuTabs}>
-                <Tab
-                    label='channels'
-                    icon={<ChannelIcon/>}
+            <React.Fragment>
+                <Tabs
+                    className={classes.tabs}
+                    value={this.state.tabIndex}
+                    onChange={(e, i) => this.selectTab(i)}
+                    fullWidth
                 >
-                    <ChannelsList resetSwipeableIndex={() => this.setState({ viewIndex: 1 })}/>
-                </Tab>
-                <Tab
-                    label='users'
-                    icon={<GroupIcon/>}
-                >
-                    <ProfilesList resetSwipeableIndex={() => this.setState({ viewIndex: 1 })}/>
-                </Tab>
-            </Tabs>
-            <Switch>
-                <Route path='/channel/create' component={CreateChannel}/>
-                <Route
-                    path='/channel/:id'
-                    render={({ match }) => (
-                        <Channel match={match} onBack={() => this.setState({ viewIndex: 0 })} />
-                    )}
-                />
-                <Route
-                    path='/profile/:id'
-                    render={({ match }) => (
-                        <Profile match={match} onBack={() => this.setState({ viewIndex: 0 })} />
-                    )}
-                />
-                <Route
-                    path='/me'
-                    render={({ match }) => (
-                        <Profile match={match} onBack={() => this.setState({ viewIndex: 0 })} />
-                    )}
-                />
-                <Route exact path='/' render={()=><div style={{width: 100+'vw'}}/>}/>
-            </Switch>
+                    <Tab
+                        label='channels'
+                        icon={<ChannelIcon/>}
+                    />
+                    <Tab
+                        label='users'
+                        icon={<GroupIcon/>}
+                    />
+                </Tabs>
+                { tabIndex === 0 && <ChannelsList resetSwipeableIndex={() => this.setState({ viewIndex: 1 })}/>}
+                { tabIndex === 1 && <ProfilesList resetSwipeableIndex={() => this.setState({ viewIndex: 1 })}/>}
+            </React.Fragment>
+            <React.Fragment>
+                <Toolbar className={classes.toolbar}>
+                    <Switch>
+                        <Route
+                            path='/channel/:id'
+                            component={ChannelToolbar}
+                        />
+                        <Route render={emptyToolbarSection}/>
+                    </Switch>
+                </Toolbar>
+                <Switch>
+                    <Route path='/channel/create' component={CreateChannel}/>
+                    <Route
+                        path='/channel/:id'
+                        render={({ match }) => (
+                            <Channel match={match} onBack={() => this.setState({ viewIndex: 0 })} />
+                        )}
+                    />
+                    <Route
+                        path='/profile/:id'
+                        render={({ match }) => (
+                            <Profile match={match} onBack={() => this.setState({ viewIndex: 0 })} />
+                        )}
+                    />
+                    <Route
+                        path='/me'
+                        render={({ match }) => (
+                            <Profile match={match} onBack={() => this.setState({ viewIndex: 0 })} />
+                        )}
+                    />
+                    <Route exact path='/' render={()=><div style={{width: 100+'vw'}}/>}/>
+                </Switch>
+            </React.Fragment>
         </SwipeableViews>
     }
     renderTablet(){
