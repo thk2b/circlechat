@@ -1,17 +1,20 @@
 import React from 'react'
 
-import ListItem from 'material-ui/List/ListItem'
+import { ListItem, ListItemText } from 'material-ui/List'
 import { Link, NotificationPill } from '../../lib'
 
 import css from './ChannelListItem.css'
 
 export default ({onClick, name, notifications, hasMore }) => {
-    return <ListItem
+    return <ListItem button
         onClick={onClick}
     >
-        <div className={css.ChannelListItem}>
+        <ListItemText primary={name}/>
+        <NotificationPill count={notifications} hasMore={hasMore && notifications >= 20} />
+        {/* <div className={css.ChannelListItem}>
+            <ListItemText primaty={name}/>
             <Link>{name}</Link>
             <NotificationPill count={notifications} hasMore={hasMore && notifications >= 20} />
-        </div>
+        </div> */}
     </ListItem>
 }
