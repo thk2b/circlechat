@@ -13,13 +13,13 @@ import { Editable } from '../../lib'
 import { remove, update } from '../../../store/modules/channels'
 import { typography } from 'material-ui/styles';
 
-const styles = theme => ({
+const styles = theme => {console.log(theme);return({
     root: {
         flex: 1,
         display: 'flex',
         justifyContent: 'space-between'
     }
-})
+})}
 
 const mapState = ({ channels }, ownProps) => {
     const channel = channels.data[ownProps.match.params.id]
@@ -57,7 +57,7 @@ const ChannelToolbar = ({
             value={name}
             onSubmit={ newName => renameChannel(newName) }
         >
-            <Typography variant='title'>
+            <Typography variant='title' color='inherit'>
                 {name}
             </Typography>
         </Editable>

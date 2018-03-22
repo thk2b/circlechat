@@ -28,7 +28,8 @@ const styles = theme => {
         },
         toolbar: {
             backgroundColor: theme.palette.primary.main,
-            justifyContent: 'space-between'
+            justifyContent: 'space-between',
+            color: theme.palette.primary.contrastText
         },
         tabs: {
             backgroundColor: theme.palette.primary.main
@@ -160,7 +161,10 @@ class Group extends React.Component {
 
         return <React.Fragment>
             <Toolbar className={classes.toolbar}>
-                <Typography variant='title'>
+                <Typography
+                    variant='title'
+                    color='inherit'
+                >
                     channels
                 </Typography>
                 <Switch>
@@ -168,6 +172,7 @@ class Group extends React.Component {
                         path='/channel/create'
                         render={() => <Typography
                             variant='title'
+                            color='inherit'
                         >
                             create a channel
                         </Typography>}
@@ -178,7 +183,10 @@ class Group extends React.Component {
                     />
                     <Route render={emptyToolbarSection}/>
                 </Switch>
-                <Typography variant='title'>
+                <Typography
+                    variant='title'
+                    color='inherit'
+                >
                     profiles
                 </Typography>
             </Toolbar>
