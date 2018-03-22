@@ -1,16 +1,31 @@
 import React from 'react'
 import classNames from 'classnames'
+import { withStyles } from 'material-ui/styles'
 
-import css from './Status.css'
-
-export default ({ status = 'INVISIBLE' }) => {
-    if(status === 'INVISIBLE') return null
-    const modifierClassName = {
-        'ONLINE': css.isOnline,
-        'OFFLINE': css.isOffline
-    }[status]
-
-    return <span className={classNames(css.Status, modifierClassName)}>
-        
-    </span>
+const styles = theme => {
+    console.log(theme)
+    return {
+        root: {
+            display: 'inline-block',
+            width: '18px',
+            height: '18px',
+            borderRadius: '50%',
+            marginLeft: '1rem',
+            verticalAlign: 'bottom',
+        },
+        online: {
+            backgroundColor: theme.palette.primary.main,
+        },
+        offline: {
+            backgroundColor: theme.palette.grey[500]
+        }
+    }
 }
+
+export default withStyles(styles)(({ classes, status = 'INVISIBLE' }) => {
+    if(status === 'INVISIBLE') return null
+    return <span className={classNames(
+        classes.root,
+        classes[status.toLowerCase()])}
+    />
+})
