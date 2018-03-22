@@ -3,11 +3,21 @@ import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import { bindActionCreators } from 'redux'
 
+import { withStyles } from 'material-ui/styles'
 import AppBar from 'material-ui/AppBar'
 import Toolbar from 'material-ui/Toolbar'
 import Typography from 'material-ui/Typography'
 
 import { OwnProfileLink, Settings } from '../'
+
+const styles = {
+    root: {
+        flexGrow: 1,
+    },
+    flex: {
+        flex: 1,
+    },
+}
 
 const mapDispatch = dispatch => {
     return bindActionCreators({ push }, dispatch)
@@ -15,10 +25,14 @@ const mapDispatch = dispatch => {
 
 class Nav extends React.Component {
     render() {
-        return <AppBar>
+        const { classes } = this.props
+        return <AppBar className={classes.root}>
             <Toolbar>
                 <Settings />
-                <Typography variant='title'>
+                <Typography variant='title'
+                    color="inherit"
+                    className={classes.flex}
+                >
                     CircleChat
                 </Typography> 
                 <OwnProfileLink />
@@ -27,4 +41,4 @@ class Nav extends React.Component {
     }
 }
 
-export default connect(undefined, mapDispatch)(Nav)
+export default withStyles(styles)(connect(undefined, mapDispatch)(Nav))

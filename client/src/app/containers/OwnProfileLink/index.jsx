@@ -20,6 +20,7 @@ const mapDispatch = dispatch => {
 
 const OwnProfileLink = ({ push, userId }) => {
     return <IconButton
+        color='inherit'
         onClick={e => {
             if(userId) push('/me')
         }}

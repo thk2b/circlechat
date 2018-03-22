@@ -32,7 +32,7 @@ class Settings extends React.Component {
         const { open } = this.state
         const { logout } = this.props
         return <React.Fragment>
-            <IconButton
+            <IconButton color='inherit'
                 onClick={e => this.handleClick(e)}
             >
                 <SettingsIcon/>
