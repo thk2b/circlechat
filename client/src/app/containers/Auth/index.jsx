@@ -61,7 +61,7 @@ class Auth extends React.Component {
         
         return <div className={css.Auth}>
             <h2>Welcome to CircleChat !</h2>
-            <Paper zDepth={device.isMobile? 0 : 3}>
+            <Paper elevation={device.isMobile? 0 : 3}>
                 {
                     isRegistering
                         ?<RegisterForm onSubmit={data => register(data)} onSecondary={e => this.toggleRegister()}/>

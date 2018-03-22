@@ -21,34 +21,38 @@ export default class LoginForm extends React.Component {
             <form onSubmit={e => this.handleSubmit(e)}>
                 <h3>Register</h3>
                 <TextField 
-                    floatingLabelText="user id"
-                    hintText="Your permanant id"
+                    label='user id'
                     value={this.state.userId}
                     onChange={({ target }) => this.setState({ userId: target.value })}
+                    margin='normal'
                 />
                 <TextField 
-                    floatingLabelText="email"
+                    label='email'
                     value={this.state.email}
                     onChange={({ target }) => this.setState({ email: target.value })}
+                    margin='normal'
                 />
                 <TextField
-                    type="password"
-                    floatingLabelText="password"
-                    hintText="Pick a strong password"
+                    type='password'
+                    label='password'
                     value={this.state.pw}
                     onChange={({ target }) => this.setState({ pw: target.value })}
                     onKeyDown={({ key }) => !this.props.isTextarea && key === 'Enter' && this.handleSubmit()}
+                    margin='normal'
                 />
                 <div>
-                    <Button primary
-                        variant="raised"
-                        label="Register"
+                    <Button 
+                        color='primary'
+                        variant='raised'
                         onClick={e => this.handleSubmit(e)}
-                    />
+                    >
+                        Register
+                    </Button>
                     <Button
-                        label="Log in"
                         onClick={e => this.props.onSecondary(e)}
-                    />
+                    >
+                        Log in
+                    </Button>
                 </div>
             </form>
         )
