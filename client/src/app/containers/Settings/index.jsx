@@ -1,10 +1,10 @@
 import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import SettingsIcon from 'material-ui-icons/Settings'
 
+import SettingsIcon from 'material-ui-icons/Settings'
+import Menu, { MenuItem } from 'material-ui/Menu'
 import Popover from 'material-ui/Popover'
-import { Menu, MenuItem } from 'material-ui/Menu'
 import IconButton from 'material-ui/IconButton'
 
 import { logout } from '../../../store/modules/auth'
@@ -40,7 +40,7 @@ class Settings extends React.Component {
             <Popover
                 open={open}
                 anchorEl={this.anchorEl}
-                onRequestClose={() => this.handleRequestClose()}
+                onClose={() => this.handleRequestClose()}
             >
                 <Menu>
                     <MenuItem onClick={ () => logout()}>

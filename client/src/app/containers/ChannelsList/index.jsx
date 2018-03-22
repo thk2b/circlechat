@@ -3,8 +3,9 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { push } from 'react-router-redux'
 
-import { List } from 'material-ui/List'
-import { Toolbar, ToolbarGroup, ToolbarTitle } from 'material-ui/Toolbar'
+import List from 'material-ui/List'
+import Toolbar from 'material-ui/Toolbar'
+import Typography from 'material-ui/Typography'
 import Button from 'material-ui/Button'
 import AddIcon from 'material-ui-icons/Add'
 
@@ -44,7 +45,7 @@ class ChannelsList extends React.Component {
         const { channels, hasMore, showHeader } = this.props
         return <div className={css.ChannelsList}>
             {showHeader && <Toolbar>
-                <ToolbarTitle text="channels"/>
+                <Typography variant='title'>channels</Typography>
             </Toolbar>}
             <List>
                 {channels.map(

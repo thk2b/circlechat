@@ -2,8 +2,9 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 
-import List from 'material-ui/List/List'
-import { Toolbar, ToolbarGroup, ToolbarTitle } from 'material-ui/Toolbar'
+import List from 'material-ui/List'
+import Toolbar from 'material-ui/Toolbar'
+import Typography from 'material-ui/Typography'
 
 import css from './ProfilesList.css'
 import ProfileListItem from './ProfileListItem'
@@ -30,7 +31,7 @@ class ProfilesList extends React.Component {
         const { profiles, showHeader } = this.props
         return <div className={css.ProfilesList}>
             {showHeader && <Toolbar>
-                <ToolbarTitle text="profiles"/>
+                <Typography>profiles</Typography>
             </Toolbar>}
             <List>
             {profiles.map(
