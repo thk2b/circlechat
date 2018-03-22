@@ -3,10 +3,19 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { goBack, push } from 'react-router-redux'
 
+import { withStyles } from 'material-ui/styles'
 import TextField from 'material-ui/TextField'
 import Button from 'material-ui/Button'
+import Paper from 'material-ui/Paper'
 import { create } from '../../../store/modules/channels'
 
+const styles = theme => ({
+    root: {
+        flex: 1,
+        backgroundColor: theme.palette.background.default,
+        padding: '8px'
+    }
+})
 
 const mapState = ({ profiles, channels }) => {
     return {
@@ -38,26 +47,32 @@ class CreateChannel extends React.Component {
         this.props.createChannel(this.state.name)
     }
     render(){
-        return <div>
+        const { classes } = this.props
+        return <div
+            className={classes.root}
+        >
             <TextField
                 fullWidth
+                margin='normal'
                 value={this.state.name}
-                floatingLabelText='name'
+                label='name'
                 onChange={({ target }) => this.setState({ name: target.value })}
                 onKeyDown={({ key }) => key === 'Enter' && this.submit()}
             />
             <Button
                 primary
                 variant='raised'
-                label='create'
                 onClick={e => this.submit()}
-            />
+            >
+                create
+            </Button>
             <Button 
-                label='cancel'
                 onClick={e => this.props.goBack()}
-            />
+            >
+                cancel
+            </Button>
             {/* <RequestStatus request={this.props.request}/> */}
         </div>
     }
 }
-export default connect(mapState, mapDispatch, mergeProps)(CreateChannel)
+export default withStyles(styles)(connect(mapState, mapDispatch, mergeProps)(CreateChannel))

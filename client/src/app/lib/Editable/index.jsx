@@ -53,7 +53,7 @@ export default class Editable extends React.Component {
                     onChange={e => this.handleChange(e)}
                     onKeyDown={({ key }) => !this.props.isTextarea && key === 'Enter' && this.submit()}
                     inputRef={i => this.$input = i}
-                    multiLine={this.props.isTextarea || false}
+                    // multiline={this.props.isTextarea || false}
                     style={{width: 'auto'}}
                 />
                 <IconButton
