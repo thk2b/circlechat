@@ -2,6 +2,7 @@ import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
+import Typography from 'material-ui/Typography'
 import Paper from 'material-ui/Paper'
 import Snackbar from 'material-ui/Snackbar'
 import { CircularProgress } from 'material-ui/Progress'
@@ -60,7 +61,7 @@ class Auth extends React.Component {
         if(token) return this.props.children
         
         return <div className={css.Auth}>
-            <h2>Welcome to CircleChat !</h2>
+            <Typography variant='title'>Welcome to CircleChat !</Typography>
             <Paper elevation={device.isMobile? 0 : 3}>
                 {
                     isRegistering

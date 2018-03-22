@@ -1,5 +1,6 @@
 import React from 'react'
 
+import Typography from 'material-ui/Typography'
 import TextField from 'material-ui/TextField'
 import Button from 'material-ui/Button'
 
@@ -18,7 +19,7 @@ export default class LoginForm extends React.Component {
     render() {
         return (
             <form onSubmit={e => this.handleSubmit(e)}>
-                <h3>Log in</h3>
+                <Typography variant='subheading'>Log in</Typography>
                 <TextField
                     label="user id"
                     value={this.state.userId}
