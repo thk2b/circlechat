@@ -1,8 +1,7 @@
 import React from 'react'
 
 import TextField from 'material-ui/TextField'
-import FlatButton from 'material-ui/FlatButton'
-import RaisedButton from 'material-ui/RaisedButton'
+import Button from 'material-ui/Button'
 
 export default class LoginForm extends React.Component {
     constructor(props) {
@@ -41,11 +40,12 @@ export default class LoginForm extends React.Component {
                     onKeyDown={({ key }) => !this.props.isTextarea && key === 'Enter' && this.handleSubmit()}
                 />
                 <div>
-                    <RaisedButton primary
+                    <Button primary
+                        variant="raised"
                         label="Register"
                         onClick={e => this.handleSubmit(e)}
                     />
-                    <FlatButton
+                    <Button
                         label="Log in"
                         onClick={e => this.props.onSecondary(e)}
                     />

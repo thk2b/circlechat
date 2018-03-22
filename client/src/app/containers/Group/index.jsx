@@ -2,8 +2,8 @@ import React from 'react'
 import { Switch, Route, withRouter } from 'react-router'
 import { connect } from 'react-redux'
 
-import GroupIcon from 'material-ui/svg-icons/social/group'
-import ChannelIcon from 'material-ui/svg-icons/communication/rss-feed'
+import GroupIcon from 'material-ui-icons/Group'
+import ChannelIcon from 'material-ui-icons/RssFeed'
 import { Tabs, Tab } from 'material-ui/Tabs'
 import SwipeableViews from 'react-swipeable-views'
 

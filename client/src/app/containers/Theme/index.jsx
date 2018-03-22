@@ -1,8 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import { MuiThemeProvider, createTheme } from 'material-ui/styles'
 
 import './themes.css'
 
@@ -14,7 +13,7 @@ const mapState = ({ themes }) => {
 
 const Theme = ({ theme, children }) => (
     <MuiThemeProvider 
-        muiTheme={getMuiTheme(theme)}
+        muiTheme={createTheme(theme)}
     >
         {children}
     </MuiThemeProvider>

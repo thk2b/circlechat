@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { push } from 'react-router-redux'
 
-import AccountIcon from 'material-ui/svg-icons/action/account-circle'
+import AccountCircleIcon from 'material-ui-icons/AccountCircle'
 import IconButton from 'material-ui/IconButton'
 
 const mapState = ({ profiles, auth }) => {
@@ -24,7 +24,7 @@ const OwnProfileLink = ({ push, userId }) => {
             if(userId) push('/me')
         }}
     >
-        <AccountIcon/>
+        <AccountCircleIcon/>
     </IconButton>
 }
 

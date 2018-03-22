@@ -1,13 +1,10 @@
-import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme'
-import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme'
-
 import { SET_THEME } from './actions'
 
 const initialState = {
     active: 'light',
     data: {
-        light: lightBaseTheme,
-        dark: darkBaseTheme
+        light: {},
+        dark: {}
     }
 }
 

@@ -5,8 +5,7 @@ import { goBack, push } from 'react-router-redux'
 
 import { Toolbar, ToolbarGroup } from 'material-ui/Toolbar'
 import TextField from 'material-ui/TextField'
-import RaisedButton from 'material-ui/RaisedButton'
-import FlatButton from 'material-ui/FlatButton'
+import Button from 'material-ui/Button'
 import { create } from '../../../store/modules/channels'
 
 
@@ -53,12 +52,13 @@ class CreateChannel extends React.Component {
                 onChange={({ target }) => this.setState({ name: target.value })}
                 onKeyDown={({ key }) => key === 'Enter' && this.submit()}
             />
-            <RaisedButton
+            <Button
                 primary
+                variant='raised'
                 label='create'
                 onClick={e => this.submit()}
             />
-            <FlatButton 
+            <Button 
                 label='cancel'
                 onClick={e => this.props.goBack()}
             />

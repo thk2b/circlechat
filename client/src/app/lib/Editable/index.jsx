@@ -2,10 +2,10 @@ import React from 'react'
 
 import IconButton from 'material-ui/IconButton'
 import TextField from 'material-ui/TextField'
-import CheckIcon from 'material-ui/svg-icons/action/done'
-import ClearIcon from 'material-ui/svg-icons/content/clear'
-import EditIcon from 'material-ui/svg-icons/image/edit'
-import DeleteIcon from 'material-ui/svg-icons/action/delete-forever'
+import CheckIcon from 'material-ui-icons/Done'
+import ClearIcon from 'material-ui-icons/Clear'
+import EditIcon from 'material-ui-icons/Edit'
+import DeleteIcon from 'material-ui-icons/DeleteForever'
 
 import css from './Editable.css'
 

@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 
 import TextField from 'material-ui/TextField'
-import FloatingActionButton from 'material-ui/FloatingActionButton'
-import SendIcon from 'material-ui/svg-icons/content/send'
+import Button from 'material-ui/Button'
+import SendIcon from 'material-ui-icons/Send'
 
 import css from './MessageInput.css'
 
@@ -25,11 +25,12 @@ export default class MessageInput extends Component {
                 onChange={({ target }) => this.setState({ text: target.value })}
                 onKeyDown={({ key }) => key === 'Enter' && this.submit()}
             />
-            <FloatingActionButton mini
+            <Button mini
+                variant='fab'
                 onClick={e => this.submit()}
             >
                 <SendIcon />
-            </FloatingActionButton>
+            </Button>
         </div>
     }
 }

@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 
 import Paper from 'material-ui/Paper'
 import { Toolbar, ToolbarGroup } from 'material-ui/Toolbar'
-import BackIcon from 'material-ui/svg-icons/navigation/arrow-back'
+import BackIcon from 'material-ui-icons/ArrowBack'
 // import Snackbar from 'material-ui/Snackbar'
 import { Spinner, Editable } from '../../lib'
 

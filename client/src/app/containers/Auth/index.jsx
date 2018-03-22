@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 
 import Paper from 'material-ui/Paper'
 import Snackbar from 'material-ui/Snackbar'
-import CircularProgress from 'material-ui/CircularProgress'
+import { CircularProgress } from 'material-ui/Progress'
 
 import { login, connectWs, register, clearRequestStatus } from '../../../store/modules/auth'
 import LoginForm from './LoginForm'

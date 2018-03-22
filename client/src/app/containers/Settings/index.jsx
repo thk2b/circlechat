@@ -1,7 +1,7 @@
 import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import SettingsIcon from 'material-ui/svg-icons/action/settings'
+import SettingsIcon from 'material-ui-icons/Settings'
 
 import Popover from 'material-ui/Popover'
 import { Menu, MenuItem } from 'material-ui/Menu'

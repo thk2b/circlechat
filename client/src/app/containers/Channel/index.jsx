@@ -5,8 +5,8 @@ import { bindActionCreators } from 'redux'
 import { Toolbar, ToolbarTitle, ToolbarGroup } from 'material-ui/Toolbar'
 import IconButton from 'material-ui/IconButton'
 // import Snackbar from 'material-ui/Snackbar'
-import ClearIcon from 'material-ui/svg-icons/action/delete'
-import BackIcon from 'material-ui/svg-icons/navigation/arrow-back'
+import ClearIcon from 'material-ui-icons/Delete'
+import ArrowBackIcon from 'material-ui-icons/ArrowBack'
 
 import { Spinner, Editable } from '../../lib'
 
@@ -56,7 +56,7 @@ class Channel extends React.Component {
         return <div className={css.Channel}>
             <Toolbar>
                 {this.props.onBack && <ToolbarGroup>
-                    <BackIcon onClick={e => this.props.onBack() }/>
+                    <ArrowBackIcon onClick={e => this.props.onBack() }/>
                 </ToolbarGroup>}
                 <ToolbarGroup>
                     <Editable

@@ -5,8 +5,8 @@ import { push } from 'react-router-redux'
 
 import { List } from 'material-ui/List'
 import { Toolbar, ToolbarGroup, ToolbarTitle } from 'material-ui/Toolbar'
-import FloatingActionButton from 'material-ui/FloatingActionButton'
-import ContentAdd from 'material-ui/svg-icons/content/add'
+import Button from 'material-ui/Button'
+import AddIcon from 'material-ui-icons/Add'
 
 import { clear as clearNotifications } from '../../../store/modules/notifications'
 
@@ -56,12 +56,13 @@ class ChannelsList extends React.Component {
                     />
                 )}
             </List>
-            <FloatingActionButton mini
+            <Button mini
+                variant='fab'
                 className={css.CreateChannelButton}
                 onClick={e => this.onCreateButtonClick()}
             >
-                <ContentAdd/>
-            </FloatingActionButton>
+                <AddIcon/>
+            </Button>
         </div>
     }
 }
