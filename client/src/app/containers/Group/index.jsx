@@ -22,8 +22,9 @@ import css from './Group.css'
 
 const styles = theme => {
     return {
-        flex: {
-            flex: 1
+        void: {
+            flex: 1,
+            backgroundColor: theme.palette.background.default
         },
         toolbar: {
             backgroundColor: theme.palette.primary.main
@@ -69,7 +70,7 @@ class Group extends React.Component {
         const { tabIndex } = this.state
         const { classes } = this.props
 
-        const emptyToolbarSection = () => <div className={classes.flex} />
+        const emptyToolbarSection = () => <div className={classes.void} />
 
         return <SwipeableViews
             style={{
@@ -141,7 +142,7 @@ class Group extends React.Component {
     }
     renderDesktop(){
         const { classes } = this.props
-        const emptyToolbarSection = () => <div className={classes.flex} />
+        const emptyToolbarSection = () => <div className={classes.void} />
 
         return <React.Fragment>
             <Toolbar className={classes.toolbar}>
@@ -169,7 +170,7 @@ class Group extends React.Component {
                     <Route path='/profile/:id' component={Profile}/>
                     <Route path='/me' component={Profile}/>
                     <Route exact path='/' render={() => (
-                        <div style={{ flex: 1 }}/>
+                        <div className={classes.void}/>
                     )}/>
                 </Switch>
                 <ProfilesList/>
