@@ -12,21 +12,17 @@ const styles = theme => ({
     }
 })
 
-class App extends React.Component {    
+class App extends React.Component {
     render(){
         const { classes } = this.props
-        return <Theme>
-            <div className={css.App + ' ' + classes.root}>
-            {/* <div className={css.App}> */}
-                <TitleBar />
-                <Auth>
-                    <Nav />
-                    <Group />
-                </Auth>
-            </div>
-        </Theme>
+        return <div className={css.App + ' ' + classes.root}>
+            <TitleBar />
+            <Auth>
+                <Nav />
+                <Group />
+            </Auth>
+        </div>
     }   
 }
 
-// export default App
 export default withStyles(styles)(App)

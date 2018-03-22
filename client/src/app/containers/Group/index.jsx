@@ -207,4 +207,4 @@ class Group extends React.Component {
     }
 }
 
-export default withStyles(styles)(withRouter(connect(mapState)(Group)))
+export default withRouter(withStyles(styles)(connect(mapState)(Group)))

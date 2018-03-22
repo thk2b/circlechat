@@ -3,7 +3,8 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import Toolbar from 'material-ui/Toolbar'
-import IconButton from 'material-ui/IconButton'
+import IconButton from 'material-ui/IconButton'
+import Typography from 'material-ui/Typography'
 
 import { Spinner, Editable } from '../../lib'
 
@@ -24,20 +25,15 @@ class Channel extends React.Component {
         const {
             channel, loading,
         } = this.props
-        
+
         if(loading) return <Spinner />
         
-        if(!channel) return <div>
-            <h1>Channel not found</h1>
+        if(!channel) return <div style={{ flex:1 }}>
+            <Typography variant='title'>Channel not found</Typography>
         </div>
 
         return <div className={css.Channel}>
             <Chat channelId={channel.id}/>
-            {/* {channel.request.status >= 400 && <Snackbar
-                open={true}
-                message={channel.request.message}
-                autoHideDuration={4000}
-            />} */}
         </div>
     }
 }
