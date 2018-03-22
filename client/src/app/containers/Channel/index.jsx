@@ -2,23 +2,16 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { Toolbar, ToolbarTitle, ToolbarGroup } from 'material-ui/Toolbar'
+import Toolbar from 'material-ui/Toolbar'
 import IconButton from 'material-ui/IconButton'
-// import Snackbar from 'material-ui/Snackbar'
-import ClearIcon from 'material-ui-icons/Delete'
-import ArrowBackIcon from 'material-ui-icons/ArrowBack'
 
 import { Spinner, Editable } from '../../lib'
 
-import { remove, update } from '../../../store/modules/channels'
 
 import { Chat } from '../'
 import css from './Channel.css'
 
 const mapState = ({ channels }, ownProps) => {
-    if(!ownProps.match.params.id){
-        console.error('Channel must be rendered by a `Route` with an id param')
-    }
     const channel = channels.data[ownProps.match.params.id]
     return {
         channel,
@@ -26,25 +19,10 @@ const mapState = ({ channels }, ownProps) => {
     }
 }
 
-const mapDispatch = dispatch => {
-    return bindActionCreators({ remove, update }, dispatch)
-}
-
-const mergeProps = ( state, { remove, update }, ownProps ) => {
-    const { id } = ownProps.match.params
-    return {
-        ...state,
-        removeChannel: () => remove(id),
-        renameChannel: name => update(id, { name }),
-        ...ownProps
-    }
-}
-
 class Channel extends React.Component {
     render(){
         const {
             channel, loading,
-            renameChannel, removeChannel
         } = this.props
         
         if(loading) return <Spinner />
@@ -54,26 +32,6 @@ class Channel extends React.Component {
         </div>
 
         return <div className={css.Channel}>
-            <Toolbar>
-                {this.props.onBack && <ToolbarGroup>
-                    <ArrowBackIcon onClick={e => this.props.onBack() }/>
-                </ToolbarGroup>}
-                <ToolbarGroup>
-                    <Editable
-                        value={channel.name}
-                        onSubmit={ name => renameChannel(name) }
-                    >
-                        <ToolbarTitle
-                            text={channel.name}
-                        />
-                    </Editable>
-                </ToolbarGroup>
-                <ToolbarGroup>
-                    <IconButton onClick={ e => removeChannel() }>
-                        <ClearIcon />
-                    </IconButton>
-                </ToolbarGroup>
-            </Toolbar>
             <Chat channelId={channel.id}/>
             {/* {channel.request.status >= 400 && <Snackbar
                 open={true}
@@ -85,4 +43,4 @@ class Channel extends React.Component {
 }
 
 
-export default connect(mapState, mapDispatch, mergeProps)(Channel)
+export default connect(mapState)(Channel)

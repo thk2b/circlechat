@@ -1,6 +1,7 @@
 export { default as Auth } from './Auth'
 export { default as Channel } from './Channel'
 export { default as ChannelsList } from './ChannelsList'
+export { default as ChannelToolbar } from './ChannelToolbar'
 export { default as Chat } from './Chat'
 export { default as CreateChannel } from './CreateChannel'
 export { default as Group } from './Group'

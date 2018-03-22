@@ -2,6 +2,9 @@ import React from 'react'
 import { Switch, Route, withRouter } from 'react-router'
 import { connect } from 'react-redux'
 
+import { withStyles } from 'material-ui/styles'
+import Toolbar from 'material-ui/Toolbar'
+import Typography from 'material-ui/Typography'
 import GroupIcon from 'material-ui-icons/Group'
 import ChannelIcon from 'material-ui-icons/RssFeed'
 import { Tabs, Tab } from 'material-ui/Tabs'
@@ -12,10 +15,16 @@ import {
     Profile,
     CreateChannel,
     ChannelsList,
-    Channel 
+    Channel,
+    ChannelToolbar,
 } from '../'
 import css from './Group.css'
-import { Toolbar } from 'material-ui';
+
+const styles = theme => ({
+    flex: {
+        flex: 1
+    }
+})
 
 const mapState = ({ device }, ownProps) => {
     return { device }
@@ -93,20 +102,38 @@ class Group extends React.Component {
         return this.renderMobile()
     }
     renderDesktop(){
-        // const { isProfilesMenuOpen, isChannelsMenuOpen } = this.state
-        return <div className={css.Group}>
-            <ChannelsList showHeader/>
-            <Switch>
-                <Route path='/channel/create' component={CreateChannel}/>
-                <Route path='/channel/:id' component={Channel}/>
-                <Route path='/profile/:id' component={Profile}/>
-                <Route path='/me' component={Profile}/>
-                <Route exact path='/' render={() => (
-                    <Toolbar style={{ flex: 1 }}/>
-                )}/>
-            </Switch>
-            <ProfilesList showHeader/>
-        </div>
+        const { classes } = this.props
+        const emptyToolbarSection = () => <div className={classes.flex} />
+
+        return <React.Fragment>
+            <Toolbar disableGutters>
+                <Typography variant='title'>
+                    channels
+                </Typography>
+                <Switch>
+                    <Route path='/channel/:id' component={ChannelToolbar}/>
+                    <Route render={emptyToolbarSection}/>
+                </Switch>
+                <Typography variant='title'>
+                    profiles
+                </Typography>
+            </Toolbar>
+            <div 
+                className={css.Group}
+            >
+                <ChannelsList/>
+                <Switch>
+                    <Route path='/channel/create' component={CreateChannel}/>
+                    <Route path='/channel/:id' component={Channel}/>
+                    <Route path='/profile/:id' component={Profile}/>
+                    <Route path='/me' component={Profile}/>
+                    <Route exact path='/' render={() => (
+                        <Toolbar style={{ flex: 1 }}/>
+                    )}/>
+                </Switch>
+                <ProfilesList/>
+            </div>
+        </React.Fragment>
     }
     render() {
         const { device } = this.props
@@ -116,4 +143,4 @@ class Group extends React.Component {
     }
 }
 
-export default withRouter(connect(mapState)(Group))
+export default withStyles(styles)(withRouter(connect(mapState)(Group)))
