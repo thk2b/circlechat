@@ -20,11 +20,16 @@ import {
 } from '../'
 import css from './Group.css'
 
-const styles = theme => ({
-    flex: {
-        flex: 1
-    }
-})
+const styles = theme => {
+    console.log(theme)
+    return {
+        flex: {
+            flex: 1
+        },
+        toolbar: {
+            backgroundColor: theme.palette.primary.main
+        }
+}}
 
 const mapState = ({ device }, ownProps) => {
     return { device }
@@ -106,12 +111,15 @@ class Group extends React.Component {
         const emptyToolbarSection = () => <div className={classes.flex} />
 
         return <React.Fragment>
-            <Toolbar disableGutters>
+            <Toolbar className={classes.toolbar}>
                 <Typography variant='title'>
                     channels
                 </Typography>
                 <Switch>
-                    <Route path='/channel/:id' component={ChannelToolbar}/>
+                    <Route
+                        path='/channel/:id'
+                        component={ChannelToolbar}
+                    />
                     <Route render={emptyToolbarSection}/>
                 </Switch>
                 <Typography variant='title'>
@@ -128,7 +136,7 @@ class Group extends React.Component {
                     <Route path='/profile/:id' component={Profile}/>
                     <Route path='/me' component={Profile}/>
                     <Route exact path='/' render={() => (
-                        <Toolbar style={{ flex: 1 }}/>
+                        <div style={{ flex: 1 }}/>
                     )}/>
                 </Switch>
                 <ProfilesList/>

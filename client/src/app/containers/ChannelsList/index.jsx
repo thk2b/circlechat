@@ -17,7 +17,7 @@ import ChannelListItem from './ChannelListItem'
 
 const styles = theme => ({
     root: {
-        backgroundColor: theme.palette.background.paper,
+        backgroundColor: theme.palette.background.default,
     }
 })
 

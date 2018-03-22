@@ -20,7 +20,6 @@ export default class MessageInput extends Component {
             <TextField
                 fullWidth
                 value={this.state.text}
-                hintText='send a message'
                 onClick={e => this.props.onFocus(e)}
                 onChange={({ target }) => this.setState({ text: target.value })}
                 onKeyDown={({ key }) => key === 'Enter' && this.submit()}

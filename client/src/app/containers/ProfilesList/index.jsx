@@ -13,7 +13,7 @@ import ProfileListItem from './ProfileListItem'
 
 const styles = theme => ({
     root: {
-        backgroundColor: theme.palette.background.paper,
+        backgroundColor: theme.palette.background.default,
     }
 })
 

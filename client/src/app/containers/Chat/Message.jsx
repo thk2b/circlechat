@@ -3,7 +3,8 @@ import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import { bindActionCreators } from 'redux'
 
-import { Card, CardHeader, CardText } from 'material-ui/Card'
+import Card, { CardContent, CardText } from 'material-ui/Card'
+import Typography from 'material-ui/Typography'
 import { Editable, Link, Time } from '../../lib'
 
 import { update, remove } from '../../../store/modules/messages'
@@ -37,26 +38,23 @@ const Message = ({
     const deleted = text === null
 
     return <Card className={css.Message}>
-        <CardHeader
-            title={<Link
+        <CardContent>
+            <Link
                 onClick={e => goToProfile()}
             >
                 { profileName }
-            </Link>}
-            subtitle={<React.Fragment>
-                <Time since={createdAt} updateInterval={60*1000}/>
-                {/* TODO: add deleted / updated at time */}
-            </React.Fragment>}
-        />
+            </Link>
+            <Time since={createdAt} updateInterval={60*1000}/>
+        </CardContent>
         {deleted
-            ?<CardText>[deleted]</CardText>
+            ?<Typography>[deleted]</Typography>
             :<Editable
                 isDeletable
                 value={text}
                 onSubmit={text => text && updateMessage(text)}
                 onDelete={() => deleteMessage()}
             >
-                <CardText>{ text }</CardText>
+                <Typography>{ text }</Typography>
             </Editable>
         }
     </Card>

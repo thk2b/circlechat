@@ -12,6 +12,7 @@ import { OwnProfileLink, Settings } from '../'
 
 const styles = {
     root: {
+        position: 'initial',
         flexGrow: 1,
     },
     flex: {
@@ -26,7 +27,9 @@ const mapDispatch = dispatch => {
 class Nav extends React.Component {
     render() {
         const { classes } = this.props
-        return <AppBar className={classes.root}>
+        return <AppBar
+            className={classes.root}
+        >
             <Toolbar>
                 <Settings />
                 <Typography variant='title'
