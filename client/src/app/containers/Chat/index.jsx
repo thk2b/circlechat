@@ -26,7 +26,7 @@ const mapState = ({ messages, profiles, hasMore }, { channelId }) => {
             ),
         request: messages.request,
         profileId: profiles.ownProfileId,
-        hasMore: hasMore.messages[channelId]
+        hasMore: hasMore.messages[channelId] || true
     }
 }
 
