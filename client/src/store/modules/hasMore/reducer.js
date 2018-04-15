@@ -23,26 +23,18 @@ export default function(state=intialState, action){
                     ...state,
                     messages: {
                         ...state.messages,
-                        [channelId]: Object.keys(action.data).length === n 
+                        [channelId]: action.data.hasMore
                     }
                 }
             } else {
-                 /* count messages per channel. if a channel has a count = to n, then there are more messages available in that channel */
-                const newMessagesState = {}
-                Object.entries(action.data).reduce(
-                    (counts, [_, message]) => {
-                        const currentCount = (counts[message.channelId] || 0) + 1
-                        counts[message.channelId] = currentCount    
-                        newMessagesState[message.channelId] = currentCount === n
-                        return {...counts, [message.channelId]: currentCount }
-                    }
-                , {})
+                /* Since we are recieving messages from all channels,
+                just assume there are more messages in all channels instead of checking if every channel has more.
+                */
                 return {
                     ...state,
-                    messages: {
-                        ...state.messages,
-                        ...newMessagesState
-                    }
+                    messages: Object.keys(state.messages).reduce(
+                        (nextState, channelId) => ({...nextState, [channelId]: true })
+                    , {})
                 }
             }
         default:

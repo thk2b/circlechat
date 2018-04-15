@@ -109,7 +109,7 @@ describe('messages reducer', () => {
         expect(
             reducer(state, {
                 network: 'http', resource: '/message/all', type: 'GET',
-                params: { channelId: 321, n: 3 }, status: 200, data: messages
+                params: { channelId: 321, n: 3 }, status: 200, data: { messages, hasMore: true }
             })
         ).toEqual({
             ...state, loading: false, request: { status: 200 },

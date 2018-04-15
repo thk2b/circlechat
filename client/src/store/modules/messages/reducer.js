@@ -42,7 +42,7 @@ function inboundNetworkReducer(state, action){
             ...state,
             data: {
                 ...state.data,
-                ...action.data
+                ...action.data.messages
             }
         }
     }

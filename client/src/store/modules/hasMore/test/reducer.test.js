@@ -19,16 +19,11 @@ describe('hasMore reducer', () => {
                 reducer(state, {
                     network: 'http', type: 'GET', resource: '/message/all',
                     status: 200,
-                    data: messages, params: { n: 3 }
+                    data: { messages, hasMore: true }, params: { n: 3 }
                 })
             ).toEqual({
                 ...state,
-                messages: {
-                    ...state.messages,
-                    321: false,
-                    432: true,
-                    543: false
-                }
+                messages: {} //empty since we are recieving messages from all channels
             })
         })
         test('should work upon recieving message/all?channelId=&n=', () => {
@@ -41,7 +36,10 @@ describe('hasMore reducer', () => {
                 reducer(initialState, {
                     network: 'http', type: 'GET', resource: '/message/all',
                     status: 200,
-                    data: { 3: messages[3], 4: messages[4], 5: messages[5] },
+                    data: {
+                        hasMore: true,
+                        messages: { 3: messages[3], 4: messages[4], 5: messages[5] }
+                    },
                     params: { channelId: 432, n: 3 }
                 })
             ).toEqual({

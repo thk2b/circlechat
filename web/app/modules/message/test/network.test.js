@@ -240,7 +240,7 @@ describe('message network', function(){
                 .end((e, res) => {
                     if(e) return done(e)
 
-                    expect(res.body.hasMore).to.be.false
+                    expect(res.body.hasMore).to.be.true
                     expect(res.body.messages).to.have.keys(message1.id, message2.id, message3.id, message4.id)
                     done()
                 })

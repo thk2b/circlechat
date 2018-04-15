@@ -67,7 +67,10 @@ r.route('/all')
 
         q.then(messages => ({
             messages,
-            hasMore: Object.keys(messages).length >= n
+            /* If we're requesting messages from all channels, we just say there are more messages in all channels even though this may not be the case. 
+            Otherwise, we have to check for more messages in every channel which is too complicated.
+            */
+            hasMore: channelId? Object.keys(messages).length >= n : true
         }))
         .then(data => res.status(200).json(data))
         .catch(next)
