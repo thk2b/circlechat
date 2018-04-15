@@ -1,3 +1,10 @@
+export const LOGOUT = 'auth/logout'
+export const logout = () => {
+    return {
+        type: LOGOUT
+    }
+}
+
 export const login = data => {
     return {
         network: 'http',
@@ -28,12 +35,5 @@ export const CLEAR_REQUEST_STATUS = 'auth/clearRequestStatus'
 export const clearRequestStatus = () => {
     return {
         type: CLEAR_REQUEST_STATUS
-    }
-}
-
-export const LOGOUT = 'auth/logout'
-export const logout = () => {
-    return {
-        type: LOGOUT
     }
 }

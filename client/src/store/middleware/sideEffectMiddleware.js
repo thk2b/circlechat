@@ -7,6 +7,7 @@ import {
     getAll as getAllProfiles
 } from '../modules/profiles'
 import { clear as clearNotifications } from '../modules/notifications'
+import { connectWs } from '../modules/auth'
 
 /**
  * This middleware listens for specific network actions and triggers side effects such as:
@@ -33,6 +34,7 @@ export default ({ getState, dispatch }) => next => action => {
     /* success */
     switch(action.resource){
         case '/auth/login':
+            dispatch(connectWs())
             dispatch(getProfileOfUser(userId))
             dispatch(getAllProfiles())
             dispatch(getAllChannels())

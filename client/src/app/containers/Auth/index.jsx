@@ -42,10 +42,10 @@ class Auth extends React.Component {
                 return this.setState({ isRegistering: false })
             }
             this.props.clearRequestStatus()
-            if(this.props.token && !this.props.ws.loading && !this.props.ws.connected){
-                //TODO: move to middleware
-                this.props.connectWs()    
-            }
+            // if(this.props.token && !this.props.ws.loading && !this.props.ws.connected){
+            //     //TODO: move to middleware
+            //     this.props.connectWs()    
+            // }
         }
     }
     

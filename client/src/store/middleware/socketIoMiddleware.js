@@ -1,4 +1,5 @@
 import validateOutgoingNetworkAction from '../lib/validateOutgoingNetworkAction'
+import { LOGOUT } from '../modules/auth/actions'
 
 const handle = (resource, dispatch) => ({ meta, data }) => {
     const action = {
@@ -16,7 +17,6 @@ const handle = (resource, dispatch) => ({ meta, data }) => {
 }
 
 const resources = [
-    // error
     '/profile',
     '/channel',
     '/message',
@@ -24,6 +24,10 @@ const resources = [
 
 let socket
 export default (connect, url) => store => next => action => {
+    if(action.type === LOGOUT){
+        socket.close()
+    }
+
     if(action.network !== 'ws') return next(action)
 
     if(action.type === 'connect' && !action.status){
