@@ -65,7 +65,11 @@ r.route('/all')
             ? message.inChannel(req.userId, channelId, n, after)
             : message.getAll(req.userId, n)
 
-        q.then(messages => res.status(200).json(messages))
+        q.then(messages => ({
+            messages,
+            hasMore: Object.keys(messages).length >= n
+        }))
+        .then(data => res.status(200).json(data))
         .catch(next)
     })
 

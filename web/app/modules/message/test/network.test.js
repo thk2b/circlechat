@@ -239,7 +239,9 @@ describe('message network', function(){
                 .expect(200)
                 .end((e, res) => {
                     if(e) return done(e)
-                    expect(res.body).to.have.keys(message1.id, message2.id, message3.id, message4.id)
+
+                    expect(res.body.hasMore).to.be.false
+                    expect(res.body.messages).to.have.keys(message1.id, message2.id, message3.id, message4.id)
                     done()
                 })
         })
@@ -252,7 +254,8 @@ describe('message network', function(){
                 .expect(200)
                 .end((e, res) => {
                     if(e) return done(e)
-                    expect(res.body).to.have.keys(message2.id, message4.id)
+                    expect(res.body.hasMore).to.be.true
+                    expect(res.body.messages).to.have.keys(message2.id, message4.id)
                     done()
                 })
         })
@@ -267,7 +270,10 @@ describe('message network', function(){
                 .expect(200)
                 .end((e, res) => {
                     if(e) return done(e)
-                    expect(res.body).to.deep.equal({})
+                    expect(res.body).to.deep.equal({
+                        hasMore: false,
+                        messages: {}
+                    })
                     done()
                 })
         })
@@ -280,10 +286,11 @@ describe('message network', function(){
                 .expect(200)
                 .end((e, res) => {
                     if(e) return done(e)
-                    expect(res.body[message1.id]).to.not.be.undefined
-                    expect(res.body[message2.id]).to.not.be.undefined
-                    expect(res.body[message3.id]).to.be.undefined
-                    expect(res.body[message4.id]).to.be.undefined
+                    expect(res.body.hasMore).to.be.false
+                    expect(res.body.messages[message1.id]).to.not.be.undefined
+                    expect(res.body.messages[message2.id]).to.not.be.undefined
+                    expect(res.body.messages[message3.id]).to.be.undefined
+                    expect(res.body.messages[message4.id]).to.be.undefined
                     done()
                 })
         })
@@ -296,26 +303,28 @@ describe('message network', function(){
                 .expect(200)
                 .end((e, res) => {
                     if(e) return done(e)
-                    expect(res.body[message1.id]).to.be.undefined
-                    expect(res.body[message2.id]).to.not.be.undefined
-                    expect(res.body[message3.id]).to.be.undefined
-                    expect(res.body[message4.id]).to.be.undefined
+                    expect(res.body.hasMore).to.be.true
+                    expect(res.body.messages[message1.id]).to.be.undefined
+                    expect(res.body.messages[message2.id]).to.not.be.undefined
+                    expect(res.body.messages[message3.id]).to.be.undefined
+                    expect(res.body.messages[message4.id]).to.be.undefined
                     done()
                 })
         })
         it('should send n messages after a message', function(done){
             request(server)
                 .get(API_URL+'/all')
-                .query({ channelId: channel1.id, n: 1, after: message2.id })
+                .query({ channelId: channel1.id, after: message2.id })
                 .set('Content-Type', 'application/json')
                 .set('Authorization', 'Bearer ' + token1)
                 .expect(200)
                 .end((e, res) => {
                     if(e) return done(e)
-                    expect(res.body[message1.id]).to.not.be.undefined
-                    expect(res.body[message2.id]).to.be.undefined
-                    expect(res.body[message3.id]).to.be.undefined
-                    expect(res.body[message4.id]).to.be.undefined
+                    expect(res.body.hasMore).to.be.false
+                    expect(res.body.messages[message1.id]).to.not.be.undefined
+                    expect(res.body.messages[message2.id]).to.be.undefined
+                    expect(res.body.messages[message3.id]).to.be.undefined
+                    expect(res.body.messages[message4.id]).to.be.undefined
                     done()
                 })
         })  
