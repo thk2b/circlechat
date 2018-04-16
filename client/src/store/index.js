@@ -1,5 +1,5 @@
 import { combineReducers, createStore, applyMiddleware, compose } from 'redux'
-// import thunk from 'redux-thunk'
+import thunk from 'redux-thunk'
 import io from 'socket.io-client'
 
 import createHistory from 'history/createBrowserHistory'
@@ -23,7 +23,7 @@ const create = () => createStore(
     combineReducers({...reducers, router }),
     composeEnhancers( 
         applyMiddleware(
-            // thunk,
+            thunk,
             apiMiddleware(`/api/v1`),
             socketIoMiddleware(io, document.location.hostname),
             sideEffectMiddleware,
