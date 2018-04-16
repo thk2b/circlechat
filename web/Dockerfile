@@ -4,7 +4,7 @@ RUN mkdir /src
 
 WORKDIR /src
 
-COPY app/package.json /src
+COPY package.json /src
 
 RUN apk --no-cache add --virtual builds-deps build-base python
 

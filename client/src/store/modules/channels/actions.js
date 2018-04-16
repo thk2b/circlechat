@@ -7,6 +7,7 @@ export const create = data => dispatch => {
         ...loading,
         new: true
     })))
+
     fetch({ method: 'POST', resource: 'channel', data })
     .finally(() => {
         dispatch(loadingActions.update('channels', loading => ({
@@ -57,6 +58,7 @@ export const update = (id, data) => dispatch => {
         ...loading,
         [id]: true
     })))
+
     fetch({ method: 'PUT', resource: 'channel', params: { id }, data })
     .finally(() => {
         dispatch(loadingActions.update('channels', loading => ({
@@ -83,6 +85,7 @@ export const remove = id => dispatch => {
         ...loading,
         [id]: true
     })))
+
     fetch({ method: 'DELETE', resource: 'channel', params: { id }})
     .finally(() => {
         dispatch(loadingActions.update('channels', loading => ({
@@ -100,40 +103,3 @@ export const remove = id => dispatch => {
         })))
     })
 }
-
-// export const create = data => {
-//     /* data = { profileId, name } */
-//     return {
-//         network: 'http',
-//         type: 'POST',
-//         resource: '/channel',
-//         data
-//     }
-// }
-
-// export const getAll = () => {
-//     return {
-//         network: 'http',
-//         type: 'GET',
-//         resource: '/channel/all'
-//     }
-// }
-
-// export const update = (id, data) => {
-//     return {
-//         network: 'http',
-//         type: 'PUT',
-//         resource: '/channel',
-//         params: { id },
-//         data
-//     }
-// }
-
-// export const remove = id => {
-//     return {
-//         network: 'http',
-//         type: 'DELETE',
-//         resource: '/channel',
-//         params: { id }
-//     }
-// }
