@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const apiUrl = '/api/v1'
 
-const fetchApi = (endpoint, method, data, options) => {
+const fetchApi = (endpoint, method, params, data) => {
     if(endpoint && method) {
         // const { token } = store.getState().auth
         // TODO: set token in auth success
@@ -13,7 +13,7 @@ const fetchApi = (endpoint, method, data, options) => {
             method,
             url: `${apiUrl}/${endpoint}`,
             data,
-            ...options
+            params
         })
     }
     console.error('invalid api.fetch action parameters:', {
@@ -21,6 +21,6 @@ const fetchApi = (endpoint, method, data, options) => {
     })
 }
 
-export const get = (endpoint, options ) => fetchApi(endpoint, 'GET', undefined, options)
+export const get = (endpoint, params) => fetchApi(endpoint, 'GET', params)
 
 export default fetchApi

@@ -66,7 +66,7 @@ export const remove = id => dispatch => {
 
 export const getProfileOfUser = userId => (dispatch, getState) => {
     // dispatch(updateLoading({ ??: true }))
-    fetch('/profile', 'GET', { userId })
+    get('/profile', { userId })
     // .finally(() => dispatch(updateLoading({ ??: false })))
     .then( res => dispatch(
         profilesActions.set(res.body.message.id, res.body.message)

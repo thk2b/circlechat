@@ -1,6 +1,7 @@
 import { actions as messagesActions } from '../../modules/messages'
 import { actions as profilesActions } from '../../modules/profiles'
 import { actions as channelsActions } from '../../modules/channels'
+import { loadingActions } from '../../modules/loading'
 
 //TODO: handle loading / errors
 
@@ -10,7 +11,12 @@ const messageHandler = ({ meta, data }, { dispatch, getState }) => {
             dispatch(
                 messagesActions.set(data.message.id, data.message)
             )
-            // also set loading to false if the message was sent by me
+            dispatch(
+                loadingActions.update('messages', loading => ({
+                    ...loading,
+                    new: false
+                }))
+            )
         case 'DELETE':
         case 'PUT':
             dispatch(

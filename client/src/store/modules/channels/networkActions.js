@@ -1,107 +1,65 @@
-import fetch from '../../api'
+import fetch, { get } from '../../api'
 import { loadingActions } from '../loading'
 import { errorsActions } from '../errors'
 
 import { actions } from './'
 
-export const create = data => dispatch => {
-    dispatch(loadingActions.update('channels', loading => ({
-        ...loading,
-        new: true
-    })))
+const updateLoading = obj => loadingActions.update('channels', loading => ({
+    ...loading,
+    ...obj
+}))
 
-    fetch('channel','POST', data)
-    .finally(() => {
-        dispatch(loadingActions.update('channels', loading => ({
-            ...loading,
-            [channel.id]: false,
-            new: false
-        })))
-    })
+const updateErrors = obj => errorsActions.update('channels', errors => ({
+    ...errors,
+    ...obj
+}))
+
+export const create = data => dispatch => {
+    dispatch(updateLoading({ new: true }))
+
+    fetch('channel', 'POST', undefined, data)
+    .finally(() => dispatch(updateLoading({ new: false })))
     .then( res => {
         const { channel } = res.body
         dispatch(actions.set( channel.id, channel ))
     })
-    .catch( e => {
-        dispatch(errorActions.update('channels', errs => ({
-            ...errs,
-            new: e.data
-        })))
-    })
+    .catch( e => dispatch(updateErrors({ new: e })))
 }
 
 export const getAll = () => dispatch => {
-    dispatch(loadingActions.update('channels', loading => ({
-        ...loading,
-        all: true
-    })))
+    dispatch(updateLoading({ all: true }))
 
-    fetch('channel/all', 'GET')
+    get('channel/all')
     .finally(() => {
-        dispatch(loadingActions.update('channels', loading => ({
-            ...loading,
-            all: false
-        })))
+        dispatch(updateLoading({ all: false }))
     })
-    .then( res => {
-        const { channels } = res.body
-        dispatch(actions.setAll( channels ))
-    })
-    .catch( e => {
-        dispatch(errorActions.update('channels', errs => ({
-            ...errs,
-            all: e.data
-        })))
-    })
+    .then( res => dispatch(
+        actions.setAll( res.body.channels )
+    ))
+    .catch( e => dispatch(updateErrors({ all: e })))
 }
 
 export const update = (id, data) => dispatch => {
-    dispatch(loadingActions.update('channels', loading => ({
-        ...loading,
-        [id]: true
-    })))
+    dispatch(updateLoading({ [id]: true }))
 
-    fetch('channel', 'PUT', data, { params: { id }})
-    .finally(() => {
-        dispatch(loadingActions.update('channels', loading => ({
-            ...loading,
-            [id]: false
-        })))
-    })
-    .then(res => {
-        dispatch(actions.update(id, channel => ({
+    fetch('channel', 'PUT', { id }, data)
+    .finally(dispatch(updateLoading({ [id]: false })))
+    .then(res => dispatch(
+        actions.update(id, channel => ({
             ...channel,
             ...res.body
-        })))
-    })
-    .catch(() => {
-        dispatch(errorActions.update('channels', errs => ({
-            ...errs,
-            [id]: e.data
-        })))
-    })
+        }))
+    ))
+    .catch(e => dispatch(updateErrors({ [id]: e })))
 }
 
 export const remove = id => dispatch => {
-    dispatch(loadingActions.update('channels', loading => ({
-        ...loading,
-        [id]: true
-    })))
+    dispatch(updateLoading({ [id]: true }))
 
-    fetch('channel', 'DELETE', undefined, { params: { id }})
-    .finally(() => {
-        dispatch(loadingActions.update('channels', loading => ({
-            ...loading,
-            [id]: true
-        })))
-    })
-    .then( res => {
-        dispatch(actions.delete(id))
-    })
-    .catch( e => {
-        dispatch(errorsActions.update('channel', errs => ({
-            ...errs,
-            [id]: err 
-        })))
-    })
+    fetch('channel', 'DELETE', { id })
+    .finally(() => dispatch(updateLoading({ [id]: false })))
+    .then( res => dispatch(
+        actions.delete(id)
+    ))
+    .catch( e => dispatch(updateErrors({ [id]: e })))
 }
