@@ -1,6 +1,8 @@
-import fetch from '../../middleware/apiMiddleware'
+import fetch from '../../api'
 import { loadingActions } from '../loading'
 import { errorsActions } from '../errors'
+
+import { actions } from './'
 
 export const create = data => dispatch => {
     dispatch(loadingActions.update('channels', loading => ({
@@ -8,7 +10,7 @@ export const create = data => dispatch => {
         new: true
     })))
 
-    fetch({ method: 'POST', resource: 'channel', data })
+    fetch('channel','POST', data)
     .finally(() => {
         dispatch(loadingActions.update('channels', loading => ({
             ...loading,
@@ -18,7 +20,7 @@ export const create = data => dispatch => {
     })
     .then( res => {
         const { channel } = res.body
-        dispatch(channelActions.set( channel.id, channel ))
+        dispatch(actions.set( channel.id, channel ))
     })
     .catch( e => {
         dispatch(errorActions.update('channels', errs => ({
@@ -34,7 +36,7 @@ export const getAll = () => dispatch => {
         all: true
     })))
 
-    fetch({ method: 'GET', resource: 'channel/all' })
+    fetch('channel/all', 'GET')
     .finally(() => {
         dispatch(loadingActions.update('channels', loading => ({
             ...loading,
@@ -43,7 +45,7 @@ export const getAll = () => dispatch => {
     })
     .then( res => {
         const { channels } = res.body
-        dispatch(channelActions.setAll( channels ))
+        dispatch(actions.setAll( channels ))
     })
     .catch( e => {
         dispatch(errorActions.update('channels', errs => ({
@@ -59,7 +61,7 @@ export const update = (id, data) => dispatch => {
         [id]: true
     })))
 
-    fetch({ method: 'PUT', resource: 'channel', params: { id }, data })
+    fetch('channel', 'PUT', data, { params: { id }})
     .finally(() => {
         dispatch(loadingActions.update('channels', loading => ({
             ...loading,
@@ -67,7 +69,7 @@ export const update = (id, data) => dispatch => {
         })))
     })
     .then(res => {
-        dispatch(channelActions.update(id, channel => ({
+        dispatch(actions.update(id, channel => ({
             ...channel,
             ...res.body
         })))
@@ -86,7 +88,7 @@ export const remove = id => dispatch => {
         [id]: true
     })))
 
-    fetch({ method: 'DELETE', resource: 'channel', params: { id }})
+    fetch('channel', 'DELETE', undefined, { params: { id }})
     .finally(() => {
         dispatch(loadingActions.update('channels', loading => ({
             ...loading,
@@ -94,7 +96,7 @@ export const remove = id => dispatch => {
         })))
     })
     .then( res => {
-        dispatch(channelActions.delete(id))
+        dispatch(actions.delete(id))
     })
     .catch( e => {
         dispatch(errorsActions.update('channel', errs => ({
