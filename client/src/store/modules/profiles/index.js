@@ -1,2 +1,6 @@
-export { default } from './reducer.js'
-export * from './actions.js'
+import { HashMap } from 'redux-structures'
+
+const { reducer, actions } = HashMap('profiles')
+
+export default reducer
+export { actions }

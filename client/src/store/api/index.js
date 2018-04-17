@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const apiUrl = '/api/v1'
 
-export default (endpoint, method, data, options) => {
+const fetchApi = (endpoint, method, data, options) => {
     if(endpoint && method) {
         // const { token } = store.getState().auth
         // TODO: set token in auth success
@@ -20,3 +20,7 @@ export default (endpoint, method, data, options) => {
         endpoint, method, data, options
     })
 }
+
+export const get = (endpoint, options ) => fetchApi(endpoint, 'GET', undefined, options)
+
+export default fetchApi
