@@ -31,8 +31,6 @@ app.use((req, res, next) => {
     }
 })
 
-
-
 app.locals.io = io
 
 /* Authenticate websocket
@@ -73,7 +71,6 @@ app
 .use(API_URL+'/message', message.router)
 
 app.use((err, req, res, next) => {
-    // console.log(err)
     res.status(err.status || 500).json(err)
 })
 
