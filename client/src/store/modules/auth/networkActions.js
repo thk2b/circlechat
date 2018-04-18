@@ -2,9 +2,9 @@ import { actions as websocketActions } from '../../middleware/websocket'
 import fetch from '../../api'
 
 import { actions as authActions } from './'
-import { actions as profileActions } from '../profile'
-import { actions as messagesActions } from '../messages'
-import { actions as channelsActions } from '../channels'
+import profileActions from '../profiles/networkActions'
+import messagesActions from '../messages/networkActions'
+import channelsActions from '../channels/networkActions'
 import { actions as loadingActions } from '../loading'
 import { actions as errorsActions } from '../errors'
 
@@ -30,9 +30,13 @@ export const login = data => dispatch => {
             login: false
         }))
     ))
-    .then( res => dispatch(
-        authActions.setAll(res.body)
-    ))
+    .then( res => {
+        dispatch(authActions.setAll(res.body))
+        dispatch(profilesActions.getProfileOfUser(res.body.userId))
+        dispatch(profilesActions.getAll())
+        dispatch(messagesActions.getAll())
+        dispatch(channelsActions.getAll())
+    })
     .catch( e => dispatch(errorsActions.update('auth', auth => ({
         ...auth,
         login: e
