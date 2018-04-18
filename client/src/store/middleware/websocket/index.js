@@ -42,6 +42,5 @@ export default (openConnection, url) => store => next => action => {
         process.env.NODE_ENV === 'development'
             && console.log('outgoing ws message: ', action)
     }
-    
     next(action)
 }

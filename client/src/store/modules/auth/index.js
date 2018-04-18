@@ -2,7 +2,10 @@ import { HashMap } from 'redux-structures'
 
 const { actions, reducer } = HashMap('auth', {
     token: null,
-    ownProfileId: null,
+    // ownProfileId: null,
     lastLogoutAt: null,
     userId: null
 })
+
+export { actions }
+export default reducer

@@ -63,3 +63,7 @@ export const remove = id => dispatch => {
     .catch( e => dispatch(updateErrors({ [id]: e })))
     .then(() => dispatch(updateLoading({ [id]: false })))
 }
+
+export default {
+    create, getAll, update, remove
+}

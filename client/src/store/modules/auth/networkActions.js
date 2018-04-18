@@ -3,7 +3,7 @@ import api from '../../api'
 import axios from 'axios'
 
 import { actions as authActions } from './'
-import profileActions from '../profiles/networkActions'
+import profilesActions from '../profiles/networkActions'
 import messagesActions from '../messages/networkActions'
 import channelsActions from '../channels/networkActions'
 import { actions as loadingActions } from '../loading'
@@ -33,17 +33,21 @@ export const login = data => dispatch => {
     )
     api.post('/auth/login', data)
     .then( res => {
-        axios.defaults.headers.common['Authorization'] = red.data.token
+        console.log({res})
+        axios.defaults.headers.common['Authorization'] = res.data.token
         dispatch(authActions.setAll(res.data))
         dispatch(profilesActions.getProfileOfUser(res.data.userId))
         dispatch(profilesActions.getAll())
         dispatch(messagesActions.getAll())
         dispatch(channelsActions.getAll())
     })
-    .catch( e => dispatch(errorsActions.update('auth', auth => ({
-        ...auth,
-        login: e
-    }))))
+    .catch( e => {
+        console.log(e)
+        dispatch(errorsActions.update('auth', auth => ({
+            ...auth,
+            login: e
+        })))
+    })
     .then(() => dispatch(
         loadingActions.update('auth', auth => ({
             ...auth,
@@ -74,3 +78,5 @@ export const register = data => dispatch => {
         }))
     ))
 }
+
+export default { login, logout, register }

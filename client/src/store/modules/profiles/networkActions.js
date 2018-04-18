@@ -46,7 +46,7 @@ export const update = (id, data) => dispatch => {
 
 export const create = data => dispatch => {
     dispatch(updateLoading({ new: true }))
-    api.post('/profile', data, { params: { id }})
+    api.post('/profile', data)
     .then( res => dispatch(
         profilesActions.set(res.data.profile.id, res.data.profile)
     ))
@@ -80,4 +80,8 @@ export const getProfileOfUser = userId => (dispatch, getState) => {
             // dispatch(updateErrors({ ??: e }))
         }
     })
+}
+
+export default {
+    get, getAll, getProfileOfUser, create, update, remove
 }

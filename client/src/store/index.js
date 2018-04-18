@@ -8,7 +8,7 @@ import { routerReducer as router, routerMiddleware } from 'react-router-redux'
 import * as reducers from './modules'
 
 import {
-    socketIoMiddleware,
+    websocketMiddleware,
     deviceMiddleware
 } from './middleware'
 
@@ -18,14 +18,14 @@ export const history = createHistory()
 
 const create = () => createStore(
     combineReducers({...reducers, router }),
-    composeEnhancers( 
+    composeEnhancers(
         applyMiddleware(
             thunk,
-            socketIoMiddleware(io, document.location.hostname),
+            websocketMiddleware(io, document.location.hostname),
             deviceMiddleware(window),
             routerMiddleware(history)
         )
-     )
+    )
 )
 export default create
 

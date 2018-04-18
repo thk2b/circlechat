@@ -113,3 +113,7 @@ export const remove = id => dispatch => {
         updateLoading({ [id]: false })
     ))
 }
+
+export default {
+    getAll, getInChannel, send, update, remove
+}
