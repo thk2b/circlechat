@@ -3,6 +3,8 @@ import { fetch } from '../../api'
 
 import { loadingActions } from '../loading'
 import { errorsActions } from '../errors'
+import { actions as notificationsActions } from '../notifications'
+
 import { messagesActions } from './'
 
 const updateLoading = obj => loadingActions.update('channels', loading => ({
@@ -20,23 +22,40 @@ export const send = data => dispatch => { /* { profileId, channelId, text } */
     dispatch(emit('/message', 'POST', data))
 }
 
-export const getAll = () => dispatch => {
+/** count the number of new messages since last logout and return the new notification count for that channel */
+const updateNotifications = (dispatch, lastLogoutAt, messages) => {
+    const newNotificationsByChannel = Object.entries(messages).reduce(
+        (obj, [messageId, message]) => (
+            message.createdAt > lastLogoutAt /* message was created after last logout */
+            ? {...obj, [messageId]: (obj[message.channelId] || 0) + 1 }
+            : obj
+        )
+    , {})
+    Object.entries(newNotificationsByChannel).forEach(
+        ([ channelId, count ]) => dispatch(increment(channelId, count))
+    )
+}
+
+export const getAll = () => (dispatch, getState) => {
     // we set all messages to loading
     dispatch(updateLoading({ all: true }))
     get('/message/all', { n: 20 })
     .finally( () => dispatch(
         updateLoading({ all: false })
     ))
-    .then( res => dispatch(
-        messagesActions.setAll(res.body.messages)
-    ))
+    .then( res => {
+        const { lastLogoutAt } = getState().auth
+        dispatch(messagesActions.setAll(res.body.messages))
+        updateNotifications(dispatch, lastLogoutAt, res.body.messages)
+    })
     .catch(e => dispatch(
         // we add an error to all messages
         updateErrors({ all: e })
     ))
 }
 
-export const getInChannel = (channelId, after) =>  dispatch => {
+export const getInChannel = (channelId, after) => (dispatch, getState) => {
+    // if after dont increment notifications
     dispatch(loadingActions.update('channels', loading => ({
         ...loading,
         [channelId]: true
@@ -48,9 +67,13 @@ export const getInChannel = (channelId, after) =>  dispatch => {
             [channelId]: false
         }))
     ))
-    .then( res => dispatch(
-        messagesActions.setAll(res.body.messages)
-    ))
+    .then( res => {
+        dispatch(messagesActions.setAll(res.body.messages))
+        if(!after){
+            const { lastLogoutAt } = getState().auth
+            updateNotifications(dispatch, lastLogoutAt, res.body.messages)
+        }
+    })
     .catch( e => dispatch(
         errorsActions.update('channels', errors => ({
             ...errors,
