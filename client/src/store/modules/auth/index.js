@@ -1,2 +1,8 @@
-export { default } from './reducer.js'
-export * from './actions.js'
+import { HashMap } from 'redux-structures'
+
+const { actions, reducer } = HashMap('auth', {
+    token: null,
+    ownProfileId: null,
+    lastLogoutAt: null,
+    userId: null
+})

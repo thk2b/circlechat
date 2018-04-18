@@ -1,10 +1,12 @@
-import { CONNECT, DISCONNECT, EMIT } from './actions'
+import actions, { CONNECT, DISCONNECT, EMIT } from './actions'
 
 import { actions as messageActions } from '../modules/messages'
 import { actions as channelsActions } from '../modules/channels'
 import { actions as profilesActions } from '../modules/profiles'
 
 import handlers from './handlers'
+
+export { actions }
 
 let socket
 export default (openConnection, url) => store => next => action => {
