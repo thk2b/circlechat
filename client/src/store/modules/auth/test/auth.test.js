@@ -4,6 +4,7 @@ import MockAdapter from 'axios-mock-adapter'
 import createStore from '../../../'
 import actions from '../networkActions'
 import { actions as a } from '../index'
+
 describe('auth network actions', () => {
     let store
     const mock = new MockAdapter(api)

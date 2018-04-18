@@ -22,7 +22,7 @@ export const create = data => dispatch => {
         const { channel } = res.data
         dispatch(actions.set( channel.id, channel ))
     })
-    .catch( e => dispatch(updateErrors({ new: e })))
+    .catch( e => dispatch(updateErrors({ new: e.response.data })))
     .then(() => dispatch(updateLoading({ new: false })))
 }
 
@@ -33,7 +33,7 @@ export const getAll = () => dispatch => {
     .then( res => dispatch(
         actions.setAll( res.data.channels )
     ))
-    .catch( e => dispatch(updateErrors({ all: e })))
+    .catch( e => dispatch(updateErrors({ all: e.response.data })))
     .then(() => {
         dispatch(updateLoading({ all: false }))
     })
@@ -49,8 +49,8 @@ export const update = (id, data) => dispatch => {
             ...res.data
         }))
     ))
-    .catch(e => dispatch(updateErrors({ [id]: e })))
-    .then(dispatch(updateLoading({ [id]: false })))
+    .catch(e => dispatch(updateErrors({ [id]: e.response.data })))
+    .then(() => dispatch(updateLoading({ [id]: false })))
 }
 
 export const remove = id => dispatch => {
@@ -60,7 +60,7 @@ export const remove = id => dispatch => {
     .then( res => dispatch(
         actions.delete(id)
     ))
-    .catch( e => dispatch(updateErrors({ [id]: e })))
+    .catch( e => dispatch(updateErrors({ [id]: e.response.data })))
     .then(() => dispatch(updateLoading({ [id]: false })))
 }
 
