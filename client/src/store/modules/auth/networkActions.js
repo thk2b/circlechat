@@ -32,16 +32,10 @@ export const login = data => dispatch => {
         }))
     )
     api.post('/auth/login', data)
-    .finally(() => dispatch(
-        loadingActions.update('auth', auth => ({
-            ...auth,
-            login: false
-        }))
-    ))
     .then( res => {
-        axios.defaults.headers.common['Authorization'] = red.body.token
-        dispatch(authActions.setAll(res.body))
-        dispatch(profilesActions.getProfileOfUser(res.body.userId))
+        axios.defaults.headers.common['Authorization'] = red.data.token
+        dispatch(authActions.setAll(res.data))
+        dispatch(profilesActions.getProfileOfUser(res.data.userId))
         dispatch(profilesActions.getAll())
         dispatch(messagesActions.getAll())
         dispatch(channelsActions.getAll())
@@ -50,6 +44,12 @@ export const login = data => dispatch => {
         ...auth,
         login: e
     }))))
+    .then(() => dispatch(
+        loadingActions.update('auth', auth => ({
+            ...auth,
+            login: false
+        }))
+    ))
 }
 
 export const register = data => dispatch => {
@@ -60,17 +60,17 @@ export const register = data => dispatch => {
         }))
     )
     api.post('/auth', data)
-    .finally(() => dispatch(
-        loadingActions.update('auth', auth => ({
-            ...auth,
-            register: false
-        }))
-    ))
-    .then( res => dispatch(authActions.setAll(res.body)))
+    .then( res => dispatch(authActions.setAll(res.data)))
     .catch( e => dispatch(
         errorsActions.update('auth', auth => ({
             ...auth,
             register: e
+        }))
+    ))
+    .then(() => dispatch(
+        loadingActions.update('auth', auth => ({
+            ...auth,
+            register: false
         }))
     ))
 }

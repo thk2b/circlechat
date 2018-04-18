@@ -20,7 +20,7 @@ const messageHandler = ({ meta, data }, { dispatch, getState }) => {
         case 'DELETE':
         case 'PUT':
             dispatch(
-                messageActions.update(meta.params.id, message => ({
+                messagesActions.update(meta.params.id, message => ({
                     ...message, ...data
                 }))
             )
@@ -59,7 +59,7 @@ const channelHandler = ({ meta, data }, { dispatch, getState }) => {
         case 'PUT':
             dispatch(
                 channelsActions.update(meta.params.id, channels => ({
-                    ...channel, ...data
+                    ...channels, ...data
                 }))
             )
     }

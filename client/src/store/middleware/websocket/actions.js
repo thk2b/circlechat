@@ -20,7 +20,7 @@ export const emit = (resource, type, data, options) => {
         resource, data, options
     }
     console.error('invalid websocket.emit action parameters:', {
-        resource, method, data, options
+        resource, type, data, options
     })
 }
 

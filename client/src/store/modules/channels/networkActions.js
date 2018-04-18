@@ -1,6 +1,6 @@
 import api from '../../api'
-import { loadingActions } from '../loading'
-import { errorsActions } from '../errors'
+import { actions as loadingActions } from '../loading'
+import { actions as errorsActions } from '../errors'
 
 import { actions } from './'
 
@@ -18,48 +18,48 @@ export const create = data => dispatch => {
     dispatch(updateLoading({ new: true }))
 
     api.post('/channel', data)
-    .finally(() => dispatch(updateLoading({ new: false })))
     .then( res => {
-        const { channel } = res.body
+        const { channel } = res.data
         dispatch(actions.set( channel.id, channel ))
     })
     .catch( e => dispatch(updateErrors({ new: e })))
+    .then(() => dispatch(updateLoading({ new: false })))
 }
 
 export const getAll = () => dispatch => {
     dispatch(updateLoading({ all: true }))
 
     api.get('channel/all')
-    .finally(() => {
-        dispatch(updateLoading({ all: false }))
-    })
     .then( res => dispatch(
-        actions.setAll( res.body.channels )
+        actions.setAll( res.data.channels )
     ))
     .catch( e => dispatch(updateErrors({ all: e })))
+    .then(() => {
+        dispatch(updateLoading({ all: false }))
+    })
 }
 
 export const update = (id, data) => dispatch => {
     dispatch(updateLoading({ [id]: true }))
 
     api.put('channel', data, { params: { id }})
-    .finally(dispatch(updateLoading({ [id]: false })))
     .then(res => dispatch(
         actions.update(id, channel => ({
             ...channel,
-            ...res.body
+            ...res.data
         }))
     ))
     .catch(e => dispatch(updateErrors({ [id]: e })))
+    .then(dispatch(updateLoading({ [id]: false })))
 }
 
 export const remove = id => dispatch => {
     dispatch(updateLoading({ [id]: true }))
 
     api.delete('channel', { params: { id }})
-    .finally(() => dispatch(updateLoading({ [id]: false })))
     .then( res => dispatch(
         actions.delete(id)
     ))
     .catch( e => dispatch(updateErrors({ [id]: e })))
+    .then(() => dispatch(updateLoading({ [id]: false })))
 }

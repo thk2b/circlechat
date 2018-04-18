@@ -8,10 +8,7 @@ import { routerReducer as router, routerMiddleware } from 'react-router-redux'
 import * as reducers from './modules'
 
 import {
-    apiMiddleware,
     socketIoMiddleware,
-    sideEffectMiddleware,
-    notificationsMiddleware,
     deviceMiddleware
 } from './middleware'
 
@@ -24,10 +21,7 @@ const create = () => createStore(
     composeEnhancers( 
         applyMiddleware(
             thunk,
-            apiMiddleware(`/api/v1`),
             socketIoMiddleware(io, document.location.hostname),
-            sideEffectMiddleware,
-            notificationsMiddleware,
             deviceMiddleware(window),
             routerMiddleware(history)
         )

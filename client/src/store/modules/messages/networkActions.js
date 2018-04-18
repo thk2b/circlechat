@@ -1,8 +1,8 @@
-import { emit } from '../../middleware/socketIoMiddleware'
+import { emit } from '../../middleware/websocket'
 import api from '../../api'
 
-import { loadingActions } from '../loading'
-import { errorsActions } from '../errors'
+import { actions as loadingActions } from '../loading'
+import { actions as errorsActions } from '../errors'
 import { actions as hasMoreActions } from '../hasMore'
 import { actions as notificationsActions } from '../notifications'
 
@@ -41,17 +41,17 @@ export const getAll = () => (dispatch, getState) => {
     // we set all messages to loading
     dispatch(updateLoading({ all: true }))
     api.get('/message/all', { params: { n: 20 }})
-    .finally( () => dispatch(
-        updateLoading({ all: false })
-    ))
     .then( res => {
         const { lastLogoutAt } = getState().auth
-        dispatch(messagesActions.setAll(res.body.messages))
-        updateNotifications(dispatch, lastLogoutAt, res.body.messages)
+        dispatch(messagesActions.setAll(res.data.messages))
+        updateNotifications(dispatch, lastLogoutAt, res.data.messages)
     })
     .catch(e => dispatch(
         // we add an error to all messages
         updateErrors({ all: e })
+    ))
+    .then( () => dispatch(
+        updateLoading({ all: false })
     ))
 }
 
@@ -61,21 +61,15 @@ export const getInChannel = (channelId, after) => (dispatch, getState) => {
         [channelId]: true
     })))
     api.get('/messages/all', { params: { channelId, n: 20 }})
-    .finally(() => dispatch(
-        loadingActions.update('channels', loading => ({
-            ...loading,
-            [channelId]: false
-        }))
-    ))
     .then( res => {
-        dispatch(messagesActions.setAll(res.body.messages))
+        dispatch(messagesActions.setAll(res.data.messages))
         if(!after){
             const { lastLogoutAt } = getState().auth
-            updateNotifications(dispatch, lastLogoutAt, res.body.messages)
+            updateNotifications(dispatch, lastLogoutAt, res.data.messages)
         }
         dispatch(hasMoreActions.update('channels', channels => ({
             ...channels,
-            [channelId]: res.body.hasMore
+            [channelId]: res.data.hasMore
         })))
     })
     .catch( e => dispatch(
@@ -84,32 +78,38 @@ export const getInChannel = (channelId, after) => (dispatch, getState) => {
             [channelId]: e
         }))
     ))
+    .then(() => dispatch(
+        loadingActions.update('channels', loading => ({
+            ...loading,
+            [channelId]: false
+        }))
+    ))
 }
 
 export const update = (id, data) => dispatch => {
     dispatch(updateLoading({ [id]: true }))
     api.put('/message', data, { params: { id }})
-    .finally(() => dispatch(
-        updateLoading({ [id]: false })
-    ))
     .then( res => dispatch(
-        messagesActions.update(id, message => ({ ...message, ...res.body }))
+        messagesActions.update(id, message => ({ ...message, ...res.data }))
     ))
     .catch( e => dispatch(
         updateErrors({ [id]: e })
+    ))
+    .then(() => dispatch(
+        updateLoading({ [id]: false })
     ))
 }
 
 export const remove = id => dispatch => {
     dispatch(updateLoading({ [id]: true }))
     api.delete('/message', { params: { id }})
-    .finally(() => dispatch(
-        updateLoading({ [id]: false })
-    ))
     .then( res => dispatch(
         messagesActions.delete(id)
     ))
     .catch( e => dispatch(
         updateErrors({ [id]: e })
+    ))
+    .then(() => dispatch(
+        updateLoading({ [id]: false })
     ))
 }
