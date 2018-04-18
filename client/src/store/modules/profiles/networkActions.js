@@ -19,29 +19,31 @@ export const getAll = () => dispatch => {
     dispatch(updateLoading({ all: true }))
     api.get('/profile/all')
     .then( res => dispatch(
-        profilesActions.setAll(res.data.messages)
+        profilesActions.setAll(res.data.profiles)
     ))
-    .catch(e => dispatch(updateErrors({ all: e })))
+    .catch(e => dispatch(updateErrors({ all: e.response.data })))
     .then(() => dispatch(updateLoading({ all: false })))
 }
 export const get = id => dispatch => {
     dispatch(updateLoading({ [id]: true }))
     api.get('/profile', { params: { id }})
     .then( res => dispatch(
-        profilesActions.set(id, res.data.message)
+        profilesActions.set(id, res.data.profile)
     ))
-    .catch(e => dispatch(updateErrors({ [id]: e })))
-    .then(() => dispatch(updateLoading({ id: false })))
+    .catch(e => dispatch(updateErrors({ [id]: e.response.data })))
+    .then(() => dispatch(updateLoading({ [id]: false })))
 }
 
 export const update = (id, data) => dispatch => {
     dispatch(updateLoading({ [id]: true }))
     api.put('/profile', data, { params: { id }})
-    .then( res => dispatch(
-        profilesActions.update(id, profile => ({ ...profile, ...res.data.message }))
-    ))
-    .catch(e => dispatch(updateErrors({ [id]: e })))
-    .then(() => dispatch(updateLoading({ id: false })))
+    .then( res => {
+        dispatch(profilesActions.update(id, profile => (
+            { ...profile, ...res.data }
+        )))
+    })
+    .catch(e => dispatch(updateErrors({ [id]: e.response.data })))
+    .then(() => dispatch(updateLoading({ [id]: false })))
 }
 
 export const create = data => dispatch => {
@@ -50,7 +52,7 @@ export const create = data => dispatch => {
     .then( res => dispatch(
         profilesActions.set(res.data.profile.id, res.data.profile)
     ))
-    .catch(e => dispatch(updateErrors({ new: e })))
+    .catch(e => dispatch(updateErrors({ new: e.response.data })))
     .then(() => dispatch(updateLoading({ new: false })))
 }
 
@@ -60,7 +62,7 @@ export const remove = id => dispatch => {
     .then( res => dispatch(
         profilesActions.delete(id)
     ))
-    .catch(e => dispatch(updateErrors({ [id]: e })))
+    .catch(e => dispatch(updateErrors({ [id]: e.response.data })))
     .then(() => dispatch(updateLoading({ [id]: false })))
 }
 
@@ -69,7 +71,7 @@ export const getProfileOfUser = userId => (dispatch, getState) => {
     api.get('/profile', { params: { userId }})
     // .finally(() => dispatch(updateLoading({ ??: false })))
     .then( res => dispatch(
-        profilesActions.set(res.data.message.id, res.data.message)
+        profilesActions.set(res.data.profile.id, res.data.profile)
     ))
     .catch(e => {
         const ownUserId = getState().auth.userId

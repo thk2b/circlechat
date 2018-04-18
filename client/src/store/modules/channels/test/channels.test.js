@@ -42,6 +42,21 @@ describe('channels api actions', () => {
             done()
         }, 0)
     })
+    test('getAll success', done => {
+        const data = {
+            '123': { id: '123', name: 'test name 1' },
+            '234': { id: '234', name: 'test name 2' }
+        }
+        mock.onGet('/channel/all').reply(200, {channels: data})
+        store.dispatch(actions.getAll())
+        expect(store.getState().loading.channels.all).toBe(true)
+        setTimeout(() => {
+            const state = store.getState()
+            expect(state.channels).toEqual(data)
+            expect(state.loading.channels.all).toBe(false)
+            done()
+        }, 0)
+    })
     test('getAll error', done => {
         const data = { message: 'test error '}
         mock.onGet('/channel/all').reply(500, data)
@@ -80,9 +95,6 @@ describe('channels api actions', () => {
             id: '123', name: 'test name', other: 'data'
         }
         store.dispatch(basicActions.set('123', channel))
-        const newChannel = {
-            id: '123', name: 'new name'
-        }
         // mock.onPut('/channel', { params: { id: '123' }}).reply(500, data)
         mock.onPut('/channel').reply(500, data)
         store.dispatch(actions.update('123', { name: 'new name' }))
