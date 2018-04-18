@@ -55,7 +55,6 @@ export const getAll = () => (dispatch, getState) => {
 }
 
 export const getInChannel = (channelId, after) => (dispatch, getState) => {
-    // if after dont increment notifications
     dispatch(loadingActions.update('channels', loading => ({
         ...loading,
         [channelId]: true
