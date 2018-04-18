@@ -29,7 +29,7 @@ export const create = data => dispatch => {
 export const getAll = () => dispatch => {
     dispatch(updateLoading({ all: true }))
 
-    api.get('channel/all')
+    api.get('/channel/all')
     .then( res => dispatch(
         actions.setAll( res.data.channels )
     ))
@@ -42,7 +42,7 @@ export const getAll = () => dispatch => {
 export const update = (id, data) => dispatch => {
     dispatch(updateLoading({ [id]: true }))
 
-    api.put('channel', data, { params: { id }})
+    api.put('/channel', data, { params: { id }})
     .then(res => dispatch(
         actions.update(id, channel => ({
             ...channel,
@@ -56,7 +56,7 @@ export const update = (id, data) => dispatch => {
 export const remove = id => dispatch => {
     dispatch(updateLoading({ [id]: true }))
 
-    api.delete('channel', { params: { id }})
+    api.delete('/channel', { params: { id }})
     .then( res => dispatch(
         actions.delete(id)
     ))

@@ -62,6 +62,7 @@ describe('channels api actions', () => {
         const newChannel = {
             id: '123', name: 'new name'
         }
+        // mock.onPut('/channel', { params: { id: '123' }}).reply(202, newChannel)
         mock.onPut('/channel').reply(202, newChannel)
         store.dispatch(actions.update('123', { name: 'new name' }))
 
@@ -82,6 +83,7 @@ describe('channels api actions', () => {
         const newChannel = {
             id: '123', name: 'new name'
         }
+        // mock.onPut('/channel', { params: { id: '123' }}).reply(500, data)
         mock.onPut('/channel').reply(500, data)
         store.dispatch(actions.update('123', { name: 'new name' }))
 
@@ -100,7 +102,7 @@ describe('channels api actions', () => {
         }
         store.dispatch(basicActions.set('123', channel))
 
-        mock.onDelete('/channel').reply(202)
+        mock.onDelete('/channel', { params: { id: '123' }}).reply(202)
         store.dispatch(actions.remove('123'))
 
         expect(store.getState().loading.channels['123']).toBe(true)
@@ -117,7 +119,7 @@ describe('channels api actions', () => {
         }
         store.dispatch(basicActions.set('123', channel))
         const data = { message: 'test error' }
-        mock.onDelete('/channel').reply(500, data)
+        mock.onDelete('/channel', { params: { id: '123' }}).reply(500, data)
         store.dispatch(actions.remove('123'))
 
         expect(store.getState().loading.channels['123']).toBe(true)
