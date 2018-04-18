@@ -3,6 +3,7 @@ import { fetch } from '../../api'
 
 import { loadingActions } from '../loading'
 import { errorsActions } from '../errors'
+import { actions as hasMoreActions } from '../hasMore'
 import { actions as notificationsActions } from '../notifications'
 
 import { messagesActions } from './'
@@ -72,6 +73,10 @@ export const getInChannel = (channelId, after) => (dispatch, getState) => {
             const { lastLogoutAt } = getState().auth
             updateNotifications(dispatch, lastLogoutAt, res.body.messages)
         }
+        dispatch(hasMoreActions.update('channels', channels => ({
+            ...channels,
+            [channelId]: res.body.hasMore
+        })))
     })
     .catch( e => dispatch(
         errorsActions.update('channels', errors => ({
