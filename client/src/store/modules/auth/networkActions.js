@@ -1,5 +1,6 @@
 import { actions as websocketActions } from '../../middleware/websocket'
 import fetch from '../../api'
+import axios from 'axios'
 
 import { actions as authActions } from './'
 import profileActions from '../profiles/networkActions'
@@ -11,6 +12,7 @@ import { actions as hasMoreActions } from '../hasMore'
 import { actions as notificationsActions } from '../notifications'
 
 export const logout = () => dispatch => {
+    axios.defaults.headers.common['Authorization'] = undefined
     dispatch(websocketActions.disconnect())
     dispatch(authActions.reset())
     dispatch(profilesActions.reset())
@@ -37,6 +39,7 @@ export const login = data => dispatch => {
         }))
     ))
     .then( res => {
+        axios.defaults.headers.common['Authorization'] = red.body.token
         dispatch(authActions.setAll(res.body))
         dispatch(profilesActions.getProfileOfUser(res.body.userId))
         dispatch(profilesActions.getAll())
