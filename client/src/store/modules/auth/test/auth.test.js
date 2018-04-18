@@ -19,6 +19,7 @@ describe('auth network actions', () => {
             lastLogoutAt: 123
         }
         mock.onPost('/auth/login').reply(201, loginSuccessData)
+
         store.dispatch(actions.login({ userId: 'tester', pw: 123 }))
         expect(store.getState().loading.auth.login).toBe(true)
         setTimeout(() => {
@@ -27,10 +28,24 @@ describe('auth network actions', () => {
             expect(state.loading.auth).toEqual({ login: false, register: false })
             done()
         }, 0)
-        
     })
     test('auth.login error', () => {
+        const loginErrorData = {
+            message: 'test error'
+        }
+        mock.onPost('/auth/login').reply(401, loginErrorData)
+        const initialState = store.getState().auth
+
+        store.dispatch(actions.login({ userId: 'tester', pw: 123 }))
+        setTimeout(() => {
+            const state = store.getState()
+            expect(state.auth).toEqual(initialState)
+            expect(state.loading.auth).toEqual({ login: false, register: false })
+            expect(state.errors.auth).toEqual({ login: loginErrorData, register: false })
+            done()
+        }, 0)
+    })
+    test.skip('auth.logout', () => {
 
     })
-    test('auth.logout')
 })

@@ -33,7 +33,6 @@ export const login = data => dispatch => {
     )
     api.post('/auth/login', data)
     .then( res => {
-        console.log({res})
         axios.defaults.headers.common['Authorization'] = res.data.token
         dispatch(authActions.setAll(res.data))
         dispatch(profilesActions.getProfileOfUser(res.data.userId))
@@ -42,7 +41,6 @@ export const login = data => dispatch => {
         dispatch(channelsActions.getAll())
     })
     .catch( e => {
-        console.log(e)
         dispatch(errorsActions.update('auth', auth => ({
             ...auth,
             login: e
