@@ -7,6 +7,8 @@ import messagesActions from '../messages/networkActions'
 import channelsActions from '../channels/networkActions'
 import { actions as loadingActions } from '../loading'
 import { actions as errorsActions } from '../errors'
+import { actions as hasMoreActions } from '../hasMore'
+import { actions as notificationsActions } from '../notifications'
 
 export const logout = () => dispatch => {
     dispatch(websocketActions.disconnect())
@@ -14,6 +16,10 @@ export const logout = () => dispatch => {
     dispatch(profilesActions.reset())
     dispatch(messagesActions.reset())
     dispatch(channelsActions.reset())
+    dispatch(loadingActions.reset())
+    dispatch(errorsActions.reset())
+    dispatch(hasMoreActions.reset())
+    dispatch(notificationsActions.reset())
 }
 
 export const login = data => dispatch => {
