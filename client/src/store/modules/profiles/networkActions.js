@@ -1,4 +1,4 @@
-import fetch, { get } from '../../api'
+import api from '../../api'
 
 import { loadingActions } from '../loading'
 import { errorsActions } from '../errors'
@@ -17,7 +17,7 @@ const updateErrors = obj => errorsActions.update('profiles', errors => ({
 
 export const getAll = () => dispatch => {
     dispatch(updateLoading({ all: true }))
-    get('/profile/all')
+    api.get('/profile/all')
     .finally(() => dispatch(updateLoading({ all: false })))
     .then( res => dispatch(
         profilesActions.setAll(res.body.messages)
@@ -26,7 +26,7 @@ export const getAll = () => dispatch => {
 }
 export const get = id => dispatch => {
     dispatch(updateLoading({ [id]: true }))
-    get('/profile', { id })
+    api.get('/profile', { params: { id }})
     .finally(() => dispatch(updateLoading({ id: false })))
     .then( res => dispatch(
         profilesActions.set(id, res.body.message)
@@ -36,7 +36,7 @@ export const get = id => dispatch => {
 
 export const update = (id, data) => dispatch => {
     dispatch(updateLoading({ [id]: true }))
-    fetch('/profile', 'PUT', { id }, data)
+    api.put('/profile', data, { params: { id }})
     .finally(() => dispatch(updateLoading({ id: false })))
     .then( res => dispatch(
         profilesActions.update(id, profile => ({ ...profile, ...res.body.message }))
@@ -46,7 +46,7 @@ export const update = (id, data) => dispatch => {
 
 export const create = data => dispatch => {
     dispatch(updateLoading({ new: true }))
-    fetch('/profile', 'POST', { id }, data)
+    api.post('/profile', data, { params: { id }})
     .finally(() => dispatch(updateLoading({ new: false })))
     .then( res => dispatch(
         profilesActions.set(res.body.profile.id, res.body.profile)
@@ -56,7 +56,7 @@ export const create = data => dispatch => {
 
 export const remove = id => dispatch => {
     dispatch(updateLoading({ [id]: true }))
-    fetch('/profile', 'DELETE', { id })
+    api.delete('/profile', { params: { id }})
     .finally(() => dispatch(updateLoading({ [id]: false })))
     .then( res => dispatch(
         profilesActions.delete(id)
@@ -66,7 +66,7 @@ export const remove = id => dispatch => {
 
 export const getProfileOfUser = userId => (dispatch, getState) => {
     // dispatch(updateLoading({ ??: true }))
-    get('/profile', { userId })
+    api.get('/profile', { params: { userId }})
     // .finally(() => dispatch(updateLoading({ ??: false })))
     .then( res => dispatch(
         profilesActions.set(res.body.message.id, res.body.message)

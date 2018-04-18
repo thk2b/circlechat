@@ -1,5 +1,5 @@
 import { emit } from '../../middleware/socketIoMiddleware'
-import { fetch } from '../../api'
+import api from '../../api'
 
 import { loadingActions } from '../loading'
 import { errorsActions } from '../errors'
@@ -40,7 +40,7 @@ const updateNotifications = (dispatch, lastLogoutAt, messages) => {
 export const getAll = () => (dispatch, getState) => {
     // we set all messages to loading
     dispatch(updateLoading({ all: true }))
-    get('/message/all', { n: 20 })
+    api.get('/message/all', { params: { n: 20 }})
     .finally( () => dispatch(
         updateLoading({ all: false })
     ))
@@ -60,7 +60,7 @@ export const getInChannel = (channelId, after) => (dispatch, getState) => {
         ...loading,
         [channelId]: true
     })))
-    fetch('/messages/all', 'GET', { channelId, n: 20 })
+    api.get('/messages/all', { params: { channelId, n: 20 }})
     .finally(() => dispatch(
         loadingActions.update('channels', loading => ({
             ...loading,
@@ -88,7 +88,7 @@ export const getInChannel = (channelId, after) => (dispatch, getState) => {
 
 export const update = (id, data) => dispatch => {
     dispatch(updateLoading({ [id]: true }))
-    fetch('/message', 'PUT', { id })
+    api.put('/message', data, { params: { id }})
     .finally(() => dispatch(
         updateLoading({ [id]: false })
     ))
@@ -102,7 +102,7 @@ export const update = (id, data) => dispatch => {
 
 export const remove = id => dispatch => {
     dispatch(updateLoading({ [id]: true }))
-    fetch('/message', 'DELETE', { id })
+    api.delete('/message', { params: { id }})
     .finally(() => dispatch(
         updateLoading({ [id]: false })
     ))

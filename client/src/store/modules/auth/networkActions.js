@@ -1,5 +1,5 @@
 import { actions as websocketActions } from '../../middleware/websocket'
-import fetch from '../../api'
+import api from '../../api'
 import axios from 'axios'
 
 import { actions as authActions } from './'
@@ -31,7 +31,7 @@ export const login = data => dispatch => {
             login: true
         }))
     )
-    fetch('/auth/login', 'POST', undefined, data)
+    api.post('/auth/login', data)
     .finally(() => dispatch(
         loadingActions.update('auth', auth => ({
             ...auth,
@@ -59,7 +59,7 @@ export const register = data => dispatch => {
             register: true
         }))
     )
-    fetch('/auth', 'POST', undefined, data)
+    api.post('/auth', data)
     .finally(() => dispatch(
         loadingActions.update('auth', auth => ({
             ...auth,

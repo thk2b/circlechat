@@ -1,4 +1,4 @@
-import fetch, { get } from '../../api'
+import api from '../../api'
 import { loadingActions } from '../loading'
 import { errorsActions } from '../errors'
 
@@ -17,7 +17,7 @@ const updateErrors = obj => errorsActions.update('channels', errors => ({
 export const create = data => dispatch => {
     dispatch(updateLoading({ new: true }))
 
-    fetch('channel', 'POST', undefined, data)
+    api.post('/channel', data)
     .finally(() => dispatch(updateLoading({ new: false })))
     .then( res => {
         const { channel } = res.body
@@ -29,7 +29,7 @@ export const create = data => dispatch => {
 export const getAll = () => dispatch => {
     dispatch(updateLoading({ all: true }))
 
-    get('channel/all')
+    api.get('channel/all')
     .finally(() => {
         dispatch(updateLoading({ all: false }))
     })
@@ -42,7 +42,7 @@ export const getAll = () => dispatch => {
 export const update = (id, data) => dispatch => {
     dispatch(updateLoading({ [id]: true }))
 
-    fetch('channel', 'PUT', { id }, data)
+    api.put('channel', data, { params: { id }})
     .finally(dispatch(updateLoading({ [id]: false })))
     .then(res => dispatch(
         actions.update(id, channel => ({
@@ -56,7 +56,7 @@ export const update = (id, data) => dispatch => {
 export const remove = id => dispatch => {
     dispatch(updateLoading({ [id]: true }))
 
-    fetch('channel', 'DELETE', { id })
+    api.delete('channel', { params: { id }})
     .finally(() => dispatch(updateLoading({ [id]: false })))
     .then( res => dispatch(
         actions.delete(id)
