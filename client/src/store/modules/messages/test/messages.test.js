@@ -123,7 +123,8 @@ describe('messages api actions', () => {
         expect(store.getState().loading.messages['123']).toBe(true)
         runAsync(done, () => {
             const state = store.getState()
-            expect(state.messages['123']).toBe(undefined)
+            // expect(state.messages['123']).toBe(undefined)
+            expect(state.messages['123']).toEqual(message) // we don't delete the message but update it
             expect(state.loading.messages['123']).toBe(false)
         })
     })

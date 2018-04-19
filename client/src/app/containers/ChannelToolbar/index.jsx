@@ -13,13 +13,13 @@ import { Editable } from '../../lib'
 import { remove, update } from '../../../store/modules/channels/networkActions'
 import { typography } from 'material-ui/styles';
 
-const styles = theme => {console.log(theme);return({
+const styles = theme => ({
     root: {
         flex: 1,
         display: 'flex',
         justifyContent: 'space-between'
     }
-})}
+})
 
 const mapState = ({ channels }, ownProps) => {
     const channel = channels[ownProps.match.params.id]

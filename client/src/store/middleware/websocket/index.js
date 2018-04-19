@@ -23,10 +23,8 @@ export default (openConnection, url) => store => next => action => {
             console.error('socket disconected')
         })
         
-        console.log(handlers)
         Object.entries(handlers).forEach(
             ([ event, handler ]) => socket.on(event, payload => {
-                console.log(event, payload)
                 handler(payload, store)
             })
         )
