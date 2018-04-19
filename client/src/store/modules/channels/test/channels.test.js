@@ -1,5 +1,6 @@
 import api from '../../../api'
 import MockAdapter from 'axios-mock-adapter'
+import { runAsync } from '../../../../testUtil'
 
 import createStore from '../../../'
 import actions from '../networkActions'
@@ -14,19 +15,16 @@ describe('channels api actions', () => {
         store = createStore()
     })
 
-    test('create error', () => {
+    test('create error', done => {
         const data = { message: 'test error' }
-        mock.onPost('/channel').reply(403, {
-            data
-        })
+        mock.onPost('/channel').reply(403, data)
         store.dispatch(actions.create({ name: 'test name' }))
         expect(store.getState().loading.channels.new).toBe(true)
-        setTimeout(() => {
+        runAsync(done, () => {
             const state = store.getState()
             expect(state.errors.channels.new).toEqual(data)
             expect(state.loading.channels.new).toBe(false)
-            done()
-        }, 0)
+        })
     })
     test('create success', done => {
         const data = { id: '123', name: 'test name' }
@@ -35,12 +33,11 @@ describe('channels api actions', () => {
         })
         store.dispatch(actions.create({ name: data.name }))
         expect(store.getState().loading.channels.new).toBe(true)
-        setTimeout(() => {
+        runAsync(done, () => {
             const state = store.getState()
             expect(state.channels['123']).toEqual(data)
             expect(state.loading.channels.new).toBe(false)
-            done()
-        }, 0)
+        })
     })
     test('getAll success', done => {
         const data = {
@@ -50,24 +47,22 @@ describe('channels api actions', () => {
         mock.onGet('/channel/all').reply(200, {channels: data})
         store.dispatch(actions.getAll())
         expect(store.getState().loading.channels.all).toBe(true)
-        setTimeout(() => {
+        runAsync(done, () => {
             const state = store.getState()
             expect(state.channels).toEqual(data)
             expect(state.loading.channels.all).toBe(false)
-            done()
-        }, 0)
+        })
     })
     test('getAll error', done => {
         const data = { message: 'test error '}
         mock.onGet('/channel/all').reply(500, data)
         store.dispatch(actions.getAll())
         expect(store.getState().loading.channels.all).toBe(true)
-        setTimeout(() => {
+        runAsync(done, () => {
             const state = store.getState()
             expect(state.errors.channels.all).toEqual(data)
             expect(state.loading.channels.all).toBe(false)
-            done()
-        }, 0)
+        })
     })
     test('update success', done => {
         const channel = {
@@ -82,12 +77,11 @@ describe('channels api actions', () => {
         store.dispatch(actions.update('123', { name: 'new name' }))
 
         expect(store.getState().loading.channels['123']).toBe(true)
-        setTimeout(() => {
+        runAsync(done, () => {
             const state = store.getState()
             expect(state.channels['123']).toEqual({ ...channel, ...newChannel })
             expect(state.loading.channels['123']).toBe(false)
-            done()
-        }, 0)
+        })
     })
     test('update error', done => {
         const data = { message: 'test error '}
@@ -100,13 +94,12 @@ describe('channels api actions', () => {
         store.dispatch(actions.update('123', { name: 'new name' }))
 
         expect(store.getState().loading.channels['123']).toBe(true)
-        setTimeout(() => {
+        runAsync(done, () => {
             const state = store.getState()
             expect(state.channels['123']).toEqual(channel)
             expect(state.errors.channels['123']).toEqual(data)
             expect(state.loading.channels['123']).toBe(false)
-            done()
-        }, 0)
+        })
     })
     test('remove success', done => {
         const channel = {
@@ -118,12 +111,11 @@ describe('channels api actions', () => {
         store.dispatch(actions.remove('123'))
 
         expect(store.getState().loading.channels['123']).toBe(true)
-        setTimeout(() => {
+        runAsync(done, () => {
             const state = store.getState()
             expect(state.channels['123']).toBe(undefined)
             expect(state.loading.channels['123']).toBe(false)
-            done()
-        }, 0)
+        })
     })
     test('remove error', done => {
         const channel = {
@@ -135,12 +127,11 @@ describe('channels api actions', () => {
         store.dispatch(actions.remove('123'))
 
         expect(store.getState().loading.channels['123']).toBe(true)
-        setTimeout(() => {
+        runAsync(done, () => {
             const state = store.getState()
             expect(state.channels['123']).toEqual(channel)
             expect(state.errors.channels['123']).toEqual(data)
             expect(state.loading.channels['123']).toBe(false)
-            done()
-        }, 0)
+        })
     })
 })

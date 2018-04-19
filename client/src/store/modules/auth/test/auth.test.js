@@ -1,5 +1,6 @@
 import api from '../../../api'
 import MockAdapter from 'axios-mock-adapter'
+import { runAsync } from '../../../../testUtil'
 
 import createStore from '../../../'
 import actions from '../networkActions'
@@ -23,14 +24,14 @@ describe('auth network actions', () => {
 
         store.dispatch(actions.login({ userId: 'tester', pw: 123 }))
         expect(store.getState().loading.auth.login).toBe(true)
-        setTimeout(() => {
+        runAsync(done, () => {
             const state = store.getState()
             expect(state.auth).toEqual(loginSuccessData)
             expect(state.loading.auth).toEqual({ login: false, register: false })
             done()
-        }, 0)
+        })
     })
-    test('auth.login error', () => {
+    test('auth.login error', done => {
         const loginErrorData = {
             message: 'test error'
         }
@@ -38,14 +39,15 @@ describe('auth network actions', () => {
         const initialState = store.getState().auth
 
         store.dispatch(actions.login({ userId: 'tester', pw: 123 }))
-        setTimeout(() => {
+        runAsync(done, () => {
             const state = store.getState()
             expect(state.auth).toEqual(initialState)
             expect(state.loading.auth).toEqual({ login: false, register: false })
-            expect(state.errors.auth).toEqual({ login: loginErrorData, register: false })
+            expect(state.errors.auth.login).toEqual(loginErrorData)
             done()
-        }, 0)
+        })
     })
+    test.skip('auth.register', () => {})
     test.skip('auth.logout', () => {
 
     })

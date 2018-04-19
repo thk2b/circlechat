@@ -1,5 +1,6 @@
 import api from '../../../api'
 import MockAdapter from 'axios-mock-adapter'
+import { runAsync } from '../../../../testUtil'
 
 import createStore from '../../../'
 import actions from '../networkActions'
@@ -14,19 +15,16 @@ describe('profiles api actions', () => {
         store = createStore()
     })
 
-    test('create error', () => {
+    test('create error', done => {
         const data = { message: 'test error' }
-        mock.onPost('/profile').reply(403, {
-            data
-        })
+        mock.onPost('/profile').reply(403, data)
         store.dispatch(actions.create({ name: 'test name' }))
         expect(store.getState().loading.profiles.new).toBe(true)
-        setTimeout(() => {
+        runAsync(done, () => {
             const state = store.getState()
             expect(state.errors.profiles.new).toEqual(data)
             expect(state.loading.profiles.new).toBe(false)
-            done()
-        }, 0)
+        })
     })
     test('create success', done => {
         const data = { id: '123', name: 'test name' }
@@ -35,37 +33,34 @@ describe('profiles api actions', () => {
         })
         store.dispatch(actions.create({ name: data.name }))
         expect(store.getState().loading.profiles.new).toBe(true)
-        setTimeout(() => {
+        runAsync(done, () => {
             const state = store.getState()
             expect(state.profiles['123']).toEqual(data)
             expect(state.loading.profiles.new).toBe(false)
-            done()
-        }, 0)
+        })
     })
     test('get success', done => {
         const data = { id: '123', name: 'test name 1' }
         mock.onGet('/profile', { params: { id: '123' }}).reply(200, {profile: data})
         store.dispatch(actions.get('123'))
         expect(store.getState().loading.profiles['123']).toBe(true)
-        setTimeout(() => {
+        runAsync(done, () => {
             const state = store.getState()
             expect(state.profiles['123']).toEqual(data)
             expect(state.loading.profiles['123']).toBe(false)
-            done()
-        }, 0)
+        })
     })
     test('get error', done => {
         const data = { message: 'test error'}
         mock.onGet('/profile', { params: { id: '123' }}).reply(500, data)
         store.dispatch(actions.get('123'))
         expect(store.getState().loading.profiles['123']).toBe(true)
-        setTimeout(() => {
+        runAsync(done, () => {
             const state = store.getState()
             expect(state.profiles['123']).toBe(undefined)
             expect(state.errors.profiles['123']).toEqual(data)
             expect(state.loading.profiles['123']).toBe(false)
-            done()
-        }, 0)
+        })
     })
     test('getAll success', done => {
         const data = {
@@ -75,24 +70,22 @@ describe('profiles api actions', () => {
         mock.onGet('/profile/all').reply(200, {profiles: data})
         store.dispatch(actions.getAll())
         expect(store.getState().loading.profiles.all).toBe(true)
-        setTimeout(() => {
+        runAsync(done, () => {
             const state = store.getState()
             expect(state.profiles).toEqual(data)
             expect(state.loading.profiles.all).toBe(false)
-            done()
-        }, 0)
+        })
     })
     test('getAll error', done => {
         const data = { message: 'test error '}
         mock.onGet('/profile/all').reply(500, data)
         store.dispatch(actions.getAll())
         expect(store.getState().loading.profiles.all).toBe(true)
-        setTimeout(() => {
+        runAsync(done, () => {
             const state = store.getState()
             expect(state.errors.profiles.all).toEqual(data)
             expect(state.loading.profiles.all).toBe(false)
-            done()
-        }, 0)
+        })
     })
     test('update success', done => {
         const profile = {
@@ -107,12 +100,11 @@ describe('profiles api actions', () => {
         store.dispatch(actions.update('123', { name: 'new name' }))
 
         expect(store.getState().loading.profiles['123']).toBe(true)
-        setTimeout(() => {
+        runAsync(done, () => {
             const state = store.getState()
             expect(state.profiles['123']).toEqual({ ...profile, ...newProfile })
             expect(state.loading.profiles['123']).toBe(false)
-            done()
-        }, 0)
+        })
     })
     test('update error', done => {
         const data = { message: 'test error '}
@@ -125,13 +117,12 @@ describe('profiles api actions', () => {
         store.dispatch(actions.update('123', { name: 'new name' }))
 
         expect(store.getState().loading.profiles['123']).toBe(true)
-        setTimeout(() => {
+        runAsync(done, () => {
             const state = store.getState()
             expect(state.profiles['123']).toEqual(profile)
             expect(state.errors.profiles['123']).toEqual(data)
             expect(state.loading.profiles['123']).toBe(false)
-            done()
-        }, 0)
+        })
     })
     test('remove success', done => {
         const profile = {
@@ -143,12 +134,11 @@ describe('profiles api actions', () => {
         store.dispatch(actions.remove('123'))
 
         expect(store.getState().loading.profiles['123']).toBe(true)
-        setTimeout(() => {
+        runAsync(done, () => {
             const state = store.getState()
             expect(state.profiles['123']).toBe(undefined)
             expect(state.loading.profiles['123']).toBe(false)
-            done()
-        }, 0)
+        })
     })
     test('remove error', done => {
         const profile = {
@@ -160,13 +150,12 @@ describe('profiles api actions', () => {
         store.dispatch(actions.remove('123'))
 
         expect(store.getState().loading.profiles['123']).toBe(true)
-        setTimeout(() => {
+        runAsync(done, () => {
             const state = store.getState()
             expect(state.profiles['123']).toEqual(profile)
             expect(state.errors.profiles['123']).toEqual(data)
             expect(state.loading.profiles['123']).toBe(false)
-            done()
-        }, 0)
+        })
     })
     test('getProfileOfUser success', done => {
         const data = { id: '123', name: 'test name 1', userId: '987' }
@@ -174,12 +163,11 @@ describe('profiles api actions', () => {
         store.dispatch(actions.getProfileOfUser('987'))
         
         // expect(store.getState().loading.profiles['123']).toBe(true)
-        setTimeout(() => {
+        runAsync(done, () => {
             const state = store.getState()
             expect(state.profiles['123']).toEqual(data)
             // expect(state.loading.profiles['123']).toBe(false)
-            done()
-        }, 0)
+        })
     })
     test.skip('getProfileOfUser error', done => {
         const data = { message: 'test error' }
@@ -187,11 +175,10 @@ describe('profiles api actions', () => {
         store.dispatch(actions.getProfileOfUser('987'))
         
         // expect(store.getState().loading.profiles['123']).toBe(true)
-        setTimeout(() => {
+        runAsync(done, () => {
             const state = store.getState()
             // expect(state.profiles['123']).toEqual(data)
             // expect(state.loading.profiles['123']).toBe(false)
-            done()
-        }, 0)
+        })
     })
 })

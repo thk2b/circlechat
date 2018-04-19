@@ -43,7 +43,7 @@ export const login = data => dispatch => {
     .catch( e => {
         dispatch(errorsActions.update('auth', auth => ({
             ...auth,
-            login: e
+            login: e.response.data
         })))
     })
     .then(() => dispatch(
@@ -66,7 +66,7 @@ export const register = data => dispatch => {
     .catch( e => dispatch(
         errorsActions.update('auth', auth => ({
             ...auth,
-            register: e
+            register: e.response.data
         }))
     ))
     .then(() => dispatch(

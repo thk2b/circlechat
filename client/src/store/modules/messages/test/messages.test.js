@@ -1,5 +1,6 @@
 import api from '../../../api'
 import MockAdapter from 'axios-mock-adapter'
+import { runAsync } from '../../../../testUtil'
 
 import createStore from '../../../'
 import { actions as authActions } from '../../auth'
@@ -24,25 +25,23 @@ describe('profiles api actions', () => {
         mock.onGet('/message/all').reply(200, {messages: data})
         store.dispatch(actions.getAll())
         expect(store.getState().loading.messages.all).toBe(true)
-        setTimeout(() => {
+        runAsync(done, () => {
             const state = store.getState()
             expect(state.notifications.channels['987']).toBe(1)
             expect(state.messages).toEqual(data)
             expect(state.loading.messages.all).toBe(false)
-            done()
-        }, 0)
+        })
     })
     test('getAll error', done => {
         const data = { message: 'test error '}
         mock.onGet('/message/all').reply(500, data)
         store.dispatch(actions.getAll())
         expect(store.getState().loading.messages.all).toBe(true)
-        setTimeout(() => {
+        runAsync(done, () => {
             const state = store.getState()
             expect(state.errors.messages.all).toEqual(data)
             expect(state.loading.messages.all).toBe(false)
-            done()
-        }, 0)
+        })
     })
     test('getInChannel success', done => {
         store.dispatch(authActions.set('lastLogoutAt', 1000))
@@ -58,14 +57,13 @@ describe('profiles api actions', () => {
         
         store.dispatch(actions.getInChannel('987', '0'))
         expect(store.getState().loading.channels['987']).toBe(true)
-        setTimeout(() => {
+        runAsync(done, () => {
             const state = store.getState()
             expect(state.hasMore.channels['987']).toBe(true)
             expect(state.notifications.channels['987']).toBe(1)
             expect(state.messages).toEqual({ '0': initialMessage, ...data })
             expect(state.loading.channels['987']).toBe(false)
-            done()
-        }, 0)
+        })
     })
     test('update success', done => {
         const message = {
@@ -80,12 +78,11 @@ describe('profiles api actions', () => {
         store.dispatch(actions.update('123', { text: 'new text' }))
 
         expect(store.getState().loading.messages['123']).toBe(true)
-        setTimeout(() => {
+        runAsync(done, () => {
             const state = store.getState()
             expect(state.messages['123']).toEqual({ ...message, ...newMessage })
             expect(state.loading.messages['123']).toBe(false)
-            done()
-        }, 0)
+        })
     })
     test('update error', done => {
         const data = { message: 'test error '}
@@ -98,13 +95,12 @@ describe('profiles api actions', () => {
         store.dispatch(actions.update('123', { text: 'new text' }))
 
         expect(store.getState().loading.messages['123']).toBe(true)
-        setTimeout(() => {
+        runAsync(done, () => {
             const state = store.getState()
             expect(state.messages['123']).toEqual(message)
             expect(state.errors.messages['123']).toEqual(data)
             expect(state.loading.messages['123']).toBe(false)
-            done()
-        }, 0)
+        })
     })
     test('remove success', done => {
         const message = {
@@ -116,12 +112,11 @@ describe('profiles api actions', () => {
         store.dispatch(actions.remove('123'))
 
         expect(store.getState().loading.messages['123']).toBe(true)
-        setTimeout(() => {
+        runAsync(done, () => {
             const state = store.getState()
             expect(state.messages['123']).toBe(undefined)
             expect(state.loading.messages['123']).toBe(false)
-            done()
-        }, 0)
+        })
     })
     test('remove error', done => {
         const message = {
@@ -133,12 +128,11 @@ describe('profiles api actions', () => {
         store.dispatch(actions.remove('123'))
 
         expect(store.getState().loading.messages['123']).toBe(true)
-        setTimeout(() => {
+        runAsync(done, () => {
             const state = store.getState()
             expect(state.messages['123']).toEqual(message)
             expect(state.errors.messages['123']).toEqual(data)
             expect(state.loading.messages['123']).toBe(false)
-            done()
-        }, 0)
+        })
     })
 })
