@@ -21,7 +21,6 @@ export const reset = () => {
     }
 }
 
-
 /** count the number of new items since last logout and return the new notification count for that channel */
 export const updateChannelNotifications = dispatch => (lastLogoutAt, items) => {
     const newNotificationsByChannel = Object.entries(items).reduce(
