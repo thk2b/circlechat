@@ -1,6 +1,7 @@
 import { actions as messagesActions } from '../../modules/messages/base'
 import { actions as profilesActions } from '../../modules/profiles/base'
 import { actions as channelsActions } from '../../modules/channels/base'
+import { notificationsActions } from '../../modules/notifications'
 import { loadingActions } from '../../modules/loading'
 
 //TODO: handle loading / errors
@@ -8,9 +9,9 @@ import { loadingActions } from '../../modules/loading'
 const messageHandler = ({ meta, data }, { dispatch, getState }) => {
     switch (meta.type){
         case 'POST':
-            dispatch(
-                messagesActions.set(data.message.id, data.message)
-            )
+            const { ownProfileId } = getState()
+            const { message } = data
+            dispatch(messagesActions.set(message.id, message))
             dispatch(
                 // only if own message
                 loadingActions.update('messages', loading => ({
@@ -19,6 +20,9 @@ const messageHandler = ({ meta, data }, { dispatch, getState }) => {
                 }))
                 // add to notifications
             )
+            if(message.profileId !== ownProfileId){
+                dispatch(notificationsActions.increment(message.channelId))
+            }
             return
         case 'DELETE':
         case 'PUT':
