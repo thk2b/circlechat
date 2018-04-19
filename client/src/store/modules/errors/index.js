@@ -7,5 +7,5 @@ const { reducer, actions } = HashMap('errors', {
     auth: { login: null, register: null }
 })
 
-export { actions }
+export { actions as errorsActions }
 export default reducer

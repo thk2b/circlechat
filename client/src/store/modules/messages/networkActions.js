@@ -1,12 +1,12 @@
 import { emit } from '../../middleware/websocket/actions'
 import api from '../../api'
 
-import { actions as loadingActions } from '../loading'
-import { actions as errorsActions } from '../errors'
-import { actions as hasMoreActions } from '../hasMore'
-import { actions as notificationsActions } from '../notifications'
+import { loadingActions } from '../loading'
+import { errorsActions } from '../errors'
+import { hasMoreActions } from '../hasMore'
+import { notificationsActions } from '../notifications'
 
-import { actions as messagesActions } from './'
+import { actions as messagesActions } from './base'
 
 const updateLoading = obj => loadingActions.update('messages', loading => ({
     ...loading,

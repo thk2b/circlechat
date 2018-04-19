@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux'
 import { withStyles } from 'material-ui/styles'
 
 import { send, getInChannel } from '../../../store/modules/messages/networkActions'
-import { actions as notificationsActions } from '../../../store/modules/notifications'
+import { notificationsActions } from '../../../store/modules/notifications'
 import Messages from './Messages'
 import MessageInput from './MessageInput'
 import css from './Chat.css'

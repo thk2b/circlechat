@@ -1,8 +1,8 @@
 import api from '../../api'
 
-import { actions as loadingActions } from '../loading'
-import { actions as errorsActions } from '../errors'
-import { actions as profilesActions } from './'
+import { loadingActions } from '../loading'
+import { errorsActions } from '../errors'
+import { actions as profilesActions } from './base'
 
 /* wrapper to update profiles' loading status */
 const updateLoading = obj => loadingActions.update('profiles', loading => ({

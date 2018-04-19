@@ -4,7 +4,7 @@ import { runAsync } from '../../../../testUtil'
 
 import createStore from '../../../'
 import actions from '../networkActions'
-import { actions as basicActions } from '../'
+import { actions as basicActions } from '../base'
 
 describe('profiles api actions', () => {
     let store
@@ -99,7 +99,7 @@ describe('profiles api actions', () => {
         
         mock.onAny().reply( config => {
             try {
-                expect(config.url).toBe('/profile')
+                expect(config.url).toBe('profile')
                 expect(config.method).toBe('put')
                 expect(config.params).toEqual({ id: '123' })
                 expect(config.data).toEqual(JSON.stringify(newProfile))

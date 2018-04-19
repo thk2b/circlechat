@@ -1,8 +1,8 @@
 import api from '../../api'
-import { actions as loadingActions } from '../loading'
-import { actions as errorsActions } from '../errors'
+import { loadingActions } from '../loading'
+import { errorsActions } from '../errors'
 
-import { actions } from './'
+import { actions } from './base'
 
 const updateLoading = obj => loadingActions.update('channels', loading => ({
     ...loading,

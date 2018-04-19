@@ -8,5 +8,5 @@ const { reducer, actions } = HashMap('loading', {
     auth: { login: false, register: false }
 })
 
-export { actions }
+export { actions as loadingActions }
 export default reducer

@@ -1,7 +1,8 @@
 export const CONNECT = 'websocket-middleware/connect'
-export const connect = () => {
+export const connect = token => {
     return {
-        type: CONNECT
+        type: CONNECT,
+        token
     }
 }
 

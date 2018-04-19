@@ -2,12 +2,12 @@ import actions, { CONNECT, DISCONNECT, EMIT } from './actions'
 
 import handlers from './handlers'
 
-export { actions }
+export { actions as websocketActions }
 
 let socket
 export default (openConnection, url) => store => next => action => {
     if(action.type === CONNECT){
-        const token = store.getState().auth.token
+        const token = action.token||store.getState().auth.token
         if(!token){
             return console.error('cannot connect to websocket without a token')
         }
@@ -30,7 +30,7 @@ export default (openConnection, url) => store => next => action => {
         )
     }
     else if(action.type === DISCONNECT){
-        socket.close()
+        socket && socket.close()
     }
     else if(action.type === EMIT){
         const { resource, type, data, options } = action

@@ -10,7 +10,7 @@ import Typography from 'material-ui/Typography'
 import Button from 'material-ui/Button'
 import AddIcon from 'material-ui-icons/Add'
 
-import { actions as notificationsActions } from '../../../store/modules/notifications'
+import { notificationsActions } from '../../../store/modules/notifications'
 
 import css from './ChannelsList.css'
 import ChannelListItem from './ChannelListItem'

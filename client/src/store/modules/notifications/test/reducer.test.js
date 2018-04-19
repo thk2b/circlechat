@@ -58,4 +58,17 @@ describe('notifications reducer', () => {
             })
         })
     })
+    test('local reset action', () => {
+        const initialState = reducer(undefined, {})
+        const state = {
+            channels: {
+                123: 42,
+                999: 12
+            },
+            total: 54
+        }
+        expect(
+            reducer(state, actions.reset())
+        ).toEqual(initialState)
+    })
 })

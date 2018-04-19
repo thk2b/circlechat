@@ -1,7 +1,7 @@
-import { actions as messagesActions } from '../../modules/messages'
-import { actions as profilesActions } from '../../modules/profiles'
-import { actions as channelsActions } from '../../modules/channels'
-import { actions as loadingActions } from '../../modules/loading'
+import { messagesActions } from '../../modules/messages'
+import { profilesActions } from '../../modules/profiles'
+import { channelsActions } from '../../modules/channels'
+import { loadingActions } from '../../modules/loading'
 
 //TODO: handle loading / errors
 

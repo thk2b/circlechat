@@ -13,3 +13,12 @@ export const increment = (channelId, by=1) => {
         channelId, by
     }
 }
+
+export const RESET = '/notifications/reset'
+export const reset = () => {
+    return {
+        type: RESET,
+    }
+}
+
+export default { increment, clear, reset }

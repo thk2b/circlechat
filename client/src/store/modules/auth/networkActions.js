@@ -1,15 +1,15 @@
-import { actions as websocketActions } from '../../middleware/websocket'
+import { websocketActions } from '../../middleware/websocket'
 import api from '../../api'
 import axios from 'axios'
 
-import { actions as authActions } from './'
-import profilesActions from '../profiles/networkActions'
-import messagesActions from '../messages/networkActions'
-import channelsActions from '../channels/networkActions'
-import { actions as loadingActions } from '../loading'
-import { actions as errorsActions } from '../errors'
-import { actions as hasMoreActions } from '../hasMore'
-import { actions as notificationsActions } from '../notifications'
+import { authActions } from './'
+import { profilesActions } from '../profiles/'
+import { messagesActions } from '../messages/'
+import { channelsActions } from '../channels/'
+import { loadingActions } from '../loading'
+import { errorsActions } from '../errors'
+import { hasMoreActions } from '../hasMore'
+import { notificationsActions } from '../notifications'
 
 export const logout = () => dispatch => {
     api.defaults.headers.common['Authorization'] = undefined
@@ -35,6 +35,7 @@ export const login = data => dispatch => {
     .then( res => {
         api.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`
         dispatch(authActions.setAll(res.data))
+        dispatch(websocketActions.connect(res.data.token))
         dispatch(profilesActions.getProfileOfUser(res.data.userId))
         dispatch(profilesActions.getAll())
         dispatch(messagesActions.getAll())

@@ -3,12 +3,12 @@ import MockAdapter from 'axios-mock-adapter'
 import { runAsync } from '../../../../testUtil'
 
 import createStore from '../../../'
-import { actions as authActions } from '../../auth'
+import { authActions } from '../../auth'
 
 import actions from '../networkActions'
-import { actions as basicActions } from '../'
+import { actions as basicActions } from '../base'
 
-describe('profiles api actions', () => {
+describe('messages api actions', () => {
     let store
     const mock = new MockAdapter(api)
 
@@ -52,7 +52,6 @@ describe('profiles api actions', () => {
             '234': { id: '234', channelId: '987', text: 'test text 2', createdAt: 1200 }
         }
         mock.onGet('/message/all', { channelId: '987', after: '0' })
-        // mock.onGet('/message/all')
         .reply(200, { messages: data, hasMore: true })
         
         store.dispatch(actions.getInChannel('987', '0'))
@@ -76,7 +75,7 @@ describe('profiles api actions', () => {
         
         mock.onAny().reply( config => {
             try {
-                expect(config.url).toBe('/message')
+                expect(config.url).toBe('message')
                 expect(config.method).toBe('put')
                 expect(config.params).toEqual({ id: '123' })
                 expect(config.data).toEqual(JSON.stringify(newMessage))

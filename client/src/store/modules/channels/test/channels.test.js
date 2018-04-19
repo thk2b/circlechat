@@ -4,7 +4,7 @@ import { runAsync } from '../../../../testUtil'
 
 import createStore from '../../../'
 import actions from '../networkActions'
-import { actions as basicActions } from '../'
+import { actions as basicActions } from '../base'
 
 describe('channels api actions', () => {
     let store
@@ -76,7 +76,7 @@ describe('channels api actions', () => {
 
         mock.onAny().reply( config => {
             try {
-                expect(config.url).toBe('/channel')
+                expect(config.url).toBe('channel')
                 expect(config.method).toBe('put')
                 expect(config.params).toEqual({ id: '123' })
                 expect(config.data).toEqual(JSON.stringify(newChannel))

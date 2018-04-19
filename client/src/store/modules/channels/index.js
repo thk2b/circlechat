@@ -1,6 +1,9 @@
-import { HashMap } from 'redux-structures'
+import reducer, { actions } from './base'
+import networkActions from './networkActions'
 
-const { reducer, actions } = HashMap('channels')
+const allActions = {
+    ...actions, ...networkActions
+}
 
 export default reducer
-export { actions }
+export { allActions as channelsActions }

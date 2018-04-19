@@ -5,4 +5,4 @@ const { reducer, actions } = HashMap('hasMore', {
 })
 
 export default reducer
-export { actions }
+export { actions as hasMoreActions }
