@@ -12,16 +12,14 @@ const messageHandler = ({ meta, data }, { dispatch, getState }) => {
             const { ownProfileId } = getState()
             const { message } = data
             dispatch(messagesActions.set(message.id, message))
-            dispatch(
-                // only if own message
-                loadingActions.update('messages', loading => ({
-                    ...loading,
-                    new: false
-                }))
-                // add to notifications
-            )
+
             if(message.profileId !== ownProfileId){
                 dispatch(notificationsActions.increment(message.channelId))
+            } else {
+                dispatch(loadingActions.update('messages', loading => ({
+                    ...loading,
+                    new: false
+                })))
             }
             return
         case 'DELETE':
