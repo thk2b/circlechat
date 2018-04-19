@@ -27,15 +27,16 @@ describe('profiles api actions', () => {
         })
     })
     test('create success', done => {
-        const data = { id: '123', name: 'test name' }
-        mock.onPost('/profile').reply(201, {
-            profile: data
+        const data = { name: 'test name' }
+        const responseData = {...data, id: '123'}
+        mock.onPost('/profile', data).reply(201, {
+            profile: responseData
         })
-        store.dispatch(actions.create({ name: data.name }))
+        store.dispatch(actions.create(data))
         expect(store.getState().loading.profiles.new).toBe(true)
         runAsync(done, () => {
             const state = store.getState()
-            expect(state.profiles['123']).toEqual(data)
+            expect(state.profiles['123']).toEqual(responseData)
             expect(state.loading.profiles.new).toBe(false)
         })
     })

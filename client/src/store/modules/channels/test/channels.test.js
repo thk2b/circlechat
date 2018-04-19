@@ -27,15 +27,16 @@ describe('channels api actions', () => {
         })
     })
     test('create success', done => {
-        const data = { id: '123', name: 'test name' }
-        mock.onPost('/channel').reply(201, {
-            channel: data
+        const data = { name: 'test name' }
+        const responseData = {...data, id: '123'}
+        mock.onPost('/channel', data).reply(201, {
+            channel: responseData
         })
-        store.dispatch(actions.create({ name: data.name }))
+        store.dispatch(actions.create(data))
         expect(store.getState().loading.channels.new).toBe(true)
         runAsync(done, () => {
             const state = store.getState()
-            expect(state.channels['123']).toEqual(data)
+            expect(state.channels['123']).toEqual(responseData)
             expect(state.loading.channels.new).toBe(false)
         })
     })
