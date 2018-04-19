@@ -99,12 +99,15 @@ describe('profiles api actions', () => {
         
         mock.onAny().reply( config => {
             try {
+                expect(config.method).toBe('put')
                 expect(config.params).toEqual({ id: '123' })
                 expect(config.data).toEqual(JSON.stringify(newProfile))
-                return [202, newProfile]
+                return [202, newProfile]    
             } catch (e){
                 done.fail(e)
+                return [500]
             }
+
         })
         store.dispatch(actions.update('123', { name: 'new name' }))
 

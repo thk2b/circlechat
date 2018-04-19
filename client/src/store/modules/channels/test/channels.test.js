@@ -76,11 +76,13 @@ describe('channels api actions', () => {
 
         mock.onAny().reply( config => {
             try {
+                expect(config.method).toBe('put')
                 expect(config.params).toEqual({ id: '123' })
                 expect(config.data).toEqual(JSON.stringify(newChannel))
                 return [202, newChannel]
             } catch (e){
                 done.fail(e)
+                return [500]
             }
         })
         store.dispatch(actions.update('123', { name: 'new name' }))
