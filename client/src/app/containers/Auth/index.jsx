@@ -58,8 +58,7 @@ class Auth extends React.Component {
 
     render() {
         if(this.props.isAuthenticated){
-            return 'authenticated!'
-            // return this.props.children
+            return this.props.children
         }
         const {
             loginLoading, registerLoading,

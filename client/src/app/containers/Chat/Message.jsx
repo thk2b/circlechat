@@ -7,7 +7,7 @@ import Card, { CardContent, CardText } from 'material-ui/Card'
 import Typography from 'material-ui/Typography'
 import { Editable, Link, Time } from '../../lib'
 
-import { update, remove } from '../../../store/modules/messages'
+import { update, remove } from '../../../store/modules/messages/networkActions'
 import css from './Message.css'
 
 const mapState = ({ profiles }, { profileId }) => {

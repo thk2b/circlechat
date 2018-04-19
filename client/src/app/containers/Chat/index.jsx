@@ -4,8 +4,8 @@ import { bindActionCreators } from 'redux'
 
 import { withStyles } from 'material-ui/styles'
 
-import { send, getInChannel } from '../../../store/modules/messages'
-import { clear as clearNotifications } from '../../../store/modules/notifications'
+import { send, getInChannel } from '../../../store/modules/messages/networkActions'
+import { actions as notificationsActions } from '../../../store/modules/notifications'
 import Messages from './Messages'
 import MessageInput from './MessageInput'
 import css from './Chat.css'
@@ -18,7 +18,7 @@ const styles = theme => ({
 
 const mapState = ({ messages, profiles, hasMore }, { channelId }) => {
     return {
-        messages: Object.entries(messages.data)
+        messages: Object.entries(messages)
             .filter(
                 ([_, message]) => message.channelId === channelId
             ).map(
@@ -26,12 +26,16 @@ const mapState = ({ messages, profiles, hasMore }, { channelId }) => {
             ),
         request: messages.request,
         profileId: profiles.ownProfileId,
-        hasMore: hasMore.messages[channelId] || true
+        hasMore: hasMore.channels[channelId] || true
     }
 }
 
 const mapDispatch = dispatch => {
-    return bindActionCreators({ clearNotifications, getInChannel, send }, dispatch)
+    return bindActionCreators({
+        clearNotifications: notificationsActions.clear,
+        getInChannel,
+        send
+    }, dispatch)
 }
 
 const mergeProps = ({ profileId, ...state}, actions, { channelId, ...ownProps }) => {

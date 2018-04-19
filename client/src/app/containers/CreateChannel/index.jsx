@@ -7,7 +7,7 @@ import { withStyles } from 'material-ui/styles'
 import TextField from 'material-ui/TextField'
 import Button from 'material-ui/Button'
 import Paper from 'material-ui/Paper'
-import { create } from '../../../store/modules/channels'
+import { create } from '../../../store/modules/channels/networkActions'
 
 const styles = theme => ({
     root: {

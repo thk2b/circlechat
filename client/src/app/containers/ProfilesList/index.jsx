@@ -19,8 +19,8 @@ const styles = theme => ({
 
 const mapState = ({ profiles }) => {
     return {
-        profiles: Object.keys(profiles.data).reduce(
-            (arr, id) => [...arr, profiles.data[id]]
+        profiles: Object.keys(profiles).reduce(
+            (arr, id) => [...arr, profiles[id]]
         ,[])
     }
 }

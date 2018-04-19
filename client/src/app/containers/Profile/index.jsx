@@ -9,7 +9,7 @@ import BackIcon from 'material-ui-icons/ArrowBack'
 
 import { Spinner, Editable } from '../../lib'
 
-import { get, update } from '../../../store/modules/profiles'
+import { get, update } from '../../../store/modules/profiles/networkActions'
 import css from './Profile.css'
 
 const styles = theme => ({

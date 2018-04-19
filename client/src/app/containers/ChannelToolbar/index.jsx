@@ -10,7 +10,7 @@ import ArrowBackIcon from 'material-ui-icons/ArrowBack'
 import ClearIcon from 'material-ui-icons/Delete'
 
 import { Editable } from '../../lib'
-import { remove, update } from '../../../store/modules/channels'
+import { remove, update } from '../../../store/modules/channels/networkActions'
 import { typography } from 'material-ui/styles';
 
 const styles = theme => {console.log(theme);return({
