@@ -22,7 +22,7 @@ const styles = theme => {console.log(theme);return({
 })}
 
 const mapState = ({ channels }, ownProps) => {
-    const channel = channels.data[ownProps.match.params.id]
+    const channel = channels[ownProps.match.params.id]
     return {
         name: channel && channel.name
     }

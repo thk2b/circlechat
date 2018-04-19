@@ -30,7 +30,6 @@ export const getAll = () => dispatch => {
 
     api.get('/channel/all')
     .then( res => {
-        console.log(res.data)
         dispatch(actions.setAll( res.data.channels ))
     })
     .catch( e => dispatch(updateErrors({ all: e.response.data })))

@@ -18,12 +18,13 @@ const styles = theme => ({
     }
 })
 
-const mapState = ({ profiles, device }, { match }) => {
+const mapState = ({ profiles, loading, errors, device }, { match }) => {
     const id = match.params.id || profiles.ownProfileId
-    const { loading, request } = profiles
     return {
         ...profiles[id], id,
-        loading, request, device
+        loading: loading.profiles[id],
+        errors: errors.profiles[id],
+        device
     }
 }
 const mapDispatch = dispatch => {

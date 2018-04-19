@@ -21,7 +21,7 @@ const styles = theme => ({
     }
 })
 
-const mapState = ({ channels, notifications, hasMore }) => {
+const mapState = ({ channels, notifications, hasMore, errors, loading }) => {
     return {
         channels: Object.entries(channels).map(
             ([_, channel]) => ({
@@ -29,8 +29,9 @@ const mapState = ({ channels, notifications, hasMore }) => {
                 notifications: notifications.channels[channel.id]
             })
         ),
-        request: channels.request,
-        hasMore
+        hasMore,
+        loading: loading.channels.all,
+        error: errors.channels.all
     }
 }
 

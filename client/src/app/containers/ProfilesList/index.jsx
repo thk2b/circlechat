@@ -17,11 +17,13 @@ const styles = theme => ({
     }
 })
 
-const mapState = ({ profiles }) => {
+const mapState = ({ profiles, loading, errors }) => {
     return {
         profiles: Object.keys(profiles).reduce(
             (arr, id) => [...arr, profiles[id]]
-        ,[])
+        ,[]),
+        loading: loading.profiles.all,
+        error: errors.profiles.all,
     }
 }
 const mapDispatch = dispatch => {
