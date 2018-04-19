@@ -1,7 +1,7 @@
 import { actions as messagesActions } from '../../modules/messages'
 import { actions as profilesActions } from '../../modules/profiles'
 import { actions as channelsActions } from '../../modules/channels'
-import { loadingActions } from '../../modules/loading'
+import { actions as loadingActions } from '../../modules/loading'
 
 //TODO: handle loading / errors
 
@@ -63,4 +63,10 @@ const channelHandler = ({ meta, data }, { dispatch, getState }) => {
                 }))
             )
     }
+}
+
+export default {
+    messageHandler,
+    profileHandler,
+    channelHandler
 }

@@ -3,6 +3,7 @@ import React from 'react'
 import Typography from 'material-ui/Typography'
 import TextField from 'material-ui/TextField'
 import Button from 'material-ui/Button'
+import RequestStatus from '../../lib/RequestStatus'
 
 export default class LoginForm extends React.Component {
     constructor(props) {
@@ -14,9 +15,11 @@ export default class LoginForm extends React.Component {
         }
     }
     handleSubmit = e => {
+        // e.preventDefault()
         this.props.onSubmit(this.state)
     }
     render() {
+        const { error, onSecondary } = this.props
         return (
             <form onSubmit={e => this.handleSubmit(e)}>
                 <Typography variant='subheading'>Log in</Typography>
@@ -33,19 +36,18 @@ export default class LoginForm extends React.Component {
                     onChange={({ target }) => this.setState({ pw: target.value })}
                     onKeyDown={({ key }) => !this.props.isTextarea && key === 'Enter' && this.handleSubmit()}
                 />
+                {error && <RequestStatus request={error} />}
                 <br/>
                 <div>
                     <Button 
                         color='primary'
                         variant="raised"
                         onClick={e => this.handleSubmit(e)}
-                    >
-                        login
+                    > login 
                     </Button>
                     <Button
-                        onClick={e => this.props.onSecondary(e)}
-                    >
-                        register
+                        onClick={e => onSecondary(e)}
+                    > register
                     </Button>
                 </div>
             </form>

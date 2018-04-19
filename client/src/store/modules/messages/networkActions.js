@@ -1,4 +1,4 @@
-import { emit } from '../../middleware/websocket'
+import { emit } from '../../middleware/websocket/actions'
 import api from '../../api'
 
 import { actions as loadingActions } from '../loading'

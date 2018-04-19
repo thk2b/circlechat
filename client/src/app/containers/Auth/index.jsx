@@ -6,27 +6,30 @@ import Typography from 'material-ui/Typography'
 import Paper from 'material-ui/Paper'
 import Snackbar from 'material-ui/Snackbar'
 import { CircularProgress } from 'material-ui/Progress'
+import { LinearProgress } from 'material-ui';
 
-import { login, connectWs, register, clearRequestStatus } from '../../../store/modules/auth'
+import { login, register } from '../../../store/modules/auth/networkActions'
+
 import LoginForm from './LoginForm'
 import RegisterForm from './RegisterForm'
 
 import css from './Auth.css'
-import { LinearProgress } from 'material-ui';
 
-const mapState = ({ auth, device }) => {
-    const { token, request, loading, ws } = auth
+const mapState = ({ auth, device, loading, errors }) => {
     return {
-        request, token, loading, ws, device
+        loginError: errors.auth.login,
+        registerError: errors.auth.register,
+        loginLoading: loading.auth.login,
+        registerLoading: loading.auth.register,
+        isAuthenticated: !!auth.token,
+        device
     }
 }
 
 const mapDispatch = dispatch => {
     return bindActionCreators({
-        login,
-        connectWs,
-        register,
-        clearRequestStatus
+        onLogin: login,
+        onRegister: register,
     }, dispatch)
 }
 
@@ -37,43 +40,51 @@ class Auth extends React.Component {
     }
 
     componentDidUpdate = (prevProps, prevState) => {
-        if(this.props.request.status && this.props.request.status < 400){
+        /* if we succesfully registered */
+        if(
+            prevProps.registerLoading &&
+            !this.props.registerLoading &&
+            !this.props.registerError
+        ){
             if(this.state.isRegistering){
                 return this.setState({ isRegistering: false })
             }
-            this.props.clearRequestStatus()
-            // if(this.props.token && !this.props.ws.loading && !this.props.ws.connected){
-            //     //TODO: move to middleware
-            //     this.props.connectWs()    
-            // }
         }
     }
     
     toggleRegister = () => {
         this.setState({ isRegistering: !this.state.isRegistering})
-        this.props.clearRequestStatus()
     }
 
     render() {
-        const { request, loading, login, register, token, device } = this.props
+        if(this.props.isAuthenticated){
+            return 'authenticated!'
+            // return this.props.children
+        }
+        const {
+            loginLoading, registerLoading,
+            loginError, registerError,
+            onLogin, onRegister,
+            device
+        } = this.props
         const { isRegistering } = this.state
-        
-        if(token) return this.props.children
         
         return <div className={css.Auth}>
             <Typography variant='title'>Welcome to CircleChat !</Typography>
             <Paper elevation={device.isMobile? 0 : 3}>
-                {
-                    isRegistering
-                        ?<RegisterForm onSubmit={data => register(data)} onSecondary={e => this.toggleRegister()}/>
-                        :<LoginForm onSubmit={login} onSecondary={e => this.toggleRegister()}/>
+                {isRegistering
+                    ?<RegisterForm
+                        error={registerError}
+                        onSubmit={onRegister}
+                        onSecondary={e => this.toggleRegister()}
+                    />
+                    :<LoginForm
+                        error={loginError}
+                        onSubmit={onLogin}
+                        onSecondary={e => this.toggleRegister()}
+                    />
                 }
-                {loading && <LinearProgress />}
-                {request.status && <Snackbar
-                    open={true}
-                    message={request.message}
-                    autoHideDuration={4000}
-                />}
+                {(loginLoading || registerLoading) && <LinearProgress />}
             </Paper>
         </div>
     }

@@ -12,7 +12,7 @@ import { actions as hasMoreActions } from '../hasMore'
 import { actions as notificationsActions } from '../notifications'
 
 export const logout = () => dispatch => {
-    axios.defaults.headers.common['Authorization'] = undefined
+    api.defaults.headers.common['Authorization'] = undefined
     dispatch(websocketActions.disconnect())
     dispatch(authActions.reset())
     dispatch(profilesActions.reset())
@@ -33,7 +33,7 @@ export const login = data => dispatch => {
     )
     api.post('/auth/login', data)
     .then( res => {
-        axios.defaults.headers.common['Authorization'] = res.data.token
+        api.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`
         dispatch(authActions.setAll(res.data))
         dispatch(profilesActions.getProfileOfUser(res.data.userId))
         dispatch(profilesActions.getAll())

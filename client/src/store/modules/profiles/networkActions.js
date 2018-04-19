@@ -75,8 +75,8 @@ export const getProfileOfUser = userId => (dispatch, getState) => {
     ))
     .catch(e => {
         const ownUserId = getState().auth.userId
-        if(userId === ownUserId){
-            dispatch(create(userId))
+        if(e.response.status === 404 && userId === ownUserId){
+            dispatch(create({ userId }))
         } else {
             // flash an error ?
             // dispatch(updateErrors({ ??: e }))

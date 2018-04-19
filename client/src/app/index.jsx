@@ -2,8 +2,9 @@ import React from 'react'
 
 import { withStyles } from 'material-ui/styles'
 
-import Nav from './containers/Nav'
-import { Theme, Group, Auth, TitleBar } from './containers'
+// import Nav from './containers/Nav'
+import Auth from './containers/Auth'
+// import { Theme, Group, Auth, TitleBar } from './containers'
 import css from './index.css'
 
 const styles = theme => ({
@@ -16,10 +17,10 @@ class App extends React.Component {
     render(){
         const { classes } = this.props
         return <div className={css.App + ' ' + classes.root}>
-            <TitleBar />
+            {/* <TitleBar /> */}
             <Auth>
-                <Nav />
-                <Group />
+                {/* <Nav /> */}
+                {/* <Group /> */}
             </Auth>
         </div>
     }   
