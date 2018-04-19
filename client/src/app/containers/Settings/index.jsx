@@ -7,7 +7,7 @@ import Menu, { MenuItem } from 'material-ui/Menu'
 import Popover from 'material-ui/Popover'
 import IconButton from 'material-ui/IconButton'
 
-import { logout } from '../../../store/modules/auth'
+import { logout } from '../../../store/modules/auth/networkActions'
 import { SelectTheme } from '../'
 
 const mapDispatch = dispatch => bindActionCreators({ logout }, dispatch)

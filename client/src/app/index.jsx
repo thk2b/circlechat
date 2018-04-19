@@ -2,8 +2,13 @@ import React from 'react'
 
 import { withStyles } from 'material-ui/styles'
 
-import Nav from './containers/Nav'
-import { Theme, Group, Auth, TitleBar } from './containers'
+import {
+    Auth,
+    Theme,
+    Nav,
+    Group,
+    TitleBar
+} from './containers'
 import css from './index.css'
 
 const styles = theme => ({

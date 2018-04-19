@@ -10,7 +10,7 @@ import Typography from 'material-ui/Typography'
 import Button from 'material-ui/Button'
 import AddIcon from 'material-ui-icons/Add'
 
-import { clear as clearNotifications } from '../../../store/modules/notifications'
+import { notificationsActions } from '../../../store/modules/notifications'
 
 import css from './ChannelsList.css'
 import ChannelListItem from './ChannelListItem'
@@ -21,21 +21,25 @@ const styles = theme => ({
     }
 })
 
-const mapState = ({ channels, notifications, hasMore }) => {
+const mapState = ({ channels, notifications, hasMore, errors, loading }) => {
     return {
-        channels: Object.entries(channels.data).map(
+        channels: Object.entries(channels).map(
             ([_, channel]) => ({
                 ...channel,
                 notifications: notifications.channels[channel.id]
             })
         ),
-        request: channels.request,
-        hasMore
+        hasMore,
+        loading: loading.channels.all,
+        error: errors.channels.all
     }
 }
 
 const mapDispatch = dispatch => {
-    return bindActionCreators({ push, clearNotifications }, dispatch)
+    return bindActionCreators({
+        push,
+        clearNotifications: notificationsActions.clear
+    }, dispatch)
 }
 
 class ChannelsList extends React.Component {
@@ -59,7 +63,7 @@ class ChannelsList extends React.Component {
                     channel => <ChannelListItem
                         key={channel.id}
                         onClick={e => this.onListItemClick(channel.id)}
-                        hasMore={hasMore.messages[channel.id]}
+                        hasMore={hasMore.channels[channel.id]}
                         {...channel}
                     />
                 )}

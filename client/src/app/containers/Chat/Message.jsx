@@ -7,13 +7,15 @@ import Card, { CardContent, CardText } from 'material-ui/Card'
 import Typography from 'material-ui/Typography'
 import { Editable, Link, Time } from '../../lib'
 
-import { update, remove } from '../../../store/modules/messages'
+import { update, remove } from '../../../store/modules/messages/networkActions'
 import css from './Message.css'
 
-const mapState = ({ profiles }, { profileId }) => {
-    const profile = profiles.data[profileId]
+const mapState = ({ profiles, loading, errors }, message) => {
+    const profile = profiles[message.profileId]
     return {
-        profileName: profile && profile.name
+        profileName: profile && profile.name,
+        loading: loading.messages[message.id],
+        error: errors.messages[message.id]
     }
 }
 

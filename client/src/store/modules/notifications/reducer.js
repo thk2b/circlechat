@@ -1,4 +1,4 @@
-import { CLEAR, INCREMENT } from './actions'
+import { CLEAR, INCREMENT, RESET } from './actions'
 
 const initialState = {
     channels: {},
@@ -23,6 +23,7 @@ export default function(state=initialState, action){
             },
             total: state.total + action.by
         }
+        case RESET: return initialState
         default: return state
     }
 }

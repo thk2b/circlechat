@@ -1,2 +1,9 @@
-export { default } from './reducer.js'
-export * from './actions.js'
+import reducer, { actions } from './base'
+import networkActions from './networkActions'
+
+const allActions = {
+    ...actions, ...networkActions
+}
+
+export default reducer
+export { allActions as profilesActions }

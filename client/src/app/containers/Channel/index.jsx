@@ -12,11 +12,13 @@ import { Spinner, Editable } from '../../lib'
 import { Chat } from '../'
 import css from './Channel.css'
 
-const mapState = ({ channels }, ownProps) => {
-    const channel = channels.data[ownProps.match.params.id]
+const mapState = ({ channels, loading, errors }, ownProps) => {
+    const { id } = ownProps.match.params
+    const channel = channels[id]
     return {
         channel,
-        loading: channels.loading || channels.request.status === null
+        loading: loading.channels[id],
+        error: errors.channels[id],
     }
 }
 

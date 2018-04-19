@@ -10,19 +10,19 @@ import ArrowBackIcon from 'material-ui-icons/ArrowBack'
 import ClearIcon from 'material-ui-icons/Delete'
 
 import { Editable } from '../../lib'
-import { remove, update } from '../../../store/modules/channels'
+import { remove, update } from '../../../store/modules/channels/networkActions'
 import { typography } from 'material-ui/styles';
 
-const styles = theme => {console.log(theme);return({
+const styles = theme => ({
     root: {
         flex: 1,
         display: 'flex',
         justifyContent: 'space-between'
     }
-})}
+})
 
 const mapState = ({ channels }, ownProps) => {
-    const channel = channels.data[ownProps.match.params.id]
+    const channel = channels[ownProps.match.params.id]
     return {
         name: channel && channel.name
     }

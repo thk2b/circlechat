@@ -202,8 +202,8 @@ describe(API_URL, function(){
                     .expect(200)
                     .end((e, res) => {
                         if(e) return done(e)
-                        expect(res.body[channel.id]).to.not.be.undefined
-                        expect(res.body[channel1.id]).to.not.be.undefined
+                        expect(res.body.channels[channel.id]).to.not.be.undefined
+                        expect(res.body.channels[channel1.id]).to.not.be.undefined
                         done()
                     })
             })
@@ -267,7 +267,7 @@ describe(API_URL, function(){
                 })
         })
         it('should notify websocket clients', function(done){
-            socket.once('/profile', ({ meta, data }) => {
+            socket.once('/channel', ({ meta, data }) => {
                 expect(meta).to.deep.equal({
                     status: 202, type: 'PUT'
                 })

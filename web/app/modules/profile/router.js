@@ -60,7 +60,7 @@ r.route('/')
 r.route('/all')
     .get((req, res, next) => {
         profile.getAll(req.userId)
-        .then(profiles => res.status(200).json(profiles))
+        .then(profiles => res.status(200).json({ profiles }))
         .catch(next)
     })
 

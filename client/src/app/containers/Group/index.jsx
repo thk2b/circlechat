@@ -41,7 +41,7 @@ const styles = theme => {
         }
 }}
 
-const mapState = ({ device }, ownProps) => {
+const mapState = ({ device }) => {
     return { device }
 }
 

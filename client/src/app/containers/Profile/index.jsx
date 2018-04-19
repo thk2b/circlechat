@@ -9,7 +9,7 @@ import BackIcon from 'material-ui-icons/ArrowBack'
 
 import { Spinner, Editable } from '../../lib'
 
-import { get, update } from '../../../store/modules/profiles'
+import { get, update } from '../../../store/modules/profiles/networkActions'
 import css from './Profile.css'
 
 const styles = theme => ({
@@ -18,12 +18,16 @@ const styles = theme => ({
     }
 })
 
-const mapState = ({ profiles, device }, { match }) => {
-    const id = match.params.id || profiles.ownProfileId
-    const { loading, request } = profiles
+const mapState = ({ profiles, ownProfileId, loading, errors, device }, { match }) => {
+    const id = match.params.id
+        ? match.params.id
+        : match.url === '/me' 
+        ? ownProfileId : undefined
     return {
-        ...profiles.data[id], id,
-        loading, request, device
+        ...profiles[id], id,
+        loading: loading.profiles[id],
+        errors: errors.profiles[id],
+        device
     }
 }
 const mapDispatch = dispatch => {

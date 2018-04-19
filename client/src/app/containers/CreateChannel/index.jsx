@@ -7,7 +7,7 @@ import { withStyles } from 'material-ui/styles'
 import TextField from 'material-ui/TextField'
 import Button from 'material-ui/Button'
 import Paper from 'material-ui/Paper'
-import { create } from '../../../store/modules/channels'
+import { create } from '../../../store/modules/channels/networkActions'
 
 const styles = theme => ({
     root: {
@@ -17,11 +17,11 @@ const styles = theme => ({
     }
 })
 
-const mapState = ({ profiles, channels }) => {
+const mapState = ({ profiles, loading, errors, ownProfileId }) => {
     return {
-        profileId: profiles.ownProfileId,
-        request: channels.request,
-        loading: channels.laoding
+        profileId: ownProfileId,
+        loading: loading.channels.new,
+        error: errors.channels.new
     }
 }
 

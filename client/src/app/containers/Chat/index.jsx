@@ -4,8 +4,8 @@ import { bindActionCreators } from 'redux'
 
 import { withStyles } from 'material-ui/styles'
 
-import { send, getInChannel } from '../../../store/modules/messages'
-import { clear as clearNotifications } from '../../../store/modules/notifications'
+import { send, getInChannel } from '../../../store/modules/messages/networkActions'
+import { notificationsActions } from '../../../store/modules/notifications'
 import Messages from './Messages'
 import MessageInput from './MessageInput'
 import css from './Chat.css'
@@ -16,29 +16,32 @@ const styles = theme => ({
     }
 })
 
-const mapState = ({ messages, profiles, hasMore }, { channelId }) => {
+const mapState = ({ messages, ownProfileId, hasMore }, { channelId }) => {
     return {
-        messages: Object.entries(messages.data)
+        messages: Object.entries(messages)
             .filter(
                 ([_, message]) => message.channelId === channelId
             ).map(
                 ([_, message]) => message
             ),
-        request: messages.request,
-        profileId: profiles.ownProfileId,
-        hasMore: hasMore.messages[channelId] || true
+        profileId: ownProfileId,
+        hasMore: hasMore.channels[channelId] || true
     }
 }
 
 const mapDispatch = dispatch => {
-    return bindActionCreators({ clearNotifications, getInChannel, send }, dispatch)
+    return bindActionCreators({
+        clearNotifications: notificationsActions.clear,
+        getInChannel,
+        send
+    }, dispatch)
 }
 
 const mergeProps = ({ profileId, ...state}, actions, { channelId, ...ownProps }) => {
     return {
         ...state,
         clearNotifications: () => actions.clearNotifications( channelId ),
-        getMoreMessages: () => actions.getInChannel( channelId, state.messages[0].id ), /* fetch additional messages posted before the first mesasge we have */
+        getMoreMessages: () => actions.getInChannel( channelId, state.messages[0] && state.messages[0].id ), /* fetch additional messages posted before the first mesasge we have */
         sendMessage: text => actions.send({ channelId, profileId, text }),
         ...ownProps
     }
