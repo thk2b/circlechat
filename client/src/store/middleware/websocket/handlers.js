@@ -12,10 +12,12 @@ const messageHandler = ({ meta, data }, { dispatch, getState }) => {
                 messagesActions.set(data.message.id, data.message)
             )
             dispatch(
+                // only if own message
                 loadingActions.update('messages', loading => ({
                     ...loading,
                     new: false
                 }))
+                // add to notifications
             )
             return
         case 'DELETE':

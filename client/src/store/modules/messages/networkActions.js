@@ -23,20 +23,6 @@ export const send = data => dispatch => { /* { profileId, channelId, text } */
     dispatch(emit('/message', 'POST', data))
 }
 
-/** count the number of new messages since last logout and return the new notification count for that channel */
-const updateNotifications = (dispatch, lastLogoutAt, messages) => {
-    const newNotificationsByChannel = Object.entries(messages).reduce(
-        (obj, [messageId, message]) => (
-            message.createdAt > lastLogoutAt /* message was created after last logout */
-            ? {...obj, [message.channelId]: (obj[message.channelId] || 0) + 1 }
-            : obj
-        )
-    , {})
-    Object.entries(newNotificationsByChannel).forEach(
-        ([ channelId, count ]) => dispatch(notificationsActions.increment(channelId, count))
-    )
-}
-
 export const getAll = () => (dispatch, getState) => {
     // we set all messages to loading
     dispatch(updateLoading({ all: true }))
@@ -44,7 +30,7 @@ export const getAll = () => (dispatch, getState) => {
     .then( res => {
         const { lastLogoutAt } = getState().auth
         dispatch(messagesActions.setAll(res.data.messages))
-        updateNotifications(dispatch, lastLogoutAt, res.data.messages)
+        notificationsActions.updateChannelNotifications(dispatch)(lastLogoutAt, res.data.messages)
     })
     .catch(e => dispatch(
         updateErrors({ all: e.response.data })
@@ -63,7 +49,7 @@ export const getInChannel = (channelId, after) => (dispatch, getState) => {
     .then( res => {
         dispatch(messagesActions.setAll(res.data.messages))
         const { lastLogoutAt } = getState().auth
-        updateNotifications(dispatch, lastLogoutAt, res.data.messages)
+        notificationsActions.updateChannelNotifications(dispatch)(lastLogoutAt, res.data.messages)
         dispatch(hasMoreActions.update('channels', channels => ({
             ...channels,
             [channelId]: res.data.hasMore
