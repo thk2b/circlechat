@@ -18,8 +18,11 @@ const styles = theme => ({
     }
 })
 
-const mapState = ({ profiles, loading, errors, device }, { match }) => {
-    const id = match.params.id || profiles.ownProfileId
+const mapState = ({ profiles, ownProfileId, loading, errors, device }, { match }) => {
+    const id = match.params.id
+        ? match.params.id
+        : match.url === '/me' 
+        ? ownProfileId : undefined
     return {
         ...profiles[id], id,
         loading: loading.profiles[id],
