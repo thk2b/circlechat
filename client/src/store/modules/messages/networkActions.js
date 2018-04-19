@@ -101,7 +101,8 @@ export const remove = id => dispatch => {
     dispatch(updateLoading({ [id]: true }))
     api.delete('/message', { params: { id }})
     .then( res => dispatch(
-        messagesActions.delete(id)
+        /* on delete, we update the message with [deleted] */
+        messagesActions.update(id, message => ({ ...message, ...res.data }))
     ))
     .catch( e => dispatch(
         updateErrors({ [id]: e.response.data })

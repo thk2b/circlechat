@@ -16,7 +16,7 @@ const styles = theme => ({
     }
 })
 
-const mapState = ({ messages, profiles, hasMore }, { channelId }) => {
+const mapState = ({ messages, ownProfileId, hasMore }, { channelId }) => {
     return {
         messages: Object.entries(messages)
             .filter(
@@ -24,8 +24,7 @@ const mapState = ({ messages, profiles, hasMore }, { channelId }) => {
             ).map(
                 ([_, message]) => message
             ),
-        request: messages.request,
-        profileId: profiles.ownProfileId,
+        profileId: ownProfileId,
         hasMore: hasMore.channels[channelId] || true
     }
 }
@@ -42,7 +41,7 @@ const mergeProps = ({ profileId, ...state}, actions, { channelId, ...ownProps })
     return {
         ...state,
         clearNotifications: () => actions.clearNotifications( channelId ),
-        getMoreMessages: () => actions.getInChannel( channelId, state.messages[0].id ), /* fetch additional messages posted before the first mesasge we have */
+        getMoreMessages: () => actions.getInChannel( channelId, state.messages[0] && state.messages[0].id ), /* fetch additional messages posted before the first mesasge we have */
         sendMessage: text => actions.send({ channelId, profileId, text }),
         ...ownProps
     }

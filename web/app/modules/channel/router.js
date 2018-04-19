@@ -32,7 +32,7 @@ r.route('/')
         .then(() => channel.update(req.userId, req.query.id, req.body))
         .then( data => {
             res.status(202).json(data)
-            res.locals.socket && res.locals.socket.broadcast.emit('/profile', {
+            res.locals.socket && res.locals.socket.broadcast.emit('/channel', {
                 meta: { type: 'PUT', status: 202 },
                 data
             })

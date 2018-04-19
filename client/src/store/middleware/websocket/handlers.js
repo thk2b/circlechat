@@ -1,6 +1,6 @@
-import { messagesActions } from '../../modules/messages'
-import { profilesActions } from '../../modules/profiles'
-import { channelsActions } from '../../modules/channels'
+import { actions as messagesActions } from '../../modules/messages/base'
+import { actions as profilesActions } from '../../modules/profiles/base'
+import { actions as channelsActions } from '../../modules/channels/base'
 import { loadingActions } from '../../modules/loading'
 
 //TODO: handle loading / errors
@@ -17,10 +17,11 @@ const messageHandler = ({ meta, data }, { dispatch, getState }) => {
                     new: false
                 }))
             )
+            return
         case 'DELETE':
         case 'PUT':
-            dispatch(
-                messagesActions.update(meta.params.id, message => ({
+            return dispatch(
+                messagesActions.update(data.id, message => ({
                     ...message, ...data
                 }))
             )
@@ -30,16 +31,16 @@ const messageHandler = ({ meta, data }, { dispatch, getState }) => {
 const profileHandler = ({ meta, data }, { dispatch, getState }) => {
     switch (meta.type){
         case 'POST':
-            dispatch(
+            return dispatch(
                 profilesActions.set(data.profile.id, data.profile)
             )
         case 'DELETE':
-            dispatch(
+            return dispatch(
                 profilesActions.delete(meta.params.id)
             )
         case 'PUT':
-            dispatch(
-                profilesActions.update(meta.params.id, profile => ({
+            return dispatch(
+                profilesActions.update(data.id, profile => ({
                     ...profile, ...data
                 }))
             )
@@ -49,16 +50,16 @@ const profileHandler = ({ meta, data }, { dispatch, getState }) => {
 const channelHandler = ({ meta, data }, { dispatch, getState }) => {
     switch (meta.type){
         case 'POST':
-            dispatch(
+            return dispatch(
                 channelsActions.set(data.channel.id, data.channel)
             )
         case 'DELETE':
-            dispatch(
+            return dispatch(
                 channelsActions.delete(meta.params.id)
             )
         case 'PUT':
-            dispatch(
-                channelsActions.update(meta.params.id, channels => ({
+            return dispatch(
+                channelsActions.update(data.id, channels => ({
                     ...channels, ...data
                 }))
             )
@@ -66,7 +67,7 @@ const channelHandler = ({ meta, data }, { dispatch, getState }) => {
 }
 
 export default {
-    messageHandler,
-    profileHandler,
-    channelHandler
+    '/message': messageHandler,
+    '/profile': profileHandler,
+    '/channel': channelHandler
 }

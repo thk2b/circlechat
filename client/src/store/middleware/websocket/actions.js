@@ -18,7 +18,9 @@ export const emit = (resource, type, data, options) => {
     /* options: { resourceId } */
     if(resource && type ) return {
         type: EMIT,
-        resource, data, options
+        resource, data, options: {
+            type, ...options
+        }
     }
     console.error('invalid websocket.emit action parameters:', {
         resource, type, data, options

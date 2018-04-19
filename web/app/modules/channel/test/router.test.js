@@ -267,7 +267,7 @@ describe(API_URL, function(){
                 })
         })
         it('should notify websocket clients', function(done){
-            socket.once('/profile', ({ meta, data }) => {
+            socket.once('/channel', ({ meta, data }) => {
                 expect(meta).to.deep.equal({
                     status: 202, type: 'PUT'
                 })
