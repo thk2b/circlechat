@@ -2,6 +2,8 @@ import api from '../../api'
 
 import { loadingActions } from '../loading'
 import { errorsActions } from '../errors'
+import { ownProfileIdActions } from '../ownProfileId'
+
 import { actions as profilesActions } from './base'
 
 /* wrapper to update profiles' loading status */
@@ -70,9 +72,14 @@ export const getProfileOfUser = userId => (dispatch, getState) => {
     // dispatch(updateLoading({ ??: true }))
     api.get('/profile', { params: { userId }})
     // .finally(() => dispatch(updateLoading({ ??: false })))
-    .then( res => dispatch(
-        profilesActions.set(res.data.profile.id, res.data.profile)
-    ))
+    .then( res => {
+        const { profile } = res.data
+        const ownUserId = getState().auth.userId
+        if(ownUserId === userId){ //we got our own profile
+            dispatch(ownProfileIdActions.set(profile.id))
+        }
+        dispatch(profilesActions.set(profile.id, profile))
+    })
     .catch(e => {
         const ownUserId = getState().auth.userId
         if(e.response.status === 404 && userId === ownUserId){

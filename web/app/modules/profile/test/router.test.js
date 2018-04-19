@@ -215,7 +215,7 @@ describe(API_URL, function(){
                     const {description:dump, ...profileData} = savedProfile
                     const {description:dump1, ...profileData1} = savedProfile1
 
-                    expect(res.body).to.deep.equal({
+                    expect(res.body.profiles).to.deep.equal({
                         [savedProfile.id]: profileData, 
                         [savedProfile1.id]: profileData1
                     })

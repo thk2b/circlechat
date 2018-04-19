@@ -3,8 +3,11 @@ import MockAdapter from 'axios-mock-adapter'
 import { runAsync } from '../../../../testUtil'
 
 import createStore from '../../../'
+import { authActions } from '../../auth'
+
 import actions from '../networkActions'
 import { actions as basicActions } from '../base'
+
 
 describe('profiles api actions', () => {
     let store
@@ -171,12 +174,14 @@ describe('profiles api actions', () => {
     })
     test('getProfileOfUser success', done => {
         const data = { id: '123', name: 'test name 1', userId: '987' }
+        store.dispatch(authActions.set('userId', data.userId))
         mock.onGet('/profile', { params: { userId: '987' }}).reply(200, {profile: data})
         store.dispatch(actions.getProfileOfUser('987'))
         
         // expect(store.getState().loading.profiles['123']).toBe(true)
         runAsync(done, () => {
             const state = store.getState()
+            expect(state.ownProfileId).toEqual(data.id)
             expect(state.profiles['123']).toEqual(data)
             // expect(state.loading.profiles['123']).toBe(false)
         })

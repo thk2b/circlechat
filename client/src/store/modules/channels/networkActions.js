@@ -16,7 +16,6 @@ const updateErrors = obj => errorsActions.update('channels', errors => ({
 
 export const create = data => dispatch => {
     dispatch(updateLoading({ new: true }))
-
     api.post('/channel', data)
     .then( res => {
         const { channel } = res.data
@@ -30,9 +29,10 @@ export const getAll = () => dispatch => {
     dispatch(updateLoading({ all: true }))
 
     api.get('/channel/all')
-    .then( res => dispatch(
-        actions.setAll( res.data.channels )
-    ))
+    .then( res => {
+        console.log(res.data)
+        dispatch(actions.setAll( res.data.channels ))
+    })
     .catch( e => dispatch(updateErrors({ all: e.response.data })))
     .then(() => {
         dispatch(updateLoading({ all: false }))

@@ -62,7 +62,7 @@ class ChannelsList extends React.Component {
                     channel => <ChannelListItem
                         key={channel.id}
                         onClick={e => this.onListItemClick(channel.id)}
-                        hasMore={hasMore.messages[channel.id]}
+                        hasMore={hasMore.channels[channel.id]}
                         {...channel}
                     />
                 )}

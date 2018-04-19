@@ -202,8 +202,8 @@ describe(API_URL, function(){
                     .expect(200)
                     .end((e, res) => {
                         if(e) return done(e)
-                        expect(res.body[channel.id]).to.not.be.undefined
-                        expect(res.body[channel1.id]).to.not.be.undefined
+                        expect(res.body.channels[channel.id]).to.not.be.undefined
+                        expect(res.body.channels[channel1.id]).to.not.be.undefined
                         done()
                     })
             })

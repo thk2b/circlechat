@@ -17,11 +17,11 @@ const styles = theme => ({
     }
 })
 
-const mapState = ({ profiles, channels }) => {
+const mapState = ({ profiles, loading, errors, ownProfileId }) => {
     return {
-        profileId: profiles.ownProfileId,
-        request: channels.request,
-        loading: channels.laoding
+        profileId: ownProfileId,
+        loading: loading.channels.new,
+        error: errors.channels.new
     }
 }
 

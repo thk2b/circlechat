@@ -56,7 +56,7 @@ r.route('/')
 r.route('/all')
     .get((req, res, next) => {
         channel.getAll(req.userId)
-        .then( channels => res.status(200).json(channels))
+        .then( channels => res.status(200).json({ channels }))
         .catch(next)
     })
 
