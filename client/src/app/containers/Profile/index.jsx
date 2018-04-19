@@ -22,7 +22,7 @@ const mapState = ({ profiles, device }, { match }) => {
     const id = match.params.id || profiles.ownProfileId
     const { loading, request } = profiles
     return {
-        ...profiles.data[id], id,
+        ...profiles[id], id,
         loading, request, device
     }
 }

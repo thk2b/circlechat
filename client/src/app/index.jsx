@@ -6,7 +6,7 @@ import {
     Auth,
     Theme,
     Nav,
-    // Group,
+    Group,
     TitleBar
 } from './containers'
 import css from './index.css'
@@ -24,7 +24,7 @@ class App extends React.Component {
             <TitleBar />
             <Auth>
                 <Nav />
-                {/* <Group /> */}
+                <Group />
             </Auth>
         </div>
     }   
