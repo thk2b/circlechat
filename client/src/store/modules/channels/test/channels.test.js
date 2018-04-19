@@ -71,10 +71,18 @@ describe('channels api actions', () => {
         }
         store.dispatch(basicActions.set('123', channel))
         const newChannel = {
-            id: '123', name: 'new name'
+            name: 'new name'
         }
-        // mock.onPut('/channel', { params: { id: '123' }}).reply(202, newChannel)
-        mock.onPut('/channel').reply(202, newChannel)
+
+        mock.onAny().reply( config => {
+            try {
+                expect(config.params).toEqual({ id: '123' })
+                expect(config.data).toEqual(JSON.stringify(newChannel))
+                return [202, newChannel]
+            } catch (e){
+                done.fail(e)
+            }
+        })
         store.dispatch(actions.update('123', { name: 'new name' }))
 
         expect(store.getState().loading.channels['123']).toBe(true)
@@ -90,7 +98,6 @@ describe('channels api actions', () => {
             id: '123', name: 'test name', other: 'data'
         }
         store.dispatch(basicActions.set('123', channel))
-        // mock.onPut('/channel', { params: { id: '123' }}).reply(500, data)
         mock.onPut('/channel').reply(500, data)
         store.dispatch(actions.update('123', { name: 'new name' }))
 

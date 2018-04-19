@@ -51,8 +51,8 @@ describe('profiles api actions', () => {
             '123': { id: '123', channelId: '987', text: 'test text 1', createdAt: 800 },
             '234': { id: '234', channelId: '987', text: 'test text 2', createdAt: 1200 }
         }
-        // mock.onGet('/message/all', { params: { channelId: '987', after: '0' }})
-        mock.onGet('/message/all')
+        mock.onGet('/message/all', { channelId: '987', after: '0' })
+        // mock.onGet('/message/all')
         .reply(200, { messages: data, hasMore: true })
         
         store.dispatch(actions.getInChannel('987', '0'))
@@ -71,10 +71,18 @@ describe('profiles api actions', () => {
         }
         store.dispatch(basicActions.set('123', message))
         const newMessage = {
-            id: '123', text: 'new text'
+            text: 'new text'
         }
-        // mock.onPut('/message', { params: { id: '123' }}).reply(202, newProfile)
-        mock.onPut('/message').reply(202, newMessage)
+        
+        mock.onAny().reply( config => {
+            try {
+                expect(config.params).toEqual({ id: '123' })
+                expect(config.data).toEqual(JSON.stringify(newMessage))
+                return [202, newMessage]
+            } catch (e){
+                done.fail(e)
+            }
+        })
         store.dispatch(actions.update('123', { text: 'new text' }))
 
         expect(store.getState().loading.messages['123']).toBe(true)
@@ -90,7 +98,6 @@ describe('profiles api actions', () => {
             id: '123', text: 'test text', other: 'data'
         }
         store.dispatch(basicActions.set('123', message))
-        // mock.onPut('/message', { params: { id: '123' }}).reply(500, data)
         mock.onPut('/message').reply(500, data)
         store.dispatch(actions.update('123', { text: 'new text' }))
 

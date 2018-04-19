@@ -43,12 +43,13 @@ export const update = (id, data) => dispatch => {
     dispatch(updateLoading({ [id]: true }))
 
     api.put('/channel', data, { params: { id }})
-    .then(res => dispatch(
+    .then(res => {
+        dispatch(
         actions.update(id, channel => ({
             ...channel,
             ...res.data
         }))
-    ))
+    )})
     .catch(e => dispatch(updateErrors({ [id]: e.response.data })))
     .then(() => dispatch(updateLoading({ [id]: false })))
 }

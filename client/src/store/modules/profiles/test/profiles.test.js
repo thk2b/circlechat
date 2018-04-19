@@ -94,10 +94,18 @@ describe('profiles api actions', () => {
         }
         store.dispatch(basicActions.set('123', profile))
         const newProfile = {
-            id: '123', name: 'new name'
+            name: 'new name'
         }
-        // mock.onPut('/profile', { params: { id: '123' }}).reply(202, newProfile)
-        mock.onPut('/profile').reply(202, newProfile)
+        
+        mock.onAny().reply( config => {
+            try {
+                expect(config.params).toEqual({ id: '123' })
+                expect(config.data).toEqual(JSON.stringify(newProfile))
+                return [202, newProfile]
+            } catch (e){
+                done.fail(e)
+            }
+        })
         store.dispatch(actions.update('123', { name: 'new name' }))
 
         expect(store.getState().loading.profiles['123']).toBe(true)
@@ -113,7 +121,6 @@ describe('profiles api actions', () => {
             id: '123', name: 'test name', other: 'data'
         }
         store.dispatch(basicActions.set('123', profile))
-        // mock.onPut('/profile', { params: { id: '123' }}).reply(500, data)
         mock.onPut('/profile').reply(500, data)
         store.dispatch(actions.update('123', { name: 'new name' }))
 
