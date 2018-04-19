@@ -99,6 +99,7 @@ describe('profiles api actions', () => {
         
         mock.onAny().reply( config => {
             try {
+                expect(config.url).toBe('/profile')
                 expect(config.method).toBe('put')
                 expect(config.params).toEqual({ id: '123' })
                 expect(config.data).toEqual(JSON.stringify(newProfile))

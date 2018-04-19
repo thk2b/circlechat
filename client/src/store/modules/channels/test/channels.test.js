@@ -76,6 +76,7 @@ describe('channels api actions', () => {
 
         mock.onAny().reply( config => {
             try {
+                expect(config.url).toBe('/channel')
                 expect(config.method).toBe('put')
                 expect(config.params).toEqual({ id: '123' })
                 expect(config.data).toEqual(JSON.stringify(newChannel))
