@@ -1,6 +1,7 @@
 import api from '../../api'
 import { loadingActions } from '../loading'
 import { errorsActions } from '../errors'
+import { push } from 'react-router-redux'
 
 import { actions } from './base'
 
@@ -20,6 +21,7 @@ export const create = data => dispatch => {
     .then( res => {
         const { channel } = res.data
         dispatch(actions.set( channel.id, channel ))
+        dispatch(push(`/channel/${channel.id}`))
     })
     .catch( e => dispatch(updateErrors({ new: e.response.data })))
     .then(() => dispatch(updateLoading({ new: false })))
