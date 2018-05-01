@@ -1,0 +1,84 @@
+body {
+    margin: 0;
+}
+
+p {
+
+}
+.light p {
+    color: rgb(51, 51, 51);
+}
+.dark p {
+
+}
+
+h1 {
+
+}
+.light h1 {
+
+}
+.dark h1 {
+
+}
+
+button {
+
+}
+.light button {
+
+}
+.dark button {
+
+}
+
+input {
+
+}
+.light input {
+
+}
+.dark input {
+    
+}
+
+.sidebar ul {
+
+}
+.dark .slidebar ul {
+    
+}
+.light .slidebar ul {
+
+}
+
+.sidebar li {
+
+}
+.dark .slidebar li {
+    
+}
+.light .slidebar li {
+
+}
+
+.chat ul {
+
+}
+.dark .chat ul {
+    
+}
+.light .chat ul {
+
+}
+
+.chat li {
+
+}
+.dark .chat ul {
+    
+}
+.light .chat ul {
+
+}
+
