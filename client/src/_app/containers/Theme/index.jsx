@@ -7,6 +7,8 @@ const mapState = ({ theme }) => {
     }
 }
 
-const Theme = ({ theme }) => <div className={theme}></div>
+const Theme = ({ theme, children }) => <div className={theme}>{
+    children
+}</div>
 
 export default connect(mapState)(Theme)

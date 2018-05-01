@@ -2,6 +2,36 @@ body {
     margin: 0;
 }
 
+header {
+
+}
+.light header {
+    
+}
+.dark header {
+
+}
+
+nav {
+
+}
+.light nav {
+    
+}
+.dark nav {
+
+}
+
+main {
+    
+}
+.light header {
+    
+}
+.dark header {
+
+}
+
 p {
 
 }
@@ -81,4 +111,3 @@ input {
 .light .chat ul {
 
 }
-

@@ -8,12 +8,12 @@ import {
 } from './containers'
 
 export default () => {
-    return <main>
+    return (
         <Theme>
             <Home>
                 <Nav />
                 <Group />
             </Home>
         </Theme>
-    </main>
+    )
 }
