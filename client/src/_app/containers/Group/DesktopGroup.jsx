@@ -1,6 +1,7 @@
 import React from 'react'
 import { Grid, Resizable } from 'oui'
 
+import Nav from '../Nav'
 import Profile, { ProfilesSidebar, ProfilesSidebarHeader, ProfilesHeader } from '../Profile'
 import Channel, { ChannelsSidebar, ChannelsSidebarHeader, ChannelsHeader } from '../Channel'
 
@@ -36,6 +37,7 @@ export default class DesktopGroup extends React.Component {
 
         return <Grid.Dynamic
             columns={[
+                '100px',
                 channelsSidebar.isOpen ? channelsSidebar+'px' : '100px',
                 '1fr',
                 profilesSidebar.isOpen ? profilesSidebar+'px': '100px',
@@ -43,17 +45,21 @@ export default class DesktopGroup extends React.Component {
             rows={'100px 1fr'}
             areas={[
                 [
+                    'logo',
                     'channelsSidebarHeader',
                     'contentHeader',
                     'profilesSidebarHeader',
                 ],
                 [
+                    'nav',
                     channelsSidebar.isOpen ? 'channelsSidebar' : 'content',
                     'content',
                     profilesSidebar.isOpen ? 'profilesSidebar' : 'content',
                 ]
             ]}
         >
+            <Grid.Area logo><h1>CC</h1></Grid.Area>
+            <Grid.Area nav Component={Nav}/>
             <Grid.Area channelsSidebarHeader>
                 <ChannelsSidebarHeader
                     onClose={e => this.toggle('channelsSidebar')}
