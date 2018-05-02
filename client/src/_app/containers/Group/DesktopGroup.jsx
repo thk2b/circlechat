@@ -39,7 +39,7 @@ export default class DesktopGroup extends React.Component {
     toggle(sidebarName){
         this.setState({ [sidebarName]: {
             ...this.state[sidebarName],
-            open: !this.state[sidebarName].open
+            isOpen: !this.state[sidebarName].isOpen
         }})
     }
     render(){
@@ -74,6 +74,8 @@ export default class DesktopGroup extends React.Component {
             <Grid.Area channelsSidebarHeader>
                 <ChannelsSidebarHeader
                     onClose={e => this.toggle('channelsSidebar')}
+                    onOpen={e => this.toggle('channelsSidebar')}
+                    isOpen={channelsSidebar.isOpen}
                 >
                     <h2>Channels</h2>
                 </ChannelsSidebarHeader>
@@ -90,9 +92,9 @@ export default class DesktopGroup extends React.Component {
             <Grid.Area profilesSidebarHeader>
                 <ProfilesSidebarHeader
                     onClose={e => this.toggle('profilesSidebar')}
-                >
-                    <h2>Profiles</h2>
-                </ProfilesSidebarHeader>
+                    onOpen={e => this.toggle('profilesSidebar')}
+                    isOpen={profilesSidebar.isOpen}
+                />
             </Grid.Area>
 
             {channelsSidebar.isOpen && <Grid.Area channelsSidebar>

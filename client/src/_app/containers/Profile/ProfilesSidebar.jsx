@@ -24,7 +24,7 @@ const ProfilesSidebar = ({ profiles, goToProfile }) => {
                 key={profile.id}
                 onClick={e => goToProfile(profile.id)}
             >
-                {profile.name}
+                <p>{profile.name}</p>                
             </li>
         )}</ul>
     )

@@ -15,7 +15,7 @@ const mapDispatch = dispatch => {
 
 const Channel = ({ channel }) => {
     return (
-        'Channel'
+        <main>Channel</main>
     )
 }
 

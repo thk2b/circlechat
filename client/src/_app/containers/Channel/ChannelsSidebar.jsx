@@ -24,7 +24,7 @@ const ChannelsSidebar = ({ channels, goToChannel }) => {
                 key={channel.id}
                 onClick={e => goToChannel(channel.id)}
             >
-                {channel.name}
+                <p>{channel.name}</p>
             </li>
         )}</ul>
     )
