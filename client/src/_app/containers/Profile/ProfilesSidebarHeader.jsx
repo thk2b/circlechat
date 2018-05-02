@@ -1,12 +1,11 @@
 import React from 'react'
 
-const ProfileSidebarHeader = ({ isOpen, onClose }) => {
+export default ({ isOpen, onClose }) => {
     return isOpen
         ?<header>
             <h2>Profiles</h2>            
-            <Icon/>
         </header>
-        : <Icon/>
+        : <header>
+            <h2>></h2>
+        </header>
 }
-
-export default connect(mapState, mapDispatch)(ProfileSidebarHeader)

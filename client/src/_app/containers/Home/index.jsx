@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Grid } from 'oui'
+import Grid from '@thk2b/oui/lib/Grid'
 
 import { Auth } from '../'
 import Intro from './Intro'
@@ -23,7 +23,7 @@ const DesktopHome = () => {
     return <Grid.Container
         columns='61.8fr 38.2fr'
         rows='1fr'
-        areas="intro auth"
+        areas="'intro auth'"
     >
         <Grid.Area intro Component={Intro}/>
         <Grid.Area auth Component={Auth}/>

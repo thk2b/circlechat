@@ -1,17 +1,19 @@
 import React from 'react'
 import Grid from '@thk2b/oui/lib/Grid'
 import Resizable from '@thk2b/oui/lib/Resizable'
+import { Route, Switch } from 'react-router'
 
 import Nav from '../Nav'
 import Profile, {
     ProfilesSidebar,
     ProfilesSidebarHeader,
-    ProfilesHeader
+    ProfileHeader
 } from '../Profile'
 import Channel, {
     ChannelsSidebar,
     ChannelsSidebarHeader,
-    ChannelsHeader
+    ChannelHeader,
+    CreateChannel
 } from '../Channel'
 
 export default class DesktopGroup extends React.Component {
@@ -79,8 +81,8 @@ export default class DesktopGroup extends React.Component {
             <Grid.Area contentHeader>
                 <Switch>
                     <Route path='/channel/create'>New Channel</Route>
-                    <Route path='/channel/:id' component={ChannelsHeader}/>
-                    <Route path='/profile/:id' component={ProfilesHeader}/>
+                    <Route path='/channel/:id' component={ChannelHeader}/>
+                    <Route path='/profile/:id' component={ProfileHeader}/>
                     <Route path='/me' component={Profile}/>
                     <Route exact path='/' render={() => 'Group content goes here'}/>
                 </Switch>

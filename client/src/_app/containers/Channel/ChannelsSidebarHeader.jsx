@@ -1,12 +1,12 @@
 import React from 'react'
 
-const ChannelsSidebarHeader = ({ isOpen, onClose }) => {
+export default ({ isOpen, onClose }) => {
     return isOpen
         ?<header>
             <h2>Channels</h2>            
-            <Icon/>
+            
         </header>
-        : <Icon/>
+        : <header>
+            <h2>></h2>
+        </header>
 }
-
-export default connect(mapState, mapDispatch)(ChannelsSidebarHeader)

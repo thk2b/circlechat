@@ -11,7 +11,7 @@ const mapState = ({ profiles }) => {
 
 const mapDispatch = dispatch => {
     return {
-        goToProfile = id => dispatch(push(`channel/${id}`))
+        goToProfile: id => dispatch(push(`channel/${id}`))
     }
 }
 

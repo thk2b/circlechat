@@ -4,7 +4,7 @@ import { runAsync } from '../../../../testUtil'
 
 import createStore from '../../../'
 import actions from '../networkActions'
-import { actions as a } from '../index'
+import { errorsActions } from '../../errors'
 
 describe('auth network actions', () => {
     let store
@@ -71,6 +71,41 @@ describe('auth network actions', () => {
             expect(state.errors.auth).toEqual({ login: null, register: data })
             done()
         })
+    })
+    test('clear register error', done => {
+        const data = { message: 'test error' }
+        mock.onPost('/auth').reply(422, data)
+        store.dispatch(actions.register({ userId: 'tester', pw: 123 }))
+        setTimeout(() => {
+            const state = store.getState()
+            try { expect(store.getState().errors.auth.register).not.toBe(undefined) }
+            catch (e) { done.fail(e) }
+            store.dispatch(errorsActions.clearRegisterError())
+            setTimeout(() => {
+                const state1 = store.getState()
+                try { expect(state1.errors.auth).toEqual({ login: null, register: null }) }
+                catch (e) { done.fail(e) }
+                done()
+            }, 0)
+        }, 0)
+    })
+    test('clear login error', done => {
+        const data = { message: 'test error' }
+        mock.onPost('/auth/login').reply(422, data)
+        store.dispatch(errorsActions.clearRegisterError())
+        store.dispatch(actions.login({ userId: 'tester', pw: 123 }))
+        setTimeout(() => {
+            const state = store.getState()
+            try { expect(store.getState().errors.auth.login).not.toBe(undefined) }
+            catch (e) { done.fail(e) }
+            store.dispatch(errorsActions.clearLoginError())
+            setTimeout(() => {
+                const state1 = store.getState()
+                try { expect(state1.errors.auth).toEqual({ login: null, register: null }) }
+                catch (e) { done.fail(e) }
+                done()
+            }, 0)
+        }, 0)
     })
     test.skip('auth.logout', () => {
 
