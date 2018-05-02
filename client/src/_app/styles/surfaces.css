@@ -23,43 +23,39 @@ nav {
 }
 
 main {
-    
+    width: 100%;
+    height: 100%;
 }
-.light header {
-    
+.dark main {
+    background-color: #313233;
 }
-.dark header {
+.light main {
 
 }
 
-p {
-
+.dark input{
+    background-color: #909192;
+    border: 1px solid #656667;
+    border-radius: 3px;
 }
-.light p {
-    color: rgb(51, 51, 51);
-}
-.dark p {
-
-}
-
-h1 {
-
-}
-.light h1 {
-
-}
-.dark h1 {
+.light input {
 
 }
 
 button {
-
+    background-color: #2847f5;
 }
+button.text{
+    background-color: transparent;
+    border: none !important; 
+}
+
 .light button {
 
 }
 .dark button {
-
+    border-radius: 3px;
+    border: 1px solid #656667;
 }
 
 input {

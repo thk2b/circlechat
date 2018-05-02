@@ -8,12 +8,13 @@ import { errorsActions } from '../../../store/modules/errors'
 import LoginForm from './LoginForm'
 import RegisterForm from './RegisterForm'
 
-const mapState = ({ loading, errors }) => {
+const mapState = ({ loading, errors, theme }) => {
     return {
         registerError: errors.auth.register,
         loginError: errors.auth.login,
         registerLoading: loading.auth.register,
         loginLoading: loading.auth.login,
+        theme: theme.active
     }
 }
 
@@ -26,7 +27,9 @@ const mapDispatch = dispatch => {
     }
 }
 
-const Container = styled.div``
+const Main = styled.main`
+    padding-top: 10%;
+`
 
 class Auth extends React.Component {
     constructor(props){
@@ -53,7 +56,7 @@ class Auth extends React.Component {
         this.didRegister = false
         this.props.clearLoginError()
         this.setState({
-            registerData: { userId: null, email: null, pw: null },
+            registerData: { userId: '', email: '', pw: '' },
             loginData: {
                 ...this.state.loginData,
                 userId: this.state.registerData.userId
@@ -77,10 +80,11 @@ class Auth extends React.Component {
         const { isRegistering, loginData, registerData } = this.state
         const {
             loginError, registerError,
-            loginLoading, registerLoading
+            loginLoading, registerLoading,
+            theme
         } = this.props
 
-        return <div>
+        return <Main>
             {isRegistering
                 ? <RegisterForm
                     formData={registerData}
@@ -99,7 +103,7 @@ class Auth extends React.Component {
                     loading={loginLoading}
                 />
             }
-        </div>
+        </Main>
     }
 }
 
