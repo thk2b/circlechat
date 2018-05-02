@@ -49,9 +49,9 @@ export default class DesktopGroup extends React.Component {
         return <Grid.Dynamic
             columns={[
                 '100px',
-                channelsSidebar.isOpen ? channelsSidebar+'px' : '100px',
+                channelsSidebar.isOpen ? channelsSidebar.width+'px' : '100px',
                 '1fr',
-                profilesSidebar.isOpen ? profilesSidebar+'px': '100px',
+                profilesSidebar.isOpen ? profilesSidebar.width+'px': '100px',
             ]}
             rows={'100px 1fr'}
             areas={[

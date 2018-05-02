@@ -28,7 +28,7 @@ const OwnProfileLink = ({ ownProfile, goToOwnProfile }) => {
         <div
             onClick={e => goToOwnProfile()}
         >
-            {ownProfile.name}
+            {ownProfile? ownProfile.name : 'loading' }
         </div>
     )
 }

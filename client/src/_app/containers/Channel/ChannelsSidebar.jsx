@@ -11,7 +11,7 @@ const mapState = ({ channels }) => {
 
 const mapDispatch = dispatch => {
     return {
-        goToChannel: id => dispatch(push(`channel/${id}`))
+        goToChannel: id => dispatch(push(`/channel/${id}`))
     }
 }
 

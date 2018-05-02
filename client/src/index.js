@@ -11,11 +11,9 @@ import { history, store } from './store'
 
 ReactDOM.render(
     <Provider store={store}>
-        <Theme>
-            <ConnectedRouter history={history}>
-                <App />
-            </ConnectedRouter>
-        </Theme>
+        <ConnectedRouter history={history}>
+            <App />
+        </ConnectedRouter>
     </Provider>, 
     document.getElementById('root')
 )

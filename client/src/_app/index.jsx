@@ -21,7 +21,6 @@ export default () => {
     return <Theme>
         <Container>
             <Home>
-                <Nav />
                 <Group />
             </Home>
         </Container>
