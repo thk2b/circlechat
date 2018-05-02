@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import styled from 'styled-components'
 import Grid from '@thk2b/oui/lib/Grid'
 
 import { Auth } from '../'
@@ -12,11 +13,20 @@ const mapState = ({ auth, device }) => {
     }
 }
 
+const MobileContainer = styled.div`
+    display: flex;
+    flex-flow: column nowrap;
+    height: 100%;
+    width: 100%;
+    &:last-child {
+        flex: 1;
+    }
+`
 const MobileHome = () => {
-    return <div>
-        <Intro />
+    return <MobileContainer>
+        <div><Intro /></div>
         <Auth />
-    </div>
+    </MobileContainer>
 }
 
 const DesktopHome = () => {
