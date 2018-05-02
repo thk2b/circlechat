@@ -12,14 +12,14 @@ const mapState = ({ auth, device }) => {
     }
 }
 
-const MobileHome = ({ isLoggedIn }) => {
+const MobileHome = () => {
     return <div>
         <Intro />
         <Auth />
     </div>
 }
 
-const DesktopHome = ({ isLoggedIn }) => {
+const DesktopHome = () => {
     return <Grid.Container
         columns='61.8fr 38.2fr'
         rows='1fr'
@@ -30,8 +30,11 @@ const DesktopHome = ({ isLoggedIn }) => {
     </Grid.Container>
 }
 
-const Home = ({ isMobile, isLoggedIn }) => isMobile
-    ? <MobileHome isLoggedIn={isLoggedIn} />
+const Home = ({ isMobile, isLoggedIn, children }) => {
+    if(isLoggedIn) return children
+    else return isMobile
+        ? <MobileHome />
     : <DesktopHome />
+}
 
 export default connect(mapState)(Home)
