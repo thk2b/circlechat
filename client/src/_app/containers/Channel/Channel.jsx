@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-const mapState = ({}) => {
+const mapState = ({ channels, match }) => {
     return {
 
     }
@@ -13,7 +13,7 @@ const mapDispatch = dispatch => {
     }
 }
 
-const Channel = ({}) => {
+const Channel = ({ channel }) => {
     return (
         'Channel'
     )

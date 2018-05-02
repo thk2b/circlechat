@@ -16,7 +16,7 @@ const mapDispatch = dispatch => {
 const Settings = ({ }) => {
     return (
         <div>
-
+            settings
         </div>
     )
 }

@@ -1,9 +1,18 @@
 import React from 'react'
-import { Grid, Resizable } from 'oui'
+import Grid from '@thk2b/oui/lib/Grid'
+import Resizable from '@thk2b/oui/lib/Resizable'
 
 import Nav from '../Nav'
-import Profile, { ProfilesSidebar, ProfilesSidebarHeader, ProfilesHeader } from '../Profile'
-import Channel, { ChannelsSidebar, ChannelsSidebarHeader, ChannelsHeader } from '../Channel'
+import Profile, {
+    ProfilesSidebar,
+    ProfilesSidebarHeader,
+    ProfilesHeader
+} from '../Profile'
+import Channel, {
+    ChannelsSidebar,
+    ChannelsSidebarHeader,
+    ChannelsHeader
+} from '../Channel'
 
 export default class DesktopGroup extends React.Component {
     constructor(props){
