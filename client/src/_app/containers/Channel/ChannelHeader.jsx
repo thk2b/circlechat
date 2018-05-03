@@ -9,12 +9,6 @@ const mapState = ({ channels }, { match }) => {
     }
 }
 
-const mapDispatch = dispatch => {
-    return {
-
-    }
-}
-
 const ChannelHeader = ({ profile }) => {
     const { } = profile
     return (
@@ -24,4 +18,4 @@ const ChannelHeader = ({ profile }) => {
     )
 }
 
-export default connect(mapState, mapDispatch)(ChannelHeader)
+export default connect(mapState)(ChannelHeader)

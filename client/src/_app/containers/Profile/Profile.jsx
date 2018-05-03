@@ -3,24 +3,21 @@ import { connect } from 'react-redux'
 
 const mapState = ({ profiles }, { match }) => {
     return {
-        profile: Object.values(profiles).filter(
-            p => p.id === match.params.id
-        )
-    }
-}
-
-const mapDispatch = dispatch => {
-    return {
-
+        profile: profiles[match.params.id]
     }
 }
 
 const Profile = ({ profile }) => {
-    const { } = profile
-    return (
-        <main>
-        </main>
-    )
+    if(!profile) return <main>
+        <p>profile not found</p>
+    </main>
+
+    const { userId, name, status, description } = profile
+    return <main>
+        <h1>{name}'s profile</h1>
+        <h2>@{userId}</h2>
+        {description&&<p>{description}</p>}
+    </main>
 }
 
-export default connect(mapState, mapDispatch)(Profile)
+export default connect(mapState)(Profile)

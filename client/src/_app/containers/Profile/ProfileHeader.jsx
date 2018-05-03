@@ -3,25 +3,18 @@ import { connect } from 'react-redux'
 
 const mapState = ({ profiles }, { match }) => {
     return {
-        profile: Object.values(profiles).filter(
-            p => p.id === match.id
-        )
-    }
-}
-
-const mapDispatch = dispatch => {
-    return {
-
+        profile: profiles[match.params.id]
     }
 }
 
 const ProfileHeader = ({ profile }) => {
-    const { } = profile
-    return (
-        <header>
-
-        </header>
-    )
+    if(!profile) return <header>
+        <h2>profile not found</h2>
+    </header>
+    const { name } = profile
+    return <header>
+        <h2>{name}</h2>
+    </header>
 }
 
-export default connect(mapState, mapDispatch)(ProfileHeader)
+export default connect(mapState)(ProfileHeader)
