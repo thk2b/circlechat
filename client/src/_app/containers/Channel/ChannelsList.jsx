@@ -15,19 +15,17 @@ const mapDispatch = dispatch => {
     }
 }
 
-const ChannelsSidebar = ({ channels, goToChannel }) => {
-    return (
-        <ul
-            className='sidebar'
-        >{channels.map(
+const ChannelsList = ({ channels, goToChannel }) => {
+    return <ul>
+        {channels.map(
             channel => <li
                 key={channel.id}
                 onClick={e => goToChannel(channel.id)}
             >
                 <p>{channel.name}</p>
             </li>
-        )}</ul>
-    )
+        )}
+    </ul>
 }
 
-export default connect(mapState, mapDispatch)(ChannelsSidebar)
+export default connect(mapState, mapDispatch)(ChannelsList)

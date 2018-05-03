@@ -3,15 +3,14 @@ import Grid from '@thk2b/oui/lib/Grid'
 import Resizable from '@thk2b/oui/lib/Resizable'
 import { Route, Switch } from 'react-router'
 
+import { SidebarHeader } from '../../lib'
 import Nav from '../Nav'
 import Profile, {
-    ProfilesSidebar,
-    ProfilesSidebarHeader,
+    ProfilesList,
     ProfileHeader
 } from '../Profile'
 import Channel, {
-    ChannelsSidebar,
-    ChannelsSidebarHeader,
+    ChannelsList,
     ChannelHeader,
     CreateChannel
 } from '../Channel'
@@ -72,13 +71,14 @@ export default class DesktopGroup extends React.Component {
             <Grid.Area logo><h1>CC</h1></Grid.Area>
             <Grid.Area nav Component={Nav}/>
             <Grid.Area channelsSidebarHeader>
-                <ChannelsSidebarHeader
+                <SidebarHeader
                     onClose={e => this.toggle('channelsSidebar')}
                     onOpen={e => this.toggle('channelsSidebar')}
                     isOpen={channelsSidebar.isOpen}
+                    OpenComponent={<p>></p>}
                 >
                     <h2>Channels</h2>
-                </ChannelsSidebarHeader>
+                </SidebarHeader>
             </Grid.Area>
             <Grid.Area contentHeader>
                 <Switch>
@@ -90,19 +90,23 @@ export default class DesktopGroup extends React.Component {
                 </Switch>
             </Grid.Area>
             <Grid.Area profilesSidebarHeader>
-                <ProfilesSidebarHeader
+                <SidebarHeader
                     onClose={e => this.toggle('profilesSidebar')}
                     onOpen={e => this.toggle('profilesSidebar')}
                     isOpen={profilesSidebar.isOpen}
-                />
+                    OpenComponent={<p>&lt;</p>}
+                >
+                    <h2>Profiles</h2>
+                </SidebarHeader>
             </Grid.Area>
 
             {channelsSidebar.isOpen && <Grid.Area channelsSidebar>
                 <Resizable right
+                    className='sidebar'
                     width={{ min: 50 }}
                     onResize={({ width }) => this.resize('channelsSidebar', width)}
                 >
-                    <ChannelsSidebar />
+                    <ChannelsList />
                 </Resizable>
             </Grid.Area>}
             <Grid.Area content>
@@ -116,10 +120,11 @@ export default class DesktopGroup extends React.Component {
             </Grid.Area>
             {profilesSidebar.isOpen && <Grid.Area profilesSidebar>
                 <Resizable left
+                    className='sidebar'
                     width={{ min: 50 }}
                     onResize={({ width }) => this.resize('profilesSidebar', width)}
                 >
-                    <ProfilesSidebar />
+                    <ProfilesList />
                 </Resizable>
             </Grid.Area>}
         </Grid.Dynamic>

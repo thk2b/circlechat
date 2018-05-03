@@ -1,5 +1,4 @@
 export { default } from './Channel'
 export { default as ChannelHeader } from './ChannelHeader'
-export { default as ChannelsSidebar } from './ChannelsSidebar'
-export { default as ChannelsSidebarHeader } from './ChannelsSidebarHeader'
+export { default as ChannelsList } from './ChannelsList'
 export { default as CreateChannel } from './CreateChannel'

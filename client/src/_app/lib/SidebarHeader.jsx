@@ -1,11 +1,11 @@
 import React from 'react'
 
-export default ({ isOpen, onClose, onOpen }) => {
+export default ({ isOpen, onClose, onOpen, OpenComponent, children }) => {
     return isOpen
         ? <header onClick={e => onClose()}>
-            <h2>Profiles</h2>
+            {children}
         </header>
     : <header onClick={e => onOpen()}>
-        <h2>></h2>
+        {OpenComponent}
     </header>
 }

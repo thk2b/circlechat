@@ -15,19 +15,17 @@ const mapDispatch = dispatch => {
     }
 }
 
-const ProfilesSidebar = ({ profiles, goToProfile }) => {
-    return (
-        <ul
-            className='sidebar'
-        >{profiles.map(
+const ProfilesList = ({ profiles, goToProfile }) => {
+    return <ul>
+        {profiles.map(
             profile => <li
                 key={profile.id}
                 onClick={e => goToProfile(profile.id)}
             >
                 <p>{profile.name}</p>                
             </li>
-        )}</ul>
-    )
+        )}
+    </ul>
 }
 
-export default connect(mapState, mapDispatch)(ProfilesSidebar)
+export default connect(mapState, mapDispatch)(ProfilesList)
