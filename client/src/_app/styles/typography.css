@@ -6,7 +6,8 @@ body {
 
 p,
 input,
-button {
+button,
+a {
     font-size: 18px;
 }
 
@@ -18,13 +19,15 @@ button.text {
 .light h1,
 .light h2,
 .light h3,
-.light p {
+.light p,
+.light a {
     color: rgb(51, 51, 51);
 }
 .dark h1,
 .dark h2,
 .dark h3,
-.dark p {
+.dark p,
+.dark a {
     color: #d9d9d9;
 }
 

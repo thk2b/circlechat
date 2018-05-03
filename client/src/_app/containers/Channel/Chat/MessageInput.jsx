@@ -22,11 +22,22 @@ const mergeProps = ({ ownProfileId }, { send }, { channelId }) => {
 
 const Form = styled.form`
     display: flex;
-    padding: 5px;
+    padding: 15px;
+    background-color: #444546;
     & input {
-        padding: 5px;
+        padding: 10px;
         flex: 1;
+        border-right-width: 0 !important;
+        border-top-right-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
     }
+    & button {
+        border: none !important;
+        border-top-left-radius: 0 !important;
+        border-bottom-left-radius: 0 !important;
+
+    }
+
 `
 
 class MessageInput extends React.Component {
