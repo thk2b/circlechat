@@ -2,9 +2,25 @@ import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 
+import { push } from 'react-router-redux'
+
 const mapState = ({ profiles }, { message }) => {
     return {
         profile: profiles[message.profileId]
+    }
+}
+
+const mapDispatch = dispatch => {
+    return {
+        push: url => dispatch(push(url))
+    }
+}
+
+const mergeProps = ( { profile }, { push }, ownProps) => {
+    return {
+        goToProfile: () => push(`/profile/${profile.id}`),
+        profile,
+        ...ownProps
     }
 }
 
@@ -19,14 +35,20 @@ const Article = styled.article`
     border-radius: 3px;
 `
 
-
-const Message = ({ message, profile }) => {
+const Message = ({ message, profile, goToProfile }) => {
     return <Li>
         <Article>
             <p>{message.text}</p>
-            <a href="">by {profile.name}</a>
+            <a
+                rel="noopener"
+                href=""
+                onClick={e => {
+                    e.preventDefault()
+                    goToProfile()
+                }}
+            >by {profile.name}</a>
         </Article>
     </Li>
 }
 
-export default connect(mapState)(Message)
+export default connect(mapState, mapDispatch, mergeProps)(Message)
