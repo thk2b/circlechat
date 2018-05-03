@@ -3,19 +3,18 @@ import { connect } from 'react-redux'
 
 const mapState = ({ channels }, { match }) => {
     return {
-        profile: Object.values(channels).filter(
-            p => p.id === match.params.id
-        )
+        channel: channels[match.params.id]
     }
 }
 
-const ChannelHeader = ({ profile }) => {
-    const { } = profile
-    return (
-        <header>
+const ChannelHeader = ({ channel }) => {
+    if(!channel) return <header>
+        <h2>channel not found</h2>
+    </header>
 
-        </header>
-    )
+    return <header>
+        <h2>{channel.name}</h2>
+    </header>
 }
 
 export default connect(mapState)(ChannelHeader)

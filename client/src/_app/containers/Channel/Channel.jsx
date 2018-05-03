@@ -1,22 +1,21 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-const mapState = ({ channels, match }) => {
+import Chat from './Chat'
+
+const mapState = ({ channels}, { match }) => {
     return {
-
-    }
-}
-
-const mapDispatch = dispatch => {
-    return {
-
+        channel: channels[match.params.id]
     }
 }
 
 const Channel = ({ channel }) => {
-    return (
-        <main>Channel</main>
-    )
+    if(!channel) return <main>
+        channel not found
+    </main>
+    return <main>
+        <Chat channelId={channel.id}/>
+    </main>
 }
 
-export default connect(mapState, mapDispatch)(Channel)
+export default connect(mapState)(Channel)
