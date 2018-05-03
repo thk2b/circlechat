@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import styled from 'styled-components'
 
 import { messagesActions } from '../../../../store/modules/messages'
 
@@ -19,6 +20,15 @@ const mergeProps = ({ ownProfileId }, { send }, { channelId }) => {
     }
 }
 
+const Form = styled.form`
+    display: flex;
+    padding: 5px;
+    & input {
+        padding: 5px;
+        flex: 1;
+    }
+`
+
 class MessageInput extends React.Component {
     constructor(props){
         super(props)
@@ -33,7 +43,7 @@ class MessageInput extends React.Component {
         this.setState({ value: ''})
     }
     render(){
-        return <form
+        return <Form
             onSubmit={e => this.handleSend(e)}
         >
             <input
@@ -42,7 +52,7 @@ class MessageInput extends React.Component {
                 onChange={({ target }) => this.setState({ value: target.value })}
             />
             <button type="submit">send</button>
-        </form>
+        </Form>
     }
 }
 

@@ -5,8 +5,13 @@ import styled from 'styled-components'
 import Messages from './Messages'
 import MessageInput from './MessageInput'
 
-const Container = styled.div`
+const Container = styled.main`
+    display: flex;
+    flex-flow: column nowrap;
 
+    & ul {
+        flex: 1;
+    }
 `
 
 export default ({ channelId }) => {

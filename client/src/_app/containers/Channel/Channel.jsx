@@ -13,9 +13,7 @@ const Channel = ({ channel }) => {
     if(!channel) return <main>
         channel not found
     </main>
-    return <main>
-        <Chat channelId={channel.id}/>
-    </main>
+    return <Chat channelId={channel.id}/>
 }
 
 export default connect(mapState)(Channel)
