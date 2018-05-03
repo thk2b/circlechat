@@ -36,7 +36,7 @@ export default (openConnection, url) => store => next => action => {
         const { resource, type, data, options } = action
         const payload = {
             data: action.data, 
-            meta: { ...options }
+            meta: options
         }
         socket.emit(resource, payload)
     }

@@ -14,7 +14,10 @@ const mapState = ({ messages }, { channelId }) => {
 const Messages = ({ messages }) => {
     return <ul>
         {messages.map(
-            message => <Message message={message} />
+            message => <Message
+                key={message.id}
+                message={message}
+            />
         )}
     </ul>
 }
