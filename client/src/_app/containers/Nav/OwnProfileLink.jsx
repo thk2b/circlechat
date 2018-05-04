@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import MdPerson from 'react-icons/lib/md/person'
 
 import { push } from 'react-router-redux'
 
@@ -12,13 +13,13 @@ const mapState = ({ profiles, ownProfileId }) => {
 
 const mapDispatch = dispatch => {
     return {
-        push: url => dispatch(push(url))
+        goToUrl: url => dispatch(push(url))
     }
 }
 
-const mergeProps = ({ ownProfileId, ...state }, { push }) => {
+const mergeProps = ({ ownProfileId, ...state }, { goToUrl }) => {
     return {
-        goToOwnProfile: push(ownProfileId),
+        goToOwnProfile: () => goToUrl(`/profile/${ownProfileId}`),
         ...state
     }
 }
@@ -28,9 +29,13 @@ const OwnProfileLink = ({ ownProfile, goToOwnProfile }) => {
         <div
             onClick={e => goToOwnProfile()}
         >
-            {ownProfile? ownProfile.name : 'loading' }
+            <MdPerson
+                width='100%'
+                size={32}
+                color='#d9d9d9'
+            />
         </div>
     )
 }
 
-export default connect(mapState, mapDispatch)(OwnProfileLink)
+export default connect(mapState, mapDispatch, mergeProps)(OwnProfileLink)

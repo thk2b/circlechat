@@ -12,11 +12,19 @@ const Nav = styled.nav`
     align-items: center;
 `
 
+const IconContainer = styled.div`
+    padding: 10px;
+`
+
 export default () => {
     return (
         <Nav>
-            <OwnProfileLink/>
-            <Settings/>
+            <IconContainer>
+                <OwnProfileLink/>
+            </IconContainer>
+            <IconContainer>
+                <Settings/>
+            </IconContainer>
         </Nav>
     )
 }

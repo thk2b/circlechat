@@ -19,9 +19,6 @@ const mapDispatch = dispatch => {
     }
 }
 
-const IconContainer = styled.div`
-    padding: 10px;
-`
 const MenuContainer= styled.aside`
     z-index: 100;
     width: 250px;
@@ -43,13 +40,13 @@ const MenuItemContainer = styled.span`
 const Settings = ({ theme, themes, setTheme }) => {
     return <Popover
         zIndex={1}
-        Component={() => <IconContainer>
+        Component={() =>
             <MdSettings
                 width='100%'
                 size={32}
                 color='#d9d9d9'
             />
-        </IconContainer>}
+        }
         position={{bottom: 0, left: '100%'}}
     >
         <MenuContainer>
