@@ -68,12 +68,14 @@ aside {
     background-color: #202122;
 }
 
-.dark input{
+.dark input,
+.dark textarea {
     background-color: #909192;
     border: 1px solid #656667;
     border-radius: 3px;
 }
-.light input {
+.light input,
+.light textarea {
 
 }
 

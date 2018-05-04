@@ -13,7 +13,7 @@ const ProfileHeader = ({ profile }) => {
     </header>
     const { name } = profile
     return <header>
-        <h2>{name}</h2>
+        <h2>{name}'s profile</h2>
     </header>
 }
 
