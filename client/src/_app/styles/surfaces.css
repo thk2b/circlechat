@@ -38,6 +38,16 @@ main {
 
 }
 
+aside {
+
+}
+.light aside {
+    
+}
+.dark aside {
+    background-color: #202122;
+}
+
 .dark input{
     background-color: #909192;
     border: 1px solid #656667;
