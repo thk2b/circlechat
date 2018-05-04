@@ -143,3 +143,13 @@ input {
 .light .chat ul {
 
 }
+
+svg {
+    
+}
+.dark svg {
+    color: rgb(217, 217, 217);
+}
+.light svg {
+    color: rgb(217, 217, 217);
+}

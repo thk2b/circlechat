@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import Popover from '@thk2b/oui/lib/Popover'
 import MdSettings from 'react-icons/lib/md/settings'
 
+import Menu from '../../lib/Menu'
 import { setTheme } from '../../../store/modules/theme'
 import { authActions } from '../../../store/modules/auth'
 
@@ -21,24 +22,6 @@ const mapDispatch = dispatch => {
     }
 }
 
-const MenuContainer= styled.aside`
-    z-index: 100;
-    width: 250px;
-    & h3 {
-        text-align: center;
-        padding: 10px;
-    }
-    & span {
-        border-top: 1px solid black
-    }
-`
-
-const MenuItemContainer = styled.span`
-    padding: 10px;
-    display: flex;
-    justify-content: space-around;
-`
-
 const Settings = ({
     theme, themes, onSetTheme,
     onLogout
@@ -49,21 +32,20 @@ const Settings = ({
             <MdSettings
                 width='100%'
                 size={32}
-                color='#d9d9d9'
             />
         }
         position={{bottom: 0, left: '100%'}}
     >
-        <MenuContainer>
+        <Menu.Container>
             <h3>settings</h3>
-            <MenuItemContainer>
+            <Menu.Item>
                 <button
                     onClick={e => onLogout()}
                 >
                     logout
                 </button>
-            </MenuItemContainer>
-            <MenuItemContainer>
+            </Menu.Item>
+            <Menu.Item>
                 <p>theme</p>
                 <select
                     onChange={({ target }) => onSetTheme(target.value)}
@@ -76,8 +58,8 @@ const Settings = ({
                         >{theme}</option>
                     )}
                 </select>
-            </MenuItemContainer>
-        </MenuContainer>
+            </Menu.Item>
+        </Menu.Container>
     </Popover>
        
 }
