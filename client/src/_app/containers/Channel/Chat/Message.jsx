@@ -29,8 +29,6 @@ const Li = styled.li`
 `
 
 const Article = styled.article`
-    border: 1px solid #909192;
-    background-color: #444546;
     padding: 10px;
     border-radius: 3px;
 `

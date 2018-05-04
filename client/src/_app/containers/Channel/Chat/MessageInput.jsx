@@ -23,7 +23,6 @@ const mergeProps = ({ ownProfileId }, { send }, { channelId }) => {
 const Form = styled.form`
     display: flex;
     padding: 15px;
-    background-color: #444546;
     & input {
         padding: 10px;
         flex: 1;

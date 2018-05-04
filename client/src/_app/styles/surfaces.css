@@ -10,7 +10,7 @@ header {
     padding: 5px;
 }
 .light header {
-    
+    background-color: #aaaaaa;
 }
 .dark header {
     background-color: #202122;
@@ -21,7 +21,7 @@ nav {
     width: 100%;
 }
 .light nav {
-    
+    background-color: #aaaaaa;
 }
 .dark nav {
     background-color: #202122;
@@ -35,14 +35,34 @@ main {
     background-color: #313233;
 }
 .light main {
+    background-color: #cccccc;
+}
 
+article {
+
+}
+.light article {
+    background-color: #d6d6d6;
+}
+.dark article {
+    background-color: #444546;
+}
+
+form {
+
+}
+.light form {
+    background-color: #d6d6d6;
+}
+.dark form {
+    background-color: #444546;
 }
 
 aside {
 
 }
 .light aside {
-    
+    background-color: #aaaaaa;
 }
 .dark aside {
     background-color: #202122;
@@ -91,7 +111,7 @@ input {
     background-color: #252627;
 }
 .light .sidebar ul {
-
+    background-color: #bbbbbb;
 }
 
 .sidebar li {
