@@ -14,7 +14,8 @@ import Channel, {
     ChannelHeader,
     CreateChannel
 } from '../Channel'
-
+import MdChevronLeft from 'react-icons/lib/md/chevron-left'
+import MdChevronRight from 'react-icons/lib/md/chevron-right'
 
 
 export default class DesktopGroup extends React.Component {
@@ -77,14 +78,14 @@ export default class DesktopGroup extends React.Component {
                     onClose={e => this.toggle('channelsSidebar')}
                     onOpen={e => this.toggle('channelsSidebar')}
                     isOpen={channelsSidebar.isOpen}
-                    OpenComponent={<p>></p>}
+                    OpenComponent={<p><MdChevronRight size={32}/></p>}
                 >
                     <h2>Channels</h2>
                 </SidebarHeader>
             </Grid.Area>
             <Grid.Area contentHeader>
                 <Switch>
-                    <Route path='/channel/create'>New Channel</Route>
+                    <Route path='/channel/create'><header><h2>New Channel</h2></header></Route>
                     <Route path='/channel/:id' component={ChannelHeader}/>
                     <Route path='/profile/:id' component={ProfileHeader}/>
                     <Route path='/me' component={Profile}/>
@@ -96,7 +97,7 @@ export default class DesktopGroup extends React.Component {
                     onClose={e => this.toggle('profilesSidebar')}
                     onOpen={e => this.toggle('profilesSidebar')}
                     isOpen={profilesSidebar.isOpen}
-                    OpenComponent={<p>&lt;</p>}
+                    OpenComponent={<p><MdChevronLeft size={32}/></p>}
                 >
                     <h2>Profiles</h2>
                 </SidebarHeader>
