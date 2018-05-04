@@ -15,6 +15,8 @@ import Channel, {
     CreateChannel
 } from '../Channel'
 
+
+
 export default class DesktopGroup extends React.Component {
     constructor(props){
         super(props)
@@ -100,7 +102,9 @@ export default class DesktopGroup extends React.Component {
                 </SidebarHeader>
             </Grid.Area>
 
-            {channelsSidebar.isOpen && <Grid.Area channelsSidebar>
+            {channelsSidebar.isOpen && <Grid.Area channelsSidebar
+                style={{ overflowY: 'auto', overflowX: 'hidden' }}
+            >
                 <Resizable right
                     className='sidebar'
                     width={{ min: 50 }}
@@ -109,7 +113,7 @@ export default class DesktopGroup extends React.Component {
                     <ChannelsList />
                 </Resizable>
             </Grid.Area>}
-            <Grid.Area content>
+            <Grid.Area content style={{ overflow: 'hidden' }}>
                 <Switch>
                     <Route path='/channel/create' component={CreateChannel}/>
                     <Route path='/channel/:id' component={Channel}/>
@@ -118,7 +122,9 @@ export default class DesktopGroup extends React.Component {
                     <Route exact path='/' render={() => 'Group content goes here'}/>
                 </Switch>
             </Grid.Area>
-            {profilesSidebar.isOpen && <Grid.Area profilesSidebar>
+            {profilesSidebar.isOpen && <Grid.Area profilesSidebar
+                style={{ overflowY: 'auto', overflowX: 'hidden' }}
+            >
                 <Resizable left
                     className='sidebar'
                     width={{ min: 50 }}

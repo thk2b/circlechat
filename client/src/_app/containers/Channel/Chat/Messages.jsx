@@ -1,25 +1,26 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import Autoscroll from 'autoscroll-react'
+import styled from 'styled-components'
 
 import Message from './Message'
 
-const mapState = ({ messages }, { channelId }) => {
-    return {
-        messages: Object.values(messages).filter(
-            message => message.channelId === channelId
-        )
+const Ul = styled.ul`
+    flex: 1;
+    min-height: 0px;
+    overflow-y: scroll;
+`
+
+class Messages extends React.Component {
+    render(){
+        return <Ul {...this.props}>
+            {this.props.messages.map(
+                message => <Message
+                    key={message.id}
+                    message={message}
+                />
+            )}
+        </Ul>
     }
 }
 
-const Messages = ({ messages }) => {
-    return <ul>
-        {messages.map(
-            message => <Message
-                key={message.id}
-                message={message}
-            />
-        )}
-    </ul>
-}
-
-export default connect(mapState)(Messages)
+export default Autoscroll(Messages)

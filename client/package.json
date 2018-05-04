@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@thk2b/oui": "0.1.4",
+    "@thk2b/oui": "0.1.6",
     "autoprefixer": "7.1.6",
     "autoscroll-react": "^3.1.0",
     "axios": "^0.17.1",

@@ -1,22 +1,63 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 import Messages from './Messages'
 import MessageInput from './MessageInput'
 
-const Container = styled.main`
+import { messagesActions } from '../../../../store/modules/messages'
+import { notificationsActions } from '../../../../store/modules/notifications'
+
+const mapState = ({ messages, ownProfileId, hasMore }, { channelId }) => {
+    return {
+        messages: Object.entries(messages)
+            .filter(
+                ([_, message]) => message.channelId === channelId
+            ).map(
+                ([_, message]) => message
+            ),
+        profileId: ownProfileId,
+        hasMore: hasMore.channels[channelId] || true
+    }
+}
+
+const mapDispatch = dispatch => {
+    return bindActionCreators({
+        clearNotifications: notificationsActions.clear,
+        getInChannel: messagesActions.getInChannel,
+        send: messagesActions.send
+    }, dispatch)
+}
+
+const mergeProps = ({ profileId, ...state}, actions, { channelId, ...ownProps }) => {
+    return {
+        ...state,
+        clearNotifications: () => actions.clearNotifications( channelId ),
+        getMoreMessages: () => actions.getInChannel( channelId, state.messages[0] && state.messages[0].id ), /* fetch additional messages posted before the first mesasge we have */
+        sendMessage: text => actions.send({ channelId, profileId, text }),
+        ...ownProps
+    }
+}
+
+const Main = styled.main`
     display: flex;
     flex-flow: column nowrap;
-
-    & ul {
-        flex: 1;
-    }
 `
 
-export default ({ channelId }) => {
-    return <Container>
-        <Messages channelId={channelId}/>
-        <MessageInput channelId={channelId}/>
-    </Container>
+const Chat = ({
+    messages, hasMore,
+    sendMessage, clearNotifications, getMoreMessages
+}) => {
+    return <Main>
+        <Messages
+            messages={messages}
+            onScrolledTop={e => hasMore && getMoreMessages()}
+        />
+        <MessageInput 
+            onSubmit={text => sendMessage(text)}
+            onFocus={e => clearNotifications()}/>
+    </Main>
 }
+
+export default connect(mapState, mapDispatch, mergeProps)(Chat)
