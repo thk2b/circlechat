@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 
 import { push } from 'react-router-redux'
+import Time from '../../../lib/Time'
 
 const mapState = ({ profiles }, { message }) => {
     return {
@@ -34,9 +35,11 @@ const Article = styled.article`
 `
 
 const Message = ({ message, profile, goToProfile }) => {
+    const deleted = message === null
+    const updated = message.createdAt !== message.updatedAt
     return <Li>
         <Article>
-            <p>{message.text}</p>
+            <p>{deleted? '[deleted]' : message.text}</p>
             <a
                 rel="noopener"
                 href=""
@@ -45,6 +48,10 @@ const Message = ({ message, profile, goToProfile }) => {
                     goToProfile()
                 }}
             >by {profile.name}</a>
+            <p>sent <Time since={message.createdAt}/></p>
+            {updated &&
+                <p>{deleted? 'deleted': 'updated'} <Time since={message.updatedAt}/></p>
+            }
         </Article>
     </Li>
 }
