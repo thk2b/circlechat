@@ -32,7 +32,6 @@ const OwnProfileLink = ({ ownProfile, goToOwnProfile }) => {
             <MdPerson
                 width='100%'
                 size={32}
-                color='#d9d9d9'
             />
         </div>
     )

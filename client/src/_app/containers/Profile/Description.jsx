@@ -53,7 +53,7 @@ export default class extends React.Component {
             onMouseOver={ e => this.handleMouseOver(e)}
             onMouseLeave={ e => this.handleMouseLeave(e)}
         >
-            <p>{description}</p>
+            <p>{description||'no description yet'}</p>
             {showIcon && <MdEdit onClick={e => this.handleStartEdit() }/>}
         </div>
     }

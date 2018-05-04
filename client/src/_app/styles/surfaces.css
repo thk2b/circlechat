@@ -146,12 +146,9 @@ input {
 
 }
 
-svg {
-    
-}
 .dark svg {
     color: rgb(217, 217, 217);
 }
 .light svg {
-    color: rgb(217, 217, 217);
+    color: rgb(51, 51, 51);
 }
