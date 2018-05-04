@@ -26,7 +26,7 @@ const mergeProps = ( state, { remove, update }, ownProps ) => {
     return {
         ...state,
         onRemove: () => remove(id),
-        renameChannel: name => update(id, { name }),
+        onRenameChannel: name => update(id, { name }),
         ...ownProps
     }
 }
@@ -37,28 +37,65 @@ const Header = styled.header`
 
 `
 
-const ChannelHeader = ({ channel, onRemove }) => {
-    if(!channel) return <header>
-        <h2>channel not found</h2>
-    </header>
+class ChannelHeader extends React.Component {
+    constructor(props){
+        super(props)
+        this.state = {
+            editingName: ''
+        }
+    }
+    handleStartEdit(){
+        this.setState({
+            editing: true, editingName: this.props.channel.name
+        })
+    }
+    handleSubmit(){
+        this.props.onRenameChannel(this.state.editingName)
+        this.setState({ editingName: '', editing: false })
+    }
+    handleCancel(){
+        this.setState({ editingName: '', editing: false })
+    }
+    render(){
+        const { channel, onRemove, onRenameChannel } = this.props
+        const { editing, editingName } = this.state
+        
+        if(!channel) return <header>
+            <h2>channel not found</h2>
+        </header>
 
-    return <Header>
-        <h2>{channel.name}</h2>
-        <Popover
-            zIndex={1}
-            Component={() => <MdMoreVert size={32} height='100%'/>}
-            position={{ right: 0 }}
-        >
-            <Menu.Container>
-                <Menu.Item>
-                    <p>edit</p>
-                </Menu.Item>
-                <Menu.Item>
-                    <button onClick={e => onRemove()}>remove</button>
-                </Menu.Item>
-            </Menu.Container>
-        </Popover>
-    </Header>
+        if(!editing) return <Header>
+            <h2>{channel.name}</h2>
+            <Popover
+                zIndex={1}
+                Component={() => <MdMoreVert size={32} height='100%'/>}
+                position={{ right: 0 }}
+            >
+                <Menu.Container>
+                    <Menu.Item>
+                        <button onClick={e => this.handleStartEdit()}>edit</button>
+                    </Menu.Item>
+                    <Menu.Item>
+                        <button onClick={e => onRemove()}>remove</button>
+                    </Menu.Item>
+                </Menu.Container>
+            </Popover>
+        </Header>
+        
+        return <Header>
+            <input
+                type="text"
+                value={editingName}
+                onChange={e => this.setState({ editingName: e.target.value })}
+            />
+            <button
+                onClick={e => this.handleSubmit({})}
+            >save</button>
+            <button
+                onClick={e => this.handleCancel()}
+            >cancel</button>
+        </Header>
+    }
 }
 
 export default connect(mapState, mapDispatch, mergeProps)(ChannelHeader)

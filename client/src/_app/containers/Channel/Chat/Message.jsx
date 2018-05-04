@@ -61,12 +61,6 @@ class Message extends React.Component {
             editValue: this.props.message.text
         }
     }
-    componentDidUpdate(prevProps, prevState){
-        if(prevProps.message.text !== this.props.message.text){
-            this.setState({ editValue: this.props.message.text })
-        }
-    }
-    
     handleMouseOver(){
         if(!this.state.editing){
             this.setState({ showIcons: true })
@@ -80,7 +74,8 @@ class Message extends React.Component {
     handleStartEdit(){
         if(this.props.message.text === null) return //message was deleted
         this.setState({
-            editing: true
+            editing: true,
+            editValue: this.props.message.value
         })
     }
     handleDelete(){
