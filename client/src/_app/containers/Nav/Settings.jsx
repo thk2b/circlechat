@@ -5,6 +5,7 @@ import Popover from '@thk2b/oui/lib/Popover'
 import MdSettings from 'react-icons/lib/md/settings'
 
 import { setTheme } from '../../../store/modules/theme'
+import { authActions } from '../../../store/modules/auth'
 
 const mapState = ({ theme }) => {
     return {
@@ -15,7 +16,8 @@ const mapState = ({ theme }) => {
 
 const mapDispatch = dispatch => {
     return {
-        setTheme: theme => dispatch(setTheme(theme))
+        onSetTheme: theme => dispatch(setTheme(theme)),
+        onLogout: () => dispatch(authActions.logout())
     }
 }
 
@@ -26,7 +28,7 @@ const MenuContainer= styled.aside`
         text-align: center;
         padding: 10px;
     }
-    & span:not(:first-of-type) {
+    & span {
         border-top: 1px solid black
     }
 `
@@ -37,7 +39,10 @@ const MenuItemContainer = styled.span`
     justify-content: space-around;
 `
 
-const Settings = ({ theme, themes, setTheme }) => {
+const Settings = ({
+    theme, themes, onSetTheme,
+    onLogout
+}) => {
     return <Popover
         zIndex={1}
         Component={() =>
@@ -52,9 +57,16 @@ const Settings = ({ theme, themes, setTheme }) => {
         <MenuContainer>
             <h3>settings</h3>
             <MenuItemContainer>
+                <button
+                    onClick={e => onLogout()}
+                >
+                    logout
+                </button>
+            </MenuItemContainer>
+            <MenuItemContainer>
                 <p>theme</p>
                 <select
-                    onChange={({ target }) => setTheme(target.value)}
+                    onChange={({ target }) => onSetTheme(target.value)}
                     value={theme}
                 >
                     {themes.map(
