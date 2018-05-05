@@ -1,6 +1,5 @@
 import { websocketActions } from '../../middleware/websocket'
 import api from '../../api'
-import axios from 'axios'
 
 import { authActions } from './'
 import { profilesActions } from '../profiles/'

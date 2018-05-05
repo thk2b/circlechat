@@ -7,7 +7,7 @@ const Header = styled.header`
     justify-content: space-around;
 `
 
-export default ({}) => {
+export default () => {
     return <Header>
         <h1>CC</h1>
     </Header>

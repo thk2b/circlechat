@@ -33,9 +33,9 @@ export default (openConnection, url) => store => next => action => {
         socket && socket.close()
     }
     else if(action.type === EMIT){
-        const { resource, type, data, options } = action
+        const { resource, data, options } = action
         const payload = {
-            data: action.data, 
+            data: data, 
             meta: options
         }
         socket.emit(resource, payload)

@@ -92,7 +92,7 @@ class Message extends React.Component {
     }
 
     render(){
-        const { message, profile, onGoToProfile, onDeleteMessage, onUpdateMessage } = this.props
+        const { message, profile, onGoToProfile } = this.props
         const { editing, editValue, showIcons } = this.state
         const deleted = message.text === null
         const updated = message.createdAt !== message.updatedAt

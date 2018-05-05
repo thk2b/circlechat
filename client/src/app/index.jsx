@@ -4,7 +4,6 @@ import styled from 'styled-components'
 import {
     Theme,
     Home,
-    Nav,
     Group
 } from './containers'
 

@@ -57,7 +57,7 @@ class ChannelHeader extends React.Component {
         this.setState({ editingName: '', editing: false })
     }
     render(){
-        const { channel, onRemove, onRenameChannel } = this.props
+        const { channel, onRemove } = this.props
         const { editing, editingName } = this.state
         
         if(!channel) return <header>

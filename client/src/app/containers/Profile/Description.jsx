@@ -1,6 +1,4 @@
 import React from 'react'
-import styled from 'styled-components'
-import MdDelete from 'react-icons/lib/md/delete'
 import MdEdit from 'react-icons/lib/md/edit'
 
 export default class extends React.Component {

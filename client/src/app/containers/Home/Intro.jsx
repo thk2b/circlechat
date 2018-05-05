@@ -8,7 +8,7 @@ const Container = styled.div`
     padding: 10%;
 `
 
-export default ({}) => {
+export default () => {
     return <Container>
         <h1>Welcome to CircleChat</h1>
         <p>A realtime messaging platform</p>

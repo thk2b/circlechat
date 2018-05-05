@@ -8,13 +8,12 @@ import { errorsActions } from '../../../store/modules/errors'
 import LoginForm from './LoginForm'
 import RegisterForm from './RegisterForm'
 
-const mapState = ({ loading, errors, theme }) => {
+const mapState = ({ loading, errors }) => {
     return {
         registerError: errors.auth.register,
         loginError: errors.auth.login,
         registerLoading: loading.auth.register,
         loginLoading: loading.auth.login,
-        theme: theme.active
     }
 }
 
@@ -84,7 +83,6 @@ class Auth extends React.Component {
         const {
             loginError, registerError,
             loginLoading, registerLoading,
-            theme
         } = this.props
 
         return <Main>

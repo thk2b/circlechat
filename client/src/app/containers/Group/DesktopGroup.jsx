@@ -18,8 +18,6 @@ import Channel, {
     CreateChannel
 } from '../Channel'
 
-
-
 export default class DesktopGroup extends React.Component {
     constructor(props){
         super(props)
@@ -47,7 +45,6 @@ export default class DesktopGroup extends React.Component {
         }})
     }
     render(){
-        const { channels, profiles } = this.props
         const { profilesSidebar, channelsSidebar } = this.state
 
         return <Grid.Dynamic

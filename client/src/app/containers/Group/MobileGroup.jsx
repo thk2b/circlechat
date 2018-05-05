@@ -1,5 +1,4 @@
 import React from 'react'
-import styled from 'styled-components'
 import Grid from '@thk2b/oui/lib/Grid'
 import { Route, Switch } from 'react-router'
 import SwipeableViews from 'react-swipeable-views'
@@ -7,8 +6,8 @@ import MdGroup from 'react-icons/lib/md/group'
 import MdRssFeed from 'react-icons/lib/md/rss-feed'
 
 
-import Profile, { ProfilesList, ProfilesSidebarHeader, ProfileHeader } from '../Profile'
-import Channel, { ChannelsList, ChannelsSidebarHeader, ChannelHeader, CreateChannel } from '../Channel'
+import Profile, { ProfilesList, ProfileHeader } from '../Profile'
+import Channel, { ChannelsList, ChannelHeader, CreateChannel } from '../Channel'
 import Nav from '../Nav'
 import Logo from '../Logo'
 

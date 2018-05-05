@@ -4,8 +4,6 @@ import { actions as channelsActions } from '../../modules/channels/base'
 import { notificationsActions } from '../../modules/notifications'
 import { loadingActions } from '../../modules/loading'
 
-//TODO: handle loading / errors
-
 const messageHandler = ({ meta, data }, { dispatch, getState }) => {
     switch (meta.type){
         case 'POST':
@@ -29,6 +27,7 @@ const messageHandler = ({ meta, data }, { dispatch, getState }) => {
                     ...message, ...data
                 }))
             )
+        default: throw new Error('invalid ws action type', { meta, data })
     }
 }
 
@@ -48,6 +47,7 @@ const profileHandler = ({ meta, data }, { dispatch, getState }) => {
                     ...profile, ...data
                 }))
             )
+        default: throw new Error('invalid ws action type', { meta, data })
     }
 }
 
@@ -67,6 +67,7 @@ const channelHandler = ({ meta, data }, { dispatch, getState }) => {
                     ...channels, ...data
                 }))
             )
+        default: throw new Error('invalid ws action type', { meta, data })
     }
 }
 

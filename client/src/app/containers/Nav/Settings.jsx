@@ -1,6 +1,5 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import styled from 'styled-components'
 import Popover from '@thk2b/oui/lib/Popover'
 import MdSettings from 'react-icons/lib/md/settings'
 
