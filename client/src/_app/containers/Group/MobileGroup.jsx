@@ -1,6 +1,7 @@
 import React from 'react'
 import Grid from '@thk2b/oui/lib/Grid'
 import { Route, Switch } from 'react-router'
+import SwipeableViews from 'react-swipeable-views'
 
 import Profile, { ProfilesList, ProfilesSidebarHeader, ProfileHeader } from '../Profile'
 import Channel, { ChannelsList, ChannelsSidebarHeader, ChannelHeader, CreateChannel } from '../Channel'
@@ -11,26 +12,6 @@ export default class MobileGroup extends React.Component {
         super(props)
         this.state = {
             viewIndex: 1
-        }
-    }
-    renderContent(){
-        const { viewIndex } = this.state
-        if(viewIndex === 0){
-            return <ChannelsList
-                afterItemClick={e => this.setState({ viewIndex: 1 })}
-            />
-        } else if (viewIndex === 1){
-            return <Switch>
-                <Route path='/channel/create' component={CreateChannel}/>
-                <Route path='/channel/:id' component={Channel}/>
-                <Route path='/profile/:id' component={Profile}/>
-                <Route path='/me' component={Profile}/>
-                <Route exact path='/' render={() => 'Group content goes here'}/>
-            </Switch>
-        } else {
-            return <ProfilesList
-                afterItemClick={e => this.setState({ viewIndex: 1 })}
-            />
         }
     }
     render(){
@@ -68,7 +49,24 @@ export default class MobileGroup extends React.Component {
                 </header>
             </Grid.Area>
             <Grid.Area content style={{ overflow: 'hidden' }}>
-                {this.renderContent()}    
+                <SwipeableViews
+                    index={this.state.viewIndex}
+                    style={{ height: '100%' }}
+                >
+                    <ChannelsList
+                        afterItemClick={e => this.setState({ viewIndex: 1 })}
+                    />
+                    <Switch>
+                        <Route path='/channel/create' component={CreateChannel}/>
+                        <Route path='/channel/:id' component={Channel}/>
+                        <Route path='/profile/:id' component={Profile}/>
+                        <Route path='/me' component={Profile}/>
+                        <Route exact path='/' render={() => 'Group content goes here'}/>
+                    </Switch>
+                    <ProfilesList
+                        afterItemClick={e => this.setState({ viewIndex: 1 })}
+                    />
+                </SwipeableViews>
             </Grid.Area>
         </Grid.Container>
     }

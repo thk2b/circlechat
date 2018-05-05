@@ -18,3 +18,7 @@ li {
 a {
     color: inherit;
 }
+
+.react-swipeable-view-container {
+    height: 100%;
+}
