@@ -9,7 +9,7 @@ import MessageInput from './MessageInput'
 import { messagesActions } from '../../../../store/modules/messages'
 import { notificationsActions } from '../../../../store/modules/notifications'
 
-const mapState = ({ messages, ownProfileId, hasMore }, { channelId }) => {
+const mapState = ({ messages, ownProfileId, hasMore, loading, errors }, { channelId }) => {
     return {
         messages: Object.entries(messages)
             .filter(
@@ -18,7 +18,9 @@ const mapState = ({ messages, ownProfileId, hasMore }, { channelId }) => {
                 ([_, message]) => message
             ),
         profileId: ownProfileId,
-        hasMore: hasMore.channels[channelId] || true
+        hasMore: hasMore.channels[channelId] || true,
+        loading: loading.messages.new,
+        error: errors.messages.new,
     }
 }
 
@@ -46,7 +48,7 @@ const Main = styled.main`
 `
 
 const Chat = ({
-    messages, hasMore,
+    messages, hasMore, loading, error,
     sendMessage, clearNotifications, getMoreMessages
 }) => {
     return <Main>
@@ -56,7 +58,10 @@ const Chat = ({
         />
         <MessageInput 
             onSubmit={text => sendMessage(text)}
-            onFocus={e => clearNotifications()}/>
+            onFocus={e => clearNotifications()}
+            loading={loading}
+            error={error}    
+        />
     </Main>
 }
 

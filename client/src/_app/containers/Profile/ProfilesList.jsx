@@ -3,9 +3,11 @@ import { connect } from 'react-redux'
 
 import { push } from 'react-router-redux'
 
-const mapState = ({ profiles }) => {
+const mapState = ({ profiles, loading, errors }) => {
     return {
-        profiles: Object.values(profiles)
+        profiles: Object.values(profiles),
+        loading: loading.profiles.all,
+        error: errors.profiles.all,
     }
 }
 

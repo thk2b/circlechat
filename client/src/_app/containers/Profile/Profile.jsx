@@ -5,9 +5,12 @@ import { profilesActions } from '../../../store/modules/profiles'
 import UserName from './UserName'
 import Description from './Description'
 
-const mapState = ({ profiles }, { match }) => {
+const mapState = ({ profiles, loading, errors }, { match }) => {
+    const { id } = match.params
     return {
-        profile: profiles[match.params.id]
+        profile: profiles[id],
+        loading: loading.profiles[id],
+        errors: errors.profiles[id],
     }
 }
 

@@ -7,10 +7,12 @@ import { NotificationPill } from '../../lib'
 import MdAdd from 'react-icons/lib/md/add'
 
 
-const mapState = ({ channels, notifications }) => {
+const mapState = ({ channels, notifications, loading, errors }) => {
     return {
         channels: Object.values(channels),
-        notifications
+        notifications,
+        loading: loading.channels.all,
+        error: errors.channels.all,
     }
 }
 
