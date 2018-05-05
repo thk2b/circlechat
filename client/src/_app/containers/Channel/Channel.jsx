@@ -3,9 +3,11 @@ import { connect } from 'react-redux'
 
 import Chat from './Chat'
 
-const mapState = ({ channels}, { match }) => {
+const mapState = ({ channels, loading, errors }, { match }) => {
     return {
-        channel: channels[match.params.id]
+        channel: channels[match.params.id],
+        loading: loading.channels[id],
+        error: errors.channels[id],
     }
 }
 

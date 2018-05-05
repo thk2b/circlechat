@@ -9,9 +9,11 @@ import { messagesActions } from '../../../../store/modules/messages'
 import { push } from 'react-router-redux'
 import Time from '../../../lib/Time'
 
-const mapState = ({ profiles }, { message }) => {
+const mapState = ({ profiles, loading, errors  }, { message }) => {
     return {
-        profile: profiles[message.profileId]
+        profile: profiles[message.profileId],
+        loading: loading.messages[message.id],
+        error: errors.messages[message.id]
     }
 }
 
