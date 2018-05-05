@@ -7,5 +7,24 @@ const { reducer, actions } = HashMap('errors', {
     auth: { login: null, register: null }
 })
 
-export { actions as errorsActions }
+const clearRegisterError = () => actions.update('auth',
+    auth => ({
+        ...auth,
+        register: null
+    })
+)
+
+const clearLoginError = () => actions.update('auth',
+    auth => ({
+        ...auth,
+        login: null
+    })
+)
+
+const allActions = {
+    ...actions,
+    clearLoginError, clearRegisterError
+}
+
+export { allActions as errorsActions }
 export default reducer

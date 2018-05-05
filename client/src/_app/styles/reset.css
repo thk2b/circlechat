@@ -1,0 +1,24 @@
+body, p, h1, h2, h3, h4 {
+    margin: 0;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+ul {
+    padding: 0;
+    margin: 0;
+}
+
+li {
+    list-style: none;
+}
+
+a {
+    color: inherit;
+}
+
+.react-swipeable-view-container {
+    height: 100%;
+}

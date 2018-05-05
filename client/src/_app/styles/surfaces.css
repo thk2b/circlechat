@@ -1,0 +1,155 @@
+body {
+    margin: 0;
+}
+
+header {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+.light header {
+    background-color: #aaaaaa;
+}
+.dark header {
+    background-color: #202122;
+}
+
+nav {
+    height: 100%;
+    width: 100%;
+    padding: 10px;
+}
+.light nav {
+    background-color: #aaaaaa;
+}
+.dark nav {
+    background-color: #202122;
+}
+
+main {
+    width: 100%;
+    height: 100%;
+}
+.dark main {
+    background-color: #313233;
+}
+.light main {
+    background-color: #cccccc;
+}
+
+article {
+
+}
+.light article {
+    background-color: #d6d6d6;
+}
+.dark article {
+    background-color: #444546;
+}
+
+form {
+
+}
+.light form {
+    background-color: #d6d6d6;
+}
+.dark form {
+    background-color: #444546;
+}
+
+aside {
+
+}
+.light aside {
+    background-color: #aaaaaa;
+}
+.dark aside {
+    background-color: #202122;
+}
+
+.dark input,
+.dark textarea {
+    background-color: #909192;
+    border: 1px solid #656667;
+    border-radius: 3px;
+}
+.light input,
+.light textarea {
+
+}
+
+button {
+    background-color: #2847f5;
+}
+button.text{
+    background-color: transparent;
+    border: none !important; 
+}
+
+.light button {
+
+}
+.dark button {
+    border-radius: 3px;
+    border: 1px solid #656667;
+}
+
+input {
+
+}
+.light input {
+
+}
+.dark input {
+    
+}
+
+.sidebar {
+    width: 100%;
+    height: 100%;
+}
+.dark .sidebar {
+    background-color: #252627;
+}
+.light .sidebar {
+    background-color: #bbbbbb;
+}
+
+.sidebar li {
+    padding: 5px;
+}
+.dark .slidebar li {
+    
+}
+.light .slidebar li {
+
+}
+
+.chat ul {
+
+}
+.dark .chat ul {
+    
+}
+.light .chat ul {
+
+}
+
+.chat li {
+
+}
+.dark .chat ul {
+    
+}
+.light .chat ul {
+
+}
+
+.dark svg {
+    color: rgb(217, 217, 217);
+}
+.light svg {
+    color: rgb(51, 51, 51);
+}
