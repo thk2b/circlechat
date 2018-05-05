@@ -30,7 +30,6 @@ const OwnProfileLink = ({ ownProfile, goToOwnProfile }) => {
             onClick={e => goToOwnProfile()}
         >
             <MdPerson
-                width='100%'
                 size={32}
             />
         </div>

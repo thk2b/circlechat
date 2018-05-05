@@ -8,10 +8,11 @@ import Menu from '../../lib/Menu'
 import { setTheme } from '../../../store/modules/theme'
 import { authActions } from '../../../store/modules/auth'
 
-const mapState = ({ theme }) => {
+const mapState = ({ device, theme }) => {
     return {
         theme: theme.active,
-        themes: ['light', 'dark']
+        themes: ['light', 'dark'],
+        isMobile: device.isMobile
     }
 }
 
@@ -23,18 +24,20 @@ const mapDispatch = dispatch => {
 }
 
 const Settings = ({
-    theme, themes, onSetTheme,
-    onLogout
+    theme, themes, isMobile,
+    onSetTheme, onLogout
 }) => {
     return <Popover
         zIndex={1}
         Component={() =>
             <MdSettings
-                width='100%'
                 size={32}
             />
         }
-        position={{bottom: 0, left: '100%'}}
+        position={isMobile
+            ? {top: '100%', right: 0}
+            : {bottom: 0, left: '100%'}
+        }
     >
         <Menu.Container>
             <h3>settings</h3>

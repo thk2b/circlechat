@@ -7,9 +7,13 @@ import Settings from './Settings'
 
 const Nav = styled.nav`
     display: flex;
-    flex-flow: column nowrap;
     justify-content: space-between;
-    align-items: center;
+
+    @media (min-width: 425px){
+        flex-flow: column nowrap;
+        justify-content: space-between;
+        align-items: center;
+    }
 `
 
 const IconContainer = styled.div`
