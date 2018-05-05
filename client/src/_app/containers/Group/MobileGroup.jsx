@@ -1,7 +1,10 @@
 import React from 'react'
+import styled from 'styled-components'
 import Grid from '@thk2b/oui/lib/Grid'
 import { Route, Switch } from 'react-router'
 import SwipeableViews from 'react-swipeable-views'
+import MdGroup from 'react-icons/lib/md/group'
+import MdRssFeed from 'react-icons/lib/md/rss-feed'
 
 import Profile, { ProfilesList, ProfilesSidebarHeader, ProfileHeader } from '../Profile'
 import Channel, { ChannelsList, ChannelsSidebarHeader, ChannelHeader, CreateChannel } from '../Channel'
@@ -29,7 +32,7 @@ export default class MobileGroup extends React.Component {
                 <header
                     onClick={e => this.setState({ viewIndex: 0 })}
                 >
-                    <h2>#</h2>
+                    <MdRssFeed size={32}/>
                 </header>
             </Grid.Area>
             <Grid.Area contentHeader>
@@ -50,7 +53,7 @@ export default class MobileGroup extends React.Component {
                 <header
                     onClick={e => this.setState({ viewIndex: 2 })}
                 >
-                    <h2>O</h2>
+                    <MdGroup size={32}/>
                 </header>
             </Grid.Area>
             <Grid.Area content style={{ overflow: 'hidden' }}>

@@ -16,19 +16,11 @@ const Nav = styled.nav`
     }
 `
 
-const IconContainer = styled.div`
-    padding: 10px;
-`
-
 export default () => {
     return (
         <Nav>
-            <IconContainer>
-                <OwnProfileLink/>
-            </IconContainer>
-            <IconContainer>
-                <Settings/>
-            </IconContainer>
+            <OwnProfileLink/>
+            <Settings/>
         </Nav>
     )
 }
