@@ -127,10 +127,15 @@ input {
 .sidebar li {
     padding: 5px;
 }
-.dark .slidebar li {
+.dark .sidebar li:hover {
+    background-color: #202122;
+}
+.dark .sidebar li:active {
     
 }
-.light .slidebar li {
+
+
+.light .slidebar li:hover {
 
 }
 

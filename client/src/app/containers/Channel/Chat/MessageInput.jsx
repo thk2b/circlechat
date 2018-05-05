@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 const Form = styled.form`
     display: flex;
-    padding: 15px;
+    padding: 10px;
     & input {
         padding: 10px;
         flex: 1;

@@ -31,7 +31,7 @@ const Container = styled.div`
 
 const Ul = styled.ul`
     flex: 1;
-    overflow: scroll;
+    overflow-y: auto;
 `
 
 const Footer = styled.footer`
@@ -50,7 +50,7 @@ const ChannelsList = ({
                     key={channel.id}
                     onClick={e => {
                         goToChannel(channel.id)
-                        afterItemClick(e)
+                        afterItemClick&&afterItemClick(e)
                     }}
                 >
                     <p>{channel.name}</p>
@@ -63,7 +63,7 @@ const ChannelsList = ({
                 size={32}
                 onClick={e => {
                     goToCreateChannel()
-                    afterItemClick(e)
+                    afterItemClick&&afterItemClick(e)
                 }}
             />
         </Footer>

@@ -24,7 +24,7 @@ const ProfilesList = ({ profiles, goToProfile, afterItemClick }) => {
                 key={profile.id}
                 onClick={e => {
                     goToProfile(profile.id)
-                    afterItemClick(e)
+                    afterItemClick&&afterItemClick(e)
                 }}
             >
                 <p>{profile.name}</p>                
