@@ -2,9 +2,12 @@ import React from 'react'
 import Grid from '@thk2b/oui/lib/Grid'
 import Resizable from '@thk2b/oui/lib/Resizable'
 import { Route, Switch } from 'react-router'
+import MdChevronLeft from 'react-icons/lib/md/chevron-left'
+import MdChevronRight from 'react-icons/lib/md/chevron-right'
 
 import { SidebarHeader } from '../../lib'
 import Nav from '../Nav'
+import Logo from '../Logo'
 import Profile, {
     ProfilesList,
     ProfileHeader
@@ -14,8 +17,7 @@ import Channel, {
     ChannelHeader,
     CreateChannel
 } from '../Channel'
-import MdChevronLeft from 'react-icons/lib/md/chevron-left'
-import MdChevronRight from 'react-icons/lib/md/chevron-right'
+
 
 
 export default class DesktopGroup extends React.Component {
@@ -71,7 +73,7 @@ export default class DesktopGroup extends React.Component {
                 ]
             ]}
         >
-            <Grid.Area logo><h1>CC</h1></Grid.Area>
+            <Grid.Area logo Component={Logo}/>
             <Grid.Area nav Component={Nav}/>
             <Grid.Area channelsSidebarHeader>
                 <SidebarHeader

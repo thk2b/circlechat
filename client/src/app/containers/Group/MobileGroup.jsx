@@ -6,9 +6,11 @@ import SwipeableViews from 'react-swipeable-views'
 import MdGroup from 'react-icons/lib/md/group'
 import MdRssFeed from 'react-icons/lib/md/rss-feed'
 
+
 import Profile, { ProfilesList, ProfilesSidebarHeader, ProfileHeader } from '../Profile'
 import Channel, { ChannelsList, ChannelsSidebarHeader, ChannelHeader, CreateChannel } from '../Channel'
 import Nav from '../Nav'
+import Logo from '../Logo'
 
 export default class MobileGroup extends React.Component {
     constructor(props){
@@ -22,11 +24,12 @@ export default class MobileGroup extends React.Component {
             rows="60px 60px 1fr"
             columns="60px 1fr 60px"
             areas="
-                'nav nav nav'
+                'logo nav nav'
                 'iconLeft contentHeader iconRight'
                 'content content content'
             "
         >
+            <Grid.Area logo Component={Logo} />
             <Grid.Area nav Component={Nav} />
             <Grid.Area iconLeft>
                 <header
