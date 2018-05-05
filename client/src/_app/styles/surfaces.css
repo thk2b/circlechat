@@ -105,14 +105,14 @@ input {
     
 }
 
-.sidebar ul  {
+.sidebar {
     width: 100%;
     height: 100%;
 }
-.dark .sidebar ul {
+.dark .sidebar {
     background-color: #252627;
 }
-.light .sidebar ul {
+.light .sidebar {
     background-color: #bbbbbb;
 }
 

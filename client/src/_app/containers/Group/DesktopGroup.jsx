@@ -107,7 +107,6 @@ export default class DesktopGroup extends React.Component {
                 style={{ overflowY: 'auto', overflowX: 'hidden' }}
             >
                 <Resizable right
-                    className='sidebar'
                     width={{ min: 50 }}
                     onResize={({ width }) => this.resize('channelsSidebar', width)}
                 >
@@ -127,7 +126,6 @@ export default class DesktopGroup extends React.Component {
                 style={{ overflowY: 'auto', overflowX: 'hidden' }}
             >
                 <Resizable left
-                    className='sidebar'
                     width={{ min: 50 }}
                     onResize={({ width }) => this.resize('profilesSidebar', width)}
                 >

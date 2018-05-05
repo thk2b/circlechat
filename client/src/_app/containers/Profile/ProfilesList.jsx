@@ -16,7 +16,7 @@ const mapDispatch = dispatch => {
 }
 
 const ProfilesList = ({ profiles, goToProfile, afterItemClick }) => {
-    return <ul>
+    return <ul className="sidebar">
         {profiles.map(
             profile => <li
                 key={profile.id}

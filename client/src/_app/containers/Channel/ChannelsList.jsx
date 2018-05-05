@@ -21,9 +21,13 @@ const mapDispatch = dispatch => {
     }
 }
 
-const Container = styled.ul`
+const Container = styled.div`
     display: flex;
     flex-flow: column nowrap;
+`
+
+const Ul = styled.ul`
+    flex: 1;
 `
 
 const Footer = styled.footer`
@@ -35,8 +39,8 @@ const ChannelsList = ({
     channels, notifications,
     goToChannel, goToCreateChannel, afterItemClick
 }) => {
-    return <Container>
-        <ul>
+    return <Container className="sidebar">
+        <Ul>
             {channels.map(
                 channel => <li
                     key={channel.id}
@@ -49,7 +53,7 @@ const ChannelsList = ({
                     <NotificationPill count={notifications.channels[channel.id]}/>
                 </li>
             )}
-        </ul>
+        </Ul>
         <Footer>
             <MdAdd
                 size={32}
