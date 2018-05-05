@@ -1,33 +1,28 @@
 import React from 'react'
-
-import { withStyles } from 'material-ui/styles'
+import styled from 'styled-components'
 
 import {
-    Auth,
     Theme,
+    Home,
     Nav,
-    Group,
-    TitleBar
+    Group
 } from './containers'
-import css from './index.css'
 
-const styles = theme => ({
-    root: {
-        backgroundColor: theme.palette.background.default
-    }
-})
+import './styles/reset.css'
+import './styles/typography.css'
+import './styles/surfaces.css'
 
-class App extends React.Component {
-    render(){
-        const { classes } = this.props
-        return <div className={css.App + ' ' + classes.root}>
-            <TitleBar />
-            <Auth>
-                <Nav />
+const Container = styled.div`
+    width: 100vw;
+    height: 100vh;
+`
+
+export default () => {
+    return <Theme>
+        <Container>
+            <Home>
                 <Group />
-            </Auth>
-        </div>
-    }   
+            </Home>
+        </Container>
+    </Theme>
 }
-
-export default withStyles(styles)(App)

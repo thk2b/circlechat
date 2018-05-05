@@ -1,91 +1,112 @@
 import React from 'react'
-import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import styled from 'styled-components'
 
-import Typography from 'material-ui/Typography'
-import Paper from 'material-ui/Paper'
-import Snackbar from 'material-ui/Snackbar'
-import { CircularProgress } from 'material-ui/Progress'
-import { LinearProgress } from 'material-ui';
-
-import { login, register } from '../../../store/modules/auth/networkActions'
+import { authActions } from '../../../store/modules/auth'
+import { errorsActions } from '../../../store/modules/errors'
 
 import LoginForm from './LoginForm'
 import RegisterForm from './RegisterForm'
 
-import css from './Auth.css'
-
-const mapState = ({ auth, device, loading, errors }) => {
+const mapState = ({ loading, errors, theme }) => {
     return {
-        loginError: errors.auth.login,
         registerError: errors.auth.register,
-        loginLoading: loading.auth.login,
+        loginError: errors.auth.login,
         registerLoading: loading.auth.register,
-        isAuthenticated: !!auth.token,
-        device
+        loginLoading: loading.auth.login,
+        theme: theme.active
     }
 }
 
 const mapDispatch = dispatch => {
-    return bindActionCreators({
-        onLogin: login,
-        onRegister: register,
-    }, dispatch)
+    return {
+        onLogin: data => dispatch(authActions.login(data)),
+        onRegister: data => dispatch(authActions.register(data)),
+        clearRegisterError: () => dispatch(errorsActions.clearRegisterError()),
+        clearLoginError: () => dispatch(errorsActions.clearLoginError())
+    }
 }
 
+const Main = styled.main`
+    padding-top: 10%;
+    & form {
+        background-color: transparent !important;
+    }
+`
+
 class Auth extends React.Component {
-    constructor(props) {
+    constructor(props){
         super(props)
-        this.state = { isRegistering: false }
+        this.state = {
+            loginData: { userId: '', pw: '' },
+            registerData: { userId: '', email: '', pw: '' },
+            isRegistering: false
+        }
+        this.didLogin = false
+        this.didRegister = false
     }
-
-    componentDidUpdate = (prevProps, prevState) => {
-        /* if we succesfully registered */
-        if(
-            prevProps.registerLoading &&
-            !this.props.registerLoading &&
-            !this.props.registerError
-        ){
-            if(this.state.isRegistering){
-                return this.setState({ isRegistering: false })
-            }
+    handleLogin(){
+        this.props.clearLoginError()
+        this.props.onLogin(this.state.loginData)
+        this.didLogin = true
+    }
+    handleRegister(){
+        this.props.clearRegisterError()
+        this.props.onRegister(this.state.registerData)
+        this.didRegister = true
+    }
+    onAfterRegister(){
+        this.didRegister = false
+        this.props.clearLoginError()
+        this.setState({
+            registerData: { userId: '', email: '', pw: '' },
+            loginData: {
+                ...this.state.loginData,
+                userId: this.state.registerData.userId
+            },
+            isRegistering: false
+        })
+    }
+    toggleRegister(){
+        this.setState({
+            isRegistering: !this.state.isRegistering
+        })
+    }
+    componentDidUpdate(prevProps, prevState){
+        const { registerLoading, registerError } = this.props
+        if(registerLoading || registerError ) return
+        if(this.didRegister){
+            this.onAfterRegister()
         }
     }
-    
-    toggleRegister = () => {
-        this.setState({ isRegistering: !this.state.isRegistering})
-    }
-
-    render() {
-        if(this.props.isAuthenticated){
-            return this.props.children
-        }
+    render(){
+        const { isRegistering, loginData, registerData } = this.state
         const {
-            loginLoading, registerLoading,
             loginError, registerError,
-            onLogin, onRegister,
-            device
+            loginLoading, registerLoading,
+            theme
         } = this.props
-        const { isRegistering } = this.state
-        
-        return <div className={css.Auth}>
-            <Typography variant='title'>Welcome to CircleChat !</Typography>
-            <Paper elevation={device.isMobile? 0 : 3}>
-                {isRegistering
-                    ?<RegisterForm
-                        error={registerError}
-                        onSubmit={onRegister}
-                        onSecondary={e => this.toggleRegister()}
-                    />
-                    :<LoginForm
-                        error={loginError}
-                        onSubmit={onLogin}
-                        onSecondary={e => this.toggleRegister()}
-                    />
-                }
-                {(loginLoading || registerLoading) && <LinearProgress />}
-            </Paper>
-        </div>
+
+        return <Main>
+            {isRegistering
+                ? <RegisterForm
+                    formData={registerData}
+                    onChange={registerData => this.setState({ registerData })}
+                    onSubmit={() => this.handleRegister()}
+                    onSecondary={() => this.toggleRegister()}
+                    error={registerError}
+                    loading={registerLoading}
+                />
+                : <LoginForm
+                    formData={loginData}
+                    onChange={loginData => this.setState({ loginData })}
+                    onSubmit={() => this.handleLogin()}
+                    onSecondary={() => this.toggleRegister()}
+                    error={loginError}
+                    loading={loginLoading}
+                />
+            }
+        </Main>
     }
 }
 

@@ -1,7 +1,0 @@
-.Link {
-    text-decoration: none;
-    color: var(--text-content);
-}
-.Link:hover {
-    text-decoration: underline;
-}
