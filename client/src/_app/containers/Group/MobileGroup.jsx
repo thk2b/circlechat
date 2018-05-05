@@ -33,13 +33,18 @@ export default class MobileGroup extends React.Component {
                 </header>
             </Grid.Area>
             <Grid.Area contentHeader>
-                <Switch>
-                    <Route path='/channel/create'><header><h2>New Channel</h2></header></Route>
-                    <Route path='/channel/:id' component={ChannelHeader}/>
-                    <Route path='/profile/:id' component={ProfileHeader}/>
-                    <Route path='/me' component={Profile}/>
-                    <Route exact path='/' render={() => 'Group content goes here'}/>
-                </Switch>
+                {this.state.viewIndex === 0
+                    ? <header><h2>Channels</h2></header>
+                    : this.state.viewIndex === 1
+                    ? <Switch>
+                        <Route path='/channel/create'><header><h2>New Channel</h2></header></Route>
+                        <Route path='/channel/:id' component={ChannelHeader}/>
+                        <Route path='/profile/:id' component={ProfileHeader}/>
+                        <Route path='/me' component={Profile}/>
+                        <Route exact path='/' render={() => 'Group content goes here'}/>
+                    </Switch>
+                    :<header><h2>Profiles</h2></header>
+                }
                 </Grid.Area>
             <Grid.Area iconRight>
                 <header
@@ -51,6 +56,7 @@ export default class MobileGroup extends React.Component {
             <Grid.Area content style={{ overflow: 'hidden' }}>
                 <SwipeableViews
                     index={this.state.viewIndex}
+                    onChangeIndex={index => this.setState({ viewIndex: index })}
                     style={{ height: '100%' }}
                 >
                     <ChannelsList
