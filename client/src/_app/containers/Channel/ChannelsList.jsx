@@ -31,13 +31,19 @@ const Footer = styled.footer`
     padding: 10px;
 `
 
-const ChannelsList = ({ channels, notifications, goToChannel, goToCreateChannel }) => {
+const ChannelsList = ({
+    channels, notifications,
+    goToChannel, goToCreateChannel, afterItemClick
+}) => {
     return <Container>
         <ul>
             {channels.map(
                 channel => <li
                     key={channel.id}
-                    onClick={e => goToChannel(channel.id)}
+                    onClick={e => {
+                        goToChannel(channel.id)
+                        afterItemClick(e)
+                    }}
                 >
                     <p>{channel.name}</p>
                     <NotificationPill count={notifications.channels[channel.id]}/>
@@ -47,7 +53,10 @@ const ChannelsList = ({ channels, notifications, goToChannel, goToCreateChannel 
         <Footer>
             <MdAdd
                 size={32}
-                onClick={e => goToCreateChannel()}
+                onClick={e => {
+                    goToCreateChannel()
+                    afterItemClick(e)
+                }}
             />
         </Footer>
     </Container>

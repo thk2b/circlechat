@@ -2,18 +2,37 @@ import React from 'react'
 import Grid from '@thk2b/oui/lib/Grid'
 import { Route, Switch } from 'react-router'
 
-import Profile, { ProfilesSidebar, ProfilesSidebarHeader, ProfileHeader } from '../Profile'
-import Channel, { ChannelsSidebar, ChannelsSidebarHeader, ChannelHeader, CreateChannel } from '../Channel'
+import Profile, { ProfilesList, ProfilesSidebarHeader, ProfileHeader } from '../Profile'
+import Channel, { ChannelsList, ChannelsSidebarHeader, ChannelHeader, CreateChannel } from '../Channel'
 import Nav from '../Nav'
 
 export default class MobileGroup extends React.Component {
     constructor(props){
         super(props)
         this.state = {
-            viewIndex: 0
+            viewIndex: 1
         }
     }
-
+    renderContent(){
+        const { viewIndex } = this.state
+        if(viewIndex === 0){
+            return <ChannelsList
+                afterItemClick={e => this.setState({ viewIndex: 1 })}
+            />
+        } else if (viewIndex === 1){
+            return <Switch>
+                <Route path='/channel/create' component={CreateChannel}/>
+                <Route path='/channel/:id' component={Channel}/>
+                <Route path='/profile/:id' component={Profile}/>
+                <Route path='/me' component={Profile}/>
+                <Route exact path='/' render={() => 'Group content goes here'}/>
+            </Switch>
+        } else {
+            return <ProfilesList
+                afterItemClick={e => this.setState({ viewIndex: 1 })}
+            />
+        }
+    }
     render(){
         return <Grid.Container
             rows="60px 60px 1fr"
@@ -26,29 +45,31 @@ export default class MobileGroup extends React.Component {
         >
             <Grid.Area nav Component={Nav} />
             <Grid.Area iconLeft>
-                <header>
+                <header
+                    onClick={e => this.setState({ viewIndex: 0 })}
+                >
                     <h2>#</h2>
                 </header>
             </Grid.Area>
             <Grid.Area contentHeader>
-                <Route path='/channel/create'><header><h2>New Channel</h2></header></Route>
+                <Switch>
+                    <Route path='/channel/create'><header><h2>New Channel</h2></header></Route>
                     <Route path='/channel/:id' component={ChannelHeader}/>
                     <Route path='/profile/:id' component={ProfileHeader}/>
                     <Route path='/me' component={Profile}/>
                     <Route exact path='/' render={() => 'Group content goes here'}/>
+                </Switch>
                 </Grid.Area>
             <Grid.Area iconRight>
-                <header>
+                <header
+                    onClick={e => this.setState({ viewIndex: 2 })}
+                >
                     <h2>O</h2>
                 </header>
             </Grid.Area>
-            <Grid.Area content>
-                <Route path='/channel/create' component={CreateChannel}/>
-                    <Route path='/channel/:id' component={Channel}/>
-                    <Route path='/profile/:id' component={Profile}/>
-                    <Route path='/me' component={Profile}/>
-                    <Route exact path='/' render={() => 'Group content goes here'}/>
-                </Grid.Area>
+            <Grid.Area content style={{ overflow: 'hidden' }}>
+                {this.renderContent()}    
+            </Grid.Area>
         </Grid.Container>
     }
 }

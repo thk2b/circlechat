@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router'
 
 import DesktopGroup from './DesktopGroup'
 import MobileGroup from './MobileGroup'
@@ -16,4 +17,4 @@ const Group = ({ isMobile, ...props }) => {
         : <DesktopGroup {...props} />
 }
 
-export default connect(mapState)(Group)
+export default withRouter(connect(mapState)(Group))

@@ -15,12 +15,15 @@ const mapDispatch = dispatch => {
     }
 }
 
-const ProfilesList = ({ profiles, goToProfile }) => {
+const ProfilesList = ({ profiles, goToProfile, afterItemClick }) => {
     return <ul>
         {profiles.map(
             profile => <li
                 key={profile.id}
-                onClick={e => goToProfile(profile.id)}
+                onClick={e => {
+                    goToProfile(profile.id)
+                    afterItemClick(e)
+                }}
             >
                 <p>{profile.name}</p>                
             </li>
