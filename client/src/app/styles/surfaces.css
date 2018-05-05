@@ -16,6 +16,13 @@ header {
     background-color: #202122;
 }
 
+.light footer {
+    background-color: #aaaaaa;
+}
+.dark footer {
+    background-color: #202122;
+}
+
 nav {
     height: 100%;
     width: 100%;

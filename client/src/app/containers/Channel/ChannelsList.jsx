@@ -26,10 +26,12 @@ const mapDispatch = dispatch => {
 const Container = styled.div`
     display: flex;
     flex-flow: column nowrap;
+    max-height: 100%;
 `
 
 const Ul = styled.ul`
     flex: 1;
+    overflow: scroll;
 `
 
 const Footer = styled.footer`
