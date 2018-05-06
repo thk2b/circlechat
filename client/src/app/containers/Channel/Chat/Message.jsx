@@ -77,7 +77,7 @@ class Message extends React.Component {
         if(this.props.message.text === null) return //message was deleted
         this.setState({
             editing: true,
-            editValue: this.props.message.value
+            editValue: this.props.message.text
         })
     }
     handleDelete(){
