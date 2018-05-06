@@ -175,8 +175,7 @@ div:hover > label {
     transition: color .1s ease-in;
 }
 
-div:active > svg,
-div:active > label {
+div:active > svg {
     transform: scale(1.1);
     transition: scale .1s ease-out;
 }
