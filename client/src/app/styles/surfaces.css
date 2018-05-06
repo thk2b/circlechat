@@ -88,11 +88,14 @@ aside {
 }
 
 button {
-    background-color: #2847f5;
+    background-color: #43a047;
 }
 button.text{
     background-color: transparent;
     border: none !important; 
+}
+button.text:hover {
+    color: #43a047;
 }
 
 .light button {
@@ -164,4 +167,16 @@ input {
 }
 .light svg {
     color: rgb(51, 51, 51);
+}
+
+div:hover > svg,
+div:hover > label {
+    color: #43a047;
+    transition: color .1s ease-in;
+}
+
+div:active > svg,
+div:active > label {
+    transform: scale(1.1);
+    transition: scale .1s ease-out;
 }

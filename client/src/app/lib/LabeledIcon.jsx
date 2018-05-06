@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 const Container = styled.div`
     text-align: center;
-    & p {
+    & label {
         font-size: 12px;
         text-transform: uppercase;
     }
@@ -12,6 +12,6 @@ const Container = styled.div`
 export default ({ Icon, labelText, ...props }) => {
     return <Container {...props}>
         <Icon />
-        <p>{labelText}</p>
+        <label>{labelText}</label>
     </Container>
 }

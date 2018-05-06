@@ -20,14 +20,16 @@ button.text {
 .light h2,
 .light h3,
 .light p,
-.light a {
+.light a,
+.light label {
     color: rgb(51, 51, 51);
 }
 .dark h1,
 .dark h2,
 .dark h3,
 .dark p,
-.dark a {
+.dark ,
+.dark label {
     color: #d9d9d9;
 }
 
