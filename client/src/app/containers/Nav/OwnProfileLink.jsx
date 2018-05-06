@@ -1,8 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import MdPerson from 'react-icons/lib/md/person'
-
 import { push } from 'react-router-redux'
+
+import LabeledIcon from '../../lib/LabeledIcon'
 
 const mapState = ({ profiles, ownProfileId }) => {
     return {
@@ -29,8 +30,9 @@ const OwnProfileLink = ({ ownProfile, goToOwnProfile }) => {
         <div
             onClick={e => goToOwnProfile()}
         >
-            <MdPerson
-                size={32}
+            <LabeledIcon
+                Icon={() => <MdPerson size={32}/>}
+                labelText="profile"
             />
         </div>
     )

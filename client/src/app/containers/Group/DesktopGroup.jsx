@@ -5,7 +5,8 @@ import { Route, Switch } from 'react-router'
 import MdChevronLeft from 'react-icons/lib/md/chevron-left'
 import MdChevronRight from 'react-icons/lib/md/chevron-right'
 
-import { SidebarHeader } from '../../lib'
+import SidebarHeader from '../../lib/SidebarHeader'
+import LabeledIcon from '../../lib/LabeledIcon'
 import Nav from '../Nav'
 import Logo from '../Logo'
 import Profile, {
@@ -77,7 +78,10 @@ export default class DesktopGroup extends React.Component {
                     onClose={e => this.toggle('channelsSidebar')}
                     onOpen={e => this.toggle('channelsSidebar')}
                     isOpen={channelsSidebar.isOpen}
-                    OpenComponent={<p><MdChevronRight size={32}/></p>}
+                    OpenComponent={<LabeledIcon
+                        Icon={() => <MdChevronRight size={32}/>}
+                        labelText="channels"
+                    />}
                 >
                     <h2>Channels</h2>
                 </SidebarHeader>
@@ -88,7 +92,7 @@ export default class DesktopGroup extends React.Component {
                     <Route path='/channel/:id' component={ChannelHeader}/>
                     <Route path='/profile/:id' component={ProfileHeader}/>
                     <Route path='/me' component={Profile}/>
-                    <Route exact path='/' render={() => 'Group content goes here'}/>
+                    <Route exact path='/' render={() => <header />}/>
                 </Switch>
             </Grid.Area>
             <Grid.Area profilesSidebarHeader>
@@ -96,7 +100,10 @@ export default class DesktopGroup extends React.Component {
                     onClose={e => this.toggle('profilesSidebar')}
                     onOpen={e => this.toggle('profilesSidebar')}
                     isOpen={profilesSidebar.isOpen}
-                    OpenComponent={<p><MdChevronLeft size={32}/></p>}
+                    OpenComponent={<LabeledIcon
+                        Icon={() => <MdChevronLeft size={32}/>}
+                        labelText="profiles"
+                    />}
                 >
                     <h2>Profiles</h2>
                 </SidebarHeader>
@@ -118,7 +125,7 @@ export default class DesktopGroup extends React.Component {
                     <Route path='/channel/:id' component={Channel}/>
                     <Route path='/profile/:id' component={Profile}/>
                     <Route path='/me' component={Profile}/>
-                    <Route exact path='/' render={() => 'Group content goes here'}/>
+                    <Route exact path='/' render={() => <main/>}/>
                 </Switch>
             </Grid.Area>
             {profilesSidebar.isOpen && <Grid.Area profilesSidebar

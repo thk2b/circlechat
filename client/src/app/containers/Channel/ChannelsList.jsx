@@ -1,10 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
+import MdAdd from 'react-icons/lib/md/add'
 
 import { push } from 'react-router-redux'
 import { NotificationPill } from '../../lib'
-import MdAdd from 'react-icons/lib/md/add'
+import LabeledIcon from '../../lib/LabeledIcon'
 
 
 const mapState = ({ channels, notifications, loading, errors }) => {
@@ -59,8 +60,9 @@ const ChannelsList = ({
             )}
         </Ul>
         <Footer>
-            <MdAdd
-                size={32}
+            <LabeledIcon
+                Icon={() => <MdAdd size={32} />}
+                labelText="create channel"
                 onClick={e => {
                     goToCreateChannel()
                     afterItemClick&&afterItemClick(e)

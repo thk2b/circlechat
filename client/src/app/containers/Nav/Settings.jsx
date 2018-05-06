@@ -4,6 +4,7 @@ import Popover from '@thk2b/oui/lib/Popover'
 import MdSettings from 'react-icons/lib/md/settings'
 
 import Menu from '../../lib/Menu'
+import LabeledIcon from '../../lib/LabeledIcon'
 import { setTheme } from '../../../store/modules/theme'
 import { authActions } from '../../../store/modules/auth'
 
@@ -29,8 +30,9 @@ const Settings = ({
     return <Popover
         zIndex={1}
         Component={() =>
-            <MdSettings
-                size={32}
+            <LabeledIcon
+                Icon={() => <MdSettings size={32}/>}
+                labelText="settings"
             />
         }
         position={isMobile
