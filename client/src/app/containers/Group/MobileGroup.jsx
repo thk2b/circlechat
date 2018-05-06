@@ -30,7 +30,10 @@ export default class MobileGroup extends React.Component {
             "
         >
             <Grid.Area logo Component={Logo} />
-            <Grid.Area nav Component={Nav} />
+            <Grid.Area nav>
+                <Nav afterProfileClick={e => this.setState({ viewIndex: 1 })}/>
+            </Grid.Area>
+
             <Grid.Area iconLeft>
                 <header
                     onClick={e => this.setState({ viewIndex: 0 })}

@@ -15,10 +15,12 @@ const Nav = styled.nav`
     }
 `
 
-export default () => {
+export default ({ afterProfileClick }) => {
     return (
         <Nav>
-            <OwnProfileLink/>
+            <OwnProfileLink onClick={e => {
+                afterProfileClick&&afterProfileClick()
+            }}/>
             <Settings/>
         </Nav>
     )

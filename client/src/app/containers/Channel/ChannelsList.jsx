@@ -2,11 +2,11 @@ import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import MdAdd from 'react-icons/lib/md/add'
-
 import { push } from 'react-router-redux'
+
 import { NotificationPill } from '../../lib'
 import LabeledIcon from '../../lib/LabeledIcon'
-
+import ChannelListItem from './ChannelListItem'
 
 const mapState = ({ channels, notifications, loading, errors }) => {
     return {
@@ -47,16 +47,14 @@ const ChannelsList = ({
     return <Container className="sidebar">
         <Ul>
             {channels.map(
-                channel => <li
+                channel => <ChannelListItem
+                    channel={channel}
                     key={channel.id}
                     onClick={e => {
                         goToChannel(channel.id)
                         afterItemClick&&afterItemClick(e)
                     }}
-                >
-                    <p>{channel.name}</p>
-                    <NotificationPill count={notifications.channels[channel.id]}/>
-                </li>
+                />
             )}
         </Ul>
         <Footer>

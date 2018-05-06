@@ -18,17 +18,21 @@ const mapDispatch = dispatch => {
     }
 }
 
-const mergeProps = ({ ownProfileId, ...state }, { goToUrl }) => {
+const mergeProps = ({ ownProfileId, ...state }, { goToUrl }, ownProps ) => {
     return {
         goToOwnProfile: () => goToUrl(`/profile/${ownProfileId}`),
-        ...state
+        ...state,
+        ...ownProps
     }
 }
 
-const OwnProfileLink = ({ ownProfile, goToOwnProfile }) => {
+const OwnProfileLink = ({ ownProfile, goToOwnProfile, onClick }) => {
     return (
         <div
-            onClick={e => goToOwnProfile()}
+            onClick={e => {
+                goToOwnProfile()
+                onClick()
+            }}
         >
             <LabeledIcon
                 Icon={() => <MdPerson size={32}/>}
