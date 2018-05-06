@@ -83,6 +83,7 @@ export default class DesktopGroup extends React.Component {
                         labelText="channels"
                     />}
                 >
+                    <MdChevronLeft size={32}/>
                     <h2>Channels</h2>
                 </SidebarHeader>
             </Grid.Area>
@@ -106,6 +107,7 @@ export default class DesktopGroup extends React.Component {
                     />}
                 >
                     <h2>Profiles</h2>
+                    <MdChevronRight size={32}/>
                 </SidebarHeader>
             </Grid.Area>
 
