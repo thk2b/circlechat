@@ -8,6 +8,11 @@ const Container = styled.div`
         font-size: 12px;
         text-transform: uppercase;
     }
+    @media (max-width: 425px){
+        & label {
+            font-size: 10px;
+        }
+    }
 `
 
 export default ({ Icon, labelText, ...props }) => {

@@ -10,6 +10,7 @@ import Profile, { ProfilesList, ProfileHeader } from '../Profile'
 import Channel, { ChannelsList, ChannelHeader, CreateChannel } from '../Channel'
 import Nav from '../Nav'
 import Logo from '../Logo'
+import LabeledIcon from '../../lib/LabeledIcon'
 
 export default class MobileGroup extends React.Component {
     constructor(props){
@@ -20,8 +21,8 @@ export default class MobileGroup extends React.Component {
     }
     render(){
         return <Grid.Container
-            rows="60px 60px 1fr"
-            columns="60px 1fr 60px"
+            rows="65px 65px 1fr"
+            columns="65px 1fr 65px"
             areas="
                 'logo nav nav'
                 'iconLeft contentHeader iconRight'
@@ -34,7 +35,10 @@ export default class MobileGroup extends React.Component {
                 <header
                     onClick={e => this.setState({ viewIndex: 0 })}
                 >
-                    <MdRssFeed size={32}/>
+                    <LabeledIcon 
+                        Icon={() => <MdRssFeed size={32}/>}
+                        labelText="channels"
+                    />
                 </header>
             </Grid.Area>
             <Grid.Area contentHeader>
@@ -46,7 +50,7 @@ export default class MobileGroup extends React.Component {
                         <Route path='/channel/:id' component={ChannelHeader}/>
                         <Route path='/profile/:id' component={ProfileHeader}/>
                         <Route path='/me' component={Profile}/>
-                        <Route exact path='/' render={() => 'Group content goes here'}/>
+                        <Route exact path='/' render={() => <header/>}/>
                     </Switch>
                     :<header><h2>Profiles</h2></header>
                 }
@@ -55,7 +59,10 @@ export default class MobileGroup extends React.Component {
                 <header
                     onClick={e => this.setState({ viewIndex: 2 })}
                 >
-                    <MdGroup size={32}/>
+                    <LabeledIcon 
+                        Icon={() => <MdGroup size={32}/>}
+                        labelText="profiles"
+                    />
                 </header>
             </Grid.Area>
             <Grid.Area content style={{ overflow: 'hidden' }}>
@@ -72,7 +79,7 @@ export default class MobileGroup extends React.Component {
                         <Route path='/channel/:id' component={Channel}/>
                         <Route path='/profile/:id' component={Profile}/>
                         <Route path='/me' component={Profile}/>
-                        <Route exact path='/' render={() => 'Group content goes here'}/>
+                        <Route exact path='/' render={() => <main/>}/>
                     </Switch>
                     <ProfilesList
                         afterItemClick={e => this.setState({ viewIndex: 1 })}
