@@ -26,7 +26,10 @@ const Row = styled.div`
 
 const mapState = ({ channels, messages, profiles, notifications, hasMore }, { channel }) => {
     const messagesInChannel = Object.keys(messages).filter(
-        messageId => messages[messageId].channelId === channel.id
+        messageId => {
+            const message = messages[messageId]
+            return message.channelId === channel.id && message.text !== null
+        }
     )
     const lastMessage = messages[messagesInChannel[messagesInChannel.length-1]]
     return {

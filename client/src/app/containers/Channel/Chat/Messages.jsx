@@ -8,6 +8,9 @@ const Ul = styled.ul`
     flex: 1;
     min-height: 0px;
     overflow-y: scroll;
+    display: flex;
+    flex-flow: column;
+    align-items: flex-start;
 `
 
 class Messages extends React.Component {
