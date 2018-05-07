@@ -5,8 +5,11 @@ import styled from 'styled-components'
 import NotificationPill from '../../lib/NotificationPill'
 
 const Li = styled.li`
-    & h3 {
-
+    position: relative;
+    & span {
+        position: absolute;
+        right: 15px;
+        top: calc(50% - 10px);
     }
     & p {
         font-size: 15px;
@@ -17,9 +20,11 @@ const Li = styled.li`
 const Row = styled.div`
     display: flex;
     flex-flow: row nowrap;
+    align-items: center;
+    justify-content: space-between;
 `
 
-const mapState = ({ channels, messages, profiles, notifications }, { channel }) => {
+const mapState = ({ channels, messages, profiles, notifications, hasMore }, { channel }) => {
     const messagesInChannel = Object.keys(messages).filter(
         messageId => messages[messageId].channelId === channel.id
     )
@@ -27,7 +32,9 @@ const mapState = ({ channels, messages, profiles, notifications }, { channel }) 
     return {
         channel,
         lastMessage,
-        lastMessageProfile: profiles[lastMessage&&lastMessage.profileId]
+        lastMessageProfile: profiles[lastMessage&&lastMessage.profileId],
+        notifications: notifications.channels[channel&&channel.id],
+        hasMore: hasMore.channels[channel&&channel.id]
     }
 }
 
@@ -35,9 +42,9 @@ const ChannelListItem = ({ channel, lastMessage, lastMessageProfile, onClick, no
     return <Li
         onClick={onClick}
     >
+        <NotificationPill count={notifications}/>
         <Row>
             <h3>{channel.name}</h3>
-            <NotificationPill count={notifications&&notifications.channels[channel.id]}/>
         </Row>
         <Row>
             <p>{lastMessageProfile && lastMessage && 
