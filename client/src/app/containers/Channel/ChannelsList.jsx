@@ -7,6 +7,7 @@ import { push } from 'react-router-redux'
 import { NotificationPill } from '../../lib'
 import LabeledIcon from '../../lib/LabeledIcon'
 import ChannelListItem from './ChannelListItem'
+import { notificationsActions } from '../../../store/modules/notifications'
 
 const mapState = ({ channels, notifications, loading, errors }) => {
     return {
@@ -20,7 +21,8 @@ const mapState = ({ channels, notifications, loading, errors }) => {
 const mapDispatch = dispatch => {
     return {
         goToChannel: id => dispatch(push(`/channel/${id}`)),
-        goToCreateChannel: () => dispatch(push(`/channel/create`))
+        goToCreateChannel: () => dispatch(push(`/channel/create`)),
+        clearNotifications: id => dispatch(notificationsActions.clear(id))
     }
 }
 
@@ -41,7 +43,7 @@ const Footer = styled.footer`
 `
 
 const ChannelsList = ({
-    channels, notifications,
+    channels, notifications, clearNotifications,
     goToChannel, goToCreateChannel, afterItemClick
 }) => {
     return <Container className="sidebar">
@@ -52,6 +54,7 @@ const ChannelsList = ({
                     key={channel.id}
                     onClick={e => {
                         goToChannel(channel.id)
+                        clearNotifications(channel.id)
                         afterItemClick&&afterItemClick(e)
                     }}
                 />
