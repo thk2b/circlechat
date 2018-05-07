@@ -34,7 +34,6 @@ const mapState = ({ channels, messages, profiles, notifications, hasMore }, { ch
         lastMessage,
         lastMessageProfile: profiles[lastMessage&&lastMessage.profileId],
         notifications: notifications.channels[channel&&channel.id],
-        hasMore: hasMore.channels[channel&&channel.id]
     }
 }
 
