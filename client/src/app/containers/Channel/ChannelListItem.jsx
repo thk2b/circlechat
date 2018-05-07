@@ -13,7 +13,10 @@ const Li = styled.li`
     }
     & p {
         font-size: 15px;
-        min-height: 15px;
+        height: 20px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
     }
 `
 
