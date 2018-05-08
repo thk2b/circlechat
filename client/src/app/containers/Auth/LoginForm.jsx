@@ -40,7 +40,10 @@ export default class LoginForm extends React.Component {
                 <button type="submit">login</button>
                 <button
                     className="text"
-                    onClick={e => onSecondary()}
+                    onClick={e => {
+                        e.preventDefault()
+                        onSecondary()
+                    }}
                 >No account yet? Register</button>
                 {error && <ErrorMessage message={error.message}/>}
                 {loading && <LoadingBar />}

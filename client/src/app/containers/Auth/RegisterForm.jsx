@@ -46,7 +46,10 @@ export default class RegisterForm extends React.Component {
                 <button type="submit">register</button>
                 <button
                     className="text"
-                    onClick={e => onSecondary()}
+                    onClick={e => {
+                        e.preventDefault()
+                        onSecondary()
+                    }}
                 >Already have an account? Login</button>
                 {error && <ErrorMessage message={error.message}/>}
                 {loading && <LoadingBar />}

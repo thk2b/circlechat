@@ -89,6 +89,7 @@ aside {
 
 button {
     background-color: #43a047;
+    cursor: pointer;
 }
 button.text{
     background-color: transparent;
