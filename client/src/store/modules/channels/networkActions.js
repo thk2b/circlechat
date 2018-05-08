@@ -15,7 +15,13 @@ const updateErrors = obj => errorsActions.update('channels', errors => ({
     ...obj
 }))
 
+const removeNewChannelError = () => errorsActions.update('channels', errors => ({
+    ...errors,
+    new: null
+}))
+
 export const create = data => dispatch => {
+    dispatch(removeNewChannelError())
     dispatch(updateLoading({ new: true }))
     api.post('/channel', data)
     .then( res => {

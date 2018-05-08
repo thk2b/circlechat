@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux'
 import { goBack } from 'react-router-redux'
 
 import LoadingBar from '../../lib/LoadingBar'
+import ErrorMessage    from '../../lib/ErrorMessage'
 import { channelsActions } from '../../../store/modules/channels'
 
 const mapState = ({ profiles, loading, errors, ownProfileId }) => {
@@ -39,7 +40,7 @@ class CreateChannel extends React.Component {
         this.state = { name: '' }
     }
     render(){
-        const { onCreate, goBack, loading } = this.props
+        const { onCreate, goBack, loading, error } = this.props
         const { name } = this.state
 
         return <Main>
@@ -56,6 +57,7 @@ class CreateChannel extends React.Component {
             <button
                 onClick={e => goBack()}
             >cancel</button>
+            {error&&<ErrorMessage message={error.message}/>}
         </Main>
     }
 }
