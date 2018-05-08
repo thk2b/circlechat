@@ -3,11 +3,14 @@ import styled from 'styled-components'
 import MdSend from 'react-icons/lib/md/send'
 
 import LabeledIcon from '../../../lib/LabeledIcon'
+import LoadingBar from '../../../lib/LoadingBar'
+
 
 const Form = styled.form`
     display: flex;
     background-color: transparent !important;
     padding: 8px;
+    position: relative;
     & input {
         padding: 15px;
         flex: 1;
@@ -39,10 +42,12 @@ export default class MessageInput extends React.Component {
         this.setState({ value: ''})
     }
     render(){
+        console.log(this.props.loading)
         return <footer>
             <Form
                 onSubmit={e => this.handleSend(e)}
             >
+                {this.props.loading&&<LoadingBar/>}
                 <input
                     type="text"
                     value={this.state.value}

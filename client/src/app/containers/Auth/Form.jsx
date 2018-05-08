@@ -6,7 +6,7 @@ export default styled.form`
     max-width: 350px;
     margin: 0 auto;
     position: relative;
-    padding-top: 10%; 
+    padding-top: 10%;
     & input, button, h2 {
         padding: 5px;
         margin: 5px;

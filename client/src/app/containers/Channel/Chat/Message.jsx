@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux'
 import MdDelete from 'react-icons/lib/md/delete'
 import MdEdit from 'react-icons/lib/md/edit'
 
+import LoadingBar from '../../../lib/LoadingBar'
 import { messagesActions } from '../../../../store/modules/messages'
 import { push } from 'react-router-redux'
 import Time from '../../../lib/Time'
@@ -40,6 +41,7 @@ const mergeProps = ( { profile, ...state }, { push, update, remove }, ownProps) 
 }
 
 const Li = styled.li`
+    position: relative;
     flex-shrink: 0;
     padding: 10px;
     display: inline-flex;
@@ -111,7 +113,7 @@ class Message extends React.Component {
         this.setState({ editValue: '', editing: false })
     }
     renderOwnMessage(){
-        const { message, profile, onGoToProfile } = this.props
+        const { message, profile, onGoToProfile, loading } = this.props
         const { editing, editValue, showIcons, showTime } = this.state
         const deleted = message.text === null
         const updated = message.createdAt !== message.updatedAt
@@ -120,6 +122,7 @@ class Message extends React.Component {
             onMouseOver={e => this.handleMouseOver(e)}
             onMouseLeave={e => this.handleMouseLeave(e)}
         >
+            {loading&&<LoadingBar/>}
             <Content>
                 {editing
                     ? <React.Fragment>
