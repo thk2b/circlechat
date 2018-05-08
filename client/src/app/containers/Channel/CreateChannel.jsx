@@ -1,8 +1,10 @@
 import React from 'react'
+import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-
 import { goBack } from 'react-router-redux'
+
+import LoadingBar from '../../lib/LoadingBar'
 import { channelsActions } from '../../../store/modules/channels'
 
 const mapState = ({ profiles, loading, errors, ownProfileId }) => {
@@ -27,16 +29,21 @@ const mergeProps = ({ profileId, ...state }, { create, ...actions }, ownProps) =
     }
 }
 
+const Main = styled.main`
+    position: relative;
+`
+
 class CreateChannel extends React.Component {
     constructor(props){
         super(props)
         this.state = { name: '' }
     }
     render(){
-        const { onCreate, goBack } = this.props
+        const { onCreate, goBack, loading } = this.props
         const { name } = this.state
 
-        return <main>
+        return <Main>
+            {loading&&<LoadingBar/>}
             <h2>Create a channel</h2>
             <input
                 type="text"
@@ -49,7 +56,7 @@ class CreateChannel extends React.Component {
             <button
                 onClick={e => goBack()}
             >cancel</button>
-        </main>
+        </Main>
     }
 }
 
