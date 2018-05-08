@@ -1,9 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
-
 import { push } from 'react-router-redux'
-import LoadingBar from '../../lib/LoadingBar';
+
+import LoadingBar from '../../lib/LoadingBar'
+import OnlineStatus from './OnlineStatus'
 
 const mapState = ({ profiles, loading, errors }) => {
     return {
@@ -23,19 +24,25 @@ const Ul = styled.ul`
     position: relative;
 `
 
+const Li = styled.li`
+    display: flex;
+    align-items: center;
+`
+
 const ProfilesList = ({ profiles, loading,  goToProfile, afterItemClick }) => {
     return <Ul className="sidebar">
         {loading&&<LoadingBar/>}
         {profiles.map(
-            profile => <li
+            profile => <Li
                 key={profile.id}
                 onClick={e => {
                     goToProfile(profile.id)
                     afterItemClick&&afterItemClick(e)
                 }}
             >
-                <p>{profile.name}</p>                
-            </li>
+                <p>{profile.name}</p>
+                {profile.status === 'ONLINE' && <OnlineStatus/>}
+            </Li>
         )}
     </Ul>
 }

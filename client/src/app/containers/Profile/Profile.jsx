@@ -6,6 +6,7 @@ import LoadingBar from '../../lib/LoadingBar'
 import { profilesActions } from '../../../store/modules/profiles'
 import UserName from './UserName'
 import Description from './Description'
+import OnlineStatus from './OnlineStatus'
 
 const mapState = ({ profiles, loading, errors }, { match }) => {
     const { id } = match.params
@@ -45,7 +46,7 @@ const Profile = ({ profile, loading, onUpdateProfile }) => {
             name={profile.name}
             onSubmit={name => onUpdateProfile({name})}
         />
-        <h2>@{profile.userId}</h2>
+        <h2>@{profile.userId}{profile.status==='ONLINE'&&<OnlineStatus/>}</h2>
         <Description
             description={profile.description}
             onSubmit={description => onUpdateProfile({description})}
