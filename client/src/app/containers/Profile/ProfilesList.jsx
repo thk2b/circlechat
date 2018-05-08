@@ -1,7 +1,9 @@
 import React from 'react'
+import styled from 'styled-components'
 import { connect } from 'react-redux'
 
 import { push } from 'react-router-redux'
+import LoadingBar from '../../lib/LoadingBar';
 
 const mapState = ({ profiles, loading, errors }) => {
     return {
@@ -17,8 +19,13 @@ const mapDispatch = dispatch => {
     }
 }
 
-const ProfilesList = ({ profiles, goToProfile, afterItemClick }) => {
-    return <ul className="sidebar">
+const Ul = styled.ul`
+    position: relative;
+`
+
+const ProfilesList = ({ profiles, loading,  goToProfile, afterItemClick }) => {
+    return <Ul className="sidebar">
+        {loading&&<LoadingBar/>}
         {profiles.map(
             profile => <li
                 key={profile.id}
@@ -30,7 +37,7 @@ const ProfilesList = ({ profiles, goToProfile, afterItemClick }) => {
                 <p>{profile.name}</p>                
             </li>
         )}
-    </ul>
+    </Ul>
 }
 
 export default connect(mapState, mapDispatch)(ProfilesList)

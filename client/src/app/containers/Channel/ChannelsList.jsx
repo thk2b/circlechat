@@ -8,6 +8,7 @@ import { NotificationPill } from '../../lib'
 import LabeledIcon from '../../lib/LabeledIcon'
 import ChannelListItem from './ChannelListItem'
 import { notificationsActions } from '../../../store/modules/notifications'
+import LoadingBar from '../../lib/LoadingBar'
 
 const mapState = ({ channels, notifications, loading, errors }) => {
     return {
@@ -30,6 +31,7 @@ const Container = styled.div`
     display: flex;
     flex-flow: column nowrap;
     max-height: 100%;
+    position: relative;
 `
 
 const Ul = styled.ul`
@@ -43,10 +45,11 @@ const Footer = styled.footer`
 `
 
 const ChannelsList = ({
-    channels, notifications, clearNotifications,
+    channels, notifications, clearNotifications, loading,
     goToChannel, goToCreateChannel, afterItemClick
 }) => {
     return <Container className="sidebar">
+        {loading&&<LoadingBar/>}
         <Ul>
             {channels.map(
                 channel => <ChannelListItem
