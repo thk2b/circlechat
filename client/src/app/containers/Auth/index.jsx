@@ -27,7 +27,6 @@ const mapDispatch = dispatch => {
 }
 
 const Main = styled.main`
-    padding-top: 10%;
     & form {
         background-color: transparent !important;
     }

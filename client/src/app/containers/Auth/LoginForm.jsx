@@ -1,6 +1,7 @@
 import React from 'react'
 
 import Form from './Form'
+import LoadingBar from '../../lib/LoadingBar'
 
 export default class LoginForm extends React.Component {
     handleSubmit(e){
@@ -41,7 +42,7 @@ export default class LoginForm extends React.Component {
                     onClick={e => onSecondary()}
                 >No account yet? Register</button>
                 {error && <p>{error.message}</p>}
-                {loading && <p>loading...</p>}
+                {loading && <LoadingBar />}
             </Form>
         )
     }

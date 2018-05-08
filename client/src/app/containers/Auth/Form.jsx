@@ -5,6 +5,8 @@ export default styled.form`
     flex-flow: column nowrap;
     max-width: 350px;
     margin: 0 auto;
+    position: relative;
+    padding-top: 10%; 
     & input, button, h2 {
         padding: 5px;
         margin: 5px;
