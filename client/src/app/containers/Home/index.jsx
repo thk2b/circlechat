@@ -24,7 +24,7 @@ const MobileContainer = styled.div`
 `
 const MobileHome = () => {
     return <MobileContainer>
-        <div><Intro /></div>
+        <div><Intro disableGradient/></div>
         <Auth />
     </MobileContainer>
 }
