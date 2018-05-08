@@ -17,7 +17,7 @@ const mapState = ({ messages, ownProfileId, hasMore, loading, errors }, { channe
             ).map(
                 ([_, message]) => message
             ),
-        profileId: ownProfileId,
+        ownProfileId,
         hasMore: hasMore.channels[channelId] || true,
         loading: loading.messages.new,
         error: errors.messages.new,
@@ -32,12 +32,13 @@ const mapDispatch = dispatch => {
     }, dispatch)
 }
 
-const mergeProps = ({ profileId, ...state}, actions, { channelId, ...ownProps }) => {
+const mergeProps = ({ ownProfileId, ...state}, actions, { channelId, ...ownProps }) => {
     return {
         ...state,
+        ownProfileId,
         clearNotifications: () => actions.clearNotifications( channelId ),
         getMoreMessages: () => actions.getInChannel( channelId, state.messages[0] && state.messages[0].id ), /* fetch additional messages posted before the first mesasge we have */
-        sendMessage: text => actions.send({ channelId, profileId, text }),
+        sendMessage: text => actions.send({ channelId, profileId: ownProfileId, text }),
         ...ownProps
     }
 }
@@ -45,12 +46,13 @@ const mergeProps = ({ profileId, ...state}, actions, { channelId, ...ownProps })
 
 
 const Chat = ({
-    messages, hasMore, loading, error,
+    messages, hasMore, loading, error, ownProfileId,
     sendMessage, clearNotifications, getMoreMessages
 }) => {
     return <React.Fragment>
         <Messages
             messages={messages}
+            ownProfileId={ownProfileId}
             onScrolledTop={e => hasMore && getMoreMessages()}
         />
         <MessageInput 

@@ -42,7 +42,6 @@ export default class MessageInput extends React.Component {
         this.setState({ value: ''})
     }
     render(){
-        console.log(this.props.loading)
         return <footer>
             <Form
                 onSubmit={e => this.handleSend(e)}

@@ -10,11 +10,32 @@ import { messagesActions } from '../../../../store/modules/messages'
 import { push } from 'react-router-redux'
 import Time from '../../../lib/Time'
 
-const mapState = ({ profiles, loading, errors }, { message }) => {
+const mapState = ({ profiles, loading, errors, ownProfileId }, { message }) => {
     return {
         profile: profiles[message.profileId],
         loading: loading.messages[message.id],
-        error: errors.messages[message.id]
+        error: errors.messages[message.id],
+    }
+}
+
+const mapDispatch = dispatch => {
+    return {
+        ...bindActionCreators({
+            update: messagesActions.update,
+            remove: messagesActions.remove,
+            push
+        }, dispatch)
+    }
+}
+
+const mergeProps = ( { profile, ...state }, { push, update, remove }, ownProps) => {
+    return {
+        onGoToProfile: () => push(`/profile/${profile.id}`),
+        onUpdateMessage: text => update(ownProps.message.id, { text }),
+        onDeleteMessage: () => remove(ownProps.message.id),
+        profile,
+        ...state,
+        ...ownProps
     }
 }
 
@@ -91,21 +112,47 @@ class Message extends React.Component {
         this.setState({ editValue: '', editing: false })
     }
     render(){
-        if(this.props.isOwnMessage) return this.renderOwnMessage()
-
-        const { message, profile, onGoToProfile } = this.props
-        const { showTime } = this.state
+        const { message, profile, onGoToProfile, loading } = this.props
+        const { editing, editValue, showIcons, showTime } = this.state
         const deleted = message.text === null
         const updated = message.createdAt !== message.updatedAt
 
-        return <Li
-            onMouseOver={e => this.setState({ showTime: true })}
-            onMouseLeave={e => this.setState({ showTime: false })}
+        return <OwnMessage
+            onMouseOver={e => this.handleMouseOver(e)}
+            onMouseLeave={e => this.handleMouseLeave(e)}
         >
+            {loading&&<LoadingBar/>}
             <Content>
-                <p>{deleted? '[deleted]': message.text}</p>
+                {editing
+                    ? <React.Fragment>
+                        <input
+                            type="text"
+                            value={editValue}
+                            onChange={e => this.setState({ editValue: e.target.value })}
+                        />
+                        <button
+                            onClick={e => this.handleSubmit({})}
+                        >save</button>
+                        <button
+                            onClick={e => this.handleCancel()}
+                        >cancel</button>
+                    </React.Fragment>
+                    : <React.Fragment>
+                        {showIcons && <p>
+                            <MdEdit onClick={e => this.handleStartEdit(e)}/>
+                            <MdDelete onClick={e => this.handleDelete(e)}/>
+                        </p>}
+                        <p>{deleted? '[deleted]': message.text}</p>
+                    </React.Fragment>
+                }
             </Content>
             <MetaData>
+                {showTime && <React.Fragment>
+                    <p>sent <Time since={message.createdAt}/></p>
+                    {updated &&
+                        <p>{deleted? 'deleted': 'updated'} <Time since={message.updatedAt}/></p>
+                    }
+                </React.Fragment>}
                 <a
                     rel="noopener"
                     href=""
@@ -113,17 +160,11 @@ class Message extends React.Component {
                         e.preventDefault()
                         onGoToProfile()
                     }}
-                >{profile.name}</a>
-                {showTime && <React.Fragment>
-                    <p>sent <Time since={message.createdAt}/></p>
-                    {updated &&
-                        <p>{deleted? 'deleted': 'updated'} <Time since={message.updatedAt}/></p>
-                    }
-                </React.Fragment>}
+                >you</a>
             </MetaData>
             
-        </Li>
+        </OwnMessage>
     }
 }
 
-export default connect(mapState)(Message)
+export default connect(mapState, mapDispatch, mergeProps)(Message)

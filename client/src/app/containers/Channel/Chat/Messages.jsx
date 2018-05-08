@@ -3,6 +3,7 @@ import Autoscroll from 'autoscroll-react'
 import styled from 'styled-components'
 
 import Message from './Message'
+import OwnMessage from './OwnMessage'
 
 const Ul = styled.ul`
     flex: 1;
@@ -15,9 +16,15 @@ const Ul = styled.ul`
 
 class Messages extends React.Component {
     render(){
-        return <Ul {...this.props}>
+        const { ownProfileId, ...props } = this.props
+        return <Ul {...props}>
             {this.props.messages.map(
-                message => <Message
+                message => message.profileId === ownProfileId
+                    ? <OwnMessage 
+                        key={message.id}
+                        message={message}
+                    /> 
+                : <Message
                     key={message.id}
                     message={message}
                 />
