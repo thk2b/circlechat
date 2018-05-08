@@ -42,16 +42,13 @@ const mergeProps = ({ profileId, ...state}, actions, { channelId, ...ownProps })
     }
 }
 
-const Main = styled.main`
-    display: flex;
-    flex-flow: column nowrap;
-`
+
 
 const Chat = ({
     messages, hasMore, loading, error,
     sendMessage, clearNotifications, getMoreMessages
 }) => {
-    return <Main>
+    return <React.Fragment>
         <Messages
             messages={messages}
             onScrolledTop={e => hasMore && getMoreMessages()}
@@ -62,7 +59,7 @@ const Chat = ({
             loading={loading}
             error={error}    
         />
-    </Main>
+    </React.Fragment>
 }
 
 export default connect(mapState, mapDispatch, mergeProps)(Chat)
