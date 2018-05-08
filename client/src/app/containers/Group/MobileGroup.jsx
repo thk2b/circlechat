@@ -55,7 +55,7 @@ export default class MobileGroup extends React.Component {
                         <Route path='/me' component={Profile}/>
                         <Route exact path='/' render={() => <header/>}/>
                     </Switch>
-                    :<header><h2>Profiles</h2></header>
+                    :<header><h2>Users</h2></header>
                 }
                 </Grid.Area>
             <Grid.Area iconRight>
@@ -64,7 +64,7 @@ export default class MobileGroup extends React.Component {
                 >
                     <LabeledIcon 
                         Icon={() => <MdGroup size={32}/>}
-                        labelText="profiles"
+                        labelText="users"
                     />
                 </header>
             </Grid.Area>

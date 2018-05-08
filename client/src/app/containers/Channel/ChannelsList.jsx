@@ -4,7 +4,6 @@ import styled from 'styled-components'
 import MdAdd from 'react-icons/lib/md/add'
 import { push } from 'react-router-redux'
 
-import { NotificationPill } from '../../lib'
 import LabeledIcon from '../../lib/LabeledIcon'
 import ChannelListItem from './ChannelListItem'
 import { notificationsActions } from '../../../store/modules/notifications'

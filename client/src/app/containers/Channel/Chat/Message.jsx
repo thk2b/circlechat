@@ -1,13 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import { bindActionCreators } from 'redux'
-import MdDelete from 'react-icons/lib/md/delete'
-import MdEdit from 'react-icons/lib/md/edit'
 
-import LoadingBar from '../../../lib/LoadingBar'
-import { messagesActions } from '../../../../store/modules/messages'
-import { push } from 'react-router-redux'
 import Time from '../../../lib/Time'
 
 const mapState = ({ profiles, loading, errors }, { message }) => {
@@ -25,10 +19,6 @@ const Li = styled.li`
     display: inline-flex;
     flex-flow: column nowrap;
     justify-content: space-between;
-`
-const OwnMessage = Li.extend`
-    align-self: flex-end;
-    align-items: flex-end;
 `
 
 const Content = styled.div`

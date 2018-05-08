@@ -103,10 +103,10 @@ export default class DesktopGroup extends React.Component {
                     isOpen={profilesSidebar.isOpen}
                     OpenComponent={<LabeledIcon
                         Icon={() => <MdChevronLeft size={32}/>}
-                        labelText="profiles"
+                        labelText="users"
                     />}
                 >
-                    <h2>Profiles</h2>
+                    <h2>Users</h2>
                     <MdChevronRight size={32}/>
                 </SidebarHeader>
             </Grid.Area>

@@ -12,18 +12,12 @@ services:
     networks:
       - back
     
-  redis:
-    image: redis
-    networks:
-      - back
-    
   web:
     build: ./web
     ports: 
       - 8080:8080
     depends_on: 
       - db
-      - redis
     environment:
       - NODE_ENV=prod
       - CONFIG=main.config.ProductionConfig

@@ -112,7 +112,7 @@ class Message extends React.Component {
         this.setState({ editValue: '', editing: false })
     }
     render(){
-        const { message, profile, onGoToProfile, loading } = this.props
+        const { message, onGoToProfile, loading } = this.props
         const { editing, editValue, showIcons, showTime } = this.state
         const deleted = message.text === null
         const updated = message.createdAt !== message.updatedAt
