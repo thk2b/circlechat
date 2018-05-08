@@ -27,7 +27,7 @@ The application can be deployed in two environments:
 
   The production environment is optimized for user-facing deployment. For instance, the client is built and minified.
   
-## client
+## Client
 
 While the client served to all devices, mobile and desktop alike, the view is adapted to the screen size. The mobile layout makes use of touchscreen features, such as swiping between menus. For larger screens, more information is displayed.
 
@@ -37,18 +37,18 @@ Finally, the client is available under two color themes (light and dark).
 
 The store is unit-tested with jest. The test command is `docker-compose run client npm test`.
 
-## web
+## Web
 
 The web container is a nodeJS applcation responsible for the rest API and websockets.
 
 It is unit tested with mocha. Tests cover database interactions, and http and websocket networking. The command is `docker-compose run web npm test`
 
 
-# state of development
+# State of development
 
 Currently, circlechat is a MVP. All desired features have yet to be implemented. Namely, all chat and profile features are present, but there exists only one global circle: all users are automatically added to a global circle, which holds all channels and profiles. The next major development step is the implementation of separate circles, each with their own channels and profiles.
 
-# commands
+# Commands
 
 - `docker-compose -f docker-compose.dev.yml (build|up)`
 - `docker-compose -f docker-compose.dev.yml run web node app/manage/create_db` or `dc exec web node ...`
