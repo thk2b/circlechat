@@ -1,6 +1,8 @@
 import React from 'react'
+import styled from 'styled-components'
 import { connect } from 'react-redux'
 
+import LoadingBar from '../../lib/LoadingBar'
 import { profilesActions } from '../../../store/modules/profiles'
 import UserName from './UserName'
 import Description from './Description'
@@ -20,19 +22,25 @@ const mapDispatch = dispatch => {
     }
 }
 
-const mergeProps = ({ profile }, { updateProfile }) => {
+const mergeProps = ({ profile, ...state }, { updateProfile }) => {
     return {
         profile,
-        onUpdateProfile: data => updateProfile(profile.id, data)
+        onUpdateProfile: data => updateProfile(profile.id, data),
+        ...state,
     }
 }
 
-const Profile = ({ profile, onUpdateProfile }) => {
+const Main = styled.main`
+    position: relative;
+`
+
+const Profile = ({ profile, loading, onUpdateProfile }) => {
     if(!profile) return <main>
         <p>profile not found</p>
     </main>
 
-    return <main>
+    return <Main>
+        {loading&&<LoadingBar/>}
         <UserName 
             name={profile.name}
             onSubmit={name => onUpdateProfile({name})}
@@ -42,7 +50,7 @@ const Profile = ({ profile, onUpdateProfile }) => {
             description={profile.description}
             onSubmit={description => onUpdateProfile({description})}
         />
-    </main>
+    </Main>
 }
 
 export default connect(mapState, mapDispatch, mergeProps)(Profile)
