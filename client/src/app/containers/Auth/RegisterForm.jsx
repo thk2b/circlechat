@@ -2,6 +2,7 @@ import React from 'react'
 
 import Form from './Form'
 import LoadingBar from '../../lib/LoadingBar'
+import ErrorMessage from '../../lib/ErrorMessage'
 
 export default class RegisterForm extends React.Component {
     handleSubmit(e){
@@ -47,7 +48,7 @@ export default class RegisterForm extends React.Component {
                     className="text"
                     onClick={e => onSecondary()}
                 >Already have an account? Login</button>
-                {error && <p>{error.message}</p>}
+                {error && <ErrorMessage message={error.message}/>}
                 {loading && <LoadingBar />}
             </Form>
         )
