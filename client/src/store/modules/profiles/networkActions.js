@@ -51,9 +51,10 @@ export const update = (id, data) => dispatch => {
 export const create = data => dispatch => {
     dispatch(updateLoading({ new: true }))
     api.post('/profile', data)
-    .then( res => dispatch(
-        profilesActions.set(res.data.profile.id, res.data.profile)
-    ))
+    .then( res => {
+        dispatch(profilesActions.set(res.data.profile.id, res.data.profile))
+        dispatch(ownProfileIdActions.set(res.data.profile.id))
+    })
     .catch(e => dispatch(updateErrors({ new: e.response.data })))
     .then(() => dispatch(updateLoading({ new: false })))
 }
