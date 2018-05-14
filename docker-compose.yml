@@ -36,8 +36,13 @@ services:
     build: ./nginx
     ports:
       - 80:80
+      - 443:443
     volumes:
       - static:/usr/src/app
+      - ./dh-param/dhparam-2048.pem:/etc/ssl/certs/dhparam-2048.pem
+      - /docker-volumes/etc/letsencrypt/live/circlechat.cc/fullchain.pem:/etc/letsencrypt/live/circlechat.cc/fullchain.pem
+      - /docker-volumes/etc/letsencrypt/live/circlechat.cc/privkey.pem:/etc/letsencrypt/live/circlechat.cc/privkey.pem
+
     depends_on:
       - web
       - client
