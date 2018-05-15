@@ -4,7 +4,7 @@ import styled from 'styled-components'
 const Container = styled.div`
     background: ${props => props.disableGradient
         ? '#43a047'
-        : 'linear-gradient(225deg, #43a047, #e8f5e9)'
+        : 'linear-gradient(225deg, #43a047, #00df11)'
     };
     height: 100%;
     width: 100%;
