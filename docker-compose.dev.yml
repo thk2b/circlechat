@@ -5,8 +5,8 @@ services:
     ports: 
       - 5435:5432
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     volumes:
       - db-data:/var/lib/postgresql/data
     networks:
@@ -22,9 +22,9 @@ services:
       - db
     environment:
       - NODE_ENV=dev
-      - DATABASE_URL=postgres://postgres:postgres@db:5432/dev
-      - DATABASE_TEST_URL=postgres://postgres:postgres@db:5432/test
-      - SECRET=hidememore
+      - DATABASE_URL=${DATABASE_URL}
+      - DATABASE_TEST_URL=${DATABASE_TEST_URL}
+      - SECRET=${SECRET}
     command: ["npm", "run", "dev"]
     networks:
         - back
