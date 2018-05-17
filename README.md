@@ -41,6 +41,12 @@ The store is unit-tested with jest. The test command is `docker-compose run clie
 
 The web container is a nodeJS applcation responsible for the rest API and websockets.
 
+The codebase is separated into modules (auth, profiles, channels, messages). Each module is made up of:
+
+- a `service` file which handles database interactions
+- a `router` file where express API routes are defined
+- an `events` file which subscribes to websocket events
+
 It is unit tested with mocha. Tests cover database interactions, and http and websocket networking. The command is `docker-compose run web npm test`
 
 
@@ -50,7 +56,17 @@ Currently, circlechat is a MVP. All desired features have yet to be implemented.
 
 # Commands
 
-- `docker-compose -f docker-compose.dev.yml (build|up)`
-- `docker-compose -f docker-compose.dev.yml run web node app/manage/create_db` or `dc exec web node ...`
-- `docker-compose exec psql -U ...`
+- start in dev environment
+  - create a docker machine
+  - create a .env file (see docker-compose.yml for the required variables)
+  - `docker-compose -f docker-compose.dev.yml build`
+  - run `docker-compose -f docker-compose.dev.yml run web node app/manage/create` to create the database tables
+  - `docker-compose -f docker-compose.dev.yml up`
+
+- start in prod environment
+  - create a docker machine
+  - create a .env file (see docker-compose.yml for the required variables)
+  - `docker-compose build`
+  - run `docker-compose run web node app/manage/create` to create the database tables
+  - `docker-compose up -d`
 
