@@ -1,6 +1,8 @@
 # circlechat
 A web based chat platform
 
+For a quick overview, [view demo screen captures](https://imgur.com/gallery/vyppnTj).
+
 # About the project
 
 Circlechat is a web based chat application. The core service provided is the instant transmission of messages between users.
