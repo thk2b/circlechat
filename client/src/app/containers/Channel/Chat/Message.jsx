@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
+import { push } from 'react-router-redux'
 
 import Time from '../../../lib/Time'
 
@@ -12,6 +13,18 @@ const mapState = ({ profiles, loading, errors }, { message }) => {
     }
 }
 
+const mapDispatch = dispatch => {
+    return {
+        push: url => dispatch(push(url))
+    }
+}
+
+const mergeProps = (state, dispatch, ownProps) => {
+    return {
+        ...state, ...ownProps,
+        onGoToProfile: () => dispatch.push(`/profile/${state.profile.id}`)
+    }
+}
 const Li = styled.li`
     position: relative;
     flex-shrink: 0;
@@ -87,7 +100,7 @@ class Message extends React.Component {
         const { showTime } = this.state
         const deleted = message.text === null
         const updated = message.createdAt !== message.updatedAt
-
+        
         return <Li
             onMouseOver={e => this.setState({ showTime: true })}
             onMouseLeave={e => this.setState({ showTime: false })}
@@ -111,9 +124,8 @@ class Message extends React.Component {
                     }
                 </React.Fragment>}
             </MetaData>
-            
         </Li>
     }
 }
 
-export default connect(mapState)(Message)
+export default connect(mapState, mapDispatch, mergeProps)(Message)
