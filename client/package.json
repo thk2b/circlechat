@@ -41,7 +41,7 @@
   },
   "dependencies": {
     "@thk2b/oui": "0.1.6",
-    "autoscroll-react": "^3.1.0",
+    "autoscroll-react": "^3.2.0",
     "axios": "^0.17.1",
     "history": "^4.7.2",
     "ms": "^2.1.1",
