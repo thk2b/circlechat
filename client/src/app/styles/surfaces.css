@@ -76,16 +76,24 @@ aside {
     background-color: #202122;
 }
 
-.dark input,
-.dark textarea {
-    background-color: #909192;
-    border: 1px solid #656667;
+input {
+    background-color: inherit;
+    border: 1px solid #43a047;
     border-radius: 3px;
+    padding: 5px;
+}
+input:focus {
+    
+}
+
+/* .dark input,
+.dark textarea {
+
 }
 .light input,
 .light textarea {
 
-}
+} */
 
 button {
     background-color: #43a047;

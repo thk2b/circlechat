@@ -14,8 +14,6 @@ const Form = styled.form`
     & input {
         padding: 15px;
         flex: 1;
-        border: none !important;
-        background-color: transparent !important;
     }
     & button {
         background-color: transparent !important;
