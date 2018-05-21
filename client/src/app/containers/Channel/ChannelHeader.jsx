@@ -3,10 +3,13 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 import MdMoreVert from 'react-icons/lib/md/more-vert'
+import MdCheck from 'react-icons/lib/md/check'
+import MdClose from 'react-icons/lib/md/close'
 import Popover from '@thk2b/oui/lib/Popover'
 
 import { channelsActions } from '../../../store/modules/channels'
 import Menu from '../../lib/Menu'
+import InputGroup from '../../lib/InputGroup'
 
 const mapState = ({ channels }, { match }) => {
     return {
@@ -82,19 +85,21 @@ class ChannelHeader extends React.Component {
             </Popover>
         </Header>
         
-        return <Header>
-            <input
-                type="text"
-                value={editingName}
-                onChange={e => this.setState({ editingName: e.target.value })}
-            />
-            <button
-                onClick={e => this.handleSubmit({})}
-            >save</button>
-            <button
-                onClick={e => this.handleCancel()}
-            >cancel</button>
-        </Header>
+        return <header>
+            <InputGroup>
+                <input
+                    type="text"
+                    value={editingName}
+                    onChange={e => this.setState({ editingName: e.target.value })}
+                />
+                <button
+                    onClick={e => this.handleSubmit({})}
+                ><MdCheck size={22} /></button>
+                <button
+                    onClick={e => this.handleCancel()}
+                ><MdClose size={22} /></button>
+            </InputGroup>
+        </header>
     }
 }
 

@@ -4,8 +4,11 @@ import styled from 'styled-components'
 import { bindActionCreators } from 'redux'
 import MdDelete from 'react-icons/lib/md/delete'
 import MdEdit from 'react-icons/lib/md/edit'
+import MdCheck from 'react-icons/lib/md/check'
+import MdClose from 'react-icons/lib/md/close'
 
 import LoadingBar from '../../../lib/LoadingBar'
+import InputGroup from '../../../lib/InputGroup'
 import { messagesActions } from '../../../../store/modules/messages'
 import { push } from 'react-router-redux'
 import Time from '../../../lib/Time'
@@ -124,7 +127,7 @@ class Message extends React.Component {
             {loading&&<LoadingBar/>}
             <Content>
                 {editing
-                    ? <React.Fragment>
+                    ? <InputGroup>
                         <input
                             type="text"
                             value={editValue}
@@ -132,11 +135,11 @@ class Message extends React.Component {
                         />
                         <button
                             onClick={e => this.handleSubmit({})}
-                        >save</button>
+                        ><MdCheck size={22}/></button>
                         <button
                             onClick={e => this.handleCancel()}
-                        >cancel</button>
-                    </React.Fragment>
+                        ><MdClose size={22}/></button>
+                    </InputGroup>
                     : <React.Fragment>
                         {showIcons && <p>
                             <MdEdit onClick={e => this.handleStartEdit(e)}/>
