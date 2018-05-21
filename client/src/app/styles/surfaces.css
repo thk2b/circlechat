@@ -100,6 +100,8 @@ input:focus {
 button {
     background-color: #43a047;
     cursor: pointer;
+    outline: none;
+    border: none;
 }
 button.text{
     background-color: transparent;
@@ -107,6 +109,10 @@ button.text{
 }
 button.text:hover {
     color: #43a047;
+    box-shadow: none;
+}
+button:active {
+    box-shadow: 0 0 15px #43a047;
 }
 
 .light button {
@@ -114,7 +120,6 @@ button.text:hover {
 }
 .dark button {
     border-radius: 3px;
-    border: 1px solid #656667;
 }
 
 input {
