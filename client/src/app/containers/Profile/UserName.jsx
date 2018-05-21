@@ -1,6 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 import MdEdit from 'react-icons/lib/md/edit'
+import MdCheck from 'react-icons/lib/md/check'
+import MdClose from 'react-icons/lib/md/close'
+
+import InputGroup from '../../lib/InputGroup'
 
 const H1 = styled.h1`
     display: inline-block;
@@ -39,18 +43,18 @@ export default class extends React.Component {
         const { name } = this.props
         const { editing, editingValue, showIcon } = this.state
 
-        if(editing) return <div>
+        if(editing) return <InputGroup>
             <input type="text"
                 value={editingValue}
                 onChange={e => this.setState({ editingValue: e.target.value })}
             />
             <button
                 onClick={e => this.handleSubmit(e)}
-            >save</button>
+            ><MdCheck size={22}/></button>
             <button
                 onClick={e => this.handleCancel(e)}
-            >cancel</button>
-        </div>
+            ><MdClose size={22}/></button>
+        </InputGroup>
 
         return <div
             onMouseOver={ e => this.handleMouseOver(e)}

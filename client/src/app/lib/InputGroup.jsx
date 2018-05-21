@@ -4,9 +4,10 @@ import styled from 'styled-components'
 const Container = styled.div`
     display: flex;
     align-items: stretch;
+    width: 100%;
 
     & input {
-        flex: 1!important ;
+        width: 100%; 
         border-top-right-radius: 0!important ;
         border-bottom-right-radius: 0!important ;
     }
