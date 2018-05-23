@@ -5,7 +5,9 @@ import { bindActionCreators } from 'redux'
 import { goBack } from 'react-router-redux'
 
 import LoadingBar from '../../lib/LoadingBar'
-import ErrorMessage    from '../../lib/ErrorMessage'
+import ErrorMessage from '../../lib/ErrorMessage'
+import InputGroup from '../../lib/InputGroup'
+
 import { channelsActions } from '../../../store/modules/channels'
 
 const mapState = ({ profiles, loading, errors, ownProfileId }) => {
@@ -32,6 +34,11 @@ const mergeProps = ({ profileId, ...state }, { create, ...actions }, ownProps) =
 
 const Main = styled.main`
     position: relative;
+    padding: 10px;
+
+    & input {
+        max-width: 300px;
+    }
 `
 
 class CreateChannel extends React.Component {
@@ -46,17 +53,19 @@ class CreateChannel extends React.Component {
         return <Main>
             {loading&&<LoadingBar/>}
             <h2>Create a channel</h2>
-            <input
-                type="text"
-                value={name}
-                onChange={({ target }) => this.setState({ name: target.value })}
-            />
-            <button
-                onClick={e => onCreate(name)}
-            >create</button>
-            <button
-                onClick={e => goBack()}
-            >cancel</button>
+            <InputGroup>
+                <input
+                    type="text"
+                    value={name}
+                    onChange={({ target }) => this.setState({ name: target.value })}
+                />
+                <button
+                    onClick={e => onCreate(name)}
+                >create</button>
+                <button
+                    onClick={e => goBack()}
+                >cancel</button>
+            </InputGroup>
             {error&&<ErrorMessage message={error.message}/>}
         </Main>
     }
