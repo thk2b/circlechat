@@ -7,9 +7,6 @@ const Container = styled.aside`
         text-align: center;
         padding: 10px;
     }
-    & span {
-        border-top: 1px solid black
-    }
 `
 
 const Item = styled.span`
