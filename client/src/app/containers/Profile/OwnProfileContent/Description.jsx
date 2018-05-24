@@ -15,7 +15,7 @@ export default class extends React.Component {
     }
     handleSubmit(){
         this.props.onSubmit(this.state.editingValue)
-        this.setState({ editing: false })
+        this.setState({ editing: false, showIcon: false })
     }
     handleStartEdit(){
         this.setState({ editing: true, editingValue: this.props.description })
@@ -35,6 +35,7 @@ export default class extends React.Component {
         const { editing, editingValue, showIcon } = this.state
 
         if(editing) return <div>
+            <p>About</p>
             <textarea
                 value={editingValue}
                 onChange={e => this.setState({ editingValue: e.target.value })}
@@ -52,8 +53,13 @@ export default class extends React.Component {
             onMouseLeave={ e => this.handleMouseLeave(e)}
         >
             <p>About</p>
-            <p>{description||'no description yet'}</p>
-            {showIcon && <MdEdit onClick={e => this.handleStartEdit() }/>}
+            <p
+                onClick={e => this.handleStartEdit() }
+            >
+                {description||'no description yet'}
+                {showIcon && <MdEdit/>}
+            </p>
+            
         </div>
     }
 }

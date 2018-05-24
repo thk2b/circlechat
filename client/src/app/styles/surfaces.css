@@ -76,32 +76,34 @@ aside {
     background-color: #202122;
 }
 
-input {
+input,
+textarea {
     background-color: inherit;
     border: 1px solid #43a047;
     border-radius: 3px;
     padding: 5px;
     outline: none;
     transition: box-shadow .1s ease-in;
+    color: inherit;
+    font-size: inherit;
 }
-input:focus {
+
+input:focus,
+textarea:focus {
     box-shadow:  0px 0px 10px #43a047;
 }
 
-/* .dark input,
-.dark textarea {
-
+textarea {
+    width: 100%;
+    display: block;
 }
-.light input,
-.light textarea {
-
-} */
 
 button {
     background-color: #43a047;
     cursor: pointer;
     outline: none;
     border: none;
+    border-radius: 3px;
 }
 button.text{
     background-color: transparent;
@@ -113,23 +115,6 @@ button.text:hover {
 }
 button:active {
     box-shadow: 0 0 15px #43a047;
-}
-
-.light button {
-
-}
-.dark button {
-    border-radius: 3px;
-}
-
-input {
-
-}
-.light input {
-
-}
-.dark input {
-    
 }
 
 .sidebar {
@@ -148,34 +133,6 @@ input {
 }
 .dark .sidebar li:hover {
     background-color: #202122;
-}
-.dark .sidebar li:active {
-    
-}
-
-
-.light .slidebar li:hover {
-
-}
-
-.chat ul {
-
-}
-.dark .chat ul {
-    
-}
-.light .chat ul {
-
-}
-
-.chat li {
-
-}
-.dark .chat ul {
-    
-}
-.light .chat ul {
-
 }
 
 .dark svg {

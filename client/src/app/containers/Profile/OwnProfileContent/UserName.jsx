@@ -6,10 +6,6 @@ import MdClose from 'react-icons/lib/md/close'
 
 import InputGroup from '../../../lib/InputGroup'
 
-const H1 = styled.h1`
-    display: inline-block;
-`
-
 export default class extends React.Component {
     constructor(props){
         super(props)
@@ -56,12 +52,13 @@ export default class extends React.Component {
             ><MdClose size={22}/></button>
         </InputGroup>
 
-        return <div
-            onMouseOver={ e => this.handleMouseOver(e)}
-            onMouseLeave={ e => this.handleMouseLeave(e)}
-        >
-            <h1>{name}</h1>
-            {showIcon && <MdEdit onClick={e => this.handleStartEdit() }/>}
-        </div>
+        return <h1
+                onClick={e => this.handleStartEdit() }
+                onMouseOver={ e => this.handleMouseOver(e)}
+                onMouseLeave={ e => this.handleMouseLeave(e)}
+            >
+                {name}
+                {showIcon&&<MdEdit size={22}/>}            
+            </h1>
     }
 }
