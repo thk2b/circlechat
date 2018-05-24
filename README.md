@@ -35,7 +35,10 @@ While the client served to all devices, mobile and desktop alike, the view is ad
 
 The client is a single page application, build with react (+react router) and redux. The layout is implemented with css grid.
 
-Finally, the client is available under two color themes (light and dark).
+- available under two color themes (light and dark).
+- infinite scroll: more messages are fetched when the user has scrolled to the top of a chat.
+- loading bars indicate that a server response is pending.
+
 
 The store is unit-tested with jest. The test command is `docker-compose run client npm test`.
 
@@ -54,7 +57,7 @@ It is unit tested with mocha. Tests cover database interactions, and http and we
 
 # State of development
 
-Currently, circlechat is a MVP. All desired features have yet to be implemented. Namely, all chat and profile features are present, but there exists only one global circle: all users are automatically added to a global circle, which holds all channels and profiles. The next major development step is the implementation of separate circles, each with their own channels and profiles.
+Currently, circlechat is a MVP. All desired features have yet to be implemented. Namely, all chat and profile features are present, but there exists only one global circle: all users are automatically added to a global circle, which holds all channels and profiles. The next major development step is the implementation of user-created circles, each with their own channels and profiles.
 
 # Commands
 
