@@ -1,5 +1,5 @@
 # circlechat
-A web based chat platform
+A web based chat platform.
 
 For a quick overview, [view demo screen captures](https://imgur.com/gallery/vyppnTj).
 
