@@ -4,7 +4,7 @@ import MdEdit from 'react-icons/lib/md/edit'
 import MdCheck from 'react-icons/lib/md/check'
 import MdClose from 'react-icons/lib/md/close'
 
-import InputGroup from '../../lib/InputGroup'
+import InputGroup from '../../../lib/InputGroup'
 
 const H1 = styled.h1`
     display: inline-block;
@@ -60,8 +60,7 @@ export default class extends React.Component {
             onMouseOver={ e => this.handleMouseOver(e)}
             onMouseLeave={ e => this.handleMouseLeave(e)}
         >
-            <H1
-            >{name}</H1>
+            <h1>{name}</h1>
             {showIcon && <MdEdit onClick={e => this.handleStartEdit() }/>}
         </div>
     }
