@@ -11,9 +11,11 @@ import { channelsActions } from '../../../store/modules/channels'
 import Menu from '../../lib/Menu'
 import InputGroup from '../../lib/InputGroup'
 
-const mapState = ({ channels }, { match }) => {
+const mapState = ({ channels, ownProfileId }, { match }) => {
+    const channel = channels[match.params.id]
     return {
-        channel: channels[match.params.id]
+        channel,
+        isOwnChannel: channel&&channel.profileId === ownProfileId
     }
 }
 
@@ -60,16 +62,16 @@ class ChannelHeader extends React.Component {
         this.setState({ editingName: '', editing: false })
     }
     render(){
-        const { channel, onRemove } = this.props
+        const { channel, isOwnChannel, onRemove } = this.props
         const { editing, editingName } = this.state
-        
+
         if(!channel) return <header>
             <h2>channel not found</h2>
         </header>
 
         if(!editing) return <Header>
             <h2>{channel.name}</h2>
-            <Popover
+            {isOwnChannel && <Popover
                 zIndex={1}
                 Component={() => <MdMoreVert size={32} height='100%'/>}
                 position={{ right: 0 }}
@@ -82,7 +84,7 @@ class ChannelHeader extends React.Component {
                         <button onClick={e => onRemove()}>remove</button>
                     </Menu.Item>
                 </Menu.Container>
-            </Popover>
+            </Popover>}
         </Header>
         
         return <header>
