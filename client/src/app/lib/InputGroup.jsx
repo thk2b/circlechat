@@ -6,7 +6,6 @@ const Container = styled.div`
     align-items: stretch;
 
     & input {
-        width: 100%; 
         border-top-right-radius: 0!important ;
         border-bottom-right-radius: 0!important ;
     }
