@@ -30,6 +30,12 @@ const Main = styled.main`
     & p {
         clear: both;
     }
+
+    @media screen and (max-width: 425px) {
+        & img {
+            float: none;
+        }
+    }
 `
 
 const TopContainer = styled.div`

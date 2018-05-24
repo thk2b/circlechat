@@ -16,11 +16,11 @@ export default class extends React.Component {
         }
     }
     handleCancel(){
-        this.setState({ editing: false })
+        this.setState({ editing: false, showIcon: false })
     }
     handleSubmit(){
         this.props.onSubmit(this.state.editingValue)
-        this.setState({ editing: false })
+        this.setState({ editing: false, showIcon: false })
     }
     handleStartEdit(){
         this.setState({ editing: true, editingValue: this.props.name })
