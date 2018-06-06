@@ -66,7 +66,6 @@ const MetaData = styled.div`
     display: flex;
     align-items: center;
     font-size: 14px;
-    overflow-x: scroll;
     & a, & p {
         font-size: inherit;
     }
@@ -115,12 +114,10 @@ const Message = ({ message, onGoToProfile, onUpdateMessage, onDeleteMessage, loa
             </InputGroup>
         </Content>
         <MetaData>
-            <React.Fragment>
-                <p>sent <Time since={message.createdAt}/></p>
-                {updated &&
-                    <p>{deleted? 'deleted': 'updated'} <Time since={message.updatedAt}/></p>
-                }
-            </React.Fragment>
+            <p>sent <Time since={message.createdAt}/></p>
+            {updated &&
+                <p>{deleted? 'deleted': 'updated'} <Time since={message.updatedAt}/></p>
+            }
             <a
                 rel="noopener"
                 href=""
