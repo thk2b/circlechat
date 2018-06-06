@@ -7,11 +7,9 @@ import MdEdit from 'react-icons/lib/md/edit'
 import MdDelete from 'react-icons/lib/md/delete'
 import MdCheck from 'react-icons/lib/md/check'
 import MdClose from 'react-icons/lib/md/close'
-import Popover from '@thk2b/oui/lib/Popover'
 import Editable from '@thk2b/oui/lib/Editable'
 
 import { channelsActions } from '../../../store/modules/channels'
-import Menu from '../../lib/Menu'
 import InputGroup from '../../lib/InputGroup'
 
 const mapState = ({ channels, ownProfileId }, { match }) => {
