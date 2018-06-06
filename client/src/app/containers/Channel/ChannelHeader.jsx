@@ -45,39 +45,39 @@ const Header = styled.header`
 
 `
 
-class ChannelHeader extends React.Component {
-    render(){
-        const { channel, isOwnChannel, onRenameChannel, onRemove } = this.props
+const ChannelHeader = ({ channel, isOwnChannel, onRename, onRemove }) => {
+    if(!channel) return <header>
+        <h2>channel not found</h2>
+    </header>
 
-        if(!channel) return <header>
-            <h2>channel not found</h2>
-        </header>
+    if (isOwnChannel) return <header>
+        <InputGroup>
+            <Editable
+                value={channel.name}
+                onSubmit={name => onRename(name)}
+                onDelete={() => onRemove()}
 
-        return <header>
-            <InputGroup>
-                <Editable
-                    value={this.props.channel.name}
-                    onSubmit={name => this.props.onRename(name)}
-                    onDelete={() => this.props.onRemove()}
+                As={({ value, ...props}) => <h2>{ value }</h2>}
+                With={ props => <input {...props} />}
+                EditButton={p => <button {...p}>
+                    <MdEdit size={22} />
+                </button>}
+                DeleteButton={p => <button {...p}>
+                    <MdDelete size={22} />
+                </button>}
+                SubmitButton={p => <button {...p}>
+                    <MdCheck size={22} />
+                </button>}
+                CancelButton={p => <button {...p}>
+                    <MdClose size={22} />
+                </button>}
+            />
+        </InputGroup>
+    </header>
 
-                    As={({ value, ...props}) => <h2>{ value }</h2>}
-                    With={ props => <input {...props} />}
-                    EditButton={p => <button {...p}>
-                        <MdEdit size={22} />
-                    </button>}
-                    DeleteButton={p => <button {...p}>
-                        <MdDelete size={22} />
-                    </button>}
-                    SubmitButton={p => <button {...p}>
-                        <MdCheck size={22} />
-                    </button>}
-                    CancelButton={p => <button {...p}>
-                        <MdClose size={22} />
-                    </button>}
-                />
-            </InputGroup>
-        </header>
-    }
+    else return <header>
+        <h2>{ channel.name }</h2>
+    </header>
 }
 
 export default connect(mapState, mapDispatch, mergeProps)(ChannelHeader)
