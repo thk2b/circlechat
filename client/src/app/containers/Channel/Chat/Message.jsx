@@ -55,77 +55,33 @@ const MetaData = styled.div`
     }
 `
 
-class Message extends React.Component {
-    constructor(props){
-        super(props)
-        this.state = {
-            editing: false,
-            showIcons: false,
-            showTime: false,
-            editValue: this.props.message.text
-        }
-    }
-    handleMouseOver(){
-        if(!this.state.editing){
-            this.setState({ showIcons: true, showTime: true })
-        }
 
-    }
-    handleMouseLeave(){
-        if(this.state.showIcons){
-            this.setState({ showIcons: false , showTime: false })
-        }
-    }
-    handleStartEdit(){
-        if(this.props.message.text === null) return //message was deleted
-        this.setState({
-            editing: true,
-            editValue: this.props.message.text
-        })
-    }
-    handleDelete(){
-        this.props.onDeleteMessage()
-    }
-    handleSubmit(){
-        this.props.onUpdateMessage(this.state.editValue)
-        this.setState({ editValue: '', editing: false })
-    }
-    handleCancel(){
-        this.setState({ editValue: '', editing: false })
-    }
-    render(){
-        if(this.props.isOwnMessage) return this.renderOwnMessage()
-
-        const { message, profile, onGoToProfile } = this.props
-        const { showTime } = this.state
-        const deleted = message.text === null
-        const updated = message.createdAt !== message.updatedAt
-        
-        return <Li
-            onMouseOver={e => this.setState({ showTime: true })}
-            onMouseLeave={e => this.setState({ showTime: false })}
-        >
-            <Content>
-                <p>{deleted? '[deleted]': message.text}</p>
-            </Content>
-            <MetaData>
-                <a
-                    rel="noopener"
-                    href=""
-                    onClick={e => {
-                        e.preventDefault()
-                        onGoToProfile()
-                    }}
-                >{profile.name}</a>
-                {showTime && <React.Fragment>
-                    <p>sent <Time since={message.createdAt}/></p>
-                    {updated &&
-                        <p>{deleted? 'deleted': 'updated'} <Time since={message.updatedAt}/></p>
-                    }
-                </React.Fragment>}
-            </MetaData>
-        </Li>
-    }
+const Message = ({ message, profile, onGoToProfile }) => {
+    const deleted = message.text === null
+    const updated = message.createdAt !== message.updatedAt
+    
+    return <Li
+        onMouseOver={e => this.setState({ showTime: true })}
+        onMouseLeave={e => this.setState({ showTime: false })}
+    >
+        <Content>
+            <p>{deleted? '[deleted]': message.text}</p>
+        </Content>
+        <MetaData>
+            <a
+                rel="noopener"
+                href=""
+                onClick={e => {
+                    e.preventDefault()
+                    onGoToProfile()
+                }}
+            >{profile.name}</a>
+            <p>sent <Time since={message.createdAt}/></p>
+            {updated &&
+                <p>{deleted? 'deleted': 'updated'} <Time since={message.updatedAt}/></p>
+            }
+        </MetaData>
+    </Li>
 }
 
 export default connect(mapState, mapDispatch, mergeProps)(Message)

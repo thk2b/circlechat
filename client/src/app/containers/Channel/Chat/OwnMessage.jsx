@@ -6,6 +6,7 @@ import MdDelete from 'react-icons/lib/md/delete'
 import MdEdit from 'react-icons/lib/md/edit'
 import MdCheck from 'react-icons/lib/md/check'
 import MdClose from 'react-icons/lib/md/close'
+import Editable from '@thk2b/oui/lib/Editable'
 
 import InputGroup from '../../../lib/InputGroup'
 import LoadingBar from '../../../lib/LoadingBar'
@@ -76,98 +77,58 @@ const MetaData = styled.div`
     }
 `
 
-class Message extends React.Component {
-    constructor(props){
-        super(props)
-        this.state = {
-            editing: false,
-            showIcons: false,
-            showTime: false,
-            editValue: this.props.message.text
-        }
-    }
-    handleMouseOver(){
-        if(!this.state.editing){
-            this.setState({ showIcons: true, showTime: true })
-        }
 
-    }
-    handleMouseLeave(){
-        if(this.state.showIcons){
-            this.setState({ showIcons: false , showTime: false })
-        }
-    }
-    handleStartEdit(){
-        if(this.props.message.text === null) return //message was deleted
-        this.setState({
-            editing: true,
-            editValue: this.props.message.text
-        })
-    }
-    handleDelete(){
-        this.props.onDeleteMessage()
-    }
-    handleSubmit(){
-        this.props.onUpdateMessage(this.state.editValue)
-        this.setState({ editValue: '', editing: false })
-    }
-    handleCancel(){
-        this.setState({ editValue: '', editing: false })
-    }
-    render(){
-        const { message, onGoToProfile, loading } = this.props
-        const { editing, editValue, showIcons, showTime } = this.state
-        const deleted = message.text === null
-        const updated = message.createdAt !== message.updatedAt
+const Message = ({ message, onGoToProfile, onUpdateMessage, onDeleteMessage, loading }) => {
+    const deleted = message.text === null
+    const updated = message.createdAt !== message.updatedAt
 
-        return <OwnMessage
-            onMouseOver={e => this.handleMouseOver(e)}
-            onMouseLeave={e => this.handleMouseLeave(e)}
-        >
-            {loading&&<LoadingBar/>}
-            <Content>
-                {editing
-                    ? <InputGroup>
-                        <input
-                            type="text"
-                            value={editValue}
-                            onChange={e => this.setState({ editValue: e.target.value })}
-                        />
-                        <button
-                            onClick={e => this.handleSubmit({})}
-                        ><MdCheck size={22}/></button>
-                        <button
-                            onClick={e => this.handleCancel()}
-                        ><MdClose size={22}/></button>
-                    </InputGroup>
-                    : <React.Fragment>
-                        {showIcons && <p>
-                            <MdEdit onClick={e => this.handleStartEdit(e)}/>
-                            <MdDelete onClick={e => this.handleDelete(e)}/>
-                        </p>}
-                        <p>{deleted? '[deleted]': message.text}</p>
-                    </React.Fragment>
-                }
-            </Content>
-            <MetaData>
-                {showTime && <React.Fragment>
-                    <p>sent <Time since={message.createdAt}/></p>
-                    {updated &&
-                        <p>{deleted? 'deleted': 'updated'} <Time since={message.updatedAt}/></p>
-                    }
-                </React.Fragment>}
-                <a
-                    rel="noopener"
-                    href=""
-                    onClick={e => {
-                        e.preventDefault()
-                        onGoToProfile()
-                    }}
-                >you</a>
-            </MetaData>
-            
-        </OwnMessage>
-    }
+    return <OwnMessage>
+        {loading&&<LoadingBar/>}
+        <Content>
+            <InputGroup>
+                <Editable
+                    value={deleted? '[deleted]': message.text}
+                    onSubmit={value => onUpdateMessage(value)}
+                    onDelete={value => onDeleteMessage()}
+                    As={({ value, ...props }) => <p {...props}>{ value }</p>}
+                    With={props => <input {...props} />}
+                    EditButton={p => <button
+                        style={{ backgroundColor: 'transparent'}}
+                        {...p}
+                    >
+                        <MdEdit size={22}/>
+                    </button>}
+                    DeleteButton={p => <button
+                            style={{ backgroundColor: 'transparent'}}
+                            {...p}
+                        >
+                        <MdDelete size={22}/>
+                    </button>}
+                    CancelButton={p => <button {...p}>
+                        <MdClose size={22}/>
+                    </button>}
+                    SubmitButton={p => <button {...p}>
+                        <MdCheck size={22}/>
+                    </button>}
+                />
+            </InputGroup>
+        </Content>
+        <MetaData>
+            <p>sent <Time since={message.createdAt}/></p>
+            {updated &&
+                <p>{deleted? 'deleted': 'updated'} <Time since={message.updatedAt}/></p>
+            }
+            <a
+                rel="noopener"
+                href=""
+                onClick={e => {
+                    e.preventDefault()
+                    onGoToProfile()
+                }}
+            >you</a>
+        </MetaData>
+        
+    </OwnMessage>
 }
 
 export default connect(mapState, mapDispatch, mergeProps)(Message)
