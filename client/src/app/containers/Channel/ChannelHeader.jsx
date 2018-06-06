@@ -3,9 +3,12 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 import MdMoreVert from 'react-icons/lib/md/more-vert'
+import MdEdit from 'react-icons/lib/md/edit'
+import MdDelete from 'react-icons/lib/md/delete'
 import MdCheck from 'react-icons/lib/md/check'
 import MdClose from 'react-icons/lib/md/close'
 import Popover from '@thk2b/oui/lib/Popover'
+import Editable from '@thk2b/oui/lib/Editable'
 
 import { channelsActions } from '../../../store/modules/channels'
 import Menu from '../../lib/Menu'
@@ -31,7 +34,7 @@ const mergeProps = ( state, { remove, update }, ownProps ) => {
     return {
         ...state,
         onRemove: () => remove(id),
-        onRenameChannel: name => update(id, { name }),
+        onRename: name => update(id, { name }),
         ...ownProps
     }
 }
@@ -43,63 +46,35 @@ const Header = styled.header`
 `
 
 class ChannelHeader extends React.Component {
-    constructor(props){
-        super(props)
-        this.state = {
-            editingName: ''
-        }
-    }
-    handleStartEdit(){
-        this.setState({
-            editing: true, editingName: this.props.channel.name
-        })
-    }
-    handleSubmit(){
-        this.props.onRenameChannel(this.state.editingName)
-        this.setState({ editingName: '', editing: false })
-    }
-    handleCancel(){
-        this.setState({ editingName: '', editing: false })
-    }
     render(){
-        const { channel, isOwnChannel, onRemove } = this.props
-        const { editing, editingName } = this.state
+        const { channel, isOwnChannel, onRenameChannel, onRemove } = this.props
 
         if(!channel) return <header>
             <h2>channel not found</h2>
         </header>
 
-        if(!editing) return <Header>
-            <h2>{channel.name}</h2>
-            {isOwnChannel && <Popover
-                zIndex={1}
-                Component={() => <MdMoreVert size={32} height='100%'/>}
-                position={{ right: 0 }}
-            >
-                <Menu.Container>
-                    <Menu.Item>
-                        <button onClick={e => this.handleStartEdit()}>edit</button>
-                    </Menu.Item>
-                    <Menu.Item>
-                        <button onClick={e => onRemove()}>remove</button>
-                    </Menu.Item>
-                </Menu.Container>
-            </Popover>}
-        </Header>
-        
         return <header>
             <InputGroup>
-                <input
-                    type="text"
-                    value={editingName}
-                    onChange={e => this.setState({ editingName: e.target.value })}
+                <Editable
+                    value={this.props.channel.name}
+                    onSubmit={name => this.props.onRename(name)}
+                    onDelete={() => this.props.onRemove()}
+
+                    As={({ value, ...props}) => <h2>{ value }</h2>}
+                    With={ props => <input {...props} />}
+                    EditButton={p => <button {...p}>
+                        <MdEdit size={22} />
+                    </button>}
+                    DeleteButton={p => <button {...p}>
+                        <MdDelete size={22} />
+                    </button>}
+                    SubmitButton={p => <button {...p}>
+                        <MdCheck size={22} />
+                    </button>}
+                    CancelButton={p => <button {...p}>
+                        <MdClose size={22} />
+                    </button>}
                 />
-                <button
-                    onClick={e => this.handleSubmit({})}
-                ><MdCheck size={22} /></button>
-                <button
-                    onClick={e => this.handleCancel()}
-                ><MdClose size={22} /></button>
             </InputGroup>
         </header>
     }
