@@ -9,7 +9,7 @@ Circlechat is a web based chat application. The core service provided is the ins
 
 The main entity in Circhechat is a circle: a set of profiles and channels. Messages are exchanged through channels. Profiles contain a user's information, such as a name, description or whether the user is online.
 
-Whenever a channel, message or profile's data is changed, it is updated, in real time, on all clients. This means that when a user updates her profile description, or posts a message, all clients are notified and update accordingly.
+Whenever a channel, message or profile's data is changed it is updated in real time on all clients. This means that when a user updates her profile description, or posts a message, all clients are notified and update the view accordingly.
 
 # Architecture
 
@@ -31,7 +31,7 @@ The application can be deployed in two environments:
   
 ## Client
 
-While the client served to all devices, mobile and desktop alike, the view is adapted to the screen size. The mobile layout makes use of touchscreen features, such as swiping between menus. For larger screens, more information is displayed.
+While the client served to all devices, mobile and desktop alike, the view is adapted to the screen size. The mobile layout makes use of touchscreen features, such as swiping between views. On larger screens, more information is displayed.
 
 The client is a single page application, build with react (+react router) and redux. The layout is implemented with css grid.
 
