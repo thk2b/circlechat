@@ -60,10 +60,7 @@ const Message = ({ message, profile, onGoToProfile }) => {
     const deleted = message.text === null
     const updated = message.createdAt !== message.updatedAt
     
-    return <Li
-        onMouseOver={e => this.setState({ showTime: true })}
-        onMouseLeave={e => this.setState({ showTime: false })}
-    >
+    return <Li>
         <Content>
             <p>{deleted? '[deleted]': message.text}</p>
         </Content>
