@@ -55,7 +55,7 @@ It is unit tested with mocha with `docker-compose run web npm test`
 
 ### REST API
 
-|endpoint|method|params|response|description|
+|endpoint|method|request|response|description|
 |-|-|-|-|-|
 |`/api/v1/auth/login/`|`POST`|`{email, pw}`|`{token, userId, lastLogoutAt}`|login with userId or email. The response includes a JWT token to be sent back with every subsequent request|
 |`/api/v1/auth/`|`POST`|`{email, pw`|`none`|register a new user|
