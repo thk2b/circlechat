@@ -15,7 +15,7 @@
     "duck-check": "~2.0.2",
     "express": "~4.16.2",
     "jsonwebtoken": "~8.1.1",
-    "knex": "~0.14.4",
+    "knex": "~0.20.1",
     "pg-promise": "~7.4.1",
     "redis": "~2.8.0",
     "socket.io": "~2.0.4",
